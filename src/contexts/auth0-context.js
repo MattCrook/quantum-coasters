@@ -5,8 +5,7 @@ export const Auth0Context = createContext();
 // export the context as useAuth0
 export const useAuth0 = () => useContext(Auth0Context);
 
-
-
+// create a provider
 export class Auth0Provider extends Component {
   state = {
     auth0Client: null,
@@ -19,7 +18,6 @@ export class Auth0Provider extends Component {
     client_id: process.env.REACT_APP_AUTH0_CLIENT_ID,
     redirect_uri: window.location.origin
   };
-
   componentDidMount() {
     this.initializeAuth0();
   }
@@ -51,6 +49,7 @@ export class Auth0Provider extends Component {
   };
 
   render() {
+    console.log(process.env);
     const { auth0Client, isLoading, isAuthenticated, user } = this.state;
     const { children } = this.props;
 

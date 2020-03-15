@@ -2,6 +2,7 @@ import React from "react";
 import "bulma/css/bulma.css";
 import { useAuth0 } from "./contexts/auth0-context";
 import Header from "./components/Header";
+import "./App.css"
 
 function App() {
   const { isLoading, user, loginWithRedirect, logout } = useAuth0();
@@ -10,8 +11,8 @@ function App() {
     <>
       <Header />
 
-      <div className="hero is-info is-fullheight">
-        <div className="hero-body">
+      <div className="hero is-fullheight has-background-black-bis ">
+        <div className="hero-body bg-img">
           <div className="container has-text-centered">
             {!isLoading && !user && (
               <>

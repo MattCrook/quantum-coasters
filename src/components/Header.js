@@ -12,7 +12,7 @@ export default function Header() {
           <div className="navbar-menu is-active">
             {/* logo */}
             <div className="navbar-brand">
-              <button className="navbar-item">My Cool App!</button>
+              <button className="navbar-item">Quantum</button>
             </div>
 
             {/* menu items */}
