@@ -6,8 +6,7 @@ import Home from "./home/Home";
 
 const ApplicationViews = props => {
   console.log("props", props);
-  // const user = await props.user;
-  const isAuthenticated = props.isAuthenticated;
+
 
   return (
     <React.Fragment>
