@@ -1,9 +1,13 @@
-const Url = "http://localhost:8200";
+const remoteURL = "http://localhost:8200";
 
 const ApiManager = {
-  async GetData(resource) {
-    const response = await fetch(`${Url}/resource`);
-    return await response.json();
+  async getAllProfiles() {
+    const resp = await fetch(`${remoteURL}/users`);
+    return await resp.json();
+  },
+  async getProfile(id) {
+    const resp = await fetch(`${remoteURL}/users/${id}`);
+    return await resp.json();
   }
 };
 export default ApiManager;

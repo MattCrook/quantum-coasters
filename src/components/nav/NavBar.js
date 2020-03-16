@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import "./NavBar.css";
 
-const NavBar = props => {
+const NavBar = () => {
   const { isAuthenticated } = useAuth0();
 
   return (
