@@ -1,11 +1,50 @@
+import { Route, Redirect } from "react-router-dom";
+import React, { Component, useState } from "react";
+import ProfileList from "./profile/ProfileList";
+import LoginLandingPage from "./auth/Login";
+import Home from "./home/Home";
 
+const ApplicationViews = props => {
+  console.log("props", props);
+  // const user = await props.user;
+  const isAuthenticated = props.isAuthenticated;
 
-const GetData = async () => {
-  const response = await fetch(
-    `https://api.nasa.gov/planetary/apod?api_key=oVbjj1iEMr2fXGT6jgNQugBlL69tPWDaRsZaDbPl`
-  )
-    .then(response => response.json())
-    .then(data => console.log(data));
-  return response;
+  return (
+    <React.Fragment>
+      {/* <Route
+        exact
+        path="/home"
+        render={props => {
+          if (isAuthenticated === true) {
+            return <Home {...props} />;
+          } else {
+            return <Redirect to="/" component={LoginLandingPage} />;
+          }
+        }}
+      /> */}
+      <Route
+        exact
+        path="/home"
+        render={props => {
+          return <Home {...props} />;
+        }}
+      />
+      <Route
+        exact
+        path="/"
+        render={props => {
+          return <LoginLandingPage {...props} />;
+        }}
+      />
+      <Route
+        exact
+        path="/profile"
+        render={props => {
+          return <ProfileList {...props} />;
+        }}
+      />
+    </React.Fragment>
+  );
 };
-export default GetData
+
+export default ApplicationViews;
