@@ -6,7 +6,7 @@ import Home from "./home/Home";
 import { useAuth0 } from "../contexts/react-auth0-context";
 
 const ApplicationViews = props => {
-  console.log("props", props);
+  // console.log("props", props);
   const [user, setUser] = useState(null);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const { isAuthenticated } = useAuth0();

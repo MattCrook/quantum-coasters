@@ -1,15 +1,19 @@
 import React, { useState, useEffect, useContext } from "react";
 import createAuth0Client from "@auth0/auth0-spa-js";
+// import ApiManager from "../modules/ApiManager";
 
 const DEFAULT_REDIRECT_CALLBACK = () =>
   window.history.replaceState({}, document.title, window.location.pathname);
 
 export const Auth0Context = React.createContext();
+
 export const useAuth0 = () => useContext(Auth0Context);
+
 export const Auth0Provider = ({
   children,
   onRedirectCallback = DEFAULT_REDIRECT_CALLBACK,
   ...initOptions
+  // domain/clientId/redirect_Uri
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState();
   const [user, setUser] = useState();
@@ -63,10 +67,20 @@ export const Auth0Provider = ({
     setLoading(true);
     await auth0Client.handleRedirectCallback();
     const user = await auth0Client.getUser();
+    // ApiManager.post(user);
     setLoading(false);
     setIsAuthenticated(true);
     setUser(user);
   };
+
+  // check if async
+  // const postNewUserToDataBase = async (...p) => {
+  //   const results = auth0Client.loginWithRedirect(...p);
+  //   console.log(...p);
+  //   // "POST to /users"
+  //   ApiManager.post(results);
+  // };
+
   return (
     <Auth0Context.Provider
       value={{
