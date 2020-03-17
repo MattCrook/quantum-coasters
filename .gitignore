@@ -30,3 +30,6 @@ yarn-error.log*
 
 #auth0-env
 .env
+
+#auth_config
+.auth_config
