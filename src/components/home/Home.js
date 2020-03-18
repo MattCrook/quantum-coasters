@@ -1,10 +1,10 @@
 import React from "react";
 import "bulma/css/bulma.css";
-import { useAuth0 } from "../../contexts/react-auth0-context";
+import { useAuth0 } from "../../contexts/auth0-context";
 // import NavBar from "../nav/NavBar";
 
 const Home = () => {
-  const { loading, user, logout } = useAuth0();
+  const { isLoading, user, logout } = useAuth0();
 
   return (
     <header>
@@ -18,7 +18,7 @@ const Home = () => {
             {/* menu items */}
             <div className="navbar-end">
               {/* if there is a user. show the login button */}
-              {!loading && user && (
+              {!isLoading && user && (
                 <>
                   <div className="navbar-end">
                     <button className="navbar-item">{user.name}</button>
@@ -46,7 +46,7 @@ const Home = () => {
         </div>
       </nav>
       <div className="greeting">
-        {!loading && user && (
+        {!isLoading && user && (
           <>
             <p>Hello {user.name}</p>
           </>

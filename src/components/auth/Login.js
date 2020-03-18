@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuth0 } from "../../contexts/react-auth0-context";
+import { useAuth0 } from "../../contexts/auth0-context";
 import "../home/Home.css";
 import "bulma/css/bulma.css";
 
@@ -7,7 +7,7 @@ import "bulma/css/bulma.css";
 // import { withRouter } from "react-router-dom"
 
 const LoginLandingPage = () => {
-  const { loading, user, loginWithRedirect } = useAuth0();
+  const { isLoading, user, loginWithRedirect } = useAuth0();
 
   return (
     <header>
@@ -22,7 +22,7 @@ const LoginLandingPage = () => {
             {/* menu items */}
             <div className="navbar-end">
               {/* if there is no user. show the login button */}
-              {!loading && !user && (
+              {!isLoading && !user && (
                 <button onClick={loginWithRedirect} className="navbar-item">
                   Login
                 </button>

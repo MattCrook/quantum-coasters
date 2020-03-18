@@ -1,10 +1,10 @@
-import { useAuth0 } from "../../contexts/react-auth0-context";
+import { useAuth0 } from "../../contexts/auth0-context";
 import React from "react";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import "./NavBar.css";
 
-const NavBar = () => {
+const NavBar = props => {
   const { isAuthenticated } = useAuth0();
 
   return (

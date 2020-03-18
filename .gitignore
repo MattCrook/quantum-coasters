@@ -29,7 +29,4 @@ yarn-error.log*
 /keys
 
 #auth0-env
-.env
-
-#auth_config
-.auth_config
+/.env
