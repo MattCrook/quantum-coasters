@@ -6,6 +6,7 @@ import LoginLandingPage from "./auth/Login";
 import Home from "./home/Home";
 import AddNewRollerCoaster from "./addNewForm/NewRollerCoaster";
 
+
 const ApplicationViews = props => {
   // console.log("props", props);
   const [user, setUser] = useState(null);
