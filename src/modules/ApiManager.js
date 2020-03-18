@@ -25,6 +25,19 @@ const ApiManager = {
     });
     return await data.json();
   },
-  
+  async postNewRollerCoaster(resource) {
+    const data = await fetch(`${remoteURL}/rollerCoasters`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(resource)
+    });
+    return await data.json();
+  },
+  async getUser() {
+    const resp = await fetch(`${remoteURL}/users`);
+    return await resp.json();
+  }
 };
 export default ApiManager;

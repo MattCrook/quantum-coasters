@@ -9,7 +9,7 @@ const ProfileList = props => {
   const { user } = useAuth0();
   console.log("user", user);
 
-  const getAllCurrentUserCredits = async (id) => {
+  const getAllCurrentUserCredits = async id => {
     try {
       const userCreditsFromApi = ApiManager.getAllCurrentUserCredits(id);
       console.log(userCreditsFromApi);
@@ -18,18 +18,30 @@ const ProfileList = props => {
       console.log(error);
     }
   };
- const deleteCredit = (user) => {
-   try {
-     ApiManager.deleteCredit(user);
-     const creditsFromAPI = ApiManager.getAllCurrentUserCredits();
-     setUserCredits(creditsFromAPI);
-   } catch (error) {
-     console.log(error);
-   }
- };
+  const deleteCredit = user => {
+    try {
+      ApiManager.deleteCredit(user);
+      const creditsFromAPI = ApiManager.getAllCurrentUserCredits();
+      setUserCredits(creditsFromAPI);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const get = async () => {
+    try {
+      const usersFromAPI = await ApiManager.getUser();
+      console.log(usersFromAPI);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
 
   useEffect(() => {
-    getAllCurrentUserCredits();
+    // getAllCurrentUserCredits();
+    get();
   }, []);
 
   return (

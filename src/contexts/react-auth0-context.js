@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import createAuth0Client from "@auth0/auth0-spa-js";
-// import ApiManager from "../modules/ApiManager";
+import ApiManager from "../modules/ApiManager";
 
 const DEFAULT_REDIRECT_CALLBACK = () =>
   window.history.replaceState({}, document.title, window.location.pathname);
@@ -74,12 +74,11 @@ export const Auth0Provider = ({
   };
 
   // check if async
-  // const postNewUserToDataBase = async (...p) => {
-  //   const results = auth0Client.loginWithRedirect(...p);
-  //   console.log(...p);
-  //   // "POST to /users"
-  //   ApiManager.post(results);
-  // };
+  const postNewUserToDataBase = async (...p) => {
+    const results = auth0Client.loginWithRedirect(...p);
+    // "POST to /users"
+    ApiManager.post(results);
+  };
 
   return (
     <Auth0Context.Provider
@@ -91,7 +90,7 @@ export const Auth0Provider = ({
         loginWithPopup,
         handleRedirectCallback,
         getIdTokenClaims: (...p) => auth0Client.getIdTokenClaims(...p),
-        loginWithRedirect: (...p) => auth0Client.loginWithRedirect(...p),
+        loginWithRedirect: (...p) => postNewUserToDataBase(...p),
         getTokenSilently: (...p) => auth0Client.getTokenSilently(...p),
         getTokenWithPopup: (...p) => auth0Client.getTokenWithPopup(...p),
         logout: (...p) => auth0Client.logout(...p)

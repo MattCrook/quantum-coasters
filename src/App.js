@@ -26,16 +26,3 @@ const App = () => {
 };
 
 export default App;
-
-// <div className="hero is-fullheight has-background-black-bis ">
-//   <div className="hero-body bg-img">
-//     <div className="container has-text-centered">
-//       {!isLoading && user && (
-//         <>
-//           <h1>You are logged in!</h1>
-//           <p>Hello {user.name}</p>
-//         </>
-//       )}
-//     </div>
-//   </div>
-// </div>
