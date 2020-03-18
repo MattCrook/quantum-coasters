@@ -1,35 +1,25 @@
 import React from "react";
 import "bulma/css/bulma.css";
-import { useAuth0 } from "./contexts/auth0-context";
+import { useAuth0 } from "./contexts/react-auth0-context";
 import "./App.css";
 import { BrowserRouter as Router } from "react-router-dom";
 import NavBar from "./components/nav/NavBar";
 import ApplicationViews from "./components/ApplicationViews";
+import history from "./utils/history";
 
 const App = () => {
-  
-  const { isAuthenticated, handleRedirectCallback, isLoading, user, loginWithRedirect, logout } = useAuth0();
-  console.log(user);
+  // const { isAuthenticated, handleRedirectCallback, isLoading, user, loginWithRedirect, logout } = useAuth0();
+  const { isAuthenticated, loading, user } = useAuth0();
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
-    <Router>
-
-        {/* <div className="hero is-fullheight has-background-black-bis ">
-          <div className="hero-body bg-img">
-            <div className="container has-text-centered">
-              {!isLoading && user && (
-                <>
-                  <h1>You are logged in!</h1>
-                  <p>Hello {user.name}</p>
-                </>
-              )}
-            </div>
-          </div>
-        </div> */}
+      <Router history={history}>
         <NavBar />
-      <ApplicationViews user={user} isAuthenticated={isAuthenticated} />
+        <ApplicationViews user={user} isAuthenticated={isAuthenticated} />
       </Router>
     </>
   );

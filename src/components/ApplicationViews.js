@@ -3,15 +3,17 @@ import React, { Component, useState } from "react";
 import ProfileList from "./profile/ProfileList";
 import LoginLandingPage from "./auth/Login";
 import Home from "./home/Home";
+import { useAuth0 } from "../contexts/react-auth0-context";
 
 const ApplicationViews = props => {
-  console.log("props", props);
-  // const user = await props.user;
-  const isAuthenticated = props.isAuthenticated;
+  // console.log("props", props);
+  const [user, setUser] = useState(null);
+  const [userLoggedIn, setUserLoggedIn] = useState(false);
+  const { isAuthenticated } = useAuth0();
 
   return (
     <React.Fragment>
-      {/* <Route
+      <Route
         exact
         path="/home"
         render={props => {
@@ -21,14 +23,14 @@ const ApplicationViews = props => {
             return <Redirect to="/" component={LoginLandingPage} />;
           }
         }}
-      /> */}
-      <Route
+      />
+      {/* <Route
         exact
         path="/home"
         render={props => {
           return <Home {...props} />;
         }}
-      />
+      /> */}
       <Route
         exact
         path="/"
@@ -36,11 +38,22 @@ const ApplicationViews = props => {
           return <LoginLandingPage {...props} />;
         }}
       />
-      <Route
+      {/* <Route
         exact
         path="/profile"
         render={props => {
           return <ProfileList {...props} />;
+        }}
+      /> */}
+      <Route
+        exact
+        path="/profile"
+        render={props => {
+          if (isAuthenticated === true) {
+            return <ProfileList {...props} />;
+          } else {
+            return <Redirect to="/" component={LoginLandingPage} />;
+          }
         }}
       />
     </React.Fragment>
