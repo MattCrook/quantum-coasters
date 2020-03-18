@@ -23,7 +23,6 @@ const AddNewRollerCoaster = () => {
     setRollerCoaster(stateToChange);
   };
 
-
   // object to go into database
   const constructNewRollerCoaster = e => {
     e.preventDefault();
@@ -48,97 +47,85 @@ const AddNewRollerCoaster = () => {
       rollerCoaster.manufacturer === "" ||
       rollerCoaster.park === ""
     ) {
-        alert("Please fill out all fields in form");
+      alert("Please fill out all fields in form");
     } else {
       !loading &&
-        ApiManager.postNewRollerCoaster(newRollerCoaster)
-        .then(() => history.push("/profile"));
+        ApiManager.postNewRollerCoaster(newRollerCoaster).then(() =>
+          history.push("/profile")
+        );
     }
   };
 
   return (
     <form className="main-form" onSubmit={constructNewRollerCoaster}>
-    <fieldset className="fs-form">
+      <fieldset className="fs-form">
         <h3 className="title">Input Ride Details</h3>
         <div className="create-form">
-        <label htmlFor="inputName">Roller Coaster Name</label>
-        <input
+          <label htmlFor="inputName">Roller Coaster Name</label>
+          <input
             className="input"
-            onChange={handleInputFieldChange}
+            onChange={handleFieldChange}
             type="name"
             id="name"
             placeholder="Enter Roller Coaster Name"
             required=""
             autoFocus=""
-        />
-        <label htmlFor="inputTrackType">Track Type</label>
-        <input
+          />
+          <label htmlFor="inputTrackType">Track Type</label>
+          <input
             className="input"
-            onChange={handleInputFieldChange}
-            type="text"
+            onChange={handleFieldChange}
+            type="dropdown"
             id="trackType"
-            placeholder="Enter username"
+            placeholder="Select Track Type"
             required=""
             autoFocus=""
-        />
+          />
 
-        <label htmlFor="inputPassword">Max Height</label>
-        <input
+          <label htmlFor="inputPassword">Max Height</label>
+          <input
             className="input"
-            onChange={handleInputFieldChange}
-            type="password"
-            id="password"
-            placeholder="Create Your Password"
+            onChange={handleFieldChange}
+            type="text"
+            id="max_height"
+            placeholder="Max Height"
             required=""
             autoFocus=""
-        />
-        <label htmlFor="confirm-password">Max Speed</label>
-        <input
+          />
+          <label htmlFor="confirm-password">Max Speed</label>
+          <input
             className="input"
-            onChange={handleInputFieldChange}
-            type="password"
-            id="confirmedPassword"
-            placeholder="Re-enter Password"
+            onChange={handleFieldChange}
+            type="text"
+            id="max_speed"
+            placeholder="Max Speed"
             required=""
             autoFocus=""
-        />
-        <label htmlFor="eventImage">Please upload a profile picture</label>
-        <input
-            name="file"
-            id="picUrl"
-            type="file"
-            className="file-upload"
-            placeholder="Upload an Image"
-            data-cloudinary-field="image_id"
-            onChange={uploadImage}
-            data-form-data="{ 'transformation': {'crop':'limit','tags':'samples','width':3000,'height':2000}}"
-        />
+          />
+          <label htmlFor="confirm-password">Home Park</label>
+          <input
+            className="input"
+            onChange={handleFieldChange}
+            type="text"
+            id="park"
+            placeholder="Enter Home Park Of Ride"
+            required=""
+            autoFocus=""
+          />
+          <input
+            className="input"
+            onChange={handleFieldChange}
+            type="dropdown"
+            id="park"
+            placeholder="Select Manufacturer"
+            required=""
+            autoFocus=""
+          />
+          <button className="create-btn" type="submit">
+            Submit
+          </button>
         </div>
-        <div className="create-buttons">
-        <div>
-            <label className="check-box-name">Remember Me</label>
-            <input
-            className="check-box"
-            type="checkbox"
-            onChange={handleSignInCheckBox}
-            ></input>
-        </div>
-        <div className="newPhoto">
-            {isLoading ?(
-                <h3> Loading...</h3>
-            ): (
-                <>
-                <img src={image.picUrl} style={{width: '300px'}} alt="upload-photos"/>
-                </>
-            )}
-            </div>
-        <button className="create-btn" type="submit">
-            Join
-        </button>
-    
-        </div>
-    </fieldset>
+      </fieldset>
     </form>
-);
   );
 };
