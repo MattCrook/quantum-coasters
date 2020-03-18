@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import ApiManager from "../../modules/ApiManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 
-const AddNewRollerCoaster = () => {
+const AddNewRollerCoaster = (props) => {
   const { loading, user, history } = useAuth0();
 
   // set initial state of form to empty
@@ -129,3 +129,5 @@ const AddNewRollerCoaster = () => {
     </form>
   );
 };
+
+export default AddNewRollerCoaster;

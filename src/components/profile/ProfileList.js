@@ -40,7 +40,7 @@ const ProfileList = props => {
 
 
   useEffect(() => {
-    // getAllCurrentUserCredits();
+    getAllCurrentUserCredits();
     get();
   }, []);
 

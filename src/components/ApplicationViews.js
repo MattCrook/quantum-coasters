@@ -1,9 +1,10 @@
 import { Route, Redirect } from "react-router-dom";
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
+import { useAuth0 } from "../contexts/react-auth0-context";
 import ProfileList from "./profile/ProfileList";
 import LoginLandingPage from "./auth/Login";
 import Home from "./home/Home";
-import { useAuth0 } from "../contexts/react-auth0-context";
+import AddNewRollerCoaster from "./addNewForm/NewRollerCoaster";
 
 const ApplicationViews = props => {
   // console.log("props", props);
@@ -51,6 +52,17 @@ const ApplicationViews = props => {
         render={props => {
           if (isAuthenticated === true) {
             return <ProfileList {...props} />;
+          } else {
+            return <Redirect to="/" component={LoginLandingPage} />;
+          }
+        }}
+      />
+      <Route
+        exact
+        path="/rollerCoasterDetails"
+        render={props => {
+          if (isAuthenticated === true) {
+            return <AddNewRollerCoaster {...props} />;
           } else {
             return <Redirect to="/" component={LoginLandingPage} />;
           }
