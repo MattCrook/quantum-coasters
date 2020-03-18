@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ApiManager from "../../modules/ApiManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
-import "./NewCreditFrom.css";
+import "./NewCreditForm.css";
 
 const AddNewCreditForm = props => {
   const { loading, user, history } = useAuth0();
