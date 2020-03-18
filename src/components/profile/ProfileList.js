@@ -51,7 +51,7 @@ const ProfileList = props => {
           type="button"
           className="btn"
           onClick={() => {
-            props.history.push("/users/newCredit");
+            props.history.push("/newCredit");
           }}
         >
           Add New Credit
