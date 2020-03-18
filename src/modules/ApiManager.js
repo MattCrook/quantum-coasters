@@ -24,6 +24,7 @@ const ApiManager = {
       body: JSON.stringify(newUser)
     });
     return await data.json();
-  }
+  },
+  
 };
 export default ApiManager;
