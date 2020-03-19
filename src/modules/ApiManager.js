@@ -47,5 +47,25 @@ const ApiManager = {
     const resp = await fetch(`${remoteURL}/messages`);
     return await resp.json();
   },
+  async updateMessagesPut(editedObject) {
+    const data = await fetch(`${remoteURL}/messages/${editedObject.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(editedObject)
+    });
+    return await data.json();
+  },
+  async postMessage(newObject) {
+    const data = await fetch(`${remoteURL}/messages`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newObject)
+    });
+    return await data.json();
+  },
 };
 export default ApiManager;
