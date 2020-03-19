@@ -5,7 +5,7 @@ import ProfileList from "./profile/ProfileList";
 import LoginLandingPage from "./auth/Login";
 import Home from "./home/Home";
 import AddNewRollerCoaster from "./addNewForm/NewRollerCoaster";
-
+import AddNewCreditForm from "./profile/NewCreditForm";
 
 const ApplicationViews = props => {
   // console.log("props", props);
@@ -65,7 +65,18 @@ const ApplicationViews = props => {
           if (isAuthenticated === true) {
             return <AddNewRollerCoaster {...props} />;
           } else {
-            return <Redirect to="/" component={LoginLandingPage} />;
+            return <Redirect to="/" />;
+          }
+        }}
+      />
+      <Route
+        exact
+        path="/newCredit"
+        render={props => {
+          if (isAuthenticated === true) {
+            return <AddNewCreditForm {...props} />;
+          } else {
+            return <Redirect to="/"  />;
           }
         }}
       />

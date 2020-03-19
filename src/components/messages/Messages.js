@@ -1,52 +1,24 @@
 import React, { useState, useEffect } from "react";
 import ApiManager from "../../modules/ApiManager";
-import "./Messages.css";
-import { useAuth0 } from "../contexts/react-auth0-context";
-import MessageForm from "./MessageForm";
 import MessageCard from "./MessageCard";
+import MessageForm from "./MessageForm";
+import "./Messages.css";
 
-const MessageList = props => {
+const MessageList = ({ message }) => {
   const [messages, setMessages] = useState([]);
   const [messageToEdit, setMessageToEdit] = useState({
     text: "",
     userId: 0,
     timestamp: ""
   });
-  const [followingList, setFollowingList] = useState([]);
-  const { user } = useAuth0();
 
-  const getMessages = async () => {
-    const messagesFromAPI = await ApiManager.getAllMessagesWithExpand(
-      "messages",
-      user
-    );
-    setMessages(messagesFromAPI);
-  };
-  const getFollowingList = async () => {
-    const userWithIdFromAPI = await ApiManger.getUserWithId(
-      "followings",
-      parseInt(user.id)
-    );
-    setFollowingList(userWithIdFromAPI);
-  };
-  const amFollowing = currentUser => {
-    if (followingList.find(({ followedId }) => followedId === currentUser.id)) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-  const handleFollow = userIdToFollow => {
-    const followToSave = {
-      userId: user.id,
-      followedId: userIdToFollow
-    };
-    ApiManager.postNewFollow("followings", followToSave).then(getFollowingList);
-  };
   useEffect(() => {
+    const getMessages = async () => {
+      const messagesFromAPI = ApiManager.getAllMessages();
+      setMessages(messagesFromAPI);
+    };
     getMessages();
-    getFollowingList();
-  }, []);
+  }, [message, setMessages]);
 
   return (
     <>
@@ -58,8 +30,9 @@ const MessageList = props => {
           <div className="chat-ScrollToBottom">
             <div className="message-container-cards">
               {/* Sorting by date via: 
-              https://stackoverflow.com/questions/10123953/how-to-sort-an-array-by-a-date-property*/}
-              {messages.sort(function(a, b) {
+            https://stackoverflow.com/questions/10123953/how-to-sort-an-array-by-a-date-property*/}
+              {messages
+                .sort(function(a, b) {
                   return new Date(a.timestamp) - new Date(b.timestamp);
                 })
                 .map(message => (
@@ -67,18 +40,16 @@ const MessageList = props => {
                     key={message.id}
                     message={message}
                     setMessageToEdit={setMessageToEdit}
-                    handleFollow={handleFollow}
-                    amFollowing={amFollowing(message.user)}
                   />
                 ))}
             </div>
           </div>
           <div className="container-form">
             <MessageForm
-              getMessages={getMessages}
+              // getMessages={getMessages}
               messageToEdit={messageToEdit}
               setMessageToEdit={setMessageToEdit}
-              {...props}
+              // {...props}
             />
           </div>
         </div>
@@ -86,5 +57,4 @@ const MessageList = props => {
     </>
   );
 };
-
 export default MessageList;

@@ -11,7 +11,7 @@ const ApiManager = {
   },
   async getAllUserCredits(id) {
     const resp = await fetch(
-      `${remoteURL}/users/${id}?_embed=rollerCoasters&userId=${id}`
+      `${remoteURL}/users/${id}?_embed=rollerCoasters`
     );
     return await resp.json();
   },
@@ -38,6 +38,14 @@ const ApiManager = {
   async getUser() {
     const resp = await fetch(`${remoteURL}/users`);
     return await resp.json();
-  }
+  },
+  async getAllManufacturers() {
+    const resp = await fetch(`${remoteURL}/manufacturers`);
+    return await resp.json();
+  },
+  async getAllMessages() {
+    const resp = await fetch(`${remoteURL}/messages`);
+    return await resp.json();
+  },
 };
 export default ApiManager;
