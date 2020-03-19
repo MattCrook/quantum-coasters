@@ -3,8 +3,12 @@ import ApiManager from "../../modules/ApiManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import "./NewCreditForm.css";
 
+// form that user is taken to, to input new credit (new rollercoaster ridden)
+// need check to see if the roller coaster exists in DB, if not user is taken to NewRollerCoasterForm
+// to create the entry in DB, then back to their credit form to fill it out.
 const AddNewCreditForm = props => {
   const { loading, user, history } = useAuth0();
+  const [manufacturers, setManufacturers] = useState([]);
 
   const [credit, setCredit] = useState({
     name: "",
@@ -21,36 +25,40 @@ const AddNewCreditForm = props => {
     setCredit(stateToChange);
   };
 
-    const createNewCredit = e => {
-      e.preventDefault();
-      const newCredit = {
-        name: credit.name,
-        trackType: credit.trackType,
-        max_height: credit.max_height,
-        max_speed: credit.max_speed,
-        park: credit.park,
-        manufacturer: credit.manufacturer,
-        userId: user.id
-      };
+  const createNewCredit = e => {
+    e.preventDefault();
+    const newCredit = {
+      name: credit.name,
+      trackType: credit.trackType,
+      max_height: credit.max_height,
+      max_speed: credit.max_speed,
+      park: credit.park,
+      manufacturer: credit.manufacturer,
+      userId: user.id
+    };
 
-      if (
-        credit.name === "" ||
-        credit.trackType === "" ||
-        credit.max_height === "" ||
-        credit.max_speed === "" ||
-        credit.manufacturer === "" ||
-        credit.park === ""
-      ) {
-        alert("Please fill out all fields in form");
-      } else {
-        !loading &&
-          ApiManager.postNewRollerCoaster(newCredit).then(() =>
-            history.push("/profile")
-          )}
-      }
+    if (
+      credit.name === "" ||
+      credit.trackType === "" ||
+      credit.max_height === "" ||
+      credit.max_speed === "" ||
+      credit.manufacturer === "" ||
+      credit.park === ""
+    ) {
+      window.alert("Please fill out all fields in form");
+    } else {
+      !loading &&
+        ApiManager.postNewRollerCoaster(newCredit).then(() =>
+          history.push("/profile")
+        );
+    }
+  };
 
   useEffect(() => {
-
+    ApiManager.getAllManufacturers().then(manufacturers => {
+      setManufacturers(manufacturers);
+      // setIsLoading(false) -- how do i do this with context?
+    });
   });
 
   return (
@@ -153,14 +161,13 @@ const AddNewCreditForm = props => {
                 value={credit.manufacturerId}
                 onChange={handleFieldChange}
               >
-                {/* {rollerCoasters.map(rollerCoaster => (
-                  <option
-                    key={rollerCoaster.manufacturerId}
-                    value={rollerCoaster.manufacturerId}
-                  >
+                {manufacturers.map(manufacturer => (
+                  <option 
+                  key={manufacturer.id} 
+                  value={manufacturer.id}>
                     {manufacturer.name}
                   </option>
-                ))} */}
+                ))}
               </select>
             </div>
           </div>
@@ -168,7 +175,7 @@ const AddNewCreditForm = props => {
             <button
               type="button"
               disabled={loading}
-            //   onClick={createNewCredit}
+                onClick={createNewCredit}
               id="newCreditFormBtn"
               className="ui blue basic button"
             >

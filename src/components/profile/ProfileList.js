@@ -13,8 +13,8 @@ const ProfileList = props => {
 
   const getAllCurrentUserCredits = async id => {
     try {
-      const userCreditsFromApi = ApiManager.getAllCurrentUserCredits(id);
-      console.log(userCreditsFromApi);
+      const userCreditsFromApi = ApiManager.getAllUserCredits(id);
+      console.log("creditsFromAPI", userCreditsFromApi);
       setUserCredits(userCreditsFromApi);
     } catch (error) {
       console.log(error);
@@ -123,6 +123,7 @@ const ProfileList = props => {
               <ProfileCard
                 key={userCredits.id}
                 rollerCoaster={rollerCoaster}
+                // manufacturer={manufacturer}
                 currentUserProfile={user}
                 deleteCredit={deleteCredit}
                 {...props}
