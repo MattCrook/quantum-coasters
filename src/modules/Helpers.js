@@ -1,4 +1,7 @@
 import ApiManager from "./ApiManager";
+
+// function to check If this is an edit, we need the id and the timestamp should be what it was.
+// userId doesn't need to change because users will not have a button to edit other users' messages
 export function isEditCheck(props, messageToPost) {
   if (props.messageToEdit.id) {
     messageToPost.id = props.messageToEdit.id;
@@ -7,6 +10,7 @@ export function isEditCheck(props, messageToPost) {
   return messageToPost;
 }
 
+// handle submit for messages helper function logic (edit message function logic)
 export function handleSubmitHelperFunction(
   setLoading,
   constructNewMessage,
@@ -30,6 +34,8 @@ export function handleSubmitHelperFunction(
   };
 }
 
+
+// function logic for joining the foreign keys in rollerCoaster table to values in other tables. 
 export async function setResourcesMapFunction(setManufacturer, setRollerCoasters, setPark, setTrackType) {
   const rollerCoasters = ApiManager.getRollerCoasters;
   const manufacturers = ApiManager.getManufacturerWithRollerCoaster;
