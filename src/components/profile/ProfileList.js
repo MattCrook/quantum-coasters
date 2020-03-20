@@ -3,18 +3,20 @@ import ProfileCard from "./ProfileCard";
 import ApiManager from "../../modules/ApiManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { confirmAlert } from "react-confirm-alert";
+import { setResourcesMapFunction } from "../../modules/Helpers";
 
 const ProfileList = props => {
   // const [userProfile, setUserProfile] = useState([]);
+  const { user } = useAuth0();
   const [userCredits, setUserCredits] = useState([]);
   const [rollerCoasters, setRollerCoasters] = useState([]);
-  const { user } = useAuth0();
-  console.log("user", user);
+  const [manufacturer, setManufacturer] = useState({});
+  const [park, setPark] = useState({});
+  const [trackType, setTrackType] = useState({});
 
   const getAllCurrentUserCredits = async id => {
     try {
-      const userCreditsFromApi = ApiManager.getAllUserCredits(id);
-      console.log("creditsFromAPI", userCreditsFromApi);
+      const userCreditsFromApi = await ApiManager.getAllUserCredits(id);
       setUserCredits(userCreditsFromApi);
     } catch (error) {
       console.log(error);
@@ -23,22 +25,12 @@ const ProfileList = props => {
 
   const getAllRollerCoasters = async () => {
     try {
-      const rollerCoastersFromAPI = ApiManager.getRollerCoasters();
+      const rollerCoastersFromAPI = await ApiManager.getRollerCoasters();
       setRollerCoasters(rollerCoastersFromAPI);
     } catch (error) {
       console.log(error);
     }
   };
-
-  // const deleteCredit = id => {
-  //   try {
-  //     ApiManager.deleteCredit(id);
-  //     const creditsFromAPI = ApiManager.getAllCurrentUserCredits();
-  //     setUserCredits(creditsFromAPI);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const deleteCredit = id => {
     try {
@@ -66,21 +58,34 @@ const ProfileList = props => {
     }
   };
 
-  // get all users
-  const get = async () => {
-    try {
-      const usersFromAPI = await ApiManager.getUser();
-      console.log(usersFromAPI);
-    } catch (error) {
-      console.log(error);
-    }
+  // // get all users
+  // const get = async () => {
+  //   try {
+  //     const usersFromAPI = await ApiManager.getUser();
+  //     console.log(usersFromAPI);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+  // useEffect(() => {
+  //   getAllRollerCoasters();
+  //   getAllCurrentUserCredits();
+  //   get();
+
+
+  const dataFromAPI = async () => {
+    await setResourcesMapFunction(
+      setManufacturer,
+      setRollerCoasters,
+      setPark,
+      setTrackType
+    );
   };
 
   useEffect(() => {
-    getAllRollerCoasters();
-    getAllCurrentUserCredits();
-    get();
+    dataFromAPI();
   }, []);
+
 
   return (
     <>
@@ -121,10 +126,12 @@ const ProfileList = props => {
           <div className="profile-container-card">
             {rollerCoasters.map(rollerCoaster => (
               <ProfileCard
-                key={userCredits.id}
+                key={rollerCoaster.id}
                 rollerCoaster={rollerCoaster}
-                // manufacturer={manufacturer}
+                manufacturer={manufacturer}
                 currentUserProfile={user}
+                park={park}
+                trackType={trackType}
                 deleteCredit={deleteCredit}
                 {...props}
               />

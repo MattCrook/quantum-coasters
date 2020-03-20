@@ -1,3 +1,4 @@
+import ApiManager from "./ApiManager";
 export function isEditCheck(props, messageToPost) {
   if (props.messageToEdit.id) {
     messageToPost.id = props.messageToEdit.id;
@@ -27,4 +28,37 @@ export function handleSubmitHelperFunction(
       .then(props.getMessages)
       .then(setLoading(false));
   };
+}
+
+export async function setResourcesMapFunction(setManufacturer, setRollerCoasters, setPark, setTrackType) {
+  const rollerCoasters = ApiManager.getRollerCoasters;
+  const manufacturers = ApiManager.getManufacturerWithRollerCoaster;
+  const parks = ApiManager.getParkWithRollerCoasters;
+  const trackTypes = ApiManager.getRollerCoastersWithTrackType;
+  let values = await Promise.all([rollerCoasters(), manufacturers(), parks(), trackTypes()]);
+  console.log(values);
+  const returnedRollerCoastersObject = values[0];
+  const returnedManufacturerObject = values[1];
+  const returnedParksObject = values[2];
+  const returnedTrackTypesObject = values[3];
+  returnedRollerCoastersObject.forEach(rollerCoaster => {
+    const manufacturerObject = returnedManufacturerObject.filter(manufacturer => manufacturer.id === rollerCoaster.manufacturerId);
+    const parkObject = returnedParksObject.filter(park => park.id === rollerCoaster.parkId);
+    const trackTypeObject = returnedTrackTypesObject.filter(trackType => trackType.id === rollerCoaster.trackTypeId);
+    console.log("trackTypeObject", trackTypeObject);
+    const id = rollerCoaster.id;
+    const name = rollerCoaster.name;
+    const max_height = rollerCoaster.max_height;
+    const max_speed = rollerCoaster.max_speed;
+    const trackType = trackTypeObject[0].name;
+    const manufacturer = manufacturerObject[0].name;
+    const park = parkObject[0].name;
+    const userId = rollerCoaster.userId.name;
+    const rollerCoasterObject = { id, name, max_height, max_speed, trackType, manufacturer, park, userId };
+    console.log("rollerCoasterObject", rollerCoasterObject);
+    setManufacturer(rollerCoasterObject);
+    setRollerCoasters(rollerCoasterObject);
+    setPark(rollerCoasterObject);
+    setTrackType(rollerCoasterObject);
+  });
 }
