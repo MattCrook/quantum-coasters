@@ -5,40 +5,32 @@ import { useAuth0 } from "../../contexts/react-auth0-context";
 import { confirmAlert } from "react-confirm-alert";
 
 const ProfileList = props => {
-  // const [userProfile, setUserProfile] = useState([]);
-  const [userCredits, setUserCredits] = useState([]);
-  const [rollerCoasters, setRollerCoasters] = useState([]);
   const { user } = useAuth0();
-  console.log("user", user);
+  const [userCredits, setUserCredits] = useState([]);
+  const [userProfile, setUserProfile] = useState([]);
 
-  const getAllCurrentUserCredits = async id => {
+  const getUserCredits = async () => {
     try {
-      const userCreditsFromApi = ApiManager.getAllUserCredits(id);
-      console.log("creditsFromAPI", userCreditsFromApi);
-      setUserCredits(userCreditsFromApi);
+      const dataFromAPI = await ApiManager.getUser("1");
+      setUserProfile(dataFromAPI);
+      const rollerCoasterIds = dataFromAPI.credits.map(credit => {
+        const rollerCoasterId = credit.rollerCoasterId;
+        return rollerCoasterId;
+      });
+      let promises = [];
+      rollerCoasterIds.forEach(rollerCoasterId => {
+        promises.push(
+          ApiManager.getRollerCoastersWithAllExpanded(rollerCoasterId)
+        );
+      });
+      Promise.all(promises).then(data => {
+        console.log("result", data);
+        setUserCredits(data);
+      });
     } catch (error) {
       console.log(error);
     }
   };
-
-  const getAllRollerCoasters = async () => {
-    try {
-      const rollerCoastersFromAPI = ApiManager.getRollerCoasters();
-      setRollerCoasters(rollerCoastersFromAPI);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // const deleteCredit = id => {
-  //   try {
-  //     ApiManager.deleteCredit(id);
-  //     const creditsFromAPI = ApiManager.getAllCurrentUserCredits();
-  //     setUserCredits(creditsFromAPI);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const deleteCredit = id => {
     try {
@@ -66,20 +58,8 @@ const ProfileList = props => {
     }
   };
 
-  // get all users
-  const get = async () => {
-    try {
-      const usersFromAPI = await ApiManager.getUser();
-      console.log(usersFromAPI);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
-    getAllRollerCoasters();
-    getAllCurrentUserCredits();
-    get();
+    getUserCredits();
   }, []);
 
   return (
@@ -105,8 +85,12 @@ const ProfileList = props => {
           <div className="profile-picture">
             {/* <img src={picUrl} alt="Profile Picture" /> */}
           </div>
-          <p>{/* <strong>{username}</strong> */}</p>
-          {/* <button 
+          <p>
+            <strong>
+              {userProfile.first_name} {userProfile.last_name}
+            </strong>
+          </p>
+          <button
             type="button"
             className="btn"
             onClick={() => {
@@ -114,17 +98,19 @@ const ProfileList = props => {
             }}
           >
             Add New Credit
-          </button> */}
+          </button>
           <p>
             <strong>Credits</strong>
           </p>
           <div className="profile-container-card">
-            {rollerCoasters.map(rollerCoaster => (
+            {userCredits.map(rollerCoaster => (
               <ProfileCard
-                key={userCredits.id}
+                key={rollerCoaster.id}
                 rollerCoaster={rollerCoaster}
-                // manufacturer={manufacturer}
+                manufacturer={rollerCoaster.manufacturer}
                 currentUserProfile={user}
+                park={rollerCoaster.park}
+                trackType={rollerCoaster.trackType}
                 deleteCredit={deleteCredit}
                 {...props}
               />

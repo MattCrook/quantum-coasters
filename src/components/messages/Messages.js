@@ -14,7 +14,7 @@ const MessageList = ({ message }) => {
 
   useEffect(() => {
     const getMessages = async () => {
-      const messagesFromAPI = ApiManager.getAllMessages();
+      const messagesFromAPI = await ApiManager.getAllMessages();
       setMessages(messagesFromAPI);
     };
     getMessages();
