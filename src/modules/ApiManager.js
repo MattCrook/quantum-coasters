@@ -1,9 +1,19 @@
 const remoteURL = "http://localhost:8200";
 
+
 const ApiManager = {
+
+  async getRollerCoastersWithAllExpanded(id) {
+    const resp = await fetch(`${remoteURL}/rollerCoasters/${id}?_expand=trackType&_expand=manufacturer&_expand=park`);
+    return await resp.json();
+  },
 
   async getRollerCoasters() {
     const resp = await fetch(`${remoteURL}/rollerCoasters`);
+    return await resp.json();
+  },
+  async getUser(id) {
+    const resp = await fetch(`${remoteURL}/users/${id}`);
     return await resp.json();
   },
 

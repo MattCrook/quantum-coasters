@@ -1,5 +1,3 @@
-import ApiManager from "./ApiManager";
-
 // function to check If this is an edit, we need the id and the timestamp should be what it was.
 // userId doesn't need to change because users will not have a button to edit other users' messages
 export function isEditCheck(props, messageToPost) {
