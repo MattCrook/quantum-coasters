@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ApiManager from "../../modules/ApiManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
+import { formatInput } from "../../modules/Helpers";
 import "./NewCreditForm.css";
 
 // form that user is taken to, to input new credit (new rollercoaster ridden)
@@ -11,7 +12,7 @@ const AddNewCreditForm = props => {
   const [manufacturers, setManufacturers] = useState([]);
   const [trackTypes, setTrackTypes] = useState([]);
   const [parks, setParks] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [credit, setCredit] = useState({
     name: "",
@@ -25,15 +26,13 @@ const AddNewCreditForm = props => {
 
   const handleFieldChange = e => {
     const stateToChange = { ...credit };
-    stateToChange[e.target.id] = e.target.value;
-    console.log("stateToChange", stateToChange)
-    console.log(e.target.value);
+    stateToChange[e.target.id] = formatInput(e.target)
     setCredit(stateToChange);
   };
 
   const createNewCredit = e => {
     e.preventDefault();
-    setLoading(true);
+    isLoading(true);
 
 
     if (
@@ -46,12 +45,16 @@ const AddNewCreditForm = props => {
     ) {
       window.alert("Please fill out all fields in form");
     } else {
-      setLoading(true);
+      isLoading(true);
         ApiManager.postNewRollerCoaster(credit).then(() =>
           props.history.push("/profile")
         );
     }
   };
+
+
+
+  // const result = formatInput(e.target.value);
 
   useEffect(() => {
     ApiManager.getAllManufacturers().then(manufacturers => {
@@ -60,7 +63,7 @@ const AddNewCreditForm = props => {
           setManufacturers(manufacturers);
           setTrackTypes(trackTypes);
           setParks(parks);
-          setLoading(false);
+          setIsLoading(false);
         });
       });
     });
@@ -179,7 +182,7 @@ const AddNewCreditForm = props => {
             <div className="alignRight">
               <button
                 type="button"
-                disabled={loading}
+                disabled={isLoading}
                 onClick={createNewCredit}
                 id="newCreditFormBtn"
                 className="ui blue basic button"
