@@ -1,44 +1,37 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import ApiManager from "../../modules/ApiManager";
+import React from "react";
 import "./Profile.css";
 
 const ProfileCard = props => {
   // console.log("props", props);
 
-  const [manufacturer, setManufacturer] = useState({});
-  const [rollerCoasters, setRollerCoasters] = useState([]);
-
-  // useEffect(() => {
-  //   ApiManager.getManufacturerWithRollerCoaster()
-  //   .then(dataFromAPI => {
-  //     console.log("result", dataFromAPI);
-  //     setManufacturer(dataFromAPI)
-  //     setRollerCoasters(dataFromAPI.rollerCoasters)
-  //   });
-  // }, []);
-
   const picUrl = props.currentUserProfile.picture;
   const username = props.currentUserProfile.nickname;
   const user = props.currentUserProfile.user;
-  //   const credits =
 
   return (
     <div className="profile-card">
       <div className="profile-card-content">
-        <h3 className="ride-name">{props.rollerCoaster.name}</h3>
-        <div className="ride-details-section">Details</div>
+        <div className="ride-name-container">
+          <h3 className="ride-name">{props.rollerCoaster.name}</h3>
+        </div>
+        <div className="ride-details-section"><strong>Details</strong></div>
         <h4>Home Park: {props.park.name}</h4>
         <h4>Manufactured By: {props.manufacturer.name}</h4>
-        <Link to={manufacturer.manufacturer_url}>
-          <button>See More</button>
-        </Link>
+        <div className="linkForCompanyWebsite">
+          <a
+            className="link-to-company"
+            href={props.manufacturer.manufacture_url}
+          >
+            See More
+          </a>
+        </div>
+
         <p>
-          <strong>Max Speed</strong>
-          {props.rollerCoaster.max_speed} MPH
+          Max Speed: 
+          {props.rollerCoaster.max_speed} mph
         </p>
         <p>
-          <strong>Max Height</strong>
+          Max Height: 
           {props.rollerCoaster.max_height} ft
         </p>
         <p>Track Type {props.trackType.name}</p>

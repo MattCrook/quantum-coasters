@@ -71,7 +71,7 @@ const ApplicationViews = props => {
       />
       <Route
         exact
-        path="/newCredit"
+        path="/profile/new"
         render={props => {
           if (isAuthenticated === true) {
             return <AddNewCreditForm {...props} />;

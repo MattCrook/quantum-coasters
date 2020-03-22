@@ -7,8 +7,11 @@ import "./NewCreditForm.css";
 // need check to see if the roller coaster exists in DB, if not user is taken to NewRollerCoasterForm
 // to create the entry in DB, then back to their credit form to fill it out.
 const AddNewCreditForm = props => {
-  const { loading, user, history } = useAuth0();
+  const { user, history } = useAuth0();
   const [manufacturers, setManufacturers] = useState([]);
+  const [trackTypes, setTrackTypes] = useState([]);
+  const [parks, setParks] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [credit, setCredit] = useState({
     name: "",
@@ -19,23 +22,19 @@ const AddNewCreditForm = props => {
     manufacturerId: "",
     userId: ""
   });
+
   const handleFieldChange = e => {
     const stateToChange = { ...credit };
     stateToChange[e.target.id] = e.target.value;
+    console.log("stateToChange", stateToChange)
+    console.log(e.target.value);
     setCredit(stateToChange);
   };
 
   const createNewCredit = e => {
     e.preventDefault();
-    const newCredit = {
-      name: credit.name,
-      trackType: credit.trackType,
-      max_height: credit.max_height,
-      max_speed: credit.max_speed,
-      park: credit.park,
-      manufacturer: credit.manufacturer,
-      userId: user.id
-    };
+    setLoading(true);
+
 
     if (
       credit.name === "" ||
@@ -47,143 +46,150 @@ const AddNewCreditForm = props => {
     ) {
       window.alert("Please fill out all fields in form");
     } else {
-      !loading &&
-        ApiManager.postNewRollerCoaster(newCredit).then(() =>
-          history.push("/profile")
+      setLoading(true);
+        ApiManager.postNewRollerCoaster(credit).then(() =>
+          props.history.push("/profile")
         );
     }
   };
 
   useEffect(() => {
     ApiManager.getAllManufacturers().then(manufacturers => {
-      setManufacturers(manufacturers);
-      // setIsLoading(false) -- how do i do this with context?
+      ApiManager.getTrackTypes().then(trackTypes => {
+        ApiManager.getParks().then(parks => {
+          setManufacturers(manufacturers);
+          setTrackTypes(trackTypes);
+          setParks(parks);
+          setLoading(false);
+        });
+      });
     });
-  });
+  }, []);
 
   return (
     <>
-      <div className="icon-container">
-        <i
-          className="big arrow circle left icon"
-          id="back-arrow-detail"
-          onClick={() => props.history.push("/profile")}
-        ></i>
-      </div>
-      <form>
-        <fieldset className="credit-form">
-          <div className="formgrid">
-            <div>
-              <label htmlFor="name">Roller Coaster Name</label>
-              <p>
-                <textarea
-                  type="text"
-                  rows="2"
-                  cols="40"
-                  required
+      <div className="new-credit-form-container">
+        <form>
+          <div className="new-credit-icon-container">
+            <i
+              className="big arrow circle left icon"
+              id="back-arrow-detail"
+              onClick={() => props.history.push("/profile")}
+            ></i>
+          </div>
+          <fieldset className="credit-form">
+            <div className="formgrid">
+              <div>
+                <label htmlFor="name">Roller Coaster Name</label>
+                <p>
+                  <textarea
+                    type="text"
+                    rows="2"
+                    cols="40"
+                    required
+                    className="form-control"
+                    onChange={handleFieldChange}
+                    id="name"
+                    value={credit.name}
+                  />
+                </p>
+              </div>
+              <div>
+                <label htmlFor="trackType">Track Type</label>
+                <select
                   className="form-control"
+                  required
+                  id="trackTypeId"
+                  value={credit.trackTypeId}
                   onChange={handleFieldChange}
-                  id="name"
-                  value={credit.name}
-                />
-              </p>
-            </div>
-            <div>
-              <label htmlFor="trackType">Track Type</label>
-              <select
-                className="form-control"
-                required
-                id="trackTypeId"
-                value={credit.trackTypeId}
-                onChange={handleFieldChange}
-              >
-                {/* {rollerCoasters.map(rollerCoaster => (
-                  <option
-                    key={rollerCoaster.trackTypeId}
-                    value={rollerCoaster.trackTypeId}
+                >
+                  {trackTypes.map(trackType => (
+                    <option key={trackType.id} value={trackType.id}>
+                      {trackType.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label htmlFor="max_height">Max Height</label>
+                <p>
+                  <textarea
+                    type="text"
+                    rows="2"
+                    cols="40"
+                    required
+                    className="form-control"
+                    onChange={handleFieldChange}
+                    id="max_height"
+                    value={credit.max_height}
+                  />
+                </p>
+              </div>
+              <div>
+                <label htmlFor="max_speed">Max Speed</label>
+                <p>
+                  <textarea
+                    type="text"
+                    rows="2"
+                    cols="40"
+                    required
+                    className="form-control"
+                    onChange={handleFieldChange}
+                    id="max_speed"
+                    value={credit.max_speed}
+                  />
+                </p>
+              </div>
+              <div>
+                <label htmlFor="parkId">Park Name</label>
+                <p>
+                  <select
+                    required
+                    className="form-control"
+                    onChange={handleFieldChange}
+                    id="parkId"
+                    value={credit.parkId}
                   >
-                    {trackType.name}
-                  </option> */}
-                ))}
-              </select>
-            </div>
-            <div>
-              <label htmlFor="max_height">Max Height</label>
-              <p>
-                <textarea
-                  type="text"
-                  rows="2"
-                  cols="40"
-                  required
+                    {parks.map(park => (
+                      <option key={park.id} value={park.id}>
+                        {park.name}
+                      </option>
+                    ))}
+                  </select>
+                </p>
+              </div>
+              <div>
+                <label htmlFor="manufacturerId">Manufacturer</label>
+                <select
                   className="form-control"
-                  onChange={handleFieldChange}
-                  id="max_height"
-                  value={credit.max_height}
-                />
-              </p>
-            </div>
-            <div>
-              <label htmlFor="max_height">Max Speed</label>
-              <p>
-                <textarea
-                  type="text"
-                  rows="2"
-                  cols="40"
                   required
-                  className="form-control"
+                  id="manufacturerId"
+                  value={credit.manufacturerId}
                   onChange={handleFieldChange}
-                  id="max_speed"
-                  value={credit.max_height}
-                />
-              </p>
+                  // onChange={(e) => setManufacturer(e.target.value)}
+                >
+                  {manufacturers.map(manufacturer => (
+                    <option key={manufacturer.id} value={manufacturer.id}>
+                      {manufacturer.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
-            <div>
-              <label htmlFor="parkId">Park Name</label>
-              <p>
-                <textarea
-                  type="text"
-                  rows="2"
-                  cols="40"
-                  required
-                  className="form-control"
-                  onChange={handleFieldChange}
-                  id="parkId"
-                  value={credit.parkId}
-                />
-              </p>
-            </div>
-            <div>
-              <label htmlFor="manufacturerId">Manufacturer</label>
-              <select
-                className="form-control"
-                required
-                id="manufacturerId"
-                value={credit.manufacturerId}
-                onChange={handleFieldChange}
-              >
-                {manufacturers.map(manufacturer => (
-                  <option 
-                  key={manufacturer.id} 
-                  value={manufacturer.id}>
-                    {manufacturer.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-          <div className="alignRight">
-            <button
-              type="button"
-              disabled={loading}
+            <div className="alignRight">
+              <button
+                type="button"
+                disabled={loading}
                 onClick={createNewCredit}
-              id="newCreditFormBtn"
-              className="ui blue basic button"
-            >
-              Submit
-            </button>
-          </div>
-        </fieldset>
-      </form>
+                id="newCreditFormBtn"
+                className="ui blue basic button"
+              >
+                Submit
+              </button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
     </>
   );
 };

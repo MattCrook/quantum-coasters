@@ -65,20 +65,22 @@ const ProfileList = props => {
   return (
     <>
       <div className="profile-container">
-        <div className="icon-container">
-          <div data-tooltip="BACK">
-            <i
-              className="big arrow circle left icon"
-              id="back-arrow-detail"
-              onClick={() => props.history.push("/")}
-            ></i>
-          </div>
-          <div data-tooltip="ADD NEW CREDIT">
-            <i
-              className="big plus square outline icon"
-              id="plusIcon"
-              onClick={() => props.history.push("/newCredit")}
-            ></i>
+        <div className="profile-header-container">
+          <div className="icon-container">
+            <span data-tooltip="BACK">
+              <i
+                className="big arrow circle left icon"
+                id="back-arrow-detail"
+                onClick={() => props.history.push("/home")}
+              ></i>
+            </span>
+            <span data-tooltip="ADD NEW CREDIT">
+              <i
+                className="big plus square outline icon"
+                id="plusIcon"
+                onClick={() => props.history.push("/profile/new")}
+              ></i>
+            </span>
           </div>
         </div>
         <section className="profile-content">
@@ -94,29 +96,29 @@ const ProfileList = props => {
             type="button"
             className="btn"
             onClick={() => {
-              props.history.push("/newCredit");
+              props.history.push("/profile/new");
             }}
           >
             Add New Credit
           </button>
-          <p>
-            <strong>Credits</strong>
-          </p>
-          <div className="profile-container-card">
-            {userCredits.map(rollerCoaster => (
-              <ProfileCard
-                key={rollerCoaster.id}
-                rollerCoaster={rollerCoaster}
-                manufacturer={rollerCoaster.manufacturer}
-                currentUserProfile={user}
-                park={rollerCoaster.park}
-                trackType={rollerCoaster.trackType}
-                deleteCredit={deleteCredit}
-                {...props}
-              />
-            ))}
-          </div>
         </section>
+        <p>
+          <strong>Credits</strong>
+        </p>
+        <div className="profile-container-card">
+          {userCredits.map(rollerCoaster => (
+            <ProfileCard
+              key={rollerCoaster.id}
+              rollerCoaster={rollerCoaster}
+              manufacturer={rollerCoaster.manufacturer}
+              currentUserProfile={user}
+              park={rollerCoaster.park}
+              trackType={rollerCoaster.trackType}
+              deleteCredit={deleteCredit}
+              {...props}
+            />
+          ))}
+        </div>
       </div>
     </>
   );
