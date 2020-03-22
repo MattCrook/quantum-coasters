@@ -1,24 +1,15 @@
 const remoteURL = "http://localhost:8200";
 
-
 const ApiManager = {
-
   async getRollerCoastersWithAllExpanded(id) {
-    const resp = await fetch(`${remoteURL}/rollerCoasters/${id}?_expand=trackType&_expand=manufacturer&_expand=park`);
+    const resp = await fetch(
+      `${remoteURL}/rollerCoasters/${id}?_expand=trackType&_expand=manufacturer&_expand=park`
+    );
     return await resp.json();
   },
 
-  async getRollerCoasters() {
-    const resp = await fetch(`${remoteURL}/rollerCoasters`);
-    return await resp.json();
-  },
   async getUser(id) {
     const resp = await fetch(`${remoteURL}/users/${id}`);
-    return await resp.json();
-  },
-
-  async getAllUserCredits(user) {
-    const resp = await fetch(`${remoteURL}/users/${user}?_expand=credits`);
     return await resp.json();
   },
 
@@ -59,6 +50,15 @@ const ApiManager = {
   async getParkWithRollerCoasters() {
     const data = await fetch(`${remoteURL}/parks/?_embed=rollerCoasters`);
     return await data.json();
+  },
+  async getParks() {
+    const resp = await fetch(`${remoteURL}/parks`);
+    return await resp.json();
+  },
+
+  async getTrackTypes() {
+    const resp = await fetch(`${remoteURL}/trackTypes`);
+    return await resp.json();
   },
 
   async getRollerCoastersWithTrackType() {

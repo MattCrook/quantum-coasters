@@ -1,6 +1,6 @@
-.newsCardContent {
+/* .newsCardContent {
   margin: 50px 90px 0 90px;
-}
+} */
 
 .credit-form {
   margin: 30px 0 0 25px;
@@ -9,4 +9,66 @@
 
 .icon-container {
   margin-right: 90px;
+}
+
+/***************/
+
+
+
+.new-credit-form-container {
+  display: flex;
+  justify-content: center;
+  padding: 5%;
+}
+.credit-form{
+ flex-direction: column;
+ align-items: center;
+ background-color: rgba(179, 173, 173, 0.192);
+ padding: 5%;
+ box-shadow:  0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+ 0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+ 0 12.5px 10px rgba(0, 0, 0, 0.06),
+ 0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+ 0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+ 0 100px 80px rgba(0, 0, 0, 0.12);
+
+}
+
+.new-credit-icon-container{
+display: flex;
+width: 80%;
+justify-content: space-between;
+
+}
+
+#back-arrow-detail:hover{
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+/* #detail-photo{
+  max-width: 300px;
+} */
+/* .delete-container{
+  margin-right: 18%;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+} */
+
+.formgrid {
+  margin-top: 5%;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* .newCreditFormBtn {
+
+} */
+
+@media only screen and (max-width: 800px) {
+  #detail-photo{
+      max-width: 100px;
+  }
 }

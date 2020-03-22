@@ -1,3 +1,46 @@
-.profile-card-content{
-    margin: 50px 90px 0 90px;
+/****** Card Content Section ******/
+
+.profile-card {
+  box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  background: aliceblue;
+  margin-bottom: 15px;
+  flex: 0 1 24%;
+  display: flex;
+  align-items: center;
+  width: 400px
+}
+
+.profile-card-content {
+  margin: 50px 90px 0 90px;
+  font-size: 80%;
+  color: black;
+}
+
+.section-content {
+  display: flex;
+  justify-content: center;
+}
+
+
+/********** Header Section ***********/
+
+.profile-header-container {
+  margin-left: 10px;
+}
+.profile-content{
+  margin-bottom: 50px;
+  justify-content: center;
+}
+.icon-container {
+  margin-right: 90px;
+}
+.profile-container-card {
+  padding: 2%;
+  margin-top: 40px;
+  background-color: rgba(194, 194, 194, 0.26);
+}
+button.btn {
+text-align: center;
 }
