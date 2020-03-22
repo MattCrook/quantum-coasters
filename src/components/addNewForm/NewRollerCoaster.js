@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import ApiManager from "../../modules/ApiManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
-
-const AddNewRollerCoaster = (props) => {
+import "./NewRollerCoasterForm.css"
+const AddNewRollerCoaster = props => {
   const { loading, user, history } = useAuth0();
+  const [IsLoading, setIsLoading] = useState(false);
 
   // set initial state of form to empty
   const [rollerCoaster, setRollerCoaster] = useState({
@@ -28,15 +29,15 @@ const AddNewRollerCoaster = (props) => {
     e.preventDefault();
     e.stopPropagation();
 
-    const newRollerCoaster = {
-      name: rollerCoaster.name,
-      trackType: rollerCoaster.trackType,
-      max_height: rollerCoaster.max_height,
-      max_speed: rollerCoaster.max_speed,
-      park: rollerCoaster.park,
-      manufacturer: rollerCoaster.manufacturer,
-      userId: user.id
-    };
+    // const newRollerCoaster = {
+    //   name: rollerCoaster.name,
+    //   trackType: rollerCoaster.trackType,
+    //   max_height: rollerCoaster.max_height,
+    //   max_speed: rollerCoaster.max_speed,
+    //   park: rollerCoaster.park,
+    //   manufacturer: rollerCoaster.manufacturer,
+    //   userId: user.id
+    // };
 
     // guard to make sure all fields are filled out
     if (
@@ -49,84 +50,93 @@ const AddNewRollerCoaster = (props) => {
     ) {
       alert("Please fill out all fields in form");
     } else {
-      !loading &&
-        ApiManager.postNewRollerCoaster(newRollerCoaster).then(() =>
-          history.push("/profile")
-        );
+      setIsLoading(true);
+      ApiManager.postNewRollerCoaster(rollerCoaster).then(() =>
+        history.push("/users")
+      );
     }
   };
 
   return (
-    <form className="main-form" onSubmit={constructNewRollerCoaster}>
-      <fieldset className="fs-form">
-        <h3 className="title">Input Ride Details</h3>
-        <div className="create-form">
-          <label htmlFor="inputName">Roller Coaster Name</label>
-          <input
-            className="input"
-            onChange={handleFieldChange}
-            type="name"
-            id="name"
-            placeholder="Enter Roller Coaster Name"
-            required=""
-            autoFocus=""
-          />
-          <label htmlFor="inputTrackType">Track Type</label>
-          <input
-            className="input"
-            onChange={handleFieldChange}
-            type="dropdown"
-            id="trackType"
-            placeholder="Select Track Type"
-            required=""
-            autoFocus=""
-          />
+    <>
+      <button
+        className="new-ride-form-back-button"
+        id="back-arrow-detail"
+        onClick={() => props.history.push("/users/new")}
+      >
+        BACK
+      </button>
+      <form className="main-form" onSubmit={constructNewRollerCoaster}>
+        <fieldset className="fs-form">
+          <h3 className="title">Input Ride Details</h3>
+          <div className="create-form">
+            <label htmlFor="inputName">Roller Coaster Name</label>
+            <input
+              className="input"
+              onChange={handleFieldChange}
+              type="name"
+              id="name"
+              placeholder="Enter Roller Coaster Name"
+              required=""
+              autoFocus=""
+            />
+            <label htmlFor="inputTrackType">Track Type</label>
+            <input
+              className="input"
+              onChange={handleFieldChange}
+              type="dropdown"
+              id="trackType"
+              placeholder="Select Track Type"
+              required=""
+              autoFocus=""
+            />
 
-          <label htmlFor="inputPassword">Max Height</label>
-          <input
-            className="input"
-            onChange={handleFieldChange}
-            type="text"
-            id="max_height"
-            placeholder="Max Height"
-            required=""
-            autoFocus=""
-          />
-          <label htmlFor="confirm-password">Max Speed</label>
-          <input
-            className="input"
-            onChange={handleFieldChange}
-            type="text"
-            id="max_speed"
-            placeholder="Max Speed"
-            required=""
-            autoFocus=""
-          />
-          <label htmlFor="confirm-password">Home Park</label>
-          <input
-            className="input"
-            onChange={handleFieldChange}
-            type="text"
-            id="park"
-            placeholder="Enter Home Park Of Ride"
-            required=""
-            autoFocus=""
-          />
-          <input
-            className="input"
-            onChange={handleFieldChange}
-            type="dropdown"
-            id="park"
-            placeholder="Select Manufacturer"
-            required=""
-            autoFocus=""
-          />
-          <button className="create-btn" type="submit">
-            Submit
-          </button>
-        </div>
-      </fieldset>
-    </form>
+            <label htmlFor="inputPassword">Max Height</label>
+            <input
+              className="input"
+              onChange={handleFieldChange}
+              type="text"
+              id="max_height"
+              placeholder="Max Height"
+              required=""
+              autoFocus=""
+            />
+            <label htmlFor="confirm-password">Max Speed</label>
+            <input
+              className="input"
+              onChange={handleFieldChange}
+              type="text"
+              id="max_speed"
+              placeholder="Max Speed"
+              required=""
+              autoFocus=""
+            />
+            <label htmlFor="confirm-password">Home Park</label>
+            <input
+              className="input"
+              onChange={handleFieldChange}
+              type="text"
+              id="park"
+              placeholder="Enter Home Park Of Ride"
+              required=""
+              autoFocus=""
+            />
+            <input
+              className="input"
+              onChange={handleFieldChange}
+              type="dropdown"
+              id="park"
+              placeholder="Select Manufacturer"
+              required=""
+              autoFocus=""
+            />
+            <button className="create-btn" type="submit" disabled={IsLoading}>
+              Submit
+            </button>
+          </div>
+        </fieldset>
+      </form>
+    </>
   );
 };
 

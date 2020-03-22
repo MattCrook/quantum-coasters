@@ -30,8 +30,11 @@
   margin-left: 10px;
 }
 .profile-content{
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  margin-top: 20px;
   margin-bottom: 50px;
-  justify-content: center;
 }
 .icon-container {
   margin-right: 90px;
@@ -43,4 +46,9 @@
 }
 button.btn {
 text-align: center;
+}
+
+span.edit-delete-credit {
+  display: flex;
+  justify-content: space-evenly;
 }

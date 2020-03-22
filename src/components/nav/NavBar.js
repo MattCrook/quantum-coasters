@@ -20,7 +20,7 @@ const NavBar = () => {
         ) : null}
         {isAuthenticated ? (
           <li>
-            <Link className="nav-link" to="/profile">
+            <Link className="nav-link" to="/users">
               {" "}
               Profile{" "}
             </Link>

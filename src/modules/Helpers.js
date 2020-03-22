@@ -8,6 +8,7 @@ export function isEditCheck(props, messageToPost) {
   return messageToPost;
 }
 
+
 // handle submit for messages helper function logic (edit message function logic)
 export function handleSubmitHelperFunction(
   setLoading,
@@ -31,3 +32,15 @@ export function handleSubmitHelperFunction(
       .then(setLoading(false));
   };
 }
+
+
+// Helper function to wrap event.target.value when setting state to change. When user selects...
+// was putting number in Json server as string. 
+// This function type checks the input. Ex) Number("1") // 1
+export function formatInput(target) {
+  if (target.id === "parkId" || target.id === "manufacturerId" || target.id === "trackTypeId") {
+    return Number(target.value)
+  } else {
+    return target.value;
+  }
+};
