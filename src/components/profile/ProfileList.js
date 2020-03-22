@@ -4,6 +4,9 @@ import ApiManager from "../../modules/ApiManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { confirmAlert } from "react-confirm-alert";
 
+// const currentUser = sessionStorage.getItem()
+
+
 const ProfileList = props => {
   const { user } = useAuth0();
   const [userCredits, setUserCredits] = useState([]);
@@ -67,23 +70,50 @@ const ProfileList = props => {
       <div className="profile-container">
         <div className="profile-header-container">
           <div className="icon-container">
-            <span data-tooltip="BACK">
+            {/* <span data-tooltip="BACK">
               <i
                 className="big arrow circle left icon"
                 id="back-arrow-detail"
                 onClick={() => props.history.push("/home")}
-              ></i>
-            </span>
-            <span data-tooltip="ADD NEW CREDIT">
-              <i
+              ></i> 
+              </span> */}
+                {/* <span data-tooltip="ADD NEW CREDIT">
+                  <i
+                    className="big plus square outline icon"
+                    id="plusIcon"
+                    onClick={() => props.history.push("/profile/new")}
+                  ></i>
+                </span> */}
+
+              {/* <span className="profile-back-button">
+                <button
+                className="big arrow circle left icon"
+                id="back-arrow-detail"
+                onClick={() => props.history.push("/home")}
+              >BACK</button>
+            </span> */}
+
+             <span className="profile-add-new">
+              {/* <button
                 className="big plus square outline icon"
                 id="plusIcon"
                 onClick={() => props.history.push("/profile/new")}
-              ></i>
-            </span>
+              >ADD NEW CREDIT</button> */}
+            </span> 
+
           </div>
         </div>
         <section className="profile-content">
+        <button
+                className="big arrow circle left icon"
+                id="back-arrow-detail"
+                onClick={() => props.history.push("/home")}
+              >BACK</button>
+              <button
+                className="big plus square outline icon"
+                id="plusIcon"
+                onClick={() => props.history.push("/users/new")}
+              >ADD NEW CREDIT</button>
           <div className="profile-picture">
             {/* <img src={picUrl} alt="Profile Picture" /> */}
           </div>
@@ -92,7 +122,7 @@ const ProfileList = props => {
               {userProfile.first_name} {userProfile.last_name}
             </strong>
           </p>
-          <button
+          {/* <button
             type="button"
             className="btn"
             onClick={() => {
@@ -100,7 +130,7 @@ const ProfileList = props => {
             }}
           >
             Add New Credit
-          </button>
+          </button> */}
         </section>
         <p>
           <strong>Credits</strong>

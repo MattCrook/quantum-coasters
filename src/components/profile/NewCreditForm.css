@@ -56,12 +56,12 @@ justify-content: space-between;
   justify-content: flex-end;
 } */
 
-.formgrid {
+/* .formgrid {
   margin-top: 5%;
   width: 80%;
   display: flex;
   flex-direction: column;
-}
+} */
 
 /* .newCreditFormBtn {
 

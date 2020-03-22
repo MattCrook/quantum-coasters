@@ -26,14 +26,13 @@ const AddNewCreditForm = props => {
 
   const handleFieldChange = e => {
     const stateToChange = { ...credit };
-    stateToChange[e.target.id] = formatInput(e.target)
+    stateToChange[e.target.id] = formatInput(e.target);
     setCredit(stateToChange);
   };
 
   const createNewCredit = e => {
     e.preventDefault();
     isLoading(true);
-
 
     if (
       credit.name === "" ||
@@ -46,15 +45,11 @@ const AddNewCreditForm = props => {
       window.alert("Please fill out all fields in form");
     } else {
       isLoading(true);
-        ApiManager.postNewRollerCoaster(credit).then(() =>
-          props.history.push("/profile")
-        );
+      ApiManager.postNewRollerCoaster(credit).then(() =>
+        props.history.push("/profile")
+      );
     }
   };
-
-
-
-  // const result = formatInput(e.target.value);
 
   useEffect(() => {
     ApiManager.getAllManufacturers().then(manufacturers => {
@@ -70,14 +65,19 @@ const AddNewCreditForm = props => {
   }, []);
 
   return (
-    <>
+      <>
+    <section className="ride-not-found-section">
+    <button type="button" className="add-new-ride-btn" onClick={() => (props.history.push("/new/rollercoaster"))}
+    >Create New Roller Coaster</button>
+
+  </section>
       <div className="new-credit-form-container">
         <form>
           <div className="new-credit-icon-container">
             <i
               className="big arrow circle left icon"
               id="back-arrow-detail"
-              onClick={() => props.history.push("/profile")}
+              onClick={() => props.history.push("/users")}
             ></i>
           </div>
           <fieldset className="credit-form">
@@ -169,7 +169,6 @@ const AddNewCreditForm = props => {
                   id="manufacturerId"
                   value={credit.manufacturerId}
                   onChange={handleFieldChange}
-                  // onChange={(e) => setManufacturer(e.target.value)}
                 >
                   {manufacturers.map(manufacturer => (
                     <option key={manufacturer.id} value={manufacturer.id}>
@@ -193,6 +192,7 @@ const AddNewCreditForm = props => {
           </fieldset>
         </form>
       </div>
+
     </>
   );
 };

@@ -4,7 +4,7 @@ import { useAuth0 } from "../contexts/react-auth0-context";
 import ProfileList from "./profile/ProfileList";
 import LoginLandingPage from "./auth/Login";
 import Home from "./home/Home";
-import AddNewRollerCoaster from "./addNewForm/NewRollerCoaster";
+import NewRollerCoaster from "./addNewForm/NewRollerCoaster";
 import AddNewCreditForm from "./profile/NewCreditForm";
 
 const ApplicationViews = props => {
@@ -26,13 +26,6 @@ const ApplicationViews = props => {
           }
         }}
       />
-      {/* <Route
-        exact
-        path="/home"
-        render={props => {
-          return <Home {...props} />;
-        }}
-      /> */}
       <Route
         exact
         path="/"
@@ -40,16 +33,10 @@ const ApplicationViews = props => {
           return <LoginLandingPage {...props} />;
         }}
       />
-      {/* <Route
-        exact
-        path="/profile"
-        render={props => {
-          return <ProfileList {...props} />;
-        }}
-      /> */}
+
       <Route
         exact
-        path="/profile"
+        path="/users"
         render={props => {
           if (isAuthenticated === true) {
             return <ProfileList {...props} />;
@@ -58,7 +45,30 @@ const ApplicationViews = props => {
           }
         }}
       />
+
       <Route
+        exact
+        path="/users/new"
+        render={props => {
+          if (isAuthenticated === true) {
+            return <AddNewCreditForm {...props} />;
+          } else {
+            return <Redirect to="/" />;
+          }
+        }}
+      />
+      <Route
+        exact
+        path="/new/rollercoaster"
+        render={props => {
+          if (isAuthenticated === true) {
+            return <NewRollerCoaster {...props} />;
+          } else {
+            return <Redirect to="/" />;
+          }
+        }}
+      />
+      {/* <Route
         exact
         path="/rollerCoasterDetails"
         render={props => {
@@ -68,18 +78,25 @@ const ApplicationViews = props => {
             return <Redirect to="/" />;
           }
         }}
-      />
-      <Route
+      /> */}
+      {/* <Route
+          exact
+          path="/home"
+          render={props => {
+            return <Home {...props} />;
+          }}
+        /> */}
+      {/* <Route
         exact
-        path="/profile/new"
+        path="/rollerCoasterDetails"
         render={props => {
           if (isAuthenticated === true) {
-            return <AddNewCreditForm {...props} />;
+            return <AddNewRollerCoaster {...props} />;
           } else {
-            return <Redirect to="/"  />;
+            return <Redirect to="/" />;
           }
         }}
-      />
+      /> */}
     </React.Fragment>
   );
 };

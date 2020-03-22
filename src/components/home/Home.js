@@ -5,6 +5,7 @@ import { useAuth0 } from "../../contexts/react-auth0-context";
 
 const Home = () => {
   const { loading, user, logout } = useAuth0();
+  console.log(user);
 
   return (
     <header>

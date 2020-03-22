@@ -1,0 +1,25 @@
+.new-ride-form-back-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+  color: #ffa260;
+  transition: 0.25s;
+  background-color: hsl(228, 7%, 13%);
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 1em 2em;
+}
+.new-ride-form-back-button:hover,
+.new-ride-form-back-button:focus {
+  animation: pulse 1s;
+  box-shadow: 0 0 0 2em rgba(rgb(5, 3, 3), 0);
+  border-color: var(--hover);
+}
+
+/* button.new-ride-form-back-button {
+  justify-content: flex-end;
+  align-items: flex-end;
+} */
