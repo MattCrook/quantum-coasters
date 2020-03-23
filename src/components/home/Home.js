@@ -1,11 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "bulma/css/bulma.css";
 import { useAuth0 } from "../../contexts/react-auth0-context";
+import ApiManger from "../../modules/ApiManager";
+import { Link } from "react-router-dom";
 // import NavBar from "../nav/NavBar";
 
 const Home = () => {
   const { loading, user, logout } = useAuth0();
-  console.log(user);
+  const [userProfile, setUserProfile] = useState({});
+
+  const isProfileCompletedFetch = async user => {
+    try {
+      const userProfileFromAPI = await ApiManger.getUserProfile(user.email);
+      if (userProfileFromAPI.length > 0) {
+        setUserProfile(userProfileFromAPI[0]);
+      } else {
+        setUserProfile({});
+      }
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    isProfileCompletedFetch(user);
+  }, []);
 
   return (
     <header>
@@ -46,10 +63,24 @@ const Home = () => {
           </div>
         </div>
       </nav>
+
+      {!userProfile.id && (
+        <>
+          <div className="banner-for-complete-profile">
+            <h3>
+              Welcome! Please click the button below and complete your profile
+              to get started using Quantum {userProfile.id}
+            </h3>
+            <Link className="complete-profile-link" to="/profile/welcome">
+              Complete Profile
+            </Link>
+          </div>
+        </>
+      )}
       <div className="greeting">
         {!loading && user && (
           <>
-            <p>Hello {user.name}</p>
+            <p>Hello {user.nickname}</p>
           </>
         )}
       </div>
