@@ -2,11 +2,18 @@ import React from "react";
 import "./Profile.css";
 
 const ProfileCard = props => {
-  console.log("props", {props});
+  console.log("props", props.userProfile);
+  console.log("props.rollerCOaster.id", props.userProfile.id)
 
-  const picUrl = props.user.picture
+  const picUrl = props.user.picture;
   const username = props.username;
-  const userNickname = props.user.nickname
+  const userNickname = props.user.nickname;
+
+  // const userProfileCredits = () => {
+  //   props.userProfile.credits.map(credit => {
+  //     {key=credit.id}
+  //   })
+  // }
 
   return (
     <div className="profile-card">
@@ -66,12 +73,12 @@ const ProfileCard = props => {
             </button>
           </span>
           <span>
-            <button
-              className="delete-btn"
-              onClick={() => props.deleteCredit(props.rollerCoaster.id)}
-            >
-              Delete
-            </button>
+              <button
+                className="delete-btn"
+                onClick={() => props.deleteCredit(props.rollerCoaster.id)}
+              >
+                Delete
+              </button>
           </span>
         </section>
       </div>
