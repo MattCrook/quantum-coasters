@@ -14,7 +14,6 @@ const AddNewRollerCoaster = props => {
     max_speed: "",
     park: "",
     manufacturer: "",
-    userId: ""
   });
 
   // handle what user is typing in

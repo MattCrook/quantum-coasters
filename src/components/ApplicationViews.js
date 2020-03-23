@@ -7,7 +7,7 @@ import Home from "./home/Home";
 import NewRollerCoaster from "./addNewForm/NewRollerCoaster";
 import AddNewCreditForm from "./profile/NewCreditForm";
 import CreateAccount from "./auth/Register";
-// import EditCreditForm from "./profile/EditCreditForm";
+import EditCreditForm from "./profile/EditCreditForm";
 
 const ApplicationViews = props => {
   // console.log("props", props);
@@ -81,7 +81,7 @@ const ApplicationViews = props => {
           }
         }}
       />
-      {/* <Route
+      <Route
         path="/users/:creditId(\d+)/edit"
         render={props => {
           if (isAuthenticated) {
@@ -95,7 +95,7 @@ const ApplicationViews = props => {
             return <Redirect to="/login" />;
           }
         }}
-      /> */}
+      />
 
 
 

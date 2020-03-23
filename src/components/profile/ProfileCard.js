@@ -2,18 +2,10 @@ import React from "react";
 import "./Profile.css";
 
 const ProfileCard = props => {
-  console.log("props", props.userProfile);
-  console.log("props.rollerCOaster.id", props.userProfile.id)
 
-  const picUrl = props.user.picture;
-  const username = props.username;
-  const userNickname = props.user.nickname;
-
-  // const userProfileCredits = () => {
-  //   props.userProfile.credits.map(credit => {
-  //     {key=credit.id}
-  //   })
-  // }
+  // const picUrl = props.user.picture;
+  // const username = props.username;
+  // const userNickname = props.user.nickname;
 
   return (
     <div className="profile-card">
