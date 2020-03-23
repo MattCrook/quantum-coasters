@@ -1,6 +1,12 @@
 const remoteURL = "http://localhost:8200";
 
 const ApiManager = {
+  async getUserProfile(email) {
+    const resp = await fetch(`${remoteURL}/users?email=${email}`)
+    return await resp.json();
+  },
+
+
   async getRollerCoastersWithAllExpanded(id) {
     const resp = await fetch(
       `${remoteURL}/rollerCoasters/${id}?_expand=trackType&_expand=manufacturer&_expand=park`
@@ -13,7 +19,7 @@ const ApiManager = {
     return await resp.json();
   },
 
-  async post(newUser) {
+  async postNewUser(newUser) {
     const data = await fetch(`${remoteURL}/users`, {
       method: "POST",
       headers: {

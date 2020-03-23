@@ -8,7 +8,6 @@ import ApplicationViews from "./components/ApplicationViews";
 import history from "./utils/history";
 
 const App = () => {
-  // const { isAuthenticated, handleRedirectCallback, isLoading, user, loginWithRedirect, logout } = useAuth0();
   const { isAuthenticated, loading, user } = useAuth0();
 
   if (loading) {
@@ -19,7 +18,7 @@ const App = () => {
     <>
       <Router history={history}>
         <NavBar />
-        <ApplicationViews user={user} isAuthenticated={isAuthenticated} />
+        <ApplicationViews user={user} isAuthenticated={isAuthenticated} isLoading={loading} />
       </Router>
     </>
   );

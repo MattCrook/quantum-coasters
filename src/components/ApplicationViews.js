@@ -6,11 +6,12 @@ import LoginLandingPage from "./auth/Login";
 import Home from "./home/Home";
 import NewRollerCoaster from "./addNewForm/NewRollerCoaster";
 import AddNewCreditForm from "./profile/NewCreditForm";
+import CreateAccount from "./auth/Register";
 
 const ApplicationViews = props => {
   // console.log("props", props);
-  const [user, setUser] = useState(null);
-  const [userLoggedIn, setUserLoggedIn] = useState(false);
+  // const [user, setUser] = useState(null);
+  // const [userLoggedIn, setUserLoggedIn] = useState(false);
   const { isAuthenticated } = useAuth0();
 
   return (
@@ -63,6 +64,17 @@ const ApplicationViews = props => {
         render={props => {
           if (isAuthenticated === true) {
             return <NewRollerCoaster {...props} />;
+          } else {
+            return <Redirect to="/" />;
+          }
+        }}
+      />
+      <Route
+        exact
+        path="/profile/welcome"
+        render={props => {
+          if (isAuthenticated === true) {
+            return <CreateAccount {...props} />;
           } else {
             return <Redirect to="/" />;
           }

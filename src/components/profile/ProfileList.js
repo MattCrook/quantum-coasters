@@ -11,15 +11,19 @@ const ProfileList = props => {
   const { user } = useAuth0();
   const [userCredits, setUserCredits] = useState([]);
   const [userProfile, setUserProfile] = useState([]);
+  console.log({props});
 
-  const getUserCredits = async () => {
+  const getUserCredits = async (user) => {
     try {
-      const dataFromAPI = await ApiManager.getUser("1");
-      setUserProfile(dataFromAPI);
-      const rollerCoasterIds = dataFromAPI.credits.map(credit => {
+      const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
+      setUserProfile(userProfileFromAPI[0]);
+
+      console.log(userProfileFromAPI[0]);
+      const rollerCoasterIds = userProfileFromAPI[0].credits.map(credit => {
         const rollerCoasterId = credit.rollerCoasterId;
         return rollerCoasterId;
       });
+
       let promises = [];
       rollerCoasterIds.forEach(rollerCoasterId => {
         promises.push(
@@ -62,7 +66,7 @@ const ProfileList = props => {
   };
 
   useEffect(() => {
-    getUserCredits();
+    getUserCredits(user);
   }, []);
 
   return (
@@ -138,10 +142,11 @@ const ProfileList = props => {
         <div className="profile-container-card">
           {userCredits.map(rollerCoaster => (
             <ProfileCard
-              key={rollerCoaster.id}
+              key={userProfile.id}
               rollerCoaster={rollerCoaster}
               manufacturer={rollerCoaster.manufacturer}
-              currentUserProfile={user}
+              user={user}
+              // userProfile={userProfile}
               park={rollerCoaster.park}
               trackType={rollerCoaster.trackType}
               deleteCredit={deleteCredit}
