@@ -11,7 +11,7 @@ import EditCreditForm from "./profile/EditCreditForm";
 import MessageList from "./messages/Messages";
 
 const ApplicationViews = props => {
-  // console.log("props", props);
+  console.log("props", props);
   // const [user, setUser] = useState(null);
   // const [userLoggedIn, setUserLoggedIn] = useState(false);
   const { isAuthenticated } = useAuth0();
