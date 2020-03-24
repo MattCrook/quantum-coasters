@@ -6,6 +6,17 @@ const ApiManager = {
     return await resp.json();
   },
 
+  async postNewUser(newUser) {
+    const data = await fetch(`${remoteURL}/users`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newUser)
+    });
+    return await data.json();
+  },
+
   async getRollerCoastersWithAllExpanded(id) {
     const resp = await fetch(
       `${remoteURL}/rollerCoasters/${id}?_expand=trackType&_expand=manufacturer&_expand=park`
@@ -20,19 +31,30 @@ const ApiManager = {
     return await resp.json();
   },
 
-  async postNewUser(newUser) {
-    const data = await fetch(`${remoteURL}/users`, {
+  async postNewRollerCoaster(resource) {
+    const data = await fetch(`${remoteURL}/rollerCoasters`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(newUser)
+      body: JSON.stringify(resource)
     });
     return await data.json();
   },
 
-  async postNewRollerCoaster(resource) {
-    const data = await fetch(`${remoteURL}/rollerCoasters`, {
+  async postNewPark(resource) {
+    const data = await fetch(`${remoteURL}/parks`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(resource)
+    });
+    return await data.json();
+  },
+
+  async postNewManufacturer(resource) {
+    const data = await fetch(`${remoteURL}/manufacturers`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -112,10 +134,21 @@ const ApiManager = {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({credits})
+      body: JSON.stringify({ credits })
     });
     return await data.json();
   },
+
+  async postNewTrackType(resource) {
+    const data = await fetch(`${remoteURL}/trackTypes`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(resource)
+    });
+    return await data.json();
+  }
 
   // async deleteCredit(userId, object, property) {
   //   const data = await fetch(`${remoteURL}/users/${}`, {

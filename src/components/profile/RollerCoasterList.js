@@ -12,7 +12,7 @@ const RollerCoasterList = props => {
 
   const rollerCoastersFromAPI = async () => {
     const rollerCoastersData = await ApiManager.getAllRollerCoastersWithAllExpanded();
-    console.log(rollerCoastersData);
+    console.log("rollerCoastersData", rollerCoastersData);
     setRollerCoasters(rollerCoastersData);
   };
 

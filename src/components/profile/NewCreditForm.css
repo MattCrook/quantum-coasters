@@ -114,14 +114,8 @@ justify-content: space-between;
   flex-direction: row;
   justify-content: flex-end;
   align-items: flex-end;
-  color: #ffa260;
   transition: 0.25s;
-  background-color: hsl(228, 7%, 13%);
-  border: 2px solid;
-  font: inherit;
-  line-height: 1;
-  margin: 0.5em;
-  padding: 1em 2em;
+  border: 2px solid black;
 }
 
 .newCredit-form-fields {
