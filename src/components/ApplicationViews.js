@@ -8,6 +8,7 @@ import NewRollerCoaster from "./addNewForm/NewRollerCoaster";
 import AddNewCreditForm from "./profile/NewCreditForm";
 import CreateAccount from "./auth/Register";
 import EditCreditForm from "./profile/EditCreditForm";
+import MessageList from "./messages/Messages";
 
 const ApplicationViews = props => {
   // console.log("props", props);
@@ -96,10 +97,22 @@ const ApplicationViews = props => {
           }
         }}
       />
-
-
-
-
+      <Route
+        exact
+        path="/messages/:userId(\d+)"
+        render={props => {
+          if (isAuthenticated) {
+            return (
+              <MessageList
+                userId={parseInt(props.match.params.userId)}
+                {...props}
+              />
+            );
+          } else {
+            return <Redirect to="/login" />;
+          }
+        }}
+      />
 
       {/* <Route
         exact

@@ -4,28 +4,33 @@ import MessageCard from "./MessageCard";
 import MessageForm from "./MessageForm";
 import "./Messages.css";
 
-const MessageList = ({ message }) => {
+const MessageList = (props) => {
+  const userId = props.userId;
   const [messages, setMessages] = useState([]);
+  console.log(props);
+  console.log(props.userId)
   const [messageToEdit, setMessageToEdit] = useState({
     text: "",
     userId: 0,
     timestamp: ""
   });
 
+  const getMessages = async () => {
+    const messagesFromAPI = await ApiManager.getAllMessages();
+    console.log("messagesFromAPI", messagesFromAPI)
+    setMessages(messagesFromAPI);
+  };
+
   useEffect(() => {
-    const getMessages = async () => {
-      const messagesFromAPI = await ApiManager.getAllMessages();
-      setMessages(messagesFromAPI);
-    };
     getMessages();
-  }, [message, setMessages]);
+  }, []);
 
   return (
     <>
       <div className="chat-wrapper">
         <div className="chat-fixed-height-container">
           <div id="chat-headerContainer">
-            <h1>CḦÂṪ</h1>
+            <h1>Forum</h1>
           </div>
           <div className="chat-ScrollToBottom">
             <div className="message-container-cards">
@@ -40,6 +45,8 @@ const MessageList = ({ message }) => {
                     key={message.id}
                     message={message}
                     setMessageToEdit={setMessageToEdit}
+                    userId={userId}
+                    {...props}
                   />
                 ))}
             </div>
@@ -49,7 +56,7 @@ const MessageList = ({ message }) => {
               // getMessages={getMessages}
               messageToEdit={messageToEdit}
               setMessageToEdit={setMessageToEdit}
-              // {...props}
+              {...props}
             />
           </div>
         </div>
