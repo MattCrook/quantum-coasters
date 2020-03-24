@@ -6,29 +6,28 @@ import { confirmAlert } from "react-confirm-alert";
 
 // const currentUser = sessionStorage.getItem()
 
-
 const ProfileList = props => {
-  const { user } = useAuth0();
+  const { user, logout } = useAuth0();
   const [userCredits, setUserCredits] = useState([]);
   const [userProfile, setUserProfile] = useState([]);
-  console.log({props});
+  console.log({ userProfile });
+  console.log("userCredits", userCredits);
 
-  const getUserCredits = async (user) => {
+  const getUserCredits = async user => {
     try {
       const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
       setUserProfile(userProfileFromAPI[0]);
 
       console.log(userProfileFromAPI[0]);
       const rollerCoasterIds = userProfileFromAPI[0].credits.map(credit => {
-        const rollerCoasterId = credit.rollerCoasterId;
-        return rollerCoasterId;
+        const creditId = credit.rollerCoasterId;
+        console.log(creditId);
+        return creditId;
       });
 
       let promises = [];
-      rollerCoasterIds.forEach(rollerCoasterId => {
-        promises.push(
-          ApiManager.getRollerCoastersWithAllExpanded(rollerCoasterId)
-        );
+      rollerCoasterIds.forEach(creditId => {
+        promises.push(ApiManager.getRollerCoastersWithAllExpanded(creditId));
       });
       Promise.all(promises).then(data => {
         console.log("result", data);
@@ -39,7 +38,7 @@ const ProfileList = props => {
     }
   };
 
-  const deleteCredit = id => {
+  const deleteUserProfile = id => {
     try {
       confirmAlert({
         title: "Confirm to delete",
@@ -47,12 +46,7 @@ const ProfileList = props => {
         buttons: [
           {
             label: "Yes",
-            onClick: () =>
-              ApiManager.deleteCredit(id).then(() => {
-                ApiManager.getAllRollerCoastersWithUserId(user.id).then(
-                  setUserCredits
-                );
-              })
+            onClick: () => ApiManager.deleteUserProfile(id).then(() => logout())
           },
           {
             label: "No",
@@ -81,7 +75,7 @@ const ProfileList = props => {
                 onClick={() => props.history.push("/home")}
               ></i> 
               </span> */}
-                {/* <span data-tooltip="ADD NEW CREDIT">
+            {/* <span data-tooltip="ADD NEW CREDIT">
                   <i
                     className="big plus square outline icon"
                     id="plusIcon"
@@ -89,7 +83,7 @@ const ProfileList = props => {
                   ></i>
                 </span> */}
 
-              {/* <span className="profile-back-button">
+            {/* <span className="profile-back-button">
                 <button
                 className="big arrow circle left icon"
                 id="back-arrow-detail"
@@ -97,27 +91,30 @@ const ProfileList = props => {
               >BACK</button>
             </span> */}
 
-             <span className="profile-add-new">
+            <span className="profile-add-new">
               {/* <button
                 className="big plus square outline icon"
                 id="plusIcon"
                 onClick={() => props.history.push("/profile/new")}
               >ADD NEW CREDIT</button> */}
-            </span> 
-
+            </span>
           </div>
         </div>
         <section className="profile-content">
-        <button
-                className="big arrow circle left icon"
-                id="back-arrow-detail"
-                onClick={() => props.history.push("/home")}
-              >BACK</button>
-              <button
-                className="big plus square outline icon"
-                id="plusIcon"
-                onClick={() => props.history.push("/users/new")}
-              >ADD NEW CREDIT</button>
+          <button
+            className="big arrow circle left icon"
+            id="back-arrow-detail"
+            onClick={() => props.history.push("/home")}
+          >
+            BACK
+          </button>
+          <button
+            className="big plus square outline icon"
+            id="plusIcon"
+            onClick={() => props.history.push("/users/new")}
+          >
+            ADD NEW CREDIT
+          </button>
           <div className="profile-picture">
             {/* <img src={picUrl} alt="Profile Picture" /> */}
           </div>
@@ -126,6 +123,12 @@ const ProfileList = props => {
               {userProfile.first_name} {userProfile.last_name}
             </strong>
           </p>
+          <button
+            className="delete-profile-button"
+            onClick={() => deleteUserProfile(userProfile.id)}
+          >
+            Delete Profile
+          </button>
           {/* <button
             type="button"
             className="btn"
@@ -142,14 +145,14 @@ const ProfileList = props => {
         <div className="profile-container-card">
           {userCredits.map(rollerCoaster => (
             <ProfileCard
-              key={userProfile.id}
+              key={rollerCoaster.id}
+              userProfile={userProfile}
               rollerCoaster={rollerCoaster}
               manufacturer={rollerCoaster.manufacturer}
               user={user}
-              // userProfile={userProfile}
               park={rollerCoaster.park}
               trackType={rollerCoaster.trackType}
-              deleteCredit={deleteCredit}
+              // deleteCredit={deleteCredit}
               {...props}
             />
           ))}

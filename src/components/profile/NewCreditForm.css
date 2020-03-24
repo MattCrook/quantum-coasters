@@ -1,21 +1,15 @@
-/* .newsCardContent {
-  margin: 50px 90px 0 90px;
-} */
-
-.credit-form {
+/* .credit-form {
   margin: 30px 0 0 25px;
   border: 0;
 }
 
 .icon-container {
   margin-right: 90px;
-}
+} */
 
 /***************/
 
-
-
-.new-credit-form-container {
+/* .new-credit-form-container {
   display: flex;
   justify-content: center;
   padding: 5%;
@@ -44,7 +38,7 @@ justify-content: space-between;
 #back-arrow-detail:hover{
   opacity: 0.8;
   cursor: pointer;
-}
+} */
 
 /* #detail-photo{
   max-width: 300px;
@@ -67,8 +61,129 @@ justify-content: space-between;
 
 } */
 
-@media only screen and (max-width: 800px) {
+/* @media only screen and (max-width: 800px) {
   #detail-photo{
       max-width: 100px;
   }
+} */
+
+/* body {
+  background: url("https://images.unsplash.com/photo-1570751485906-b0bbe415db74?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ");
+  background-size: cover;
+} */
+
+/********* new styles ********/
+
+.banner h3 {
+  display: flex;
+  justify-content: center;
+}
+.newCredit-credit-form {
+  width: 100%;
+  height: 100vh;
+  /* background: rgba(0, 0, 0, 0.2); */
+  display: flex;
+  justify-content: flex-end;
+}
+
+.mx-auto {
+  margin: 0 auto;
+}
+
+.newCredit-formgrid {
+  /* width: 600px;
+  min-height: 50%; */
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 1));
+  padding: 10px;
+  border-radius: 15px;
+  box-shadow: 3px 3px 1px solid;
+  justify-content: center;
+  align-items: center;
+  max-height: 600px;
+}
+
+.newCredit-form-back-button {
+  color: black;
+  margin: 30px;
+  text-align: center;
+  border: solid 2px black;
+}
+
+.add-new-ride-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+  color: #ffa260;
+  transition: 0.25s;
+  background-color: hsl(228, 7%, 13%);
+  border: 2px solid;
+  font: inherit;
+  line-height: 1;
+  margin: 0.5em;
+  padding: 1em 2em;
+}
+
+.newCredit-form-fields {
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.form-control {
+  padding: 4px;
+  margin: 10px;
+  border-radius: 10px;
+  border: 0;
+  background: #222;
+  box-shadow: 1px 1px 3px #000;
+  color: #fff;
+  width: 80%;
+  justify-content: space-between;
+}
+
+.newCredit-form-fields > div > label {
+  color: #fff;
+  /* font-size: 130%;
+    line-height: 160%;  */
+  text-align: left;
+}
+
+.newCredit-submit {
+  align-items: flex-end;
+  margin-top: 40px;
+}
+
+.newCredit-submit button {
+  width: 100%;
+}
+
+.button:hover {
+  animation: fadein 1s both;
+}
+
+@keyframes fadein {
+  0% {
+    background: #222;
+  }
+  100% {
+    background: #ffa260;
+  }
+}
+
+/*************  Roller Coaster List *****************/
+
+.roller-coaster-list-container {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.list-items-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.add-credit-button {
+border: 1px solid black;
+
 }

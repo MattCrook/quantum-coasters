@@ -7,9 +7,11 @@ import Home from "./home/Home";
 import NewRollerCoaster from "./addNewForm/NewRollerCoaster";
 import AddNewCreditForm from "./profile/NewCreditForm";
 import CreateAccount from "./auth/Register";
+import EditCreditForm from "./profile/EditCreditForm";
+import MessageList from "./messages/Messages";
 
 const ApplicationViews = props => {
-  // console.log("props", props);
+  console.log("props", props);
   // const [user, setUser] = useState(null);
   // const [userLoggedIn, setUserLoggedIn] = useState(false);
   const { isAuthenticated } = useAuth0();
@@ -42,7 +44,7 @@ const ApplicationViews = props => {
           if (isAuthenticated === true) {
             return <ProfileList {...props} />;
           } else {
-            return <Redirect to="/" component={LoginLandingPage} />;
+            return <Redirect to="/" />;
           }
         }}
       />
@@ -80,6 +82,38 @@ const ApplicationViews = props => {
           }
         }}
       />
+      <Route
+        path="/users/:creditId(\d+)/edit"
+        render={props => {
+          if (isAuthenticated) {
+            return (
+              <EditCreditForm
+                creditId={parseInt(props.match.params.creditId)}
+                {...props}
+              />
+            );
+          } else {
+            return <Redirect to="/login" />;
+          }
+        }}
+      />
+      <Route
+        exact
+        path="/messages/:userId(\d+)"
+        render={props => {
+          if (isAuthenticated) {
+            return (
+              <MessageList
+                userId={parseInt(props.match.params.userId)}
+                {...props}
+              />
+            );
+          } else {
+            return <Redirect to="/login" />;
+          }
+        }}
+      />
+
       {/* <Route
         exact
         path="/rollerCoasterDetails"

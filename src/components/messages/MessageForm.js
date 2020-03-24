@@ -18,7 +18,7 @@ const MessageForm = props => {
     if (message === "") {
       window.alert("Please input a post");
     } else {
-      setLoading(true);
+      // setLoading(true);
 
       const messageToPost = {
         userId: parseInt(user.id),
@@ -30,6 +30,7 @@ const MessageForm = props => {
       // userId doesn't need to change because users
       // will not have a button to edit other users' messages
 
+      
       // this function was extracted to module scope (in helpers directory)
       return isEditCheck(props, messageToPost);
     }
@@ -63,8 +64,8 @@ const MessageForm = props => {
       // (which happens when the edit button is clicked)
       document.getElementById("message").value = props.messageToEdit.message;
     }
-    setLoading(false);
-  }, [props.messageToEdit, setLoading]); // not sure about the [setLoading]
+    // setLoading(false);
+  }, [props.messageToEdit]); // not sure about the [setLoading]
 
   return (
     <>

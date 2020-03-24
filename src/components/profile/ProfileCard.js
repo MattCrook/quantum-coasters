@@ -2,11 +2,10 @@ import React from "react";
 import "./Profile.css";
 
 const ProfileCard = props => {
-  console.log("props", {props});
 
-  const picUrl = props.user.picture
-  const username = props.username;
-  const userNickname = props.user.nickname
+  // const picUrl = props.user.picture;
+  // const username = props.username;
+  // const userNickname = props.user.nickname;
 
   return (
     <div className="profile-card">
@@ -66,12 +65,12 @@ const ProfileCard = props => {
             </button>
           </span>
           <span>
-            <button
-              className="delete-btn"
-              onClick={() => props.deleteCredit(props.rollerCoaster.id)}
-            >
-              Delete
-            </button>
+              <button
+                className="delete-btn"
+                onClick={() => props.deleteCredit(props.rollerCoaster.id)}
+              >
+                Delete
+              </button>
           </span>
         </section>
       </div>

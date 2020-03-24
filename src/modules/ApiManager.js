@@ -2,10 +2,9 @@ const remoteURL = "http://localhost:8200";
 
 const ApiManager = {
   async getUserProfile(email) {
-    const resp = await fetch(`${remoteURL}/users?email=${email}`)
+    const resp = await fetch(`${remoteURL}/users?email=${email}`);
     return await resp.json();
   },
-
 
   async getRollerCoastersWithAllExpanded(id) {
     const resp = await fetch(
@@ -14,8 +13,10 @@ const ApiManager = {
     return await resp.json();
   },
 
-  async getUser(id) {
-    const resp = await fetch(`${remoteURL}/users/${id}`);
+  async getAllRollerCoastersWithAllExpanded() {
+    const resp = await fetch(
+      `${remoteURL}/rollerCoasters?_expand=trackType&_expand=manufacturer&_expand=park`
+    );
     return await resp.json();
   },
 
@@ -97,7 +98,35 @@ const ApiManager = {
       body: JSON.stringify(newObject)
     });
     return await data.json();
-  }
+  },
+  async deleteUserProfile(id) {
+    const result = await fetch(`${remoteURL}/users/${id}`, {
+      method: "DELETE"
+    });
+    return await result.json();
+  },
+
+  async addCredit(id, credits) {
+    const data = await fetch(`${remoteURL}/users/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({credits})
+    });
+    return await data.json();
+  },
+
+  // async deleteCredit(userId, object, property) {
+  //   const data = await fetch(`${remoteURL}/users/${}`, {
+  //     method: "PATCH",
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify()
+  //   });
+  //   return await data.json();
+  // },
 };
 
 export default ApiManager;
