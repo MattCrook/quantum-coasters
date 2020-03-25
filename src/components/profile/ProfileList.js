@@ -10,18 +10,16 @@ const ProfileList = props => {
   const { user, logout } = useAuth0();
   const [userCredits, setUserCredits] = useState([]);
   const [userProfile, setUserProfile] = useState([]);
-  console.log({ userProfile });
-  console.log("userCredits", userCredits);
+  // console.log({ userProfile });
+  // console.log("userCredits", userCredits);
 
   const getUserCredits = async user => {
     try {
       const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
       setUserProfile(userProfileFromAPI[0]);
-
-      console.log(userProfileFromAPI[0]);
       const rollerCoasterIds = userProfileFromAPI[0].credits.map(credit => {
         const creditId = credit.rollerCoasterId;
-        console.log(creditId);
+        console.log("rollerCoaster creditID of user", creditId);
         return creditId;
       });
 
@@ -30,7 +28,6 @@ const ProfileList = props => {
         promises.push(ApiManager.getRollerCoastersWithAllExpanded(creditId));
       });
       Promise.all(promises).then(data => {
-        console.log("result", data);
         setUserCredits(data);
       });
     } catch (error) {

@@ -4,7 +4,7 @@ import ApiManager from "../../modules/ApiManager";
 import "./Messages.css";
 
 const MessageCard = ({ message }) => {
-  console.log({ message });
+  // console.log({ message });
 
   const { user } = useAuth0();
   const username = user.nickname;
@@ -22,7 +22,7 @@ const MessageCard = ({ message }) => {
     try {
       const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
       setUserProfile(userProfileFromAPI[0]);
-      console.log(userProfileFromAPI);
+      // console.log(userProfileFromAPI);
     } catch (error) {
       console.log(error);
     }

@@ -14,54 +14,83 @@ const AddNewCreditForm = props => {
   const [trackTypes, setTrackTypes] = useState([]);
   const [parks, setParks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [userProfile, setUserProfile] = useState([]);
+  const [credits, setCredits] = useState([]);
 
-  const [credit, setCredit] = useState({
-    name: "",
-    trackTypeId: "",
-    max_height: "",
-    max_speed: "",
-    parkId: "",
-    manufacturerId: "",
-    userId: ""
-  });
+  // const currentUserProfile = async user => {
+  //   const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
+  //   setUserProfile(userProfileFromAPI[0]);
+  // };
+  // const matchUserCreditsToRollerCoasterList = async () => {
+  //   const creditsArray = userProfile.credits;
+  //   creditsArray.forEach(credit => {
+  //     const rollerCoasterIdFromUserProfile = credit.rollerCoasterId;
+  //     setCredits(rollerCoasterIdFromUserProfile);
+  //   });
+  // };
 
-  const handleFieldChange = e => {
-    const stateToChange = { ...credit };
-    stateToChange[e.target.id] = formatInput(e.target);
-    setCredit(stateToChange);
+  const currentUserProfileCredits = async user => {
+    const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
+    setUserProfile(userProfileFromAPI[0]);
+    const creditsArray = userProfileFromAPI[0].credits;
+    creditsArray.map(credit => {
+      const rollerCoasterIdFromUserProfile = credit.rollerCoasterId;
+      setCredits(rollerCoasterIdFromUserProfile);
+      return rollerCoasterIdFromUserProfile;
+    });
   };
 
-  const createNewCredit = e => {
-    e.preventDefault();
-    setIsLoading(true);
-    if (
-      credit.name === "" ||
-      credit.trackType === "" ||
-      credit.max_height === "" ||
-      credit.max_speed === "" ||
-      credit.manufacturer === "" ||
-      credit.park === ""
-    ) {
-      window.alert("Please fill out all fields in form");
-    } else {
-      setIsLoading(true);
-      ApiManager.postNewRollerCoaster(credit).then(() =>
-        props.history.push("/profile")
-      );
-    }
-  };
+  // const [credit, setCredit] = useState({
+  //   name: "",
+  //   trackTypeId: "",
+  //   max_height: "",
+  //   max_speed: "",
+  //   parkId: "",
+  //   manufacturerId: "",
+  //   userId: ""
+  // });
+
+  // const handleFieldChange = e => {
+  //   const stateToChange = { ...credit };
+  //   stateToChange[e.target.id] = formatInput(e.target);
+  //   setCredit(stateToChange);
+  // };
+
+  // const createNewCredit = e => {
+  //   e.preventDefault();
+  //   setIsLoading(true);
+  //   if (
+  //     credit.name === "" ||
+  //     credit.trackType === "" ||
+  //     credit.max_height === "" ||
+  //     credit.max_speed === "" ||
+  //     credit.manufacturer === "" ||
+  //     credit.park === ""
+  //   ) {
+  //     window.alert("Please fill out all fields in form");
+  //   } else {
+  //     setIsLoading(true);
+  //     ApiManager.postNewRollerCoaster(credit).then(() =>
+  //       props.history.push("/profile")
+  //     );
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   ApiManager.getAllManufacturers().then(manufacturers => {
+  //     ApiManager.getTrackTypes().then(trackTypes => {
+  //       ApiManager.getParks().then(parks => {
+  //         setManufacturers(manufacturers);
+  //         setTrackTypes(trackTypes);
+  //         setParks(parks);
+  //         setIsLoading(false);
+  //       });
+  //     });
+  //   });
+  // }, []);
 
   useEffect(() => {
-    ApiManager.getAllManufacturers().then(manufacturers => {
-      ApiManager.getTrackTypes().then(trackTypes => {
-        ApiManager.getParks().then(parks => {
-          setManufacturers(manufacturers);
-          setTrackTypes(trackTypes);
-          setParks(parks);
-          setIsLoading(false);
-        });
-      });
-    });
+    currentUserProfileCredits(user);
   }, []);
 
   return (
@@ -90,7 +119,11 @@ const AddNewCreditForm = props => {
         </button>
       </div>
       <div className="rollerCoaster-list-to-add-credits">
-      <RollerCoasterList {...props}/>
+        <RollerCoasterList
+          userProfile={userProfile}
+          currentUserProfileCredits={credits}
+          {...props}
+        />
       </div>
       <form className="newCredit-credit-form">
         {/* <div className="edit-credit-icon-container">
@@ -111,12 +144,10 @@ const AddNewCreditForm = props => {
                   cols="80"
                   required
                   className="form-control"
-                  onChange={handleFieldChange}
+                  // onChange={handleFieldChange}
                   id="name"
-                  value={credit.name}
-                >
-              
-                </select>
+                  // value={credit.name}
+                ></select>
               </p>
             </div>
             <div>
@@ -125,8 +156,8 @@ const AddNewCreditForm = props => {
                 className="form-control"
                 required
                 id="trackTypeId"
-                value={credit.trackTypeId}
-                onChange={handleFieldChange}
+                // value={credit.trackTypeId}
+                // onChange={handleFieldChange}
               >
                 {trackTypes.map(trackType => (
                   <option key={trackType.id} value={trackType.id}>
@@ -144,9 +175,9 @@ const AddNewCreditForm = props => {
                   cols="40"
                   required
                   className="form-control"
-                  onChange={handleFieldChange}
+                  // onChange={handleFieldChange}
                   id="max_height"
-                  value={credit.max_height}
+                  // value={credit.max_height}
                 />
               </p>
             </div>
@@ -159,9 +190,9 @@ const AddNewCreditForm = props => {
                   cols="40"
                   required
                   className="form-control"
-                  onChange={handleFieldChange}
+                  // onChange={handleFieldChange}
                   id="max_speed"
-                  value={credit.max_speed}
+                  // value={credit.max_speed}
                 />
               </p>
             </div>
@@ -171,9 +202,9 @@ const AddNewCreditForm = props => {
                 <select
                   required
                   className="form-control"
-                  onChange={handleFieldChange}
+                  // onChange={handleFieldChange}
                   id="parkId"
-                  value={credit.parkId}
+                  // value={credit.parkId}
                 >
                   {parks.map(park => (
                     <option key={park.id} value={park.id}>
@@ -189,8 +220,8 @@ const AddNewCreditForm = props => {
                 className="form-control"
                 required
                 id="manufacturerId"
-                value={credit.manufacturerId}
-                onChange={handleFieldChange}
+                // value={credit.manufacturerId}
+                // onChange={handleFieldChange}
               >
                 {manufacturers.map(manufacturer => (
                   <option key={manufacturer.id} value={manufacturer.id}>
@@ -204,7 +235,7 @@ const AddNewCreditForm = props => {
             <button
               type="button"
               disabled={isLoading}
-              onClick={createNewCredit}
+              // onClick={createNewCredit}
               id="editCreditFormBtn"
               className="ui blue basic button"
             >

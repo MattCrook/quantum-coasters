@@ -7,8 +7,8 @@ import "./Messages.css";
 const MessageList = (props) => {
   const userId = props.userId;
   const [messages, setMessages] = useState([]);
-  console.log(props);
-  console.log(props.userId)
+  // console.log(props);
+  // console.log(props.userId)
   const [messageToEdit, setMessageToEdit] = useState({
     text: "",
     userId: 0,
@@ -17,7 +17,7 @@ const MessageList = (props) => {
 
   const getMessages = async () => {
     const messagesFromAPI = await ApiManager.getAllMessages();
-    console.log("messagesFromAPI", messagesFromAPI)
+    // console.log("messagesFromAPI", messagesFromAPI)
     setMessages(messagesFromAPI);
   };
 
