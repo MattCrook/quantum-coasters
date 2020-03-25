@@ -15,7 +15,6 @@ const RollerCoasterList = props => {
   // function to populate entire list of rollerCoasters in database
   const rollerCoastersFromAPI = async () => {
     const rollerCoastersData = await ApiManager.getAllRollerCoastersWithAllExpanded();
-    console.log("here", rollerCoastersData);
     setRollerCoasters(rollerCoastersData);
   };
 
@@ -46,7 +45,6 @@ const RollerCoasterList = props => {
       credits.push({ rollerCoasterId });
       const id = user.id;
       ApiManager.addCredit(id, credits).then(credits => {
-        console.log("credits2", credits);
         ApiManager.getUserProfile(user.email).then(user => {
           user = user[0];
           let creditsArray = user.credits;

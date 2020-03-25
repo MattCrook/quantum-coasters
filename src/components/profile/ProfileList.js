@@ -9,9 +9,9 @@ import { confirmAlert } from "react-confirm-alert";
 const ProfileList = props => {
   const { user, logout } = useAuth0();
   const [userCredits, setUserCredits] = useState([]);
-  const [userProfile, setUserProfile] = useState([]);
-  // console.log({ userProfile });
-  // console.log("userCredits", userCredits);
+  const [userProfile, setUserProfile] = useState({});
+  console.log({ userProfile });
+  console.log("userCredits", userCredits);
 
   const getUserCredits = async user => {
     try {
@@ -19,7 +19,6 @@ const ProfileList = props => {
       setUserProfile(userProfileFromAPI[0]);
       const rollerCoasterIds = userProfileFromAPI[0].credits.map(credit => {
         const creditId = credit.rollerCoasterId;
-        console.log("rollerCoaster creditID of user", creditId);
         return creditId;
       });
 
@@ -44,6 +43,39 @@ const ProfileList = props => {
           {
             label: "Yes",
             onClick: () => ApiManager.deleteUserProfile(id).then(() => logout())
+          },
+          {
+            label: "No",
+            onClick: () => ""
+          }
+        ]
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteCredit = rollerCoasterId => {
+    try {
+      confirmAlert({
+        title: "Confirm to delete",
+        message: "Are you sure you want to delete this?",
+        buttons: [
+          {
+            label: "Yes",
+            onClick: () => {
+              ApiManager.getUserProfile(user.email).then(user => {
+                user = user[0];
+                let credits = user.credits;
+                const userId = user.id;
+                const filteredCredits = credits.filter(credit => credit.rollerCoasterId !== rollerCoasterId);
+                ApiManager.deleteCredit(userId, filteredCredits).then(
+                  response => {
+                    setUserProfile(response);
+                  }
+                );
+              });
+            }
           },
           {
             label: "No",
@@ -149,7 +181,7 @@ const ProfileList = props => {
               user={user}
               park={rollerCoaster.park}
               trackType={rollerCoaster.trackType}
-              // deleteCredit={deleteCredit}
+              deleteCredit={deleteCredit}
               {...props}
             />
           ))}
