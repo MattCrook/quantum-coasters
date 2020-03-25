@@ -99,14 +99,13 @@ const ApplicationViews = props => {
       />
       <Route
         exact
-        // path="/messages/:userId(\d+)"
-        path="/messages"
-
+        path="/messages/:userId(\d+)"
+        // path="/messages"
         render={props => {
           if (isAuthenticated) {
             return (
               <MessageList
-                // userId={parseInt(props.match.params.userId)}
+                userId={parseInt(props.match.params.userId)}
                 {...props}
               />
             );

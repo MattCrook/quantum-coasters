@@ -175,14 +175,3 @@ const ApiManager = {
 };
 
 export default ApiManager;
-
-// async deleteCredit(userId, object, property) {
-//   const data = await fetch(`${remoteURL}/users/${}`, {
-//     method: "PATCH",
-//     headers: {
-//       "Content-Type": "application/json"
-//     },
-//     body: JSON.stringify()
-//   });
-//   return await data.json();
-// },

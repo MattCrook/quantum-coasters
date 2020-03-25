@@ -10,28 +10,28 @@ export function isEditCheck(props, messageToPost) {
 
 
 // handle submit for messages helper function logic (edit message function logic)
-export function handleSubmitHelperFunction(
-  setLoading,
-  constructNewMessage,
-  props,
-  postEditedMessage
-) {
-  return e => {
-    setLoading(true);
-    e.preventDefault();
-    e.stopPropagation();
-    const constructedMessage = constructNewMessage(e);
-    // Clears the form upon submission
-    e.target.reset();
-    // Defaults the messageToEdit state
-    // so it doesn't continue "editing" on subsequent sends
-    props.setMessageToEdit({ text: "", userId: 0, timestamp: "" });
-    postEditedMessage(constructedMessage)
-      // Gets the messages again and re-renders
-      .then(props.getMessages)
-      .then(setLoading(false));
-  };
-}
+// export function handleSubmitHelperFunction(
+//   setLoading,
+//   constructNewMessage,
+//   props,
+//   postEditedMessage,
+// ) {
+//   return e => {
+//     setLoading(true);
+//     e.preventDefault();
+//     e.stopPropagation();
+//     const constructedMessage = constructNewMessage(e);
+//     // Clears the form upon submission
+//     e.target.reset();
+//     // Defaults the messageToEdit state
+//     // so it doesn't continue "editing" on subsequent sends
+//     props.setMessageToEdit({ text: "", userId: 0, timestamp: "" });
+//     postEditedMessage(constructedMessage)
+//       // Gets the messages again and re-renders
+//       .then(props.getMessages)
+//       .then(setLoading(false));
+//   };
+// }
 
 
 // Helper function to wrap event.target.value when setting state to change. When user selects...

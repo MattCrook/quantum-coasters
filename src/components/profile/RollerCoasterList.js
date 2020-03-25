@@ -11,7 +11,7 @@ const RollerCoasterList = props => {
   const [userProfile, setUserProfile] = useState({});
   const [credits, setCredits] = useState([]);
 
-  
+
   // function to populate entire list of rollerCoasters in database
   const rollerCoastersFromAPI = async () => {
     const rollerCoastersData = await ApiManager.getAllRollerCoastersWithAllExpanded();

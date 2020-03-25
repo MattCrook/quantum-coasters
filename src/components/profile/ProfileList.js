@@ -4,14 +4,10 @@ import ApiManager from "../../modules/ApiManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { confirmAlert } from "react-confirm-alert";
 
-// const currentUser = sessionStorage.getItem()
-
 const ProfileList = props => {
   const { user, logout } = useAuth0();
   const [userCredits, setUserCredits] = useState([]);
   const [userProfile, setUserProfile] = useState({});
-  console.log({ userProfile });
-  console.log("userCredits", userCredits);
 
   const getUserCredits = async user => {
     try {
@@ -68,7 +64,9 @@ const ProfileList = props => {
                 user = user[0];
                 let credits = user.credits;
                 const userId = user.id;
-                const filteredCredits = credits.filter(credit => credit.rollerCoasterId !== rollerCoasterId);
+                const filteredCredits = credits.filter(
+                  credit => credit.rollerCoasterId !== rollerCoasterId
+                );
                 ApiManager.deleteCredit(userId, filteredCredits).then(
                   response => {
                     setUserProfile(response);
@@ -168,7 +166,7 @@ const ProfileList = props => {
             Add New Credit
           </button> */}
         </section>
-        <p>
+        <p className="credits-title">
           <strong>Credits</strong>
         </p>
         <div className="profile-container-card">
