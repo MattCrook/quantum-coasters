@@ -1,4 +1,4 @@
-.new-ride-form-back-button {
+/* .new-ride-form-back-button {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -11,7 +11,7 @@
   line-height: 1;
   margin: 0.5em;
   padding: 1em 2em;
-}
+} */
 .new-ride-form-back-button:hover,
 .new-ride-form-back-button:focus {
   animation: pulse 1s;
@@ -23,3 +23,17 @@
   justify-content: flex-end;
   align-items: flex-end;
 } */
+
+.new-ride-form-back-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+  transition: 0.25s;
+  border: 2px solid black;
+
+}
+
+.create-new-rollerCoaster-btn {
+  border: 2px solid black;
+}

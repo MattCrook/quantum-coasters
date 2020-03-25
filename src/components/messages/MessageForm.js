@@ -4,8 +4,9 @@ import { isEditCheck, handleSubmitHelperFunction } from "../../modules/Helpers";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 
 const MessageForm = props => {
-  const { loading, setLoading, user } = useAuth0();
-
+  console.log("props", props);
+  const { user } = useAuth0();
+const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ message: "" });
 
   const handleFieldChange = e => {
@@ -18,7 +19,7 @@ const MessageForm = props => {
     if (message === "") {
       window.alert("Please input a post");
     } else {
-      // setLoading(true);
+      setIsLoading(true);
 
       const messageToPost = {
         userId: parseInt(user.id),
@@ -30,7 +31,6 @@ const MessageForm = props => {
       // userId doesn't need to change because users
       // will not have a button to edit other users' messages
 
-      
       // this function was extracted to module scope (in helpers directory)
       return isEditCheck(props, messageToPost);
     }
@@ -47,14 +47,11 @@ const MessageForm = props => {
     }
   };
 
-
   const handleSubmit = handleSubmitHelperFunction(
-    setLoading,
     constructNewMessage,
     props,
     postEditedMessage
   );
-
 
   useEffect(() => {
     if (props.messageToEdit.message) {
@@ -87,12 +84,12 @@ const MessageForm = props => {
                 id="message"
                 placeholder="Chat message"
               />
-              <button className="chat-send-button" data-tooltip="SEND">
-                <i
-                  className="paper plane outline icon"
-                  type="submit"
-                  disabled={loading}
-                ></i>
+              <button
+                className="chat-send-button"
+                type="submit"
+                disabled={isLoading}
+              >
+                SEND
               </button>
             </div>
           </fieldset>

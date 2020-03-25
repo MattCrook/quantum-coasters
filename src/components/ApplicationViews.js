@@ -11,7 +11,7 @@ import EditCreditForm from "./profile/EditCreditForm";
 import MessageList from "./messages/Messages";
 
 const ApplicationViews = props => {
-  console.log("props", props);
+  // console.log("props", props);
   // const [user, setUser] = useState(null);
   // const [userLoggedIn, setUserLoggedIn] = useState(false);
   const { isAuthenticated } = useAuth0();
@@ -25,7 +25,7 @@ const ApplicationViews = props => {
           if (isAuthenticated === true) {
             return <Home {...props} />;
           } else {
-            return <Redirect to="/" component={LoginLandingPage} />;
+            return <Redirect to="/" />;
           }
         }}
       />
@@ -99,12 +99,14 @@ const ApplicationViews = props => {
       />
       <Route
         exact
-        path="/messages/:userId(\d+)"
+        // path="/messages/:userId(\d+)"
+        path="/messages"
+
         render={props => {
           if (isAuthenticated) {
             return (
               <MessageList
-                userId={parseInt(props.match.params.userId)}
+                // userId={parseInt(props.match.params.userId)}
                 {...props}
               />
             );

@@ -6,16 +6,40 @@ import { useAuth0 } from "../../contexts/react-auth0-context";
 // need check to see if the roller coaster exists in DB, if not user is taken to NewRollerCoasterForm
 // to create the entry in DB, then back to their credit form to fill it out.
 const RollerCoasterList = props => {
-  const { user, history, loading } = useAuth0();
+  const { user } = useAuth0();
   const [rollerCoasters, setRollerCoasters] = useState([]);
-  //   const [isLoading, setIsLoading] = useState(false);
+  const [userProfile, setUserProfile] = useState({});
+  const [credits, setCredits] = useState([]);
 
+  // const credits = props.credits;
+
+
+  // function to populate entire list of rollerCoasters in database
   const rollerCoastersFromAPI = async () => {
     const rollerCoastersData = await ApiManager.getAllRollerCoastersWithAllExpanded();
-    console.log(rollerCoastersData);
     setRollerCoasters(rollerCoastersData);
   };
 
+  const currentUserProfileCredits = user => {
+    ApiManager.getUserProfile(user.email).then(user => {
+      user = user[0];
+      let creditsArray = user.credits;
+      setUserProfile(user);
+       setCredits(creditsArray)
+    });
+  };
+
+  // function to hide the "ADD" button from the user if they already have
+  const showButton = (rollercoasterId, credits) => {
+    const creditIds = credits.map(credit => {
+      return credit.rollerCoasterId;
+    });
+    return !creditIds.includes(rollercoasterId);
+  };
+
+  // handles user adding the credit. gets the email from Auth0,
+  // matches email from to email in JSON server, puts the rollerCoasterId into an array,
+  // POSTs to the userProfile
   const handleAddCredit = rollerCoasterId => {
     ApiManager.getUserProfile(user.email).then(user => {
       user = user[0];
@@ -23,12 +47,13 @@ const RollerCoasterList = props => {
       credits.push({ rollerCoasterId });
       const id = user.id;
       ApiManager.addCredit(id, credits).then(userProfile =>
-        console.log(userProfile)
+        console.log("userProfile", userProfile)
       );
     });
   };
 
   useEffect(() => {
+    currentUserProfileCredits(user);
     rollerCoastersFromAPI();
   }, []);
 
@@ -40,12 +65,14 @@ const RollerCoasterList = props => {
             <li className="list-elements" key={rollerCoaster.id}>
               <strong>{rollerCoaster.name} </strong>
               {rollerCoaster.park.name}, {rollerCoaster.park.parkCountry}{" "}
-              <button
-                className="add-credit-button"
-                onClick={() => handleAddCredit(rollerCoaster.id)}
-              >
-                Add
-              </button>
+              {showButton(rollerCoaster.id, credits) && (
+                <button
+                  className="add-credit-button"
+                  onClick={() => handleAddCredit(rollerCoaster.id)}
+                >
+                  Add
+                </button>
+              )}
             </li>
           ))}
         </ul>

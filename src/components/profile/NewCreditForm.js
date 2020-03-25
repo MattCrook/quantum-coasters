@@ -5,64 +5,14 @@ import { formatInput } from "../../modules/Helpers";
 import RollerCoasterList from "./RollerCoasterList";
 import "./NewCreditForm.css";
 
-// form that user is taken to, to input new credit (new rollercoaster ridden)
-// need check to see if the roller coaster exists in DB, if not user is taken to NewRollerCoasterForm
-// to create the entry in DB, then back to their credit form to fill it out.
+// return roller coaster list when user clicks the "add new credit button" on {ProfileList}...
+// Have a form on this page too? Or keep the button to take user to create new DB entry...
+
 const AddNewCreditForm = props => {
-  const { user, history, loading } = useAuth0();
-  const [manufacturers, setManufacturers] = useState([]);
-  const [trackTypes, setTrackTypes] = useState([]);
-  const [parks, setParks] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  // const { user } = useAuth0();
+  // const [userProfile, setUserProfile] = useState({});
+  // const [credits, setCredits] = useState([]);
 
-  const [credit, setCredit] = useState({
-    name: "",
-    trackTypeId: "",
-    max_height: "",
-    max_speed: "",
-    parkId: "",
-    manufacturerId: "",
-    userId: ""
-  });
-
-  const handleFieldChange = e => {
-    const stateToChange = { ...credit };
-    stateToChange[e.target.id] = formatInput(e.target);
-    setCredit(stateToChange);
-  };
-
-  const createNewCredit = e => {
-    e.preventDefault();
-    setIsLoading(true);
-    if (
-      credit.name === "" ||
-      credit.trackType === "" ||
-      credit.max_height === "" ||
-      credit.max_speed === "" ||
-      credit.manufacturer === "" ||
-      credit.park === ""
-    ) {
-      window.alert("Please fill out all fields in form");
-    } else {
-      setIsLoading(true);
-      ApiManager.postNewRollerCoaster(credit).then(() =>
-        props.history.push("/profile")
-      );
-    }
-  };
-
-  useEffect(() => {
-    ApiManager.getAllManufacturers().then(manufacturers => {
-      ApiManager.getTrackTypes().then(trackTypes => {
-        ApiManager.getParks().then(parks => {
-          setManufacturers(manufacturers);
-          setTrackTypes(trackTypes);
-          setParks(parks);
-          setIsLoading(false);
-        });
-      });
-    });
-  }, []);
 
   return (
     <>
@@ -90,7 +40,11 @@ const AddNewCreditForm = props => {
         </button>
       </div>
       <div className="rollerCoaster-list-to-add-credits">
-      <RollerCoasterList {...props}/>
+        <RollerCoasterList
+          // userProfile={userProfile}
+          // credits={credits}
+          {...props}
+        />
       </div>
       <form className="newCredit-credit-form">
         {/* <div className="edit-credit-icon-container">
@@ -111,17 +65,15 @@ const AddNewCreditForm = props => {
                   cols="80"
                   required
                   className="form-control"
-                  onChange={handleFieldChange}
+                  // onChange={handleFieldChange}
                   id="name"
-                  value={credit.name}
-                >
-              
-                </select>
+                  // value={credit.name}
+                ></select>
               </p>
             </div>
             <div>
               <label htmlFor="trackType">Track Type</label>
-              <select
+              {/* <select
                 className="form-control"
                 required
                 id="trackTypeId"
@@ -133,7 +85,7 @@ const AddNewCreditForm = props => {
                     {trackType.name}
                   </option>
                 ))}
-              </select>
+              </select> */}
             </div>
             <div>
               <label htmlFor="max_height">Max Height</label>
@@ -144,9 +96,9 @@ const AddNewCreditForm = props => {
                   cols="40"
                   required
                   className="form-control"
-                  onChange={handleFieldChange}
+                  // onChange={handleFieldChange}
                   id="max_height"
-                  value={credit.max_height}
+                  // value={credit.max_height}
                 />
               </p>
             </div>
@@ -159,16 +111,16 @@ const AddNewCreditForm = props => {
                   cols="40"
                   required
                   className="form-control"
-                  onChange={handleFieldChange}
+                  // onChange={handleFieldChange}
                   id="max_speed"
-                  value={credit.max_speed}
+                  // value={credit.max_speed}
                 />
               </p>
             </div>
             <div>
               <label htmlFor="parkId">Park Name</label>
               <p>
-                <select
+                {/* <select
                   required
                   className="form-control"
                   onChange={handleFieldChange}
@@ -180,12 +132,12 @@ const AddNewCreditForm = props => {
                       {park.name}
                     </option>
                   ))}
-                </select>
+                </select> */}
               </p>
             </div>
             <div>
               <label htmlFor="manufacturerId">Manufacturer</label>
-              <select
+              {/* <select
                 className="form-control"
                 required
                 id="manufacturerId"
@@ -197,14 +149,14 @@ const AddNewCreditForm = props => {
                     {manufacturer.name}
                   </option>
                 ))}
-              </select>
+              </select> */}
             </div>
           </div>
           <div className="newCredit-submit">
             <button
               type="button"
-              disabled={isLoading}
-              onClick={createNewCredit}
+              // disabled={isLoading}
+              // onClick={createNewCredit}
               id="editCreditFormBtn"
               className="ui blue basic button"
             >
