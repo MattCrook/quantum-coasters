@@ -11,9 +11,6 @@ import EditCreditForm from "./profile/EditCreditForm";
 import MessageList from "./messages/Messages";
 
 const ApplicationViews = props => {
-  // console.log("props", props);
-  // const [user, setUser] = useState(null);
-  // const [userLoggedIn, setUserLoggedIn] = useState(false);
   const { isAuthenticated } = useAuth0();
 
   return (
@@ -115,24 +112,6 @@ const ApplicationViews = props => {
         }}
       />
 
-      {/* <Route
-        exact
-        path="/rollerCoasterDetails"
-        render={props => {
-          if (isAuthenticated === true) {
-            return <AddNewRollerCoaster {...props} />;
-          } else {
-            return <Redirect to="/" />;
-          }
-        }}
-      /> */}
-      {/* <Route
-          exact
-          path="/home"
-          render={props => {
-            return <Home {...props} />;
-          }}
-        /> */}
       {/* <Route
         exact
         path="/rollerCoasterDetails"
