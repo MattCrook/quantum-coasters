@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ApiManager from "../../modules/ApiManager";
-import { isEditCheck, handleSubmitHelperFunction } from "../../modules/Helpers";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 
 const MessageForm = (props) => {
-  console.log("props", props);
-  // const messagesMap = props.messages.map(message => {
-  //   const userId = message.userId;
-  //   return userId
-  // });
 
   const { user } = useAuth0();
   const [isLoading, setIsLoading] = useState(false);
@@ -69,12 +63,6 @@ const MessageForm = (props) => {
       .then(props.getMessages)
       .then(setIsLoading(false));
   };
-
-  // const handleSubmit = handleSubmitHelperFunction(
-  //   constructNewMessage,
-  //   props,
-  //   postEditedMessage
-  // );
 
   useEffect(() => {
     if (props.messageToEdit.message) {

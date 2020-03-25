@@ -1,7 +1,7 @@
 import React, { useState, UseEffect } from "react";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import ApiManager from "../../modules/ApiManager";
-// import keys from "../../keys/keys";
+import keys from "../../keys/Keys";
 
 
 const CreateAccount = props => {
@@ -31,23 +31,23 @@ const CreateAccount = props => {
     });
   };
 
-//   const uploadImage = async e => {
-//     const files = e.target.files;
-//     const data = new FormData();
-//     data.append("file", files[0]);
-//     data.append("upload_preset", "photoLab");
-//     setIsLoading(true);
-//     const res = await fetch(
-//       `https://api.cloudinary.com/v1_1/${keys.cloudinary}/image/upload`,
-//       {
-//         method: "POST",
-//         body: data
-//       }
-//     );
-//     const file = await res.json();
-//     setImage({ picUrl: file.secure_url });
-//     setIsLoading(false);
-//   };
+  const uploadImage = async e => {
+    const files = e.target.files;
+    const data = new FormData();
+    data.append("file", files[0]);
+    data.append("upload_preset", "photoLab");
+    setIsLoading(true);
+    const res = await fetch(
+      `https://api.cloudinary.com/v1_1/${keys.cloudinary}/image/upload`,
+      {
+        method: "POST",
+        body: data
+      }
+    );
+    const file = await res.json();
+    setImage({ picUrl: file.secure_url });
+    setIsLoading(false);
+  };
 
   return (
     <form className="register-form" onSubmit={handleFormSubmit}>
@@ -103,7 +103,7 @@ const CreateAccount = props => {
             className="file-upload"
             placeholder="Upload an Image"
             data-cloudinary-field="image_id"
-            // onChange={uploadImage}
+            onChange={uploadImage}
             data-form-data="{ 'transformation': {'crop':'limit','tags':'samples','width':3000,'height':2000}}"
           />
                     <div className="newPhoto">

@@ -3,8 +3,6 @@ import { useAuth0 } from "../../contexts/react-auth0-context";
 import "../home/Home.css";
 import "bulma/css/bulma.css";
 
-// import { NavLink } from "react-router-dom";
-// import { withRouter } from "react-router-dom"
 
 const LoginLandingPage = () => {
   const { loading, user, loginWithRedirect } = useAuth0();
