@@ -25,13 +25,24 @@ const ApiManager = {
     return await result.json();
   },
 
-  async addCredit(id, credits) {
+  async deleteCredit(id, credits) {
     const data = await fetch(`${remoteURL}/users/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({ credits })
+    });
+    return await data.json();
+  },
+
+  async addCredit(id, credits) {
+    const data = await fetch(`${remoteURL}/users/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({credits})
     });
     return await data.json();
   },
@@ -164,14 +175,3 @@ const ApiManager = {
 };
 
 export default ApiManager;
-
-// async deleteCredit(userId, object, property) {
-//   const data = await fetch(`${remoteURL}/users/${}`, {
-//     method: "PATCH",
-//     headers: {
-//       "Content-Type": "application/json"
-//     },
-//     body: JSON.stringify()
-//   });
-//   return await data.json();
-// },

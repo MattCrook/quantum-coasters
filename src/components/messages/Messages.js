@@ -4,8 +4,8 @@ import MessageCard from "./MessageCard";
 import MessageForm from "./MessageForm";
 import "./Messages.css";
 
-const MessageList = (props) => {
-
+const MessageList = props => {
+  console.log("1", props);
   const userId = props.userId;
 
   const [messages, setMessages] = useState([]);
@@ -15,11 +15,9 @@ const MessageList = (props) => {
     timestamp: ""
   });
 
-  console.log(props);
-  console.log(props.userId)
-
-  const getMessages = () => {
-    return ApiManager.getAllMessages().then(setMessages);
+  const getMessages = async () => {
+    const value = await ApiManager.getAllMessages();
+    return setMessages(value);
   };
 
   useEffect(() => {
@@ -54,6 +52,7 @@ const MessageList = (props) => {
           </div>
           <div className="container-form">
             <MessageForm
+              userId={userId}
               getMessages={getMessages}
               messageToEdit={messageToEdit}
               setMessageToEdit={setMessageToEdit}
