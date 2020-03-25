@@ -11,12 +11,11 @@ const RollerCoasterList = props => {
   const [userProfile, setUserProfile] = useState({});
   const [credits, setCredits] = useState([]);
 
-  // const credits = props.credits;
-
-
+  
   // function to populate entire list of rollerCoasters in database
   const rollerCoastersFromAPI = async () => {
     const rollerCoastersData = await ApiManager.getAllRollerCoastersWithAllExpanded();
+    console.log("here", rollerCoastersData);
     setRollerCoasters(rollerCoastersData);
   };
 
@@ -25,7 +24,7 @@ const RollerCoasterList = props => {
       user = user[0];
       let creditsArray = user.credits;
       setUserProfile(user);
-       setCredits(creditsArray)
+      setCredits(creditsArray);
     });
   };
 
@@ -46,15 +45,21 @@ const RollerCoasterList = props => {
       let credits = user.credits;
       credits.push({ rollerCoasterId });
       const id = user.id;
-      ApiManager.addCredit(id, credits).then(userProfile =>
-        console.log("userProfile", userProfile)
-      );
+      ApiManager.addCredit(id, credits).then(credits => {
+        console.log("credits2", credits);
+        ApiManager.getUserProfile(user.email).then(user => {
+          user = user[0];
+          let creditsArray = user.credits;
+          setUserProfile(user);
+          setCredits(creditsArray);
+        });
+      });
     });
   };
 
   useEffect(() => {
-    currentUserProfileCredits(user);
     rollerCoastersFromAPI();
+    currentUserProfileCredits(user);
   }, []);
 
   return (
