@@ -5,93 +5,14 @@ import { formatInput } from "../../modules/Helpers";
 import RollerCoasterList from "./RollerCoasterList";
 import "./NewCreditForm.css";
 
-// form that user is taken to, to input new credit (new rollercoaster ridden)
-// need check to see if the roller coaster exists in DB, if not user is taken to NewRollerCoasterForm
-// to create the entry in DB, then back to their credit form to fill it out.
+// return roller coaster list when user clicks the "add new credit button" on {ProfileList}...
+// Have a form on this page too? Or keep the button to take user to create new DB entry...
+
 const AddNewCreditForm = props => {
-  const { user, history, loading } = useAuth0();
-  const [manufacturers, setManufacturers] = useState([]);
-  const [trackTypes, setTrackTypes] = useState([]);
-  const [parks, setParks] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [userProfile, setUserProfile] = useState([]);
-  const [credits, setCredits] = useState([]);
+  // const { user } = useAuth0();
+  // const [userProfile, setUserProfile] = useState({});
+  // const [credits, setCredits] = useState([]);
 
-  // const currentUserProfile = async user => {
-  //   const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
-  //   setUserProfile(userProfileFromAPI[0]);
-  // };
-  // const matchUserCreditsToRollerCoasterList = async () => {
-  //   const creditsArray = userProfile.credits;
-  //   creditsArray.forEach(credit => {
-  //     const rollerCoasterIdFromUserProfile = credit.rollerCoasterId;
-  //     setCredits(rollerCoasterIdFromUserProfile);
-  //   });
-  // };
-
-  const currentUserProfileCredits = async user => {
-    const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
-    setUserProfile(userProfileFromAPI[0]);
-    const creditsArray = userProfileFromAPI[0].credits;
-    creditsArray.map(credit => {
-      const rollerCoasterIdFromUserProfile = credit.rollerCoasterId;
-      setCredits(rollerCoasterIdFromUserProfile);
-      return rollerCoasterIdFromUserProfile;
-    });
-  };
-
-  // const [credit, setCredit] = useState({
-  //   name: "",
-  //   trackTypeId: "",
-  //   max_height: "",
-  //   max_speed: "",
-  //   parkId: "",
-  //   manufacturerId: "",
-  //   userId: ""
-  // });
-
-  // const handleFieldChange = e => {
-  //   const stateToChange = { ...credit };
-  //   stateToChange[e.target.id] = formatInput(e.target);
-  //   setCredit(stateToChange);
-  // };
-
-  // const createNewCredit = e => {
-  //   e.preventDefault();
-  //   setIsLoading(true);
-  //   if (
-  //     credit.name === "" ||
-  //     credit.trackType === "" ||
-  //     credit.max_height === "" ||
-  //     credit.max_speed === "" ||
-  //     credit.manufacturer === "" ||
-  //     credit.park === ""
-  //   ) {
-  //     window.alert("Please fill out all fields in form");
-  //   } else {
-  //     setIsLoading(true);
-  //     ApiManager.postNewRollerCoaster(credit).then(() =>
-  //       props.history.push("/profile")
-  //     );
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   ApiManager.getAllManufacturers().then(manufacturers => {
-  //     ApiManager.getTrackTypes().then(trackTypes => {
-  //       ApiManager.getParks().then(parks => {
-  //         setManufacturers(manufacturers);
-  //         setTrackTypes(trackTypes);
-  //         setParks(parks);
-  //         setIsLoading(false);
-  //       });
-  //     });
-  //   });
-  // }, []);
-
-  useEffect(() => {
-    currentUserProfileCredits(user);
-  }, []);
 
   return (
     <>
@@ -120,8 +41,8 @@ const AddNewCreditForm = props => {
       </div>
       <div className="rollerCoaster-list-to-add-credits">
         <RollerCoasterList
-          userProfile={userProfile}
-          currentUserProfileCredits={credits}
+          // userProfile={userProfile}
+          // credits={credits}
           {...props}
         />
       </div>
@@ -152,19 +73,19 @@ const AddNewCreditForm = props => {
             </div>
             <div>
               <label htmlFor="trackType">Track Type</label>
-              <select
+              {/* <select
                 className="form-control"
                 required
                 id="trackTypeId"
-                // value={credit.trackTypeId}
-                // onChange={handleFieldChange}
+                value={credit.trackTypeId}
+                onChange={handleFieldChange}
               >
                 {trackTypes.map(trackType => (
                   <option key={trackType.id} value={trackType.id}>
                     {trackType.name}
                   </option>
                 ))}
-              </select>
+              </select> */}
             </div>
             <div>
               <label htmlFor="max_height">Max Height</label>
@@ -199,42 +120,42 @@ const AddNewCreditForm = props => {
             <div>
               <label htmlFor="parkId">Park Name</label>
               <p>
-                <select
+                {/* <select
                   required
                   className="form-control"
-                  // onChange={handleFieldChange}
+                  onChange={handleFieldChange}
                   id="parkId"
-                  // value={credit.parkId}
+                  value={credit.parkId}
                 >
                   {parks.map(park => (
                     <option key={park.id} value={park.id}>
                       {park.name}
                     </option>
                   ))}
-                </select>
+                </select> */}
               </p>
             </div>
             <div>
               <label htmlFor="manufacturerId">Manufacturer</label>
-              <select
+              {/* <select
                 className="form-control"
                 required
                 id="manufacturerId"
-                // value={credit.manufacturerId}
-                // onChange={handleFieldChange}
+                value={credit.manufacturerId}
+                onChange={handleFieldChange}
               >
                 {manufacturers.map(manufacturer => (
                   <option key={manufacturer.id} value={manufacturer.id}>
                     {manufacturer.name}
                   </option>
                 ))}
-              </select>
+              </select> */}
             </div>
           </div>
           <div className="newCredit-submit">
             <button
               type="button"
-              disabled={isLoading}
+              // disabled={isLoading}
               // onClick={createNewCredit}
               id="editCreditFormBtn"
               className="ui blue basic button"

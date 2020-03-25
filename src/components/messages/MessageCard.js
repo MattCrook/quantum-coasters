@@ -3,26 +3,29 @@ import { useAuth0 } from "../../contexts/react-auth0-context";
 import ApiManager from "../../modules/ApiManager";
 import "./Messages.css";
 
-const MessageCard = ({ message }) => {
-  // console.log({ message });
+const MessageCard = (props) => {
+  console.log({ props });
 
   const { user } = useAuth0();
+  console.log({ user });  
+  
+  
   const username = user.nickname;
-  const userId = message.userId;
-  const text = message.message;
-  const timestamp = message.timestamp;
+  const userId = props.message.userId;
+  const text = props.message.message;
+  const timestamp = props.message.timestamp;
   const picUrl = user.picture;
+  
 
-
-
+  
   const [userProfile, setUserProfile] = useState([]);
+  console.log({ userProfile });
 
 
   const getUserProfile = async user => {
     try {
       const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
       setUserProfile(userProfileFromAPI[0]);
-      // console.log(userProfileFromAPI);
     } catch (error) {
       console.log(error);
     }
@@ -45,13 +48,12 @@ const MessageCard = ({ message }) => {
           If the active user id === the message's user id
           then output the edit button
         */}
-        {parseInt(userProfile.id) === userId ? (
-          <div className="chat-edit-outline-icon" data-tooltip="EDIT">
-            <i
-              className="edit outline icon"
-              // onClick={() => props.setMessageToEdit(props.message)}
-              onClick={() => message.setMessageToEdit(message)}
-            />
+        {userProfile.id === userId ? (
+          <div className="chat-edit-outline-icon">
+            <button
+              className="edit-outline-icon"
+              onClick={() => props.setMessageToEdit(props.message)}
+            >EDIT</button>
           </div>
         ) : null}
         <span className="message-time-right">{timestamp}</span>

@@ -25,7 +25,7 @@ const ApplicationViews = props => {
           if (isAuthenticated === true) {
             return <Home {...props} />;
           } else {
-            return <Redirect to="/" component={LoginLandingPage} />;
+            return <Redirect to="/" />;
           }
         }}
       />
@@ -99,12 +99,14 @@ const ApplicationViews = props => {
       />
       <Route
         exact
-        path="/messages/:userId(\d+)"
+        // path="/messages/:userId(\d+)"
+        path="/messages"
+
         render={props => {
           if (isAuthenticated) {
             return (
               <MessageList
-                userId={parseInt(props.match.params.userId)}
+                // userId={parseInt(props.match.params.userId)}
                 {...props}
               />
             );

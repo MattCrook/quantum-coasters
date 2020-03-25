@@ -136,7 +136,7 @@ const ApiManager = {
   /***************** MESSAGES ********************/
 
   async getAllMessages() {
-    const resp = await fetch(`${remoteURL}/messages`);
+    const resp = await fetch(`${remoteURL}/messages?_expand=user`);
     return await resp.json();
   },
 
