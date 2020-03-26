@@ -4,7 +4,7 @@ import { useAuth0 } from "../../contexts/react-auth0-context";
 import "./EditCreditForm.css";
 
 const EditCreditForm = props => {
-
+  console.log(props.creditId)
   const [manufacturers, setManufacturers] = useState([]);
   const [trackTypes, setTrackTypes] = useState([]);
   const [parks, setParks] = useState([]);
@@ -16,8 +16,7 @@ const EditCreditForm = props => {
     max_height: "",
     max_speed: "",
     parkId: "",
-    manufacturerId: "",
-    userProfileId: ""
+    manufacturerId: ""
   });
 
   const handleInputChange = e => {
@@ -31,7 +30,7 @@ const EditCreditForm = props => {
     setIsLoading(true);
 
     const editedCredit = {
-      id: props.match.params.creditId,
+      id: props.creditId,
       name: credit.name,
       trackTypeId: credit.trackTypeId,
       max_height: credit.max_height,
@@ -40,22 +39,23 @@ const EditCreditForm = props => {
       manufacturerId: credit.manufacturer
     };
 
-    ApiManager.updateCredit(editedCredit).then(() => props.history.push("/users"));
+    ApiManager.updateCredit(editedCredit).then(() =>
+      props.history.push("/users")
+    );
   };
 
-  // useEffect(() => {
-  //   ApiManager.getAllManufacturers().then(manufacturers => {
-  //     ApiManager.getTrackTypes().then(trackTypes => {
-  //       ApiManager.getParks().then(parks => {
-  //         setManufacturers(manufacturers);
-  //         setTrackTypes(trackTypes);
-  //         setParks(parks);
-  //         setIsLoading(false);
-  //       });
-  //     });
-  //   });
-  // }, []);
-
+  useEffect(() => {
+    ApiManager.getAllManufacturers().then(manufacturers => {
+      ApiManager.getTrackTypes().then(trackTypes => {
+        ApiManager.getParks().then(parks => {
+          setManufacturers(manufacturers);
+          setTrackTypes(trackTypes);
+          setParks(parks);
+          setIsLoading(false);
+        });
+      });
+    });
+  }, []);
 
   return (
     <>
@@ -69,9 +69,9 @@ const EditCreditForm = props => {
         </button>
       </div>
       <form className="edit-credit-form">
-          <div className="edit-formgrid">
-            <div className="edit-form-fields">
-                <div>
+        <div className="edit-formgrid">
+          <div className="edit-form-fields">
+            <div>
               <label htmlFor="name">Roller Coaster Name</label>
               <p>
                 <textarea
@@ -88,7 +88,7 @@ const EditCreditForm = props => {
             </div>
             <div>
               <label htmlFor="trackType">Track Type</label>
-              {/* <select
+              <select
                 className="form-control"
                 required
                 id="trackTypeId"
@@ -100,7 +100,7 @@ const EditCreditForm = props => {
                     {trackType.name}
                   </option>
                 ))}
-              </select> */}
+              </select>
             </div>
             <div>
               <label htmlFor="max_height">Max Height</label>
@@ -135,7 +135,7 @@ const EditCreditForm = props => {
             <div>
               <label htmlFor="parkId">Park Name</label>
               <p>
-                {/* <select
+                <select
                   required
                   className="form-control"
                   onChange={handleInputChange}
@@ -147,7 +147,7 @@ const EditCreditForm = props => {
                       {park.name}
                     </option>
                   ))}
-                </select> */}
+                </select>
               </p>
             </div>
             <div>
@@ -159,26 +159,26 @@ const EditCreditForm = props => {
                 value={credit.manufacturerId}
                 onChange={handleInputChange}
               >
-                {/* {manufacturers.map(manufacturer => (
+                {manufacturers.map(manufacturer => (
                   <option key={manufacturer.id} value={manufacturer.id}>
                     {manufacturer.name}
                   </option>
-                ))} */}
+                ))}
               </select>
             </div>
-            </div>
-            <div className="edit-alignRight">
-              <button
-                type="button"
-                disabled={isLoading}
-                onClick={updateExistingCredit}
-                id="editCreditFormBtn"
-                className="ui blue basic button"
-              >
-                Update
-              </button>
-            </div>
           </div>
+          <div className="edit-alignRight">
+            <button
+              type="button"
+              disabled={isLoading}
+              onClick={updateExistingCredit}
+              id="editCreditFormBtn"
+              className="ui blue basic button"
+            >
+              Update
+            </button>
+          </div>
+        </div>
       </form>
     </>
   );

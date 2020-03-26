@@ -105,18 +105,6 @@ const ApplicationViews = props => {
           }
         }}
       />
-
-      {/* <Route
-        exact
-        path="/rollerCoasterDetails"
-        render={props => {
-          if (isAuthenticated === true) {
-            return <AddNewRollerCoaster {...props} />;
-          } else {
-            return <Redirect to="/" />;
-          }
-        }}
-      /> */}
     </React.Fragment>
   );
 };

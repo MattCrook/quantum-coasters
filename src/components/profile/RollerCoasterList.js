@@ -64,7 +64,6 @@ const RollerCoasterList = props => {
     <>
       <div className="roller-coaster-list-container">
         <ul className="list-items-container">
-          {console.log(rollerCoasters.map((coaster) => console.log(coaster.name)))} ****
           {rollerCoasters && rollerCoasters.map(rollerCoaster => (
             <li className="list-elements" key={rollerCoaster.id}>
               <strong>{rollerCoaster.name} </strong>

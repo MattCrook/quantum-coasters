@@ -168,7 +168,7 @@ const AddNewRollerCoaster = props => {
               value={rollerCoaster.name}
             />
             <label htmlFor="inputTrackType">Track Type</label>
-            {/* <select
+            <select
               className="input"
               onChange={handleTrackTypeFieldChange}
               id="name"
@@ -180,7 +180,7 @@ const AddNewRollerCoaster = props => {
                   {track.name}
                 </option>
               ))}
-            </select> */}
+            </select>
 
             <label htmlFor="inputMaxHeight">Max Height</label>
             <input
@@ -238,7 +238,7 @@ const AddNewRollerCoaster = props => {
               value={park.parkCountry}
             />
             <label htmlFor="inputManufacturer">Manufacturer</label>
-            {/* <select
+            <select
               className="input"
               onChange={handleManufacturerFieldChange}
               id="name"
@@ -249,8 +249,8 @@ const AddNewRollerCoaster = props => {
                 <option key={manufacturer.id} value={manufacturer.id}>
                   {manufacturer.name}
                 </option>
-              ))} 
-            </select> */}
+              ))}
+            </select>
             <label htmlFor="inputManufacturer">
               Manufacturer Country Of Operations
             </label>

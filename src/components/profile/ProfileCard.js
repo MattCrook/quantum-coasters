@@ -5,6 +5,9 @@ const ProfileCard = props => {
   // const picUrl = props.user.picture;
   // const username = props.username;
   // const userNickname = props.user.nickname;
+  const rollerCoaster = props.rollerCoaster;
+  const manufacturer = props.manufacturer;
+  const park = props.park;
 
   return (
     <div className="profile-card">
@@ -60,7 +63,7 @@ const ProfileCard = props => {
           <span>
             <button
               className="delete-btn"
-              onClick={() => props.deleteCredit(props.rollerCoaster.id)}
+              onClick={() => props.history.push(`users/${props.rollerCoaster.id}/details`)}
             >
               Delete
             </button>
