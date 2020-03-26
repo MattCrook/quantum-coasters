@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "bulma/css/bulma.css";
 import { useAuth0 } from "../../contexts/react-auth0-context";
-import ApiManger from "../../modules/ApiManager";
+import ApiManager from "../../modules/ApiManager";
 import { Link } from "react-router-dom";
 // import NavBar from "../nav/NavBar";
 
 const Home = () => {
   const { loading, user, logout } = useAuth0();
   const [userProfile, setUserProfile] = useState({});
-
+console.log(userProfile)
   const isProfileCompletedFetch = async user => {
     try {
-      const userProfileFromAPI = await ApiManger.getUserProfile(user.email);
+      const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
       if (userProfileFromAPI.length > 0) {
         setUserProfile(userProfileFromAPI[0]);
       } else {

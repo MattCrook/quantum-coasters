@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import ApiManager from "../../modules/ApiManager";
-import { useAuth0 } from "../../contexts/react-auth0-context";
 
-const MessageForm = (props) => {
 
-  const { user } = useAuth0();
+const MessageForm = props => {
+  const userId = props.userProfile.id;
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ message: "" });
 
@@ -20,7 +19,7 @@ const MessageForm = (props) => {
     } else {
       setIsLoading(true);
       const messageToPost = {
-        userId: props.userId,
+        userId: userId,
         message: message.message,
         timestamp: new Date().toLocaleString()
       };
@@ -72,7 +71,7 @@ const MessageForm = (props) => {
       // (which happens when the edit button is clicked)
       document.getElementById("message").value = props.messageToEdit.message;
     }
-    // setLoading(false);
+    setIsLoading(false);
   }, [props.messageToEdit]); // not sure about the [setLoading]
 
   return (
@@ -93,7 +92,7 @@ const MessageForm = (props) => {
                 required
                 onChange={handleFieldChange}
                 id="message"
-                placeholder="Chat message"
+                placeholder="Write Something"
               />
               <button
                 className="chat-send-button"

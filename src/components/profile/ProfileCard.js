@@ -36,23 +36,7 @@ const ProfileCard = props => {
           {props.rollerCoaster.max_height} ft
         </p>
         <p>Track Type: {props.trackType.name}</p>
-        {/* <span data-tooltip="EDIT">
-          <i
-            className="big edit icon"
-            id="newsDetailIcon"
-            onClick={() => props.history.push(`/profile/${props.rollerCoaster.id}/edit`)}
-          ></i>
-        </span>
-
-        <span data-tooltip="DELETE">
-          <i
-            id="trashIcon"
-            className="big trash alternate icon"
-            onClick={() => props.deleteCredit(props.rollerCoaster.id)}
-          ></i>
-        </span> */}
-
-        <section className="edit-delete-credit">
+        <section className="card-btns">
           <span>
             <button
               className="edit-btn"
@@ -61,6 +45,16 @@ const ProfileCard = props => {
               }
             >
               Edit
+            </button>
+          </span>
+          <span>
+            <button
+              className="details-btn"
+              onClick={() =>
+                props.history.push(`/users/${props.rollerCoaster.id}/details`)
+              }
+            >
+              Ride Details
             </button>
           </span>
           <span>

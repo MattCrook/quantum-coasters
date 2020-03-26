@@ -17,8 +17,8 @@ const App = () => {
   return (
     <>
       <Router history={history}>
-        <NavBar />
-        <ApplicationViews user={user} isAuthenticated={isAuthenticated} isLoading={loading} />
+        <NavBar user={user}/>
+        <ApplicationViews user={user} isAuthenticated={isAuthenticated} />
       </Router>
     </>
   );

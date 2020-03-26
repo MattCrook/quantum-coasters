@@ -2,16 +2,17 @@ import React, { useState, useEffect } from "react";
 import ApiManager from "../../modules/ApiManager";
 import MessageCard from "./MessageCard";
 import MessageForm from "./MessageForm";
+import { useAuth0 } from "../../contexts/react-auth0-context";
+
 import "./Messages.css";
 
 const MessageList = props => {
-  console.log("1", props);
-  const userId = props.userId;
-
+  const { user } = useAuth0();
+  const [userProfile, setUserProfile] = useState({});
   const [messages, setMessages] = useState([]);
   const [messageToEdit, setMessageToEdit] = useState({
     text: "",
-    userId: 0,
+    userId: "",
     timestamp: ""
   });
 
@@ -20,8 +21,18 @@ const MessageList = props => {
     return setMessages(value);
   };
 
+  const getUserProfile = async user => {
+    try {
+      const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
+      setUserProfile(userProfileFromAPI[0]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getMessages();
+    getUserProfile(user);
   }, []);
 
   return (
@@ -29,7 +40,14 @@ const MessageList = props => {
       <div className="chat-wrapper">
         <div className="chat-fixed-height-container">
           <div id="chat-headerContainer">
-            <h1>Forum</h1>
+            <div className="forum-header">
+              <h1>Forum</h1>
+            </div>
+            <div className="profile-pic-header">
+              {user.picture && (
+                <img id="profile-pic" src={user.picture} alt="My Avatar" />
+              )}
+            </div>
           </div>
           <div className="chat-ScrollToBottom">
             <div className="message-container-cards">
@@ -44,7 +62,7 @@ const MessageList = props => {
                     key={message.id}
                     message={message}
                     setMessageToEdit={setMessageToEdit}
-                    userId={userId}
+                    userProfile={userProfile}
                     {...props}
                   />
                 ))}
@@ -52,7 +70,7 @@ const MessageList = props => {
           </div>
           <div className="container-form">
             <MessageForm
-              userId={userId}
+              userProfile={userProfile}
               getMessages={getMessages}
               messageToEdit={messageToEdit}
               setMessageToEdit={setMessageToEdit}

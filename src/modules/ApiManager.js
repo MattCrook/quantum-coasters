@@ -42,9 +42,19 @@ const ApiManager = {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({credits})
+      body: JSON.stringify({ credits })
     });
     return await data.json();
+  },
+
+  async updateCredit(editedObject) {
+    return fetch(`${remoteURL}/users/${editedObject.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(editedObject)
+    }).then(data => data.json());
   },
 
   /*********** ROLLERCOASTERS ************/

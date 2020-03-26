@@ -4,9 +4,7 @@ import { useAuth0 } from "../../contexts/react-auth0-context";
 import "./EditCreditForm.css";
 
 const EditCreditForm = props => {
-  //   const userProfileId = props.userProfile.id;
 
-  const { user, history } = useAuth0();
   const [manufacturers, setManufacturers] = useState([]);
   const [trackTypes, setTrackTypes] = useState([]);
   const [parks, setParks] = useState([]);
@@ -45,18 +43,18 @@ const EditCreditForm = props => {
     ApiManager.updateCredit(editedCredit).then(() => props.history.push("/users"));
   };
 
-  useEffect(() => {
-    ApiManager.getAllManufacturers().then(manufacturers => {
-      ApiManager.getTrackTypes().then(trackTypes => {
-        ApiManager.getParks().then(parks => {
-          setManufacturers(manufacturers);
-          setTrackTypes(trackTypes);
-          setParks(parks);
-          setIsLoading(false);
-        });
-      });
-    });
-  }, []);
+  // useEffect(() => {
+  //   ApiManager.getAllManufacturers().then(manufacturers => {
+  //     ApiManager.getTrackTypes().then(trackTypes => {
+  //       ApiManager.getParks().then(parks => {
+  //         setManufacturers(manufacturers);
+  //         setTrackTypes(trackTypes);
+  //         setParks(parks);
+  //         setIsLoading(false);
+  //       });
+  //     });
+  //   });
+  // }, []);
 
 
   return (
@@ -71,13 +69,6 @@ const EditCreditForm = props => {
         </button>
       </div>
       <form className="edit-credit-form">
-        {/* <div className="edit-credit-icon-container">
-          <i
-            className="big arrow circle left icon"
-            id="back-arrow-detail"
-            onClick={() => props.history.push("/users")}
-          ></i>
-        </div> */}
           <div className="edit-formgrid">
             <div className="edit-form-fields">
                 <div>
@@ -97,7 +88,7 @@ const EditCreditForm = props => {
             </div>
             <div>
               <label htmlFor="trackType">Track Type</label>
-              <select
+              {/* <select
                 className="form-control"
                 required
                 id="trackTypeId"
@@ -109,7 +100,7 @@ const EditCreditForm = props => {
                     {trackType.name}
                   </option>
                 ))}
-              </select>
+              </select> */}
             </div>
             <div>
               <label htmlFor="max_height">Max Height</label>
@@ -144,7 +135,7 @@ const EditCreditForm = props => {
             <div>
               <label htmlFor="parkId">Park Name</label>
               <p>
-                <select
+                {/* <select
                   required
                   className="form-control"
                   onChange={handleInputChange}
@@ -156,7 +147,7 @@ const EditCreditForm = props => {
                       {park.name}
                     </option>
                   ))}
-                </select>
+                </select> */}
               </p>
             </div>
             <div>
@@ -168,11 +159,11 @@ const EditCreditForm = props => {
                 value={credit.manufacturerId}
                 onChange={handleInputChange}
               >
-                {manufacturers.map(manufacturer => (
+                {/* {manufacturers.map(manufacturer => (
                   <option key={manufacturer.id} value={manufacturer.id}>
                     {manufacturer.name}
                   </option>
-                ))}
+                ))} */}
               </select>
             </div>
             </div>
