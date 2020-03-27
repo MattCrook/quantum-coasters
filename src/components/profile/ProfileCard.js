@@ -2,13 +2,10 @@ import React from "react";
 import "./Profile.css";
 
 const ProfileCard = props => {
-  // const picUrl = props.user.picture;
-  // const username = props.username;
-  // const userNickname = props.user.nickname;
   const rollerCoaster = props.rollerCoaster;
   const manufacturer = props.manufacturer;
   const park = props.park;
-  console.log({props});
+  const creditsArray = props.userProfile.credits
 
   return (
     <div className="profile-card">

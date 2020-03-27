@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import ApiManager from "../../modules/ApiManager";
-import { useAuth0 } from "../../contexts/react-auth0-context";
 import { confirmAlert } from "react-confirm-alert";
 import { handleFieldChangeHelper } from "../../modules/Helpers";
+import { setResourceStateHelperFunction } from "../../modules/Helpers";
+
 import "./NewRollerCoasterForm.css";
 
 const AddNewRollerCoaster = props => {
@@ -131,16 +132,12 @@ const AddNewRollerCoaster = props => {
   };
 
   useEffect(() => {
-    ApiManager.getAllManufacturers().then(manufacturers => {
-      ApiManager.getTrackTypes().then(trackTypes => {
-        ApiManager.getParks().then(parks => {
-          setManufacturers(manufacturers);
-          setTrackTypes(trackTypes);
-          setParks(parks);
-          setIsLoading(false);
-        });
-      });
-    });
+    setResourceStateHelperFunction(
+      setManufacturers,
+      setTrackTypes,
+      setParks,
+      setIsLoading
+    );
   }, []);
 
   return (

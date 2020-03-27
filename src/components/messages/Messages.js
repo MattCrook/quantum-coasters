@@ -37,22 +37,22 @@ const MessageList = props => {
 
   return (
     <>
+      <div className="profile-pic-header">
+        {userProfile.picUrl ? (
+          <img id="profile-pic" src={userProfile.picUrl} alt="My Avatar" />
+        ) : (
+          <img id="google-profile-pic" src={user.picture} alt="My Avatar" />
+        )}
+      </div>
       <div className="chat-wrapper">
         <div className="chat-fixed-height-container">
           <div id="chat-headerContainer">
             <div className="forum-header">
               <h1>Forum</h1>
             </div>
-            <div className="profile-pic-header">
-              {user.picture && (
-                <img id="profile-pic" src={user.picture} alt="My Avatar" />
-              )}
-            </div>
           </div>
           <div className="chat-ScrollToBottom">
             <div className="message-container-cards">
-              {/* Sorting by date via: 
-            https://stackoverflow.com/questions/10123953/how-to-sort-an-array-by-a-date-property*/}
               {messages
                 .sort(function(a, b) {
                   return new Date(a.timestamp) - new Date(b.timestamp);

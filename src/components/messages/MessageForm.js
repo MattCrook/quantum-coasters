@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ApiManager from "../../modules/ApiManager";
+import { isEditCheck } from "../../modules/Helpers";
 
 
 const MessageForm = props => {
@@ -28,11 +29,7 @@ const MessageForm = props => {
       // userId doesn't need to change because users
       // will not have a button to edit other users' messages
       // this function was extracted to module scope (in helpers directory)
-      if (props.messageToEdit.id) {
-        messageToPost.id = props.messageToEdit.id;
-        messageToPost.timestamp = props.messageToEdit.timestamp;
-      }
-      return messageToPost;
+      return isEditCheck(props, messageToPost);
     }
   };
 

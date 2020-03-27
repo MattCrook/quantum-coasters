@@ -1,3 +1,5 @@
+import ApiManager from "./ApiManager";
+
 // function to check If this is an edit, we need the id and the timestamp should be what it was.
 // userId doesn't need to change because users will not have a button to edit other users' messages
 export function isEditCheck(props, messageToPost) {
@@ -28,21 +30,20 @@ export function handleFieldChangeHelper(currentState, setCurrentState) {
     stateToChange[e.target.id] = e.target.value;
     setCurrentState(stateToChange);
   };
-}
-  // const handleRollerCoasterFieldChange = e => {
-  //   const stateToChange = { ...rollerCoaster };
-  //   stateToChange[e.target.id] = e.target.value;
-  //   setRollerCoaster(stateToChange);
-  // };
+};
 
-  // const handleParkFieldChange = e => {
-  //   const stateToChange = { ...park };
-  //   stateToChange[e.target.id] = e.target.value;
-  //   setPark(stateToChange);
-  // };
 
-  // const handleManufacturerFieldChange = e => {
-  //   const stateToChange = { ...manufacturer };
-  //   stateToChange[e.target.id] = e.target.value;
-  //   setManufacturer(stateToChange);
-  // };
+// helper to be called inside {useEffect} to call async functions, handle the returned data
+// and set the current state of its parameters
+export function setResourceStateHelperFunction(setManufacturers, setTrackTypes, setParks, setIsLoading) {
+  ApiManager.getAllManufacturers().then(manufacturers => {
+    ApiManager.getTrackTypes().then(trackTypes => {
+      ApiManager.getParks().then(parks => {
+        setManufacturers(manufacturers);
+        setTrackTypes(trackTypes);
+        setParks(parks);
+        setIsLoading(false);
+      });
+    });
+  });
+};

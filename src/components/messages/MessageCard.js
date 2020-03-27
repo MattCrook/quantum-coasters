@@ -1,10 +1,13 @@
-import { useAuth0 } from "../../contexts/react-auth0-context";
 import React from "react";
+import { useAuth0 } from "../../contexts/react-auth0-context";
+
 import "./Messages.css";
 
 const MessageCard = props => {
+
   const { user } = useAuth0();
-  const username = user.nickname;
+  console.log(user)
+  const profilePic = props.message.user.picUrl;
   const userId = props.message.userId;
   const text = props.message.message;
   const timestamp = props.message.timestamp;
@@ -12,7 +15,11 @@ const MessageCard = props => {
   return (
     <div className="card">
       <div className="card-content, message-container">
-        <img src={props.userProfile.picUrl} alt="Avatar" />
+        {profilePic ? (
+          <img id="profile-pic" src={profilePic} alt="My Avatar" />
+        ) : (
+          <img id="google-profile-pic" src={user.picture} alt="Avatar" />
+        )}
         <p>
           <strong className="name">{props.message.user.first_name}</strong>:{" "}
           {text}

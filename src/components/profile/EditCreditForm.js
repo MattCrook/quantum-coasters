@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import ApiManager from "../../modules/ApiManager";
-import { useAuth0 } from "../../contexts/react-auth0-context";
+import { setResourceStateHelperFunction } from "../../modules/Helpers";
 import "./EditCreditForm.css";
 
 const EditCreditForm = props => {
-  console.log(props.creditId)
+  console.log(props.creditId);
+  console.log({ props });
+
   const [manufacturers, setManufacturers] = useState([]);
   const [trackTypes, setTrackTypes] = useState([]);
   const [parks, setParks] = useState([]);
@@ -45,16 +47,12 @@ const EditCreditForm = props => {
   };
 
   useEffect(() => {
-    ApiManager.getAllManufacturers().then(manufacturers => {
-      ApiManager.getTrackTypes().then(trackTypes => {
-        ApiManager.getParks().then(parks => {
-          setManufacturers(manufacturers);
-          setTrackTypes(trackTypes);
-          setParks(parks);
-          setIsLoading(false);
-        });
-      });
-    });
+    setResourceStateHelperFunction(
+      setManufacturers,
+      setTrackTypes,
+      setParks,
+      setIsLoading
+    );
   }, []);
 
   return (
@@ -96,7 +94,7 @@ const EditCreditForm = props => {
                 onChange={handleInputChange}
               >
                 {trackTypes.map(trackType => (
-                  <option key={trackType.id} value={trackType.id}>
+                  <option key={trackType.id}>
                     {trackType.name}
                   </option>
                 ))}
@@ -143,7 +141,7 @@ const EditCreditForm = props => {
                   value={credit.parkId}
                 >
                   {parks.map(park => (
-                    <option key={park.id} value={park.id}>
+                    <option key={park.id}>
                       {park.name}
                     </option>
                   ))}
@@ -160,7 +158,7 @@ const EditCreditForm = props => {
                 onChange={handleInputChange}
               >
                 {manufacturers.map(manufacturer => (
-                  <option key={manufacturer.id} value={manufacturer.id}>
+                  <option key={manufacturer.id}>
                     {manufacturer.name}
                   </option>
                 ))}
