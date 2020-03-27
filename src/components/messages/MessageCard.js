@@ -18,7 +18,7 @@ const MessageCard = props => {
         {profilePic ? (
           <img id="profile-pic" src={profilePic} alt="My Avatar" />
         ) : (
-          <img id="google-profile-pic" src={user.picture} alt="Avatar" />
+          <img id="google-profile-pic" src={user.picture} alt="My Avatar" />
         )}
         <p>
           <strong className="name">{props.message.user.first_name}</strong>:{" "}

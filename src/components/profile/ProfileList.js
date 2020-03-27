@@ -68,9 +68,8 @@ const ProfileList = props => {
                   credit => credit.rollerCoasterId !== rollerCoasterId
                 );
                 ApiManager.deleteCredit(userId, filteredCredits).then(() => {
-                    getUserCredits(user)
-                  }
-                );
+                  getUserCredits(user);
+                });
               });
             }
           },
@@ -94,9 +93,7 @@ const ProfileList = props => {
       <div className="profile-container">
         <div className="profile-header-container">
           <div className="icon-container">
-
-            <span className="profile-add-new">
-            </span>
+            <span className="profile-add-new"></span>
           </div>
         </div>
         <section className="profile-content">
@@ -117,17 +114,22 @@ const ProfileList = props => {
           <div className="profile-picture">
             {/* <img src={picUrl} alt="Profile Picture" /> */}
           </div>
-          <p>
-            <strong>
-              {userProfile.first_name} {userProfile.last_name}
-            </strong>
-          </p>
           <button
             className="delete-profile-button"
             onClick={() => deleteUserProfile(userProfile.id)}
           >
             Delete Profile
           </button>
+          <p>
+            <strong>
+              {userProfile.first_name} {userProfile.last_name}
+            </strong>
+            {userProfile.picUrl ? (
+              <img id="profile-pic" src={userProfile.picUrl} alt="My Avatar" />
+            ) : (
+              <img id="google-profile-pic" src={user.picture} alt="My Avatar" />
+            )}
+          </p>
         </section>
         <p className="credits-title">
           <strong>Credits</strong>
