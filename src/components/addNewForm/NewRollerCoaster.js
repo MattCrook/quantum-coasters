@@ -176,7 +176,7 @@ const AddNewRollerCoaster = props => {
               value={trackType.name}
             >
               {trackTypes.map(track => (
-                <option key={track.id} value={track.id}>
+                <option key={track.id} value={track.name}>
                   {track.name}
                 </option>
               ))}
@@ -246,7 +246,7 @@ const AddNewRollerCoaster = props => {
               value={manufacturer.name}
             >
               {manufacturers.map(manufacturer => (
-                <option key={manufacturer.id} value={manufacturer.id}>
+                <option key={manufacturer.id} value={manufacturer.name}>
                   {manufacturer.name}
                 </option>
               ))}

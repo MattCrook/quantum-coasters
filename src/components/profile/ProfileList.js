@@ -67,10 +67,8 @@ const ProfileList = props => {
                 const filteredCredits = credits.filter(
                   credit => credit.rollerCoasterId !== rollerCoasterId
                 );
-                ApiManager.deleteCredit(userId, filteredCredits).then(
-                  response => {
-                    setUserProfile(response);
-                    setUserCredits(response.credits);
+                ApiManager.deleteCredit(userId, filteredCredits).then(() => {
+                    getUserCredits(user)
                   }
                 );
               });
