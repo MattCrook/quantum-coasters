@@ -3,6 +3,7 @@ import ProfileCard from "./ProfileCard";
 import ApiManager from "../../modules/ApiManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { confirmAlert } from "react-confirm-alert";
+import "./Profile.css"
 
 const ProfileList = props => {
   const { user, logout } = useAuth0();
@@ -90,47 +91,43 @@ const ProfileList = props => {
 
   return (
     <>
-      <div className="profile-container">
-        <div className="profile-header-container">
-          <div className="icon-container">
-            <span className="profile-add-new"></span>
-          </div>
-        </div>
-        <section className="profile-content">
+          <nav className="navbar is-dark">
+        <div className="container">
+            {/* <div className="navbar-brand"> */}
+              <button className="navbar-item">Quantum</button>
+            {/* </div> */}
+      {/* <div className="profile-container"> */}
+        <div className="profile-content">
           <button
-            className="big arrow circle left icon"
-            id="back-arrow-detail"
+            className="profile-back-btn"
             onClick={() => props.history.push("/home")}
           >
             Back
           </button>
           <button
-            className="big plus square outline icon"
-            id="plusIcon"
+            className="add-new-credit-btn"
             onClick={() => props.history.push("/users/new")}
           >
             Add New Credit
           </button>
-          <div className="profile-picture">
-            {/* <img src={picUrl} alt="Profile Picture" /> */}
-          </div>
+            </div>
+          <p className="name">
+              {userProfile.first_name} {userProfile.last_name}
+            {userProfile.picUrl ? (
+              <img id="profile-pic" src={userProfile.picUrl} alt="My Avatar" />
+            ) : (
+              <img id="profile-pic" src={user.picture} alt="My Avatar" />
+            )}
+          </p>
           <button
             className="delete-profile-button"
             onClick={() => deleteUserProfile(userProfile.id)}
           >
             Delete Profile
           </button>
-          <p>
-            <strong>
-              {userProfile.first_name} {userProfile.last_name}
-            </strong>
-            {userProfile.picUrl ? (
-              <img id="profile-pic" src={userProfile.picUrl} alt="My Avatar" />
-            ) : (
-              <img id="google-profile-pic" src={user.picture} alt="My Avatar" />
-            )}
-          </p>
-        </section>
+        {/* </div> */}
+        </div>
+        </nav>
         <p className="credits-title">
           <strong>Credits</strong>
         </p>
@@ -149,7 +146,7 @@ const ProfileList = props => {
             />
           ))}
         </div>
-      </div>
+      {/* </div> */}
     </>
   );
 };

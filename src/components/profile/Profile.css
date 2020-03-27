@@ -25,7 +25,7 @@
 
 /********** Header Section ***********/
 
-.profile-header-container {
+/* .profile-header-container {
   margin-left: 10px;
 }
 .profile-content {
@@ -50,6 +50,28 @@ button.btn {
 span.edit-delete-credit {
   display: flex;
   justify-content: space-evenly;
+} */
+
+/*************** Profile List *************/
+
+
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  /* margin: 0 25px;; */
+  padding-right: 20px;
 }
+
+.navbar-item {
+  justify-content: flex-start;
+  color: white;
+}
+
+.profile-content {
+  display: flex;
+  justify-content: space-between;
+}
+
 
 /******************* Add New Ride Form ********************/

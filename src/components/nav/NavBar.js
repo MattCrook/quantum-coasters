@@ -34,7 +34,7 @@ const NavBar = () => {
             </Link>
           </li>
         ) : null}
-                {isAuthenticated ? (
+        {isAuthenticated ? (
           <li>
             <Link className="nav-link" to="/messages">
               {" "}
