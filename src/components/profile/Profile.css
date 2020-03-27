@@ -25,16 +25,16 @@
 
 /********** Header Section ***********/
 
-/* .profile-header-container {
+.profile-header-container {
   margin-left: 10px;
 }
-.profile-content {
+/* .profile-content {
   display: flex;
   justify-content: space-evenly;
   align-items: flex-start;
   margin-top: 20px;
   margin-bottom: 50px;
-}
+} */
 .icon-container {
   margin-right: 90px;
 }
@@ -50,7 +50,7 @@ button.btn {
 span.edit-delete-credit {
   display: flex;
   justify-content: space-evenly;
-} */
+}
 
 /*************** Profile List *************/
 
@@ -60,7 +60,7 @@ span.edit-delete-credit {
   display: flex;
   justify-content: space-between;
   /* margin: 0 25px;; */
-  padding-right: 20px;
+  /* padding-right: 20px; */
 }
 
 .navbar-item {
@@ -73,5 +73,22 @@ span.edit-delete-credit {
   justify-content: space-between;
 }
 
+.delete-profile-button {
+  color: white;
+}
+ .profile-back-btn {
+   border: 1px solid black;
+ }
+
+ .add-new-credit-btn {
+   color: white;
+ }
 
 /******************* Add New Ride Form ********************/
+
+
+/*************** Edit Profile Form *********************/
+
+.edit-create-btn {
+  border: 1px solid black;
+}

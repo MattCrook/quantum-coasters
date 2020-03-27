@@ -56,6 +56,15 @@ const ApiManager = {
       body: JSON.stringify(editedObject)
     }).then(data => data.json());
   },
+  async putEditedProfile(editedObject) {
+    return fetch(`${remoteURL}/users/${editedObject.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(editedObject)
+    }).then(data => data.json());
+  },
 
   /*********** ROLLERCOASTERS ************/
 

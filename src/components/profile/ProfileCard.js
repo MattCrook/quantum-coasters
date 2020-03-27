@@ -5,7 +5,6 @@ const ProfileCard = props => {
   const rollerCoaster = props.rollerCoaster;
   const manufacturer = props.manufacturer;
   const park = props.park;
-  const creditsArray = props.userProfile.credits
 
   return (
     <div className="profile-card">
@@ -48,7 +47,7 @@ const ProfileCard = props => {
               Edit
             </button>
           </span>
-          <span>
+          {/* <span>
             <button
               className="details-btn"
               onClick={() =>
@@ -57,7 +56,7 @@ const ProfileCard = props => {
             >
               Ride Details
             </button>
-          </span>
+          </span> */}
           <span>
           <button
               className="delete-btn"

@@ -9,6 +9,7 @@ import AddNewCreditForm from "./profile/NewCreditForm";
 import CreateAccount from "./auth/Register";
 import EditCreditForm from "./profile/EditCreditForm";
 import MessageList from "./messages/Messages";
+import EditProfile from "./profile/EditProfile";
 
 const ApplicationViews = props => {
   const { isAuthenticated } = useAuth0();
@@ -85,7 +86,7 @@ const ApplicationViews = props => {
           if (isAuthenticated) {
             return (
               <EditCreditForm
-                creditId={parseInt(props.match.params.creditId)}
+                rollerCoasterId={parseInt(props.match.params.rollerCoasterId)}
                 {...props}
               />
             );
@@ -100,6 +101,22 @@ const ApplicationViews = props => {
         render={props => {
           if (isAuthenticated) {
             return <MessageList {...props} />;
+          } else {
+            return <Redirect to="/login" />;
+          }
+        }}
+      />
+      <Route
+        exact
+        path="/profile/:userProfileId(\d+)"
+        render={props => {
+          if (isAuthenticated) {
+            return (
+              <EditProfile
+                userProfileId={parseInt(props.match.params.userProfileId)}
+                {...props}
+              />
+            );
           } else {
             return <Redirect to="/login" />;
           }
