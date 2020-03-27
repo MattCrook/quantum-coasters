@@ -5,23 +5,27 @@ const ProfileCard = props => {
   // const picUrl = props.user.picture;
   // const username = props.username;
   // const userNickname = props.user.nickname;
+  const rollerCoaster = props.rollerCoaster;
+  const manufacturer = props.manufacturer;
+  const park = props.park;
+  console.log({props});
 
   return (
     <div className="profile-card">
       <div className="profile-card-content">
         <div className="ride-name-container">
-          <h3 className="ride-name">{props.rollerCoaster.name}</h3>
+          <h3 className="ride-name">{rollerCoaster.name}</h3>
         </div>
         <br />
         <div className="ride-details-section">
           <strong>Details</strong>
         </div>
-        <h4>Home Park: {props.park.name}</h4>
-        <h4>Manufactured By: {props.manufacturer.name}</h4>
+        <h4>Home Park: {park.name}</h4>
+        <h4>Manufactured By: {manufacturer.name}</h4>
         <div className="linkForCompanyWebsite">
           <a
             className="link-to-company"
-            href={props.manufacturer.manufacture_url}
+            href={manufacturer.manufacture_url}
           >
             See More
           </a>
@@ -29,35 +33,19 @@ const ProfileCard = props => {
 
         <p>
           Max Speed:
-          {props.rollerCoaster.max_speed} mph
+          {rollerCoaster.max_speed} mph
         </p>
         <p>
           Max Height:
-          {props.rollerCoaster.max_height} ft
+          {rollerCoaster.max_height} ft
         </p>
         <p>Track Type: {props.trackType.name}</p>
-        {/* <span data-tooltip="EDIT">
-          <i
-            className="big edit icon"
-            id="newsDetailIcon"
-            onClick={() => props.history.push(`/profile/${props.rollerCoaster.id}/edit`)}
-          ></i>
-        </span>
-
-        <span data-tooltip="DELETE">
-          <i
-            id="trashIcon"
-            className="big trash alternate icon"
-            onClick={() => props.deleteCredit(props.rollerCoaster.id)}
-          ></i>
-        </span> */}
-
-        <section className="edit-delete-credit">
+        <section className="card-btns">
           <span>
             <button
               className="edit-btn"
               onClick={() =>
-                props.history.push(`/users/${props.rollerCoaster.id}/edit`)
+                props.history.push(`/users/${rollerCoaster.id}/edit`)
               }
             >
               Edit
@@ -65,8 +53,18 @@ const ProfileCard = props => {
           </span>
           <span>
             <button
+              className="details-btn"
+              onClick={() =>
+                props.history.push(`/users/${rollerCoaster.id}/details`)
+              }
+            >
+              Ride Details
+            </button>
+          </span>
+          <span>
+          <button
               className="delete-btn"
-              onClick={() => props.deleteCredit(props.rollerCoaster.id)}
+              onClick={() => props.deleteCredit(rollerCoaster.id)}
             >
               Delete
             </button>

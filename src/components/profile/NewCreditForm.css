@@ -166,18 +166,29 @@ justify-content: space-between;
 
 /*************  Roller Coaster List *****************/
 
-.roller-coaster-list-container {
-  display: flex;
-  justify-content: flex-start;
-  flex-direction: column;
-}
-
 .list-items-container {
   display: flex;
   flex-direction: column;
 }
 
-.add-credit-button {
-border: 1px solid black;
+.list-elements {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  /* width: 400px; */
+  /* border: 2px solid black; */
+  align-content: center;
+  padding: 7px 20px;
+  margin: 0 30%;
+}
 
+.add-credit-button {
+  border: 1px solid black;
+}
+button.add-credit-button {
+  justify-content: flex-end;
 }

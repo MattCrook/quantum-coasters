@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ApiManager from "../../modules/ApiManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { confirmAlert } from "react-confirm-alert";
-
+import { handleFieldChangeHelper } from "../../modules/Helpers";
 import "./NewRollerCoasterForm.css";
+
 const AddNewRollerCoaster = props => {
-  console.log(props);
+  const [manufacturers, setManufacturers] = useState([]);
+  const [trackTypes, setTrackTypes] = useState([]);
+  const [parks, setParks] = useState([]);
   const [IsLoading, setIsLoading] = useState(false);
 
   const [manufacturer, setManufacturer] = useState({
@@ -32,30 +35,23 @@ const AddNewRollerCoaster = props => {
     parkId: ""
   });
 
-  // handle what user is typing in
-  const handleRollerCoasterFieldChange = e => {
-    const stateToChange = { ...rollerCoaster };
-    stateToChange[e.target.id] = e.target.value;
-    setRollerCoaster(stateToChange);
-  };
+  // handle what user is typing in (helper function in Helpers.js)
+  const handleRollerCoasterFieldChange = handleFieldChangeHelper(
+    rollerCoaster,
+    setRollerCoaster
+  );
 
-  const handleParkFieldChange = e => {
-    const stateToChange = { ...park };
-    stateToChange[e.target.id] = e.target.value;
-    setPark(stateToChange);
-  };
+  const handleParkFieldChange = handleFieldChangeHelper(park, setPark);
 
-  const handleManufacturerFieldChange = e => {
-    const stateToChange = { ...manufacturer };
-    stateToChange[e.target.id] = e.target.value;
-    setManufacturer(stateToChange);
-  };
+  const handleManufacturerFieldChange = handleFieldChangeHelper(
+    manufacturer,
+    setManufacturer
+  );
 
-  const handleTrackTypeFieldChange = e => {
-    const stateToChange = { ...trackType };
-    stateToChange[e.target.id] = e.target.value;
-    setTrackType(stateToChange);
-  };
+  const handleTrackTypeFieldChange = handleFieldChangeHelper(
+    trackType,
+    setTrackType
+  );
 
   // object to go into database
   const constructNewRollerCoaster = e => {
@@ -94,7 +90,7 @@ const AddNewRollerCoaster = props => {
     ) {
       alert("Please fill out all fields in form");
     } else {
-      // setIsLoading(true);
+      setIsLoading(true);
       confirmAlert({
         title: "Confirm Roller Coaster Data Submission",
         message: "Confirm",
@@ -106,7 +102,8 @@ const AddNewRollerCoaster = props => {
                 const trackTypeId = id;
                 ApiManager.postNewPark(newPark).then(({ id }) => {
                   const parkId = id;
-                  ApiManager.postNewManufacturer(newManufacturer).then(({ id }) => {
+                  ApiManager.postNewManufacturer(newManufacturer).then(
+                    ({ id }) => {
                       const manufacturerId = id;
                       const newRollerCoaster = {
                         name: rollerCoaster.name,
@@ -116,17 +113,35 @@ const AddNewRollerCoaster = props => {
                         parkId: parkId,
                         manufacturerId: manufacturerId
                       };
-                      ApiManager.postNewRollerCoaster(newRollerCoaster).then(() =>
-                      props.history.push("/users/new"));
+                      ApiManager.postNewRollerCoaster(
+                        newRollerCoaster
+                      ).then(() => props.history.push("/users/new"));
                     }
                   );
                 });
               })
+          },
+          {
+            label: "No",
+            onClick: () => ""
           }
         ]
       });
     }
   };
+
+  useEffect(() => {
+    ApiManager.getAllManufacturers().then(manufacturers => {
+      ApiManager.getTrackTypes().then(trackTypes => {
+        ApiManager.getParks().then(parks => {
+          setManufacturers(manufacturers);
+          setTrackTypes(trackTypes);
+          setParks(parks);
+          setIsLoading(false);
+        });
+      });
+    });
+  }, []);
 
   return (
     <>
@@ -153,16 +168,19 @@ const AddNewRollerCoaster = props => {
               value={rollerCoaster.name}
             />
             <label htmlFor="inputTrackType">Track Type</label>
-            <input
+            <select
               className="input"
               onChange={handleTrackTypeFieldChange}
-              type="text"
               id="name"
               placeholder="Enter The Track Type"
-              required=""
-              autoFocus=""
               value={trackType.name}
-            />
+            >
+              {trackTypes.map(track => (
+                <option key={track.id} value={track.name}>
+                  {track.name}
+                </option>
+              ))}
+            </select>
 
             <label htmlFor="inputMaxHeight">Max Height</label>
             <input
@@ -220,16 +238,19 @@ const AddNewRollerCoaster = props => {
               value={park.parkCountry}
             />
             <label htmlFor="inputManufacturer">Manufacturer</label>
-            <input
+            <select
               className="input"
               onChange={handleManufacturerFieldChange}
-              type="dropdown"
               id="name"
-              placeholder="Enter Manufacturer Name"
-              required=""
-              autoFocus=""
+              placeholder="Select Manufacturer Name"
               value={manufacturer.name}
-            />
+            >
+              {manufacturers.map(manufacturer => (
+                <option key={manufacturer.id} value={manufacturer.name}>
+                  {manufacturer.name}
+                </option>
+              ))}
+            </select>
             <label htmlFor="inputManufacturer">
               Manufacturer Country Of Operations
             </label>

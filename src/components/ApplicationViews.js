@@ -96,33 +96,15 @@ const ApplicationViews = props => {
       />
       <Route
         exact
-        path="/messages/:userId(\d+)"
-        // path="/messages"
+        path="/messages"
         render={props => {
           if (isAuthenticated) {
-            return (
-              <MessageList
-                userId={parseInt(props.match.params.userId)}
-                {...props}
-              />
-            );
+            return <MessageList {...props} />;
           } else {
             return <Redirect to="/login" />;
           }
         }}
       />
-
-      {/* <Route
-        exact
-        path="/rollerCoasterDetails"
-        render={props => {
-          if (isAuthenticated === true) {
-            return <AddNewRollerCoaster {...props} />;
-          } else {
-            return <Redirect to="/" />;
-          }
-        }}
-      /> */}
     </React.Fragment>
   );
 };

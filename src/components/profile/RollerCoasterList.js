@@ -10,7 +10,7 @@ const RollerCoasterList = props => {
   const [rollerCoasters, setRollerCoasters] = useState([]);
   const [userProfile, setUserProfile] = useState({});
   const [credits, setCredits] = useState([]);
-
+  
 
   // function to populate entire list of rollerCoasters in database
   const rollerCoastersFromAPI = async () => {
@@ -64,7 +64,7 @@ const RollerCoasterList = props => {
     <>
       <div className="roller-coaster-list-container">
         <ul className="list-items-container">
-          {rollerCoasters.map(rollerCoaster => (
+          {rollerCoasters && rollerCoasters.map(rollerCoaster => (
             <li className="list-elements" key={rollerCoaster.id}>
               <strong>{rollerCoaster.name} </strong>
               {rollerCoaster.park.name}, {rollerCoaster.park.parkCountry}{" "}

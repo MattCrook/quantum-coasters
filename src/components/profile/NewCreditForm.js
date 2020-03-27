@@ -41,19 +41,17 @@ const AddNewCreditForm = props => {
       </div>
       <div className="rollerCoaster-list-to-add-credits">
         <RollerCoasterList
-          // userProfile={userProfile}
-          // credits={credits}
           {...props}
         />
       </div>
-      <form className="newCredit-credit-form">
-        {/* <div className="edit-credit-icon-container">
+      {/* <form className="newCredit-credit-form">
+        <div className="edit-credit-icon-container">
           <i
             className="big arrow circle left icon"
             id="back-arrow-detail"
             onClick={() => props.history.push("/users")}
           ></i>
-        </div> */}
+        </div>
         <div className="newCredit-formgrid">
           <div className="newCredit-form-fields">
             <div>
@@ -65,15 +63,15 @@ const AddNewCreditForm = props => {
                   cols="80"
                   required
                   className="form-control"
-                  // onChange={handleFieldChange}
+                  onChange={handleFieldChange}
                   id="name"
-                  // value={credit.name}
+                  value={credit.name}
                 ></select>
               </p>
             </div>
             <div>
               <label htmlFor="trackType">Track Type</label>
-              {/* <select
+              <select
                 className="form-control"
                 required
                 id="trackTypeId"
@@ -85,7 +83,7 @@ const AddNewCreditForm = props => {
                     {trackType.name}
                   </option>
                 ))}
-              </select> */}
+              </select>
             </div>
             <div>
               <label htmlFor="max_height">Max Height</label>
@@ -96,9 +94,9 @@ const AddNewCreditForm = props => {
                   cols="40"
                   required
                   className="form-control"
-                  // onChange={handleFieldChange}
+                  onChange={handleFieldChange}
                   id="max_height"
-                  // value={credit.max_height}
+                  value={credit.max_height}
                 />
               </p>
             </div>
@@ -111,16 +109,16 @@ const AddNewCreditForm = props => {
                   cols="40"
                   required
                   className="form-control"
-                  // onChange={handleFieldChange}
+                  onChange={handleFieldChange}
                   id="max_speed"
-                  // value={credit.max_speed}
+                  value={credit.max_speed}
                 />
               </p>
             </div>
             <div>
               <label htmlFor="parkId">Park Name</label>
               <p>
-                {/* <select
+                <select
                   required
                   className="form-control"
                   onChange={handleFieldChange}
@@ -132,12 +130,12 @@ const AddNewCreditForm = props => {
                       {park.name}
                     </option>
                   ))}
-                </select> */}
+                </select>
               </p>
             </div>
             <div>
               <label htmlFor="manufacturerId">Manufacturer</label>
-              {/* <select
+              <select
                 className="form-control"
                 required
                 id="manufacturerId"
@@ -149,14 +147,14 @@ const AddNewCreditForm = props => {
                     {manufacturer.name}
                   </option>
                 ))}
-              </select> */}
+              </select>
             </div>
           </div>
           <div className="newCredit-submit">
             <button
               type="button"
-              // disabled={isLoading}
-              // onClick={createNewCredit}
+              disabled={isLoading}
+              onClick={createNewCredit}
               id="editCreditFormBtn"
               className="ui blue basic button"
             >
@@ -164,7 +162,7 @@ const AddNewCreditForm = props => {
             </button>
           </div>
         </div>
-      </form>
+      </form> */}
     </>
   );
 };

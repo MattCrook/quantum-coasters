@@ -4,9 +4,7 @@ import { useAuth0 } from "../../contexts/react-auth0-context";
 import "./EditCreditForm.css";
 
 const EditCreditForm = props => {
-  //   const userProfileId = props.userProfile.id;
-
-  const { user, history } = useAuth0();
+  console.log(props.creditId)
   const [manufacturers, setManufacturers] = useState([]);
   const [trackTypes, setTrackTypes] = useState([]);
   const [parks, setParks] = useState([]);
@@ -18,8 +16,7 @@ const EditCreditForm = props => {
     max_height: "",
     max_speed: "",
     parkId: "",
-    manufacturerId: "",
-    userProfileId: ""
+    manufacturerId: ""
   });
 
   const handleInputChange = e => {
@@ -33,7 +30,7 @@ const EditCreditForm = props => {
     setIsLoading(true);
 
     const editedCredit = {
-      id: props.match.params.creditId,
+      id: props.creditId,
       name: credit.name,
       trackTypeId: credit.trackTypeId,
       max_height: credit.max_height,
@@ -42,7 +39,9 @@ const EditCreditForm = props => {
       manufacturerId: credit.manufacturer
     };
 
-    ApiManager.updateCredit(editedCredit).then(() => props.history.push("/users"));
+    ApiManager.updateCredit(editedCredit).then(() =>
+      props.history.push("/users")
+    );
   };
 
   useEffect(() => {
@@ -58,7 +57,6 @@ const EditCreditForm = props => {
     });
   }, []);
 
-
   return (
     <>
       <div className="back-btn-edit-container">
@@ -71,16 +69,9 @@ const EditCreditForm = props => {
         </button>
       </div>
       <form className="edit-credit-form">
-        {/* <div className="edit-credit-icon-container">
-          <i
-            className="big arrow circle left icon"
-            id="back-arrow-detail"
-            onClick={() => props.history.push("/users")}
-          ></i>
-        </div> */}
-          <div className="edit-formgrid">
-            <div className="edit-form-fields">
-                <div>
+        <div className="edit-formgrid">
+          <div className="edit-form-fields">
+            <div>
               <label htmlFor="name">Roller Coaster Name</label>
               <p>
                 <textarea
@@ -175,19 +166,19 @@ const EditCreditForm = props => {
                 ))}
               </select>
             </div>
-            </div>
-            <div className="edit-alignRight">
-              <button
-                type="button"
-                disabled={isLoading}
-                onClick={updateExistingCredit}
-                id="editCreditFormBtn"
-                className="ui blue basic button"
-              >
-                Update
-              </button>
-            </div>
           </div>
+          <div className="edit-alignRight">
+            <button
+              type="button"
+              disabled={isLoading}
+              onClick={updateExistingCredit}
+              id="editCreditFormBtn"
+              className="ui blue basic button"
+            >
+              Update
+            </button>
+          </div>
+        </div>
       </form>
     </>
   );

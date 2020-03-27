@@ -17,11 +17,13 @@ const CreateAccount = props => {
     credits: [],
     picUrl: ""
   });
+
   const handleInputChange = e => {
     const stateToChange = { ...userProfile };
     stateToChange[e.target.id] = e.target.value;
     setUserProfile(stateToChange);
   };
+
   const handleFormSubmit = e => {
     e.preventDefault();
     ApiManager.postNewUser(userProfile).then(user => {

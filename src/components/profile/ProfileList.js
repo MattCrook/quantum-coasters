@@ -55,7 +55,7 @@ const ProfileList = props => {
     try {
       confirmAlert({
         title: "Confirm to delete",
-        message: "Are you sure you want to delete this?",
+        message: "Are you sure you want to remove this credit?",
         buttons: [
           {
             label: "Yes",
@@ -67,9 +67,8 @@ const ProfileList = props => {
                 const filteredCredits = credits.filter(
                   credit => credit.rollerCoasterId !== rollerCoasterId
                 );
-                ApiManager.deleteCredit(userId, filteredCredits).then(
-                  response => {
-                    setUserProfile(response);
+                ApiManager.deleteCredit(userId, filteredCredits).then(() => {
+                    getUserCredits(user)
                   }
                 );
               });
@@ -95,35 +94,8 @@ const ProfileList = props => {
       <div className="profile-container">
         <div className="profile-header-container">
           <div className="icon-container">
-            {/* <span data-tooltip="BACK">
-              <i
-                className="big arrow circle left icon"
-                id="back-arrow-detail"
-                onClick={() => props.history.push("/home")}
-              ></i> 
-              </span> */}
-            {/* <span data-tooltip="ADD NEW CREDIT">
-                  <i
-                    className="big plus square outline icon"
-                    id="plusIcon"
-                    onClick={() => props.history.push("/profile/new")}
-                  ></i>
-                </span> */}
-
-            {/* <span className="profile-back-button">
-                <button
-                className="big arrow circle left icon"
-                id="back-arrow-detail"
-                onClick={() => props.history.push("/home")}
-              >BACK</button>
-            </span> */}
 
             <span className="profile-add-new">
-              {/* <button
-                className="big plus square outline icon"
-                id="plusIcon"
-                onClick={() => props.history.push("/profile/new")}
-              >ADD NEW CREDIT</button> */}
             </span>
           </div>
         </div>
@@ -133,14 +105,14 @@ const ProfileList = props => {
             id="back-arrow-detail"
             onClick={() => props.history.push("/home")}
           >
-            BACK
+            Back
           </button>
           <button
             className="big plus square outline icon"
             id="plusIcon"
             onClick={() => props.history.push("/users/new")}
           >
-            ADD NEW CREDIT
+            Add New Credit
           </button>
           <div className="profile-picture">
             {/* <img src={picUrl} alt="Profile Picture" /> */}
@@ -156,15 +128,6 @@ const ProfileList = props => {
           >
             Delete Profile
           </button>
-          {/* <button
-            type="button"
-            className="btn"
-            onClick={() => {
-              props.history.push("/profile/new");
-            }}
-          >
-            Add New Credit
-          </button> */}
         </section>
         <p className="credits-title">
           <strong>Credits</strong>
