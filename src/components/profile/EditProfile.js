@@ -79,13 +79,9 @@ const EditProfile = props => {
     }
   };
 
-
-
   console.log({ user });
   console.log({ userProfile });
   console.log({ props });
-
-
 
   useEffect(() => {
     getProfile(user);
@@ -94,20 +90,23 @@ const EditProfile = props => {
 
   return (
     <>
-      {/* <form className="edit-profile-form" onSubmit={handleFormSubmit}>
-        <fieldset className="fs-edit-form"> */}
-          <div className="title">
-            <h3 className="edit-profile-title">Edit Your Profile</h3>
-          </div>
-
-          <div className="profile-pic-container">
+      <nav className="navbar is-dark">
+        <div className="edit-profile-title-container">
+          <h4 className="edit-profile-title">Edit Your Profile</h4>
+        </div>
+      </nav>
+      <div className="profile-pic-container">
+        <div className="profile-pic-flex-box">
           {userProfile.picUrl ? (
-              <img id="profile-pic" src={userProfile.picUrl} alt="My Avatar" />
-            ) : (
-              <img id="profile-pic" src={user.picture} alt="My Avatar" />
-            )}
-            </div>
-            <div>
+            <img
+              id="edit-profile-pic"
+              src={userProfile.picUrl}
+              alt="My Avatar"
+            />
+          ) : (
+            <img id="edit-profile-pic" src={user.picture} alt="My Avatar" />
+          )}
+          <div className="change-profile-pic">
             <label htmlFor="picUrl">Profile picture</label>
             <input
               name="file"
@@ -133,99 +132,64 @@ const EditProfile = props => {
               )}
             </div>
           </div>
+        </div>
+        <div className="profile-info-container">
+          <div>First: {userProfile.first_name}</div>
+          <div>Last: {userProfile.last_name}</div>
+          <div>Username: {userProfile.username}</div>
+          <div className="list-of-credits">List of Credits</div>
+          {userCredits.map(credit => (
+            <li key={credit.id}>{credit.name}</li>
+          ))}
+        </div>
+      </div>
+      <form className="edit-profile-form" onSubmit={handleFormSubmit}>
+      <div className="profile-inputs">
+        <label htmlFor="first_name">First Name</label>
+        <input
+          className="input"
+          onChange={handleInputChange}
+          type="text"
+          id="first_name"
+          required=""
+          autoFocus=""
+        />
+        <label htmlFor="last_name">Last Name</label>
 
-
-
-
-
-            <div>{userProfile.first_name}</div>
-            <div>{userProfile.last_name}</div>
-            <div>{userProfile.username}</div>
-            <div className="list-of-credits">List of Credits</div>
-            {userCredits.map(credit => (
-                <li key={credit.id}>{credit.name}</li>
-            ))}
-
-           
-           
-           
-           
-           
-           
-           
-           
-           
-           {/* <div>
-            <label htmlFor="picUrl">Profile picture</label>
-            <input
-              name="file"
-              id="picUrl"
-              type="file"
-              className="file-upload"
-              placeholder="Upload an Image"
-              data-cloudinary-field="image_id"
-              onChange={uploadImage}
-              data-form-data="{ 'transformation': {'crop':'limit','tags':'samples','width':3000,'height':2000}}"
-            />
-            <div className="newPhoto">
-              {loading ? (
-                <h3> Loading...</h3>
-              ) : (
-                <>
-                  <img
-                    src={image.picUrl}
-                    style={{ width: "300px" }}
-                    alt="upload-photos"
-                  />
-                </>
-              )}
-            </div>
-          </div> */}
-
-          <div className="profile-inputs">
-            <label htmlFor="first_name">First Name</label>
-            <input
-              className="input"
-              onChange={handleInputChange}
-              type="text"
-              id="first_name"
-              required=""
-              autoFocus=""
-            />
-            <label htmlFor="last_name">Last Name</label>
-
-            <input
-              className="input"
-              onChange={handleInputChange}
-              type="text"
-              id="last_name"
-              required=""
-              autoFocus=""
-            />
-            <label htmlFor="inputUsername">Username</label>
-            <input
-              className="input"
-              onChange={handleInputChange}
-              type="text"
-              id="username"
-              required=""
-              autoFocus=""
-            />
-            <label htmlFor="inputAddress">Address</label>
-            <input
-              className="input"
-              onChange={handleInputChange}
-              type="text"
-              id="address"
-              required=""
-              autoFocus=""
-            />
-          </div>
-          <button className="edit-create-btn" type="submit">
-            Complete
-          </button>
-        {/* </fieldset>
-      </form> */}
+        <input
+          className="input"
+          onChange={handleInputChange}
+          type="text"
+          id="last_name"
+          required=""
+          autoFocus=""
+        />
+        <label htmlFor="inputUsername">Username</label>
+        <input
+          className="input"
+          onChange={handleInputChange}
+          type="text"
+          id="username"
+          required=""
+          autoFocus=""
+        />
+        <label htmlFor="inputAddress">Address</label>
+        <input
+          className="input"
+          onChange={handleInputChange}
+          type="text"
+          id="address"
+          required=""
+          autoFocus=""
+        />
+      </div>
+      <button
+        className="edit-create-btn"
+        type="submit"
+      >
+        Complete
+      </button>
+      </form>
     </>
   );
 };

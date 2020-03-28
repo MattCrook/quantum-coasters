@@ -54,8 +54,6 @@ span.edit-delete-credit {
 
 /*************** Profile List *************/
 
-
-
 .container {
   display: flex;
   justify-content: space-between;
@@ -76,19 +74,93 @@ span.edit-delete-credit {
 .delete-profile-button {
   color: white;
 }
- .profile-back-btn {
-   border: 1px solid black;
- }
+.profile-back-btn {
+  border: 1px solid black;
+}
 
- .add-new-credit-btn {
-   color: white;
- }
+.add-new-credit-btn {
+  color: white;
+}
 
 /******************* Add New Ride Form ********************/
 
-
 /*************** Edit Profile Form *********************/
 
-.edit-create-btn {
+.edit-profile-title-container {
+  display: flex;
+  align-items: center;
+  padding-left: 3rem;
+}
+.edit-profile-title {
+  color: white;
+  font-size: 18px;
+}
+
+.profile-pic-container {
+  display: flex;
+  justify-content: center;
+}
+
+.profile-pic-flex-box{
+display: flex;
+justify-content: center;
+flex-direction: column;
+}
+
+.profile-info-container {
+  justify-content: center;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+}
+
+#edit-profile-pic {
+  width: 210px;
+  height: 200px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+.change-profile-pic {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 1rem;
+  font-weight: bold;
+}
+
+
+
+.list-of-credits {
+margin-top: 3rem;
+font-weight: bold;
+}
+
+.edit-profile-form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.edit-create-btn:hover,
+.edit-create-btn:focus {
+  animation: pulse 1s;
+  box-shadow: 0 0 0 2em rgba(rgb(5, 3, 3), 0);
+  border-color: var(--hover);
   border: 1px solid black;
+
+}
+
+.profile-inputs {
+  transition: 0.25s;
+  /* background-color: hsl(228, 7%, 13%); */
+  border: 2px solid;
+  margin: 0.5em;
+  padding: 1em 2em;
+  border-radius: 15px;
+  box-shadow: 1px 1px 3px #000;
+
+
 }
