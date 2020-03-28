@@ -27,14 +27,13 @@ console.log(userProfile)
   return (
     <header>
       <nav className="navbar is-dark">
-        <div className="container">
+        {/* <div className="container"> */}
           <div className="navbar-menu is-active">
             {/* logo */}
             <div className="navbar-brand">
               <button className="navbar-item">Quantum</button>
             </div>
             {/* menu items */}
-            <div className="navbar-end">
               {/* if there is a user. show the login button */}
               {!loading && user && (
                 <>
@@ -59,9 +58,8 @@ console.log(userProfile)
                   </div>
                 </>
               )}
-            </div>
           </div>
-        </div>
+        {/* </div> */}
       </nav>
 
       {!userProfile.id && (

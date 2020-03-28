@@ -3,6 +3,7 @@ import ApiManager from "../../modules/ApiManager";
 import { confirmAlert } from "react-confirm-alert";
 import { handleFieldChangeHelper } from "../../modules/Helpers";
 import { setResourceStateHelperFunction } from "../../modules/Helpers";
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 import "./NewRollerCoasterForm.css";
 
@@ -150,7 +151,7 @@ const AddNewRollerCoaster = props => {
         BACK
       </button>
       <form className="main-form" onSubmit={constructNewRollerCoaster}>
-        <fieldset className="fs-form">
+        {/* <fieldset className="fs-form"> */}
           <h3 className="title">Input Ride Details</h3>
           <div className="create-form">
             <label htmlFor="inputName">Roller Coaster Name</label>
@@ -167,6 +168,7 @@ const AddNewRollerCoaster = props => {
             <label htmlFor="inputTrackType">Track Type</label>
             <select
               className="input"
+              type="dropdown"
               onChange={handleTrackTypeFieldChange}
               id="name"
               placeholder="Enter The Track Type"
@@ -282,7 +284,7 @@ const AddNewRollerCoaster = props => {
               Submit
             </button>
           </div>
-        </fieldset>
+        {/* </fieldset> */}
       </form>
     </>
   );

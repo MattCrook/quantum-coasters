@@ -4,6 +4,7 @@ import ApiManager from "../../modules/ApiManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { confirmAlert } from "react-confirm-alert";
 import "./Profile.css";
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 const ProfileList = props => {
   const { user, logout } = useAuth0();
@@ -35,7 +36,7 @@ const ProfileList = props => {
     try {
       confirmAlert({
         title: "Confirm to delete",
-        message: "Are you sure you want to delete this?",
+        message: "Are you sure you want to delete your profile? Once this is done you will no longer have an account and will loose your credits.",
         buttons: [
           {
             label: "Yes",

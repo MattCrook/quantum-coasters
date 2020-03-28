@@ -9,8 +9,7 @@ const AddNewCreditForm = props => {
     <>
       <section className="ride-not-found-section">
         <h3 className="banner">
-          Don't see the information to fill out the form? Click below and help
-          us add to our repertoire!
+          Don't see the ride you ar looking for? Click below and help us add to our repertoire!
         </h3>
         <button
           type="button"

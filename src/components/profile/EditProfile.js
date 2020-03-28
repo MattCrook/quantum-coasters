@@ -4,12 +4,12 @@ import { useAuth0 } from "../../contexts/react-auth0-context";
 import "./Profile.css";
 
 const EditProfile = props => {
+  console.log({ props });
   const { user, loading } = useAuth0();
 
   const [userCredits, setUserCredits] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState({});
-
   const [userProfile, setUserProfile] = useState({
     first_name: "",
     last_name: "",
@@ -35,7 +35,10 @@ const EditProfile = props => {
     setIsLoading(true);
     ApiManager.putEditedProfile(userProfile)
       .then(updatedProfile => {
+        setIsLoading(false);
         setUserProfile(updatedProfile);
+        window.alert("Profile has been updated!");
+        props.history.push("/users");
       })
       .catch(e => console.log(e));
   };
@@ -45,7 +48,7 @@ const EditProfile = props => {
     const data = new FormData();
     data.append("file", files[0]);
     data.append("upload_preset", "photoLab");
-    setIsLoading(true);
+    // setIsLoading(true);
     // const res = await fetch(
     //   `https://api.cloudinary.com/v1_1/${keys.cloudinary}/image/upload`,
     //   {
@@ -55,7 +58,7 @@ const EditProfile = props => {
     // );
     // const file = await res.json();
     // setImage({ picUrl: file.secure_url });
-    setIsLoading(false);
+    // setIsLoading(false);
   };
 
   const getUserCredits = async user => {
@@ -79,13 +82,11 @@ const EditProfile = props => {
     }
   };
 
-  console.log({ user });
-  console.log({ userProfile });
-  console.log({ props });
-
   useEffect(() => {
+    console.log("CALLED");
     getProfile(user);
     getUserCredits(user);
+    setIsLoading(false);
   }, []);
 
   return (
@@ -137,57 +138,64 @@ const EditProfile = props => {
           <div>First: {userProfile.first_name}</div>
           <div>Last: {userProfile.last_name}</div>
           <div>Username: {userProfile.username}</div>
+              <div>Address: {userProfile.address}</div>
           <div className="list-of-credits">List of Credits</div>
           {userCredits.map(credit => (
             <li key={credit.id}>{credit.name}</li>
           ))}
         </div>
       </div>
-      <form className="edit-profile-form" onSubmit={handleFormSubmit}>
-      <div className="profile-inputs">
-        <label htmlFor="first_name">First Name</label>
-        <input
-          className="input"
-          onChange={handleInputChange}
-          type="text"
-          id="first_name"
-          required=""
-          autoFocus=""
-        />
-        <label htmlFor="last_name">Last Name</label>
 
-        <input
-          className="input"
-          onChange={handleInputChange}
-          type="text"
-          id="last_name"
-          required=""
-          autoFocus=""
-        />
-        <label htmlFor="inputUsername">Username</label>
-        <input
-          className="input"
-          onChange={handleInputChange}
-          type="text"
-          id="username"
-          required=""
-          autoFocus=""
-        />
-        <label htmlFor="inputAddress">Address</label>
-        <input
-          className="input"
-          onChange={handleInputChange}
-          type="text"
-          id="address"
-          required=""
-          autoFocus=""
+      <form className="edit-profile-form" onSubmit={handleFormSubmit}>
+        <div className="profile-inputs">
+          <label htmlFor="first_name">First Name</label>
+          <input
+            className="input"
+            onChange={handleInputChange}
+            type="text"
+            id="first_name"
+            required=""
+            autoFocus=""
+            value={userProfile.first_name}
           />
-      <button
-        className="edit-create-btn"
-        type="submit"
-        >
-        Complete
-      </button>
+          <label htmlFor="last_name">Last Name</label>
+
+          <input
+            className="input"
+            onChange={handleInputChange}
+            type="text"
+            id="last_name"
+            required=""
+            autoFocus=""
+            value={userProfile.last_name}
+          />
+          <label htmlFor="inputUsername">Username</label>
+          <input
+            className="input"
+            onChange={handleInputChange}
+            type="text"
+            id="username"
+            required=""
+            autoFocus=""
+            value={userProfile.username}
+          />
+          <label htmlFor="inputAddress">Address</label>
+          <input
+            className="input"
+            onChange={handleInputChange}
+            type="text"
+            id="address"
+            required=""
+            autoFocus=""
+            value={userProfile.address}
+          />
+          <button
+            className="edit-create-btn"
+            type="submit"
+            disabled={isLoading}
+          >
+            Complete
+          </button>
         </div>
       </form>
     </>
