@@ -181,14 +181,14 @@ const EditProfile = props => {
           id="address"
           required=""
           autoFocus=""
-        />
-      </div>
+          />
       <button
         className="edit-create-btn"
         type="submit"
-      >
+        >
         Complete
       </button>
+        </div>
       </form>
     </>
   );

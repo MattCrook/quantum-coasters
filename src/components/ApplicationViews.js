@@ -10,6 +10,7 @@ import CreateAccount from "./auth/Register";
 import EditCreditForm from "./profile/EditCreditForm";
 import MessageList from "./messages/Messages";
 import EditProfile from "./profile/EditProfile";
+// import LeaderBoard from "./leaderBoard/LeaderBoard";
 
 const ApplicationViews = props => {
   const { isAuthenticated } = useAuth0();

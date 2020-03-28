@@ -28,13 +28,13 @@
 .profile-header-container {
   margin-left: 10px;
 }
-/* .profile-content {
+.profile-content {
   display: flex;
   justify-content: space-evenly;
   align-items: flex-start;
   margin-top: 20px;
   margin-bottom: 50px;
-} */
+}
 .icon-container {
   margin-right: 90px;
 }
@@ -57,8 +57,8 @@ span.edit-delete-credit {
 .container {
   display: flex;
   justify-content: space-between;
-  /* margin: 0 25px;; */
-  /* padding-right: 20px; */
+  margin: 0 25px;; 
+   padding-right: 20px; 
 }
 
 .navbar-item {
@@ -74,8 +74,11 @@ span.edit-delete-credit {
 .delete-profile-button {
   color: white;
 }
+.edit-profile-button {
+  color: white;
+}
 .profile-back-btn {
-  border: 1px solid black;
+  border: 2px solid black;
 }
 
 .add-new-credit-btn {
@@ -101,10 +104,10 @@ span.edit-delete-credit {
   justify-content: center;
 }
 
-.profile-pic-flex-box{
-display: flex;
-justify-content: center;
-flex-direction: column;
+.profile-pic-flex-box {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 
 .profile-info-container {
@@ -129,28 +132,29 @@ flex-direction: column;
   font-weight: bold;
 }
 
-
-
 .list-of-credits {
-margin-top: 3rem;
-font-weight: bold;
+  margin-top: 3rem;
+  font-weight: bold;
 }
 
 .edit-profile-form {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-
 }
 
 .edit-create-btn:hover,
 .edit-create-btn:focus {
   animation: pulse 1s;
-  box-shadow: 0 0 0 2em rgba(rgb(5, 3, 3), 0);
   border-color: var(--hover);
   border: 1px solid black;
+}
 
+.edit-create-btn {
+  margin-top: 2rem;
+  width: 20%;
+  box-shadow: 0 2px 8px 0px rgba(0, 0, 0, 0.2);
 }
 
 .profile-inputs {
@@ -161,6 +165,6 @@ font-weight: bold;
   padding: 1em 2em;
   border-radius: 15px;
   box-shadow: 1px 1px 3px #000;
-
-
+  width: 50%;
+  height: 50%;
 }

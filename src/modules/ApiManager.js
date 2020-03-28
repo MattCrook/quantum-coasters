@@ -3,6 +3,11 @@ const remoteURL = "http://localhost:8200";
 const ApiManager = {
   /************* USERS ********************/
 
+  async getAllUsers() {
+    const resp = await fetch(`${remoteURL}/users`);
+    return await resp.json();
+  },
+
   async getUserProfile(email) {
     const resp = await fetch(`${remoteURL}/users?email=${email}`);
     return await resp.json();

@@ -5,6 +5,7 @@ import { withRouter } from "react-router-dom";
 import "./NavBar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons"
+import LeaderBoard from "../leaderBoard/LeaderBoard";
 
 const NavBar = () => {
   const { isAuthenticated } = useAuth0();
@@ -32,7 +33,7 @@ const NavBar = () => {
         ) : null}
         {isAuthenticated ? (
           <li>
-            <Link className="nav-link" to="/leaderboard">
+            <Link className="nav-link" to="/leaderboard" component={LeaderBoard}>
               {" "}
               Leader Board{" "}
             </Link>

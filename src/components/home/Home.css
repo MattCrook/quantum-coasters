@@ -1,13 +1,13 @@
-/* button {
+button {
   background: transparent;
   outline: none;
   border: none;
   font-size: 18px;
   cursor: pointer;
-} */
+} 
 
-/* #profile-pic {
+#profile-pic {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-} */
+}
