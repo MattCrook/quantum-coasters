@@ -1,6 +1,6 @@
 /*            CHAT ITSELF            */
-div.card {
-/* border: 1px solid black; */
+.message-card {
+  height: 10%;
 }
 
 .chat-wrapper {
@@ -15,6 +15,7 @@ div.card {
   border-radius: 5px;
   padding: 10px;
   margin: 5px 0;
+  border: 2px solid black;
 }
 .forum-header {
   justify-content: center;
@@ -25,7 +26,7 @@ div.card {
  }
 
 .chat-fixed-height-container {
-  width: 700px;
+  width: 50%;
   padding: 10px 10px 10px 50px;
 }
 

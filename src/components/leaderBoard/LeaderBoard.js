@@ -4,8 +4,8 @@ import { useAuth0 } from "../../contexts/react-auth0-context";
 import "./LeaderBoard.css";
 
 const LeaderBoard = props => {
-  console.log({ props });
   const { user } = useAuth0();
+
   const [profiles, setProfiles] = useState([]);
 
   const getAllUsers = async () => {
@@ -20,12 +20,14 @@ const LeaderBoard = props => {
           })
         };
       });
+      console.log(creditsArray);
+      creditsArray.sort((a, b) => a.creditCount.length - b.creditCount.length);
+      creditsArray.reverse();
+      return creditsArray;
     } catch (error) {
       console.log(error);
     }
   };
-
-  console.log({ profiles });
 
   useEffect(() => {
     getAllUsers();
@@ -34,17 +36,17 @@ const LeaderBoard = props => {
   return (
     <>
       <nav id="nav-container" className="navbar is-dark">
-          <button
-            className="navbar-item"
-            onClick={() => props.history.push("/home")}
-          >
-            Quantum
-          </button>
-          <p className="name">
-            {user.nickname}
-            <img id="profile-pic" src={user.picture} alt="My Avatar" />
-            {user.email}
-          </p>
+        <button
+          className="navbar-item"
+          onClick={() => props.history.push("/home")}
+        >
+          Quantum
+        </button>
+        <p className="name">
+          {user.nickname}
+          <img id="profile-pic" src={user.picture} alt="My Avatar" />
+          {user.email}
+        </p>
       </nav>
       <button
         className="leaderBoard-back-btn"
@@ -64,7 +66,7 @@ const LeaderBoard = props => {
               <img id="profile-pic" src={profile.picture} alt="My Avatar" />
             )}
             <p className="name">
-              {profile.first_name} {profile.last_name} Credit Count:
+              {profile.first_name} {profile.last_name} Credit Count: {}
             </p>
           </div>
         ))}
