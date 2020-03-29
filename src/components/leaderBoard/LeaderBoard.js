@@ -4,47 +4,49 @@ import { useAuth0 } from "../../contexts/react-auth0-context";
 import "./LeaderBoard.css";
 
 const LeaderBoard = props => {
-  console.log({ props });
   const { user } = useAuth0();
+
   const [profiles, setProfiles] = useState([]);
 
   const getAllUsers = async () => {
     try {
       const userProfiles = await ApiManager.getAllUsers();
-      setProfiles(userProfiles);
-      const creditsArray = userProfiles.map(profile => {
+      const profileWithCreditsArray = userProfiles.map(profile => {
         return {
+          id: profile.id,
           firstName: profile.first_name,
+          lastName: profile.last_name,
+          picUrl: profile.picUrl,
           creditCount: profile.credits.map(credit => {
             return credit.rollerCoasterId;
           })
         };
       });
+      profileWithCreditsArray.sort((a, b) => a.creditCount.length - b.creditCount.length);
+      profileWithCreditsArray.reverse();
+      setProfiles(profileWithCreditsArray)
     } catch (error) {
       console.log(error);
     }
   };
 
-  console.log({ profiles });
-
   useEffect(() => {
     getAllUsers();
   }, []);
-
   return (
     <>
       <nav id="nav-container" className="navbar is-dark">
-          <button
-            className="navbar-item"
-            onClick={() => props.history.push("/home")}
-          >
-            Quantum
-          </button>
-          <p className="name">
-            {user.nickname}
-            <img id="profile-pic" src={user.picture} alt="My Avatar" />
-            {user.email}
-          </p>
+        <button
+          className="navbar-item"
+          onClick={() => props.history.push("/home")}
+        >
+          Quantum
+        </button>
+        <p className="name">
+          {user.nickname}
+          <img id="profile-pic" src={user.picture} alt="My Avatar" />
+          {user.email}
+        </p>
       </nav>
       <button
         className="leaderBoard-back-btn"
@@ -61,10 +63,10 @@ const LeaderBoard = props => {
             {profile.picUrl ? (
               <img id="profile-pic" src={profile.picUrl} alt="My Avatar" />
             ) : (
-              <img id="profile-pic" src={profile.picture} alt="My Avatar" />
+              <img id="profile-pic" src={user.picture} alt="My Avatar" />
             )}
             <p className="name">
-              {profile.first_name} {profile.last_name} Credit Count:
+              {profile.firstName} {profile.lastName} Credit Count: {profile.creditCount.length}
             </p>
           </div>
         ))}

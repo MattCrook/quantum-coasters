@@ -80,13 +80,13 @@ const MessageList = props => {
           </div>
         </div>
       </nav>
-      <div className="profile-pic-header">
+      {/* <div className="profile-pic-header"> */}
         {/* {userProfile.picUrl ? (
           <img id="profile-pic" src={userProfile.picUrl} alt="My Avatar" />
         ) : (
           <img id="google-profile-pic" src={user.picture} alt="My Avatar" />
         )} */}
-      </div>
+      {/* </div> */}
       <div className="chat-wrapper">
         <div className="chat-fixed-height-container">
           <div id="chat-headerContainer">

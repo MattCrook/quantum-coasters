@@ -96,7 +96,7 @@ const MessageForm = props => {
                 type="submit"
                 disabled={isLoading}
               >
-                SEND
+                Send
               </button>
             </div>
           </fieldset>
