@@ -2,13 +2,9 @@ import React from "react";
 import "./Profile.css";
 
 const ProfileCard = props => {
-  // const picUrl = props.user.picture;
-  // const username = props.username;
-  // const userNickname = props.user.nickname;
   const rollerCoaster = props.rollerCoaster;
   const manufacturer = props.manufacturer;
   const park = props.park;
-  console.log({props});
 
   return (
     <div className="profile-card">
@@ -51,7 +47,7 @@ const ProfileCard = props => {
               Edit
             </button>
           </span>
-          <span>
+          {/* <span>
             <button
               className="details-btn"
               onClick={() =>
@@ -60,7 +56,7 @@ const ProfileCard = props => {
             >
               Ride Details
             </button>
-          </span>
+          </span> */}
           <span>
           <button
               className="delete-btn"

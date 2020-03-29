@@ -37,3 +37,33 @@
 .create-new-rollerCoaster-btn {
   border: 2px solid black;
 }
+
+/*********** New Styles Added ***********/
+
+.main-form {
+  /* background: rgba(0, 0, 0, 0.9); */
+}
+.create-form {
+  display: flex;
+  flex-direction: column;
+  /* background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 1)); */
+  padding: 10px;
+  border-radius: 15px;
+  box-shadow: 3px 3px 1px solid;
+  /* justify-content: center; */
+  /* align-items: center; */
+  margin-top: 0rem;
+  margin-left: 100px;
+  margin-right: 200px;
+  margin-bottom: 20px;
+
+}
+.title{
+  margin-left: 20px;
+}
+
+.create-form > label{
+  color: white;
+  margin-bottom: 1px;
+  margin-top: 2px;
+}

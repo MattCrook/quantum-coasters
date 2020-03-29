@@ -3,6 +3,11 @@ const remoteURL = "http://localhost:8200";
 const ApiManager = {
   /************* USERS ********************/
 
+  async getAllUsers() {
+    const resp = await fetch(`${remoteURL}/users`);
+    return await resp.json();
+  },
+
   async getUserProfile(email) {
     const resp = await fetch(`${remoteURL}/users?email=${email}`);
     return await resp.json();
@@ -48,6 +53,15 @@ const ApiManager = {
   },
 
   async updateCredit(editedObject) {
+    return fetch(`${remoteURL}/users/${editedObject.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(editedObject)
+    }).then(data => data.json());
+  },
+  async putEditedProfile(editedObject) {
     return fetch(`${remoteURL}/users/${editedObject.id}`, {
       method: "PUT",
       headers: {

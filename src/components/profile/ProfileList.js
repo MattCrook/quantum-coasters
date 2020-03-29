@@ -3,6 +3,8 @@ import ProfileCard from "./ProfileCard";
 import ApiManager from "../../modules/ApiManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { confirmAlert } from "react-confirm-alert";
+import "./Profile.css";
+import 'react-confirm-alert/src/react-confirm-alert.css'
 
 const ProfileList = props => {
   const { user, logout } = useAuth0();
@@ -34,7 +36,7 @@ const ProfileList = props => {
     try {
       confirmAlert({
         title: "Confirm to delete",
-        message: "Are you sure you want to delete this?",
+        message: "Are you sure you want to delete your profile? Once this is done you will no longer have an account and will loose your credits.",
         buttons: [
           {
             label: "Yes",
@@ -68,9 +70,8 @@ const ProfileList = props => {
                   credit => credit.rollerCoasterId !== rollerCoasterId
                 );
                 ApiManager.deleteCredit(userId, filteredCredits).then(() => {
-                    getUserCredits(user)
-                  }
-                );
+                  getUserCredits(user);
+                });
               });
             }
           },
@@ -91,36 +92,26 @@ const ProfileList = props => {
 
   return (
     <>
-      <div className="profile-container">
-        <div className="profile-header-container">
-          <div className="icon-container">
-
-            <span className="profile-add-new">
-            </span>
-          </div>
-        </div>
-        <section className="profile-content">
+      <nav className="navbar is-dark">
+        <div className="container">
+          {/* <div className="navbar-brand"> */}
+          <button className="navbar-item">Quantum</button>
+          {/* </div> */}
+          {/* <div className="profile-container"> */}
+          {/* <div className="profile-content"> */}
           <button
-            className="big arrow circle left icon"
-            id="back-arrow-detail"
-            onClick={() => props.history.push("/home")}
-          >
-            Back
-          </button>
-          <button
-            className="big plus square outline icon"
-            id="plusIcon"
+            className="add-new-credit-btn"
             onClick={() => props.history.push("/users/new")}
           >
             Add New Credit
           </button>
-          <div className="profile-picture">
-            {/* <img src={picUrl} alt="Profile Picture" /> */}
-          </div>
-          <p>
-            <strong>
-              {userProfile.first_name} {userProfile.last_name}
-            </strong>
+          <p className="name">
+            {userProfile.first_name} {userProfile.last_name}
+            {userProfile.picUrl ? (
+              <img id="profile-pic" src={userProfile.picUrl} alt="My Avatar" />
+            ) : (
+              <img id="profile-pic" src={user.picture} alt="My Avatar" />
+            )}
           </p>
           <button
             className="delete-profile-button"
@@ -128,26 +119,39 @@ const ProfileList = props => {
           >
             Delete Profile
           </button>
-        </section>
-        <p className="credits-title">
-          <strong>Credits</strong>
-        </p>
-        <div className="profile-container-card">
-          {userCredits.map(rollerCoaster => (
-            <ProfileCard
-              key={rollerCoaster.id}
-              userProfile={userProfile}
-              rollerCoaster={rollerCoaster}
-              manufacturer={rollerCoaster.manufacturer}
-              user={user}
-              park={rollerCoaster.park}
-              trackType={rollerCoaster.trackType}
-              deleteCredit={deleteCredit}
-              {...props}
-            />
-          ))}
+          <button
+            className="edit-profile-button"
+            onClick={() => props.history.push(`/profile/${userProfile.id}`)}
+          >
+            Edit Profile
+          </button>
         </div>
+      </nav>
+      <button
+        className="profile-back-btn"
+        onClick={() => props.history.push("/home")}
+      >
+        Back
+      </button>
+      <p className="credits-title">
+        <strong>Credits</strong>
+      </p>
+      <div className="profile-container-card">
+        {userCredits.map(rollerCoaster => (
+          <ProfileCard
+            key={rollerCoaster.id}
+            userProfile={userProfile}
+            rollerCoaster={rollerCoaster}
+            manufacturer={rollerCoaster.manufacturer}
+            user={user}
+            park={rollerCoaster.park}
+            trackType={rollerCoaster.trackType}
+            deleteCredit={deleteCredit}
+            {...props}
+          />
+        ))}
       </div>
+      {/* </div> */}
     </>
   );
 };
