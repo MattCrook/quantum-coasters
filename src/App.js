@@ -6,7 +6,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import NavBar from "./components/nav/NavBar";
 import ApplicationViews from "./components/ApplicationViews";
 import history from "./utils/history";
-import CssBaseline from "@material-ui/core/CssBaseline";
+import CssBaseline from '@material-ui/core/CssBaseline';
 const App = () => {
   const { isAuthenticated, loading, user } = useAuth0();
   if (loading) {

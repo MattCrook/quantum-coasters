@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import "./NavBar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons"
+import { faUser, faHome, faPollH, faCommentDots } from "@fortawesome/free-solid-svg-icons";
 
 const NavBar = () => {
   const { isAuthenticated } = useAuth0();
@@ -14,6 +14,7 @@ const NavBar = () => {
       <ul>
         {isAuthenticated ? (
           <li>
+            <FontAwesomeIcon icon={faHome} />
             <Link className="nav-link" to="/home">
               {" "}
               Home{" "}
@@ -32,6 +33,8 @@ const NavBar = () => {
         ) : null}
         {isAuthenticated ? (
           <li>
+            <FontAwesomeIcon icon={faPollH} />
+
             <Link className="nav-link" to="/leaderBoard">
               {" "}
               Leader Board{" "}
@@ -40,6 +43,7 @@ const NavBar = () => {
         ) : null}
         {isAuthenticated ? (
           <li>
+            <FontAwesomeIcon icon={faCommentDots} />
             <Link className="nav-link" to="/messages">
               {" "}
               Forum{" "}
