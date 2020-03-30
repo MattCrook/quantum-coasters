@@ -5,60 +5,46 @@ import ApiManager from "../../modules/ApiManager";
 import { Link } from "react-router-dom";
 // import NavBar from "../nav/NavBar";
 
-const Home = () => {
-  const { loading, user, logout } = useAuth0();
-  const [userProfile, setUserProfile] = useState({});
-console.log(userProfile)
-  const isProfileCompletedFetch = async user => {
-    try {
-      const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
-      if (userProfileFromAPI.length > 0) {
-        setUserProfile(userProfileFromAPI[0]);
-      } else {
-        setUserProfile({});
-      }
-    } catch (error) {}
-  };
+const Home = (props) => {
 
-  useEffect(() => {
-    isProfileCompletedFetch(user);
-  }, []);
+  const { loading, user, logout } = useAuth0();
+  const userProfile = props.userProfile;
+
 
   return (
     <header>
       <nav className="navbar is-dark">
-        {/* <div className="container"> */}
-          <div className="navbar-menu is-active">
-            {/* logo */}
-            <div className="navbar-brand">
-              <button className="navbar-item">Quantum</button>
-            </div>
-            {/* menu items */}
-              {/* if there is a user. show the login button */}
-              {!loading && user && (
-                <>
-                  <div className="navbar-end">
-                    <button className="navbar-item">{user.name}</button>
-                    <button
-                      onClick={() =>
-                        logout({ returnTo: window.location.origin })
-                      }
-                      className="navbar-item"
-                    >
-                      Logout
-                    </button>
-                    {user.picture && (
-                      <img
-                        id="profile-pic"
-                        src={user.picture}
-                        alt="My Avatar"
-                      />
-                    )}
-                    <hr />
-                  </div>
-                </>
-              )}
+        <div className="navbar-menu is-active">
+          {/* logo */}
+          <div className="navbar-brand">
+            <button className="navbar-item">Quantum</button>
           </div>
+          {/* menu items */}
+          {/* if there is a user. show the logout button */}
+          {!loading && user && (
+            <>
+              <div className="navbar-end">
+                <button className="navbar-item">{user.name}</button>
+                <button
+                  onClick={() => logout({ returnTo: window.location.origin })}
+                  className="navbar-item"
+                >
+                  Logout
+                </button>
+                {user.picture ? (
+                  <img id="profile-pic" src={user.picture} alt="My Avatar" />
+                ) : (
+                  <img
+                    id="profile-pic"
+                    src={userProfile.picUrl}
+                    alt="My Avatar"
+                  />
+                )}
+                <hr />
+              </div>
+            </>
+          )}
+        </div>
         {/* </div> */}
       </nav>
 
@@ -67,7 +53,7 @@ console.log(userProfile)
           <div className="banner-for-complete-profile">
             <h3>
               Welcome! Please click the button below and complete your profile
-              to get started using Quantum {userProfile.id}
+              to get started using Quantum.
             </h3>
             <Link className="complete-profile-link" to="/profile/welcome">
               Complete Profile

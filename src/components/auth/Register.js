@@ -3,7 +3,6 @@ import { useAuth0 } from "../../contexts/react-auth0-context";
 import ApiManager from "../../modules/ApiManager";
 import keys from "../../keys/Keys";
 
-
 const CreateAccount = props => {
   const { user } = useAuth0();
   const [isLoading, setIsLoading] = useState(false);
@@ -15,7 +14,7 @@ const CreateAccount = props => {
     email: user.email,
     address: "",
     credits: [],
-    picUrl: ""
+    picUrl: user.picture
   });
 
   const handleInputChange = e => {
@@ -27,7 +26,7 @@ const CreateAccount = props => {
   const handleFormSubmit = e => {
     e.preventDefault();
     ApiManager.postNewUser(userProfile).then(user => {
-      sessionStorage.setItem("userProfile", JSON.stringify(userProfile));
+      // sessionStorage.setItem("userProfile", JSON.stringify(userProfile));
       setUserProfile(user);
       props.history.push("/home");
     });
@@ -87,7 +86,7 @@ const CreateAccount = props => {
             required=""
             autoFocus=""
           />
-                    <label htmlFor="inputAddress">Address</label>
+          <label htmlFor="inputAddress">Address</label>
           <input
             className="input"
             onChange={handleInputChange}
@@ -97,7 +96,7 @@ const CreateAccount = props => {
             required=""
             autoFocus=""
           />
-            <label htmlFor="eventImage">Please upload a profile picture</label>
+          <label htmlFor="eventImage">Please upload a profile picture</label>
           <input
             name="file"
             id="picUrl"
@@ -108,7 +107,7 @@ const CreateAccount = props => {
             onChange={uploadImage}
             data-form-data="{ 'transformation': {'crop':'limit','tags':'samples','width':3000,'height':2000}}"
           />
-                    <div className="newPhoto">
+          <div className="newPhoto">
             {isLoading ? (
               <h3> Loading...</h3>
             ) : (
@@ -129,6 +128,5 @@ const CreateAccount = props => {
     </form>
   );
 };
-
 
 export default CreateAccount;
