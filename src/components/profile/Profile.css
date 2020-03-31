@@ -65,6 +65,9 @@ span.edit-delete-credit {
   justify-content: flex-start;
   color: white;
 }
+.navbar-brand {
+  color: white;
+}
 
 .profile-content {
   display: flex;

@@ -1,9 +1,13 @@
-import React, { useState, UseEffect } from "react";
+import React, { useState } from "react";
 import { useAuth0 } from "../../contexts/react-auth0-context";
+import { withRouter } from "react-router-dom";
 import ApiManager from "../../modules/ApiManager";
 import keys from "../../keys/Keys";
+import "./Register.css";
+import { confirmAlert } from "react-confirm-alert";
 
 const CreateAccount = props => {
+  console.log("register", { props });
   const { user } = useAuth0();
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState({});
@@ -17,6 +21,8 @@ const CreateAccount = props => {
     picUrl: user.picture
   });
 
+// add another object with default pciture if there is no picture uploaded OR google image
+
   const handleInputChange = e => {
     const stateToChange = { ...userProfile };
     stateToChange[e.target.id] = e.target.value;
@@ -25,11 +31,36 @@ const CreateAccount = props => {
 
   const handleFormSubmit = e => {
     e.preventDefault();
-    ApiManager.postNewUser(userProfile).then(user => {
-      // sessionStorage.setItem("userProfile", JSON.stringify(userProfile));
-      setUserProfile(user);
-      props.history.push("/home");
-    });
+    sessionStorage.setItem("userPicture", JSON.stringify(user.picture));
+    if (
+      userProfile.first_name === "" ||
+      userProfile.last_name === "" ||
+      userProfile.username === "" ||
+      userProfile.address === ""
+    ) {
+      window.alert("Please fill out all form fields.");
+    } else {
+      confirmAlert({
+        title: "Profile Complete! You can edit the information anytime.",
+        message:
+          "Thanks for completing your profile. You can start recording your coaster credits!",
+        buttons: [
+          {
+            label: "Ok",
+            onClick: () =>
+              ApiManager.postNewUser(userProfile).then(newProfile => {
+                props.setUserProfile(newProfile, true);
+                props.history.push("/home");
+                // props.history.push("/home", {userProfile: userProfile});
+              })
+          }
+        ],
+        closeOnClickOutside: true,
+        onClickOutside: () => {},
+        onKeypressEscape: () => {}
+      });
+      setIsLoading(false);
+    }
   };
 
   const uploadImage = async e => {
@@ -112,11 +143,7 @@ const CreateAccount = props => {
               <h3> Loading...</h3>
             ) : (
               <>
-                <img
-                  src={image.picUrl}
-                  style={{ width: "300px" }}
-                  alt="upload-photos"
-                />
+                <img src={image.picUrl} style={{ width: "300px" }} alt="" />
               </>
             )}
           </div>

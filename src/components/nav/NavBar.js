@@ -12,10 +12,9 @@ import {
   faCommentDots
 } from "@fortawesome/free-solid-svg-icons";
 
-const NavBar = props => {
-
+const NavBar = ({ userProfile }) => {
   const { isAuthenticated, loading } = useAuth0();
-  const userProfile = props.userProfile;
+  // const userProfile = props.userProfile;
 
   if (loading) {
     return <div>Loading...</div>;
@@ -27,7 +26,11 @@ const NavBar = props => {
         {isAuthenticated && (
           <li>
             <FontAwesomeIcon icon={faHome} />
-            <Link className="nav-link" to="/home">
+            <Link
+              className="nav-link"
+              // to={{ pathname: "/home", userProfile: userProfile }}
+              to="/home"
+            >
               {" "}
               Home{" "}
             </Link>

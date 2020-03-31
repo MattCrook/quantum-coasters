@@ -9,30 +9,71 @@ import "./App.css";
 import "bulma/css/bulma.css";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
-const App = () => {
+const App = props => {
   const { loading, user } = useAuth0();
-  const [userProfile, setUserProfile] = useState({});
+  const [userProfile, setUserProfile] = useState([]);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState("");
 
+  // fetching the userProfile (json server) to check if there is one. Will determine conditional rendering
+  // further down in app. If there is no user profile, the rest of the app is blocked or hidden so user has to fill out
+  // complete profile form.
+
+  // const isProfileCompleted = async user => {
+  //   if (user) {
+  //     setError("");
+  //     setIsLoading(true);
+  //     try {
+  //       const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
+  //       if (userProfileFromAPI.length > 0) {
+  //         sessionStorage.setItem("credentials", JSON.stringify(user.email));
+  //         setUserProfile(userProfileFromAPI[0]);
+  //       } else {
+  //         console.log("NO PROFILE");
+  //       }
+  //     } catch (error) {
+  //       console.log(error);
+  //       setError(error.message);
+  //     }
+  //   }
+  //   setIsLoading(false);
+  // };
+
+  //     ApiManager.getUserProfile(user.email)
+  //       .then(userProfileFromAPI => {
+  //         sessionStorage.setItem("credentials", JSON.stringify(user.email));
+  //         if (userProfileFromAPI.length > 0) {
+  //           setUserProfile(userProfileFromAPI[0]);
+  //         }
+  //       })
+  //       .catch(error => {
+  //         console.log(error);
+  //       });
+  //   } else {
+  //     console.log("DONT HAVE USER YET.");
+  //     setUserProfile({});
+  //   }
+  // };
+  // isProfileCompleted(user);
 
   useEffect(() => {
-    const isProfileCompleted = async user => {
-      if (user) {
-        ApiManager.getUserProfile(user.email)
-          .then(userProfileFromAPI => {
-            sessionStorage.setItem("credentials", JSON.stringify(user.email));
-            if (userProfileFromAPI.length > 0) {
-              setUserProfile(userProfileFromAPI[0]);
-            }
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      } else {
-        console.log("DONT HAVE USER YET.");
-        setUserProfile({});
-      }
-    };
-    isProfileCompleted(user);
+    // let hasProfile = true;
+    if (user) {
+    ApiManager.getUserProfile(user.email)
+      .then(userProfileFromAPI => {
+        if (userProfileFromAPI.length > 0) {
+          sessionStorage.setItem("credentials", JSON.stringify(user.email));
+          setUserProfile(userProfileFromAPI[0]);
+        } else {
+          console.log("DONT HAVE USER YET.");
+          setUserProfile({});
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    }
+    return () => user;
   }, [user]);
 
   if (loading) {
@@ -42,8 +83,15 @@ const App = () => {
     <>
       <CssBaseline />
       <Router history={history}>
-        <NavBar userProfile={userProfile} setUserProfile={setUserProfile} />
-        <ApplicationViews userProfile={userProfile} setUserProfile={setUserProfile}
+        <NavBar
+          userProfile={userProfile}
+          setUserProfile={setUserProfile}
+          {...props}
+        />
+        <ApplicationViews
+          userProfile={userProfile}
+          setUserProfile={setUserProfile}
+          {...props}
         />
       </Router>
     </>
