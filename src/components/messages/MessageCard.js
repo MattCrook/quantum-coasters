@@ -1,6 +1,5 @@
 import React from "react";
 import { useAuth0 } from "../../contexts/react-auth0-context";
-
 import "./Messages.css";
 
 const MessageCard = props => {
@@ -18,7 +17,7 @@ const MessageCard = props => {
         {profilePic ? (
           <img id="profile-pic" src={profilePic} alt="My Avatar" />
         ) : (
-          <img id="google-profile-pic" src={user.picture} alt="My Avatar" />
+          <img id="google-profile-pic" src={props.defaultProfilePicture} alt="My Avatar" />
         )}
         <p>
           <strong className="message-name">{props.message.user.first_name}</strong>:{" "}

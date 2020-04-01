@@ -16,6 +16,8 @@ const MessageList = props => {
     timestamp: ""
   });
 
+  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png"
+
   const getMessages = async () => {
     const value = await ApiManager.getAllMessages();
     return setMessages(value);
@@ -51,7 +53,7 @@ const MessageList = props => {
                 <>
                   <div className="navbar-end">
                     <button className="navbar-item">{userProfile.first_name} {userProfile.last_name}</button>
-                    {user.picture ? (
+                    {userProfile.picUrl ? (
                       <img
                         id="profile-pic"
                         src={userProfile.picUrl}
@@ -60,7 +62,7 @@ const MessageList = props => {
                     ) : (
                       <img
                         id="profile-pic"
-                        src={user.picture}
+                        src={defaultProfilePicture}
                         alt="My Avatar"
                       />
                     )}
@@ -106,6 +108,7 @@ const MessageList = props => {
                     message={message}
                     setMessageToEdit={setMessageToEdit}
                     userProfile={userProfile}
+                    defaultProfilePicture={defaultProfilePicture}
                     {...props}
                   />
                 ))}

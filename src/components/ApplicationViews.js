@@ -1,5 +1,5 @@
 import { Route, Redirect } from "react-router-dom";
-import React, { useState } from "react";
+import React from "react";
 import { useAuth0 } from "../contexts/react-auth0-context";
 import ProfileList from "./profile/ProfileList";
 import LoginLandingPage from "./auth/Login";
@@ -12,7 +12,7 @@ import MessageList from "./messages/Messages";
 import EditProfile from "./profile/EditProfile";
 import LeaderBoard from "./leaderBoard/LeaderBoard";
 
-const ApplicationViews = props => {
+const ApplicationViews = ({ userProfile, setUserProfile }) => {
   const { isAuthenticated } = useAuth0();
 
   return (
@@ -22,7 +22,13 @@ const ApplicationViews = props => {
         path="/home"
         render={props => {
           if (isAuthenticated === true) {
-            return <Home {...props} />;
+            return (
+              <Home
+                userProfile={userProfile}
+                setUserProfile={setUserProfile}
+                {...props}
+              />
+            );
           } else {
             return <Redirect to="/" />;
           }
@@ -40,7 +46,7 @@ const ApplicationViews = props => {
         exact
         path="/users"
         render={props => {
-          if (isAuthenticated === true) {
+          if (isAuthenticated === true && userProfile.id) {
             return <ProfileList {...props} />;
           } else {
             return <Redirect to="/" />;
@@ -52,7 +58,7 @@ const ApplicationViews = props => {
         exact
         path="/users/new"
         render={props => {
-          if (isAuthenticated === true) {
+          if (isAuthenticated === true && userProfile.id) {
             return <AddNewCreditForm {...props} />;
           } else {
             return <Redirect to="/" />;
@@ -63,7 +69,7 @@ const ApplicationViews = props => {
         exact
         path="/new/rollercoaster"
         render={props => {
-          if (isAuthenticated === true) {
+          if (isAuthenticated === true && userProfile.id) {
             return <NewRollerCoaster {...props} />;
           } else {
             return <Redirect to="/" />;
@@ -75,7 +81,13 @@ const ApplicationViews = props => {
         path="/profile/welcome"
         render={props => {
           if (isAuthenticated === true) {
-            return <CreateAccount {...props} />;
+            return (
+              <CreateAccount
+                userProfile={userProfile}
+                setUserProfile={setUserProfile}
+                {...props}
+              />
+            );
           } else {
             return <Redirect to="/" />;
           }
@@ -84,7 +96,7 @@ const ApplicationViews = props => {
       <Route
         path="/users/:creditId(\d+)/edit"
         render={props => {
-          if (isAuthenticated) {
+          if (isAuthenticated === true && userProfile.id) {
             return (
               <EditCreditForm
                 rollerCoasterId={parseInt(props.match.params.rollerCoasterId)}
@@ -100,7 +112,7 @@ const ApplicationViews = props => {
         exact
         path="/messages"
         render={props => {
-          if (isAuthenticated) {
+          if (isAuthenticated === true && userProfile.id) {
             return <MessageList {...props} />;
           } else {
             return <Redirect to="/login" />;
@@ -111,7 +123,7 @@ const ApplicationViews = props => {
         exact
         path="/profile/:userProfileId(\d+)"
         render={props => {
-          if (isAuthenticated) {
+          if (isAuthenticated === true && userProfile.id) {
             return (
               <EditProfile
                 userProfileId={parseInt(props.match.params.userProfileId)}
@@ -127,7 +139,7 @@ const ApplicationViews = props => {
         exact
         path="/leaderBoard"
         render={props => {
-          if (isAuthenticated) {
+          if (isAuthenticated === true && userProfile.id) {
             return <LeaderBoard {...props} />;
           } else {
             return <Redirect to="/login" />;

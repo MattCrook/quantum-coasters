@@ -94,11 +94,9 @@ const ProfileList = props => {
     <>
       <nav className="navbar is-dark">
         <div className="container">
-          {/* <div className="navbar-brand"> */}
+          <div className="navbar-brand">
           <button className="navbar-item">Quantum</button>
-          {/* </div> */}
-          {/* <div className="profile-container"> */}
-          {/* <div className="profile-content"> */}
+          </div>
           <button
             className="add-new-credit-btn"
             onClick={() => props.history.push("/users/new")}
@@ -151,7 +149,6 @@ const ProfileList = props => {
           />
         ))}
       </div>
-      {/* </div> */}
     </>
   );
 };

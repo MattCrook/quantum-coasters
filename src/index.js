@@ -4,7 +4,6 @@ import App from "./App";
 import { Auth0Provider } from "./contexts/react-auth0-context";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
-// import { BrowserRouter as Router } from "react-router-dom";
 import config from "./auth_config.json";
 import history from "./utils/history";
 

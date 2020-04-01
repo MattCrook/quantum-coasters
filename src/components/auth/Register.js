@@ -1,10 +1,12 @@
-import React, { useState, UseEffect } from "react";
+import React, { useState } from "react";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import ApiManager from "../../modules/ApiManager";
 import keys from "../../keys/Keys";
-
+import "./Register.css";
+import { confirmAlert } from "react-confirm-alert";
 
 const CreateAccount = props => {
+  console.log("register", { props });
   const { user } = useAuth0();
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState({});
@@ -15,8 +17,10 @@ const CreateAccount = props => {
     email: user.email,
     address: "",
     credits: [],
-    picUrl: ""
+    picUrl: user.picture
   });
+
+// add another object with default pciture if there is no picture uploaded OR google image
 
   const handleInputChange = e => {
     const stateToChange = { ...userProfile };
@@ -26,11 +30,36 @@ const CreateAccount = props => {
 
   const handleFormSubmit = e => {
     e.preventDefault();
-    ApiManager.postNewUser(userProfile).then(user => {
-      sessionStorage.setItem("userProfile", JSON.stringify(userProfile));
-      setUserProfile(user);
-      props.history.push("/home");
-    });
+    sessionStorage.setItem("userPicture", JSON.stringify(user.picture));
+    if (
+      userProfile.first_name === "" ||
+      userProfile.last_name === "" ||
+      userProfile.username === "" ||
+      userProfile.address === ""
+    ) {
+      window.alert("Please fill out all form fields.");
+    } else {
+      confirmAlert({
+        title: "Profile Complete! You can edit the information anytime.",
+        message:
+          "Thanks for completing your profile. You can start recording your coaster credits!",
+        buttons: [
+          {
+            label: "Ok",
+            onClick: () =>
+              ApiManager.postNewUser(userProfile).then(newProfile => {
+                props.setUserProfile(newProfile, true);
+                props.history.push("/home");
+                // props.history.push("/home", {userProfile: userProfile});
+              })
+          }
+        ],
+        closeOnClickOutside: true,
+        onClickOutside: () => {},
+        onKeypressEscape: () => {}
+      });
+      setIsLoading(false);
+    }
   };
 
   const uploadImage = async e => {
@@ -87,7 +116,7 @@ const CreateAccount = props => {
             required=""
             autoFocus=""
           />
-                    <label htmlFor="inputAddress">Address</label>
+          <label htmlFor="inputAddress">Address</label>
           <input
             className="input"
             onChange={handleInputChange}
@@ -97,7 +126,7 @@ const CreateAccount = props => {
             required=""
             autoFocus=""
           />
-            <label htmlFor="eventImage">Please upload a profile picture</label>
+          <label htmlFor="eventImage">Please upload a profile picture</label>
           <input
             name="file"
             id="picUrl"
@@ -108,16 +137,12 @@ const CreateAccount = props => {
             onChange={uploadImage}
             data-form-data="{ 'transformation': {'crop':'limit','tags':'samples','width':3000,'height':2000}}"
           />
-                    <div className="newPhoto">
+          <div className="newPhoto">
             {isLoading ? (
               <h3> Loading...</h3>
             ) : (
               <>
-                <img
-                  src={image.picUrl}
-                  style={{ width: "300px" }}
-                  alt="upload-photos"
-                />
+                <img src={image.picUrl} style={{ width: "300px" }} alt="" />
               </>
             )}
           </div>
@@ -129,6 +154,5 @@ const CreateAccount = props => {
     </form>
   );
 };
-
 
 export default CreateAccount;

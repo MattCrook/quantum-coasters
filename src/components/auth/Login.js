@@ -3,9 +3,8 @@ import { useAuth0 } from "../../contexts/react-auth0-context";
 import "../home/Home.css";
 import "bulma/css/bulma.css";
 
-
 const LoginLandingPage = () => {
-  const { loading, user, loginWithRedirect } = useAuth0();
+  const { loading, user, loginWithRedirect, logout } = useAuth0();
 
   return (
     <header>
@@ -25,6 +24,14 @@ const LoginLandingPage = () => {
                   Login
                 </button>
               )}
+
+              {/* if for some reason user lands on this page and is logged in, show home and logout button */}
+              {!loading && user && (
+                <button onClick={logout} className="navbar-item">
+                  Logout
+                </button>
+              )}
+
             </div>
           </div>
         </div>

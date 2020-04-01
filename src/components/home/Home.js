@@ -1,93 +1,103 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "bulma/css/bulma.css";
 import { useAuth0 } from "../../contexts/react-auth0-context";
-import ApiManager from "../../modules/ApiManager";
 import { Link } from "react-router-dom";
-// import NavBar from "../nav/NavBar";
+import "./Home.css";
 
-const Home = () => {
+const Home = ({ userProfile }) => {
+
   const { loading, user, logout } = useAuth0();
-  const [userProfile, setUserProfile] = useState({});
-console.log(userProfile)
-  const isProfileCompletedFetch = async user => {
-    try {
-      const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
-      if (userProfileFromAPI.length > 0) {
-        setUserProfile(userProfileFromAPI[0]);
-      } else {
-        setUserProfile({});
-      }
-    } catch (error) {}
-  };
-
-  useEffect(() => {
-    isProfileCompletedFetch(user);
-  }, []);
 
   return (
     <header>
       <nav className="navbar is-dark">
-        {/* <div className="container"> */}
-          <div className="navbar-menu is-active">
-            {/* logo */}
-            <div className="navbar-brand">
-              <button className="navbar-item">Quantum</button>
-            </div>
-            {/* menu items */}
-              {/* if there is a user. show the login button */}
-              {!loading && user && (
-                <>
-                  <div className="navbar-end">
-                    <button className="navbar-item">{user.name}</button>
-                    <button
-                      onClick={() =>
-                        logout({ returnTo: window.location.origin })
-                      }
-                      className="navbar-item"
-                    >
-                      Logout
-                    </button>
-                    {user.picture && (
-                      <img
-                        id="profile-pic"
-                        src={user.picture}
-                        alt="My Avatar"
-                      />
-                    )}
-                    <hr />
-                  </div>
-                </>
-              )}
-          </div>
-        {/* </div> */}
+        <div className="navbar-menu is-active">
+          {/* logo */}
+          <button className="home-logo">Quantum</button>
+          {/* menu items */}
+          {/* if there is a user. show the logout button */}
+          {!loading && user && (
+            <>
+              <div className="navbar-end">
+                <button className="navbar-item">{user.name}</button>
+                {userProfile.picUrl ? (
+                  <img
+                    id="profile-pic"
+                    src={userProfile.picUrl}
+                    alt="My Avatar"
+                  />
+                ) : (
+                  <img id="profile-pic" src={user.picture} alt="My Avatar" />
+                )}
+                <button
+                  onClick={() => logout({ returnTo: window.location.origin })}
+                  className="logout-navbar-item"
+                >
+                  Logout
+                </button>
+                <hr />
+              </div>
+            </>
+          )}
+        </div>
       </nav>
 
-      {!userProfile.id && (
+      {!userProfile.email && !loading && user && (
         <>
           <div className="banner-for-complete-profile">
-            <h3>
+            <h3 className="welcome-greeting">
               Welcome! Please click the button below and complete your profile
-              to get started using Quantum {userProfile.id}
+              to get started using Quantum.
             </h3>
-            <Link className="complete-profile-link" to="/profile/welcome">
-              Complete Profile
-            </Link>
           </div>
         </>
       )}
       <div className="greeting">
         {!loading && user && (
           <>
-            <p>Hello {user.nickname}</p>
+            <p>Hello {user.nickname}!</p>
           </>
         )}
       </div>
       <div className="hero is-fullheight has-background-black-bis ">
-        <div className="hero-body bg-img">
-          <div className="container has-text-centered login-foo"></div>
-        </div>
+        {!loading && !userProfile.email && (
+          <Link className="complete-profile-link" to="/profile/welcome">
+            Complete Profile
+          </Link>
+        )}
+        <div className="hero-body bg-img"></div>
       </div>
     </header>
   );
 };
 export default Home;
+
+// const [userProfile, setUserProfile] = useState({...props.userProfile});
+// const userProfile = props.location && props.location.state && props.location.state.userProfile
+
+// useEffect(() => {
+//   let isCurrent = true;
+//   if (props.userProfile.id) {
+//     setUserProfile(props.location.state.userProfile)
+//   } else {
+//     setUserProfile({});
+//   }
+// }, []);
+
+// const isProfileCompleted = async user => {
+//   if (user) {
+//     ApiManager.getUserProfile(user.email)
+//       .then(userProfileFromAPI => {
+//         sessionStorage.setItem("credentials", JSON.stringify(user.email));
+//         if (userProfileFromAPI.length > 0) {
+//           setUserProfile(userProfileFromAPI[0]);
+//         }
+//       })
+//       .catch(error => {
+//         console.log(error);
+//       });
+//   } else {
+//     console.log("DONT HAVE USER YET.");
+//     setUserProfile({});
+//   }
+// };
