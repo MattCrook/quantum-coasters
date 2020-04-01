@@ -19,45 +19,7 @@ const App = props => {
   // further down in app. If there is no user profile, the rest of the app is blocked or hidden so user has to fill out
   // complete profile form.
 
-  // const isProfileCompleted = async user => {
-  //   if (user) {
-  //     setError("");
-  //     setIsLoading(true);
-  //     try {
-  //       const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
-  //       if (userProfileFromAPI.length > 0) {
-  //         sessionStorage.setItem("credentials", JSON.stringify(user.email));
-  //         setUserProfile(userProfileFromAPI[0]);
-  //       } else {
-  //         console.log("NO PROFILE");
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //       setError(error.message);
-  //     }
-  //   }
-  //   setIsLoading(false);
-  // };
-
-  //     ApiManager.getUserProfile(user.email)
-  //       .then(userProfileFromAPI => {
-  //         sessionStorage.setItem("credentials", JSON.stringify(user.email));
-  //         if (userProfileFromAPI.length > 0) {
-  //           setUserProfile(userProfileFromAPI[0]);
-  //         }
-  //       })
-  //       .catch(error => {
-  //         console.log(error);
-  //       });
-  //   } else {
-  //     console.log("DONT HAVE USER YET.");
-  //     setUserProfile({});
-  //   }
-  // };
-  // isProfileCompleted(user);
-
   useEffect(() => {
-    // let hasProfile = true;
     if (user) {
     ApiManager.getUserProfile(user.email)
       .then(userProfileFromAPI => {

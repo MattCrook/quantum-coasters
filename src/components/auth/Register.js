@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useAuth0 } from "../../contexts/react-auth0-context";
-import { withRouter } from "react-router-dom";
 import ApiManager from "../../modules/ApiManager";
 import keys from "../../keys/Keys";
 import "./Register.css";

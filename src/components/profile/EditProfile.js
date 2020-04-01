@@ -4,7 +4,7 @@ import { useAuth0 } from "../../contexts/react-auth0-context";
 import "./Profile.css";
 
 const EditProfile = props => {
-  console.log({ props });
+
   const { user, loading } = useAuth0();
 
   const [userCredits, setUserCredits] = useState([]);

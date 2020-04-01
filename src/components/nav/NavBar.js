@@ -14,7 +14,6 @@ import {
 
 const NavBar = ({ userProfile }) => {
   const { isAuthenticated, loading } = useAuth0();
-  // const userProfile = props.userProfile;
 
   if (loading) {
     return <div>Loading...</div>;

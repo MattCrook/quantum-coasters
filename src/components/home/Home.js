@@ -1,53 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "bulma/css/bulma.css";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { Link } from "react-router-dom";
 import "./Home.css";
 
-const Home = ({userProfile}) => {
+const Home = ({ userProfile }) => {
+
   const { loading, user, logout } = useAuth0();
-  console.log("userProfile", {userProfile});
-  // const [userProfile, setUserProfile] = useState({...props.userProfile});
 
-  // userProfile from state. Passed down through props from AppViews...then passed from register
-
-  // const userProfile = props.location && props.location.state && props.location.state.userProfile
-  console.log("userProfile", userProfile);
-
-
-  // console.log("props.location.state.userProfile", props.location.state.userProfile);
-
-  // const isProfileCompleted = async user => {
-  //   if (user) {
-  //     ApiManager.getUserProfile(user.email)
-  //       .then(userProfileFromAPI => {
-  //         sessionStorage.setItem("credentials", JSON.stringify(user.email));
-  //         if (userProfileFromAPI.length > 0) {
-  //           setUserProfile(userProfileFromAPI[0]);
-  //         }
-  //       })
-  //       .catch(error => {
-  //         console.log(error);
-  //       });
-  //   } else {
-  //     console.log("DONT HAVE USER YET.");
-  //     setUserProfile({});
-  //   }
-  // };
-
-  // console.log("home: ", { props });
-  console.log("home user: ", { user });
-  // console.log("home userProfile: ", userProfile);
-  // console.log(props.userProfile.email)
-
-  // useEffect(() => {
-  //   let isCurrent = true;
-  //   if (props.userProfile.id) {
-  //     setUserProfile(props.location.state.userProfile)
-  //   } else {
-  //     setUserProfile({});
-  //   }
-  // }, []);
   return (
     <header>
       <nav className="navbar is-dark">
@@ -111,3 +71,33 @@ const Home = ({userProfile}) => {
   );
 };
 export default Home;
+
+// const [userProfile, setUserProfile] = useState({...props.userProfile});
+// const userProfile = props.location && props.location.state && props.location.state.userProfile
+
+// useEffect(() => {
+//   let isCurrent = true;
+//   if (props.userProfile.id) {
+//     setUserProfile(props.location.state.userProfile)
+//   } else {
+//     setUserProfile({});
+//   }
+// }, []);
+
+// const isProfileCompleted = async user => {
+//   if (user) {
+//     ApiManager.getUserProfile(user.email)
+//       .then(userProfileFromAPI => {
+//         sessionStorage.setItem("credentials", JSON.stringify(user.email));
+//         if (userProfileFromAPI.length > 0) {
+//           setUserProfile(userProfileFromAPI[0]);
+//         }
+//       })
+//       .catch(error => {
+//         console.log(error);
+//       });
+//   } else {
+//     console.log("DONT HAVE USER YET.");
+//     setUserProfile({});
+//   }
+// };

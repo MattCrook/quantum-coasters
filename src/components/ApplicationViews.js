@@ -1,6 +1,5 @@
 import { Route, Redirect } from "react-router-dom";
-import React, { useState, useEffect } from "react";
-import ApiManager from "../modules/ApiManager";
+import React from "react";
 import { useAuth0 } from "../contexts/react-auth0-context";
 import ProfileList from "./profile/ProfileList";
 import LoginLandingPage from "./auth/Login";
@@ -15,20 +14,6 @@ import LeaderBoard from "./leaderBoard/LeaderBoard";
 
 const ApplicationViews = ({ userProfile, setUserProfile }) => {
   const { isAuthenticated } = useAuth0();
-  // const [userProfile, setUserProfile] = useState({});
-  // const userProfile = props.userProfile;
-  // const setUserProfile = props.setUserProfile
-  // console.log("app View props", { props });
-  console.log("app view", { userProfile });
-  // const { userProfile, }
-
-  // useEffect(() => {
-  //   if (userProfile) {
-  //     setUserProfile(userProfile);
-  //   } else {
-  //     setUserProfile({});
-  //   }
-  // }, [userProfile, setUserProfile]);
 
   return (
     <React.Fragment>
@@ -36,7 +21,6 @@ const ApplicationViews = ({ userProfile, setUserProfile }) => {
         exact
         path="/home"
         render={props => {
-          console.log("** userProfileFromState", userProfile);
           if (isAuthenticated === true) {
             return (
               <Home
