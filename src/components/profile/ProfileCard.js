@@ -7,7 +7,7 @@ const ProfileCard = props => {
   const rollerCoaster = props.rollerCoaster;
   const manufacturer = props.manufacturer;
   const park = props.park;
- console.log({props});
+  console.log({ props });
   return (
     <div className="profile-card">
       <div className="profile-card-content">
@@ -26,33 +26,28 @@ const ProfileCard = props => {
           </a>
         </div>
 
-        <p>
-          Max Speed:
-          {rollerCoaster.max_speed} mph
-        </p>
-        <p>
-          Max Height:
-          {rollerCoaster.max_height} ft
-        </p>
+        <p>Max Speed: {rollerCoaster.max_speed} mph</p>
+        <p>Max Height: {rollerCoaster.max_height} ft</p>
         <p>Track Type: {props.trackType.name}</p>
         <section className="card-btns">
           <span>
-            <button className="edit-btn">
-              <FontAwesomeIcon
-                icon={faEdit}
-                onClick={() =>
-                  props.history.push(`/users/${rollerCoaster.id}/edit`)
-                }
-              />
+            <button
+              className="edit-btn"
+              onClick={() =>
+                props.history.push(`/users/${rollerCoaster.id}/edit`)
+              }
+            >
+              <FontAwesomeIcon icon={faEdit} />
             </button>
           </span>
 
           <span>
-            <button className="delete-btn">
-              <FontAwesomeIcon
-              icon={faTrash}
+            <button
+              data-testid="delete-credit-btn"
+              className="delete-btn"
               onClick={() => props.deleteCredit(rollerCoaster.id)}
-              />
+            >
+              <FontAwesomeIcon icon={faTrash} />
             </button>
           </span>
         </section>
