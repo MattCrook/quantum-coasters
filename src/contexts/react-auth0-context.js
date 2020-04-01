@@ -6,10 +6,11 @@ const DEFAULT_REDIRECT_CALLBACK = () =>
 window.history.replaceState({}, document.title, window.location.pathname);
 
 export const Auth0Context = React.createContext();
-
-// export const UserProfileContext = createContext(null);
-
 export const useAuth0 = () => useContext(Auth0Context);
+
+/* ToDo: create custom context for userProfile in addition to Auth0 context for better state management */
+// export const UserProfileContext = React.createContext();
+// export const currentUserProfile = useContext(UserProfileContext);
 
 export const Auth0Provider = ({
   children,

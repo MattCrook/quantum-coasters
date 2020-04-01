@@ -72,32 +72,6 @@ const Home = ({ userProfile }) => {
 };
 export default Home;
 
-// const [userProfile, setUserProfile] = useState({...props.userProfile});
-// const userProfile = props.location && props.location.state && props.location.state.userProfile
 
-// useEffect(() => {
-//   let isCurrent = true;
-//   if (props.userProfile.id) {
-//     setUserProfile(props.location.state.userProfile)
-//   } else {
-//     setUserProfile({});
-//   }
-// }, []);
-
-// const isProfileCompleted = async user => {
-//   if (user) {
-//     ApiManager.getUserProfile(user.email)
-//       .then(userProfileFromAPI => {
-//         sessionStorage.setItem("credentials", JSON.stringify(user.email));
-//         if (userProfileFromAPI.length > 0) {
-//           setUserProfile(userProfileFromAPI[0]);
-//         }
-//       })
-//       .catch(error => {
-//         console.log(error);
-//       });
-//   } else {
-//     console.log("DONT HAVE USER YET.");
-//     setUserProfile({});
-//   }
-// };
+// if using the location object, and adding guard, grab the state of userProfile passed thru props (from register)
+/* const userProfile = props.location && props.location.state && props.location.state.userProfile */

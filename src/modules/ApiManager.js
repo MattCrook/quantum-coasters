@@ -13,7 +13,7 @@ const ApiManager = {
     return await resp.json();
   },
 
-  async postNewUser(newUser) {
+  async postNewUserProfile(newUser) {
     const data = await fetch(`${remoteURL}/users`, {
       method: "POST",
       headers: {
@@ -111,10 +111,10 @@ const ApiManager = {
     return await data.json();
   },
 
-  async getParkWithRollerCoasters() {
-    const data = await fetch(`${remoteURL}/parks/?_embed=rollerCoasters`);
-    return await data.json();
-  },
+  // async getParkWithRollerCoasters() {
+  //   const data = await fetch(`${remoteURL}/parks/?_embed=rollerCoasters`);
+  //   return await data.json();
+  // },
   async getParks() {
     const resp = await fetch(`${remoteURL}/parks`);
     return await resp.json();
@@ -127,12 +127,12 @@ const ApiManager = {
     return await resp.json();
   },
 
-  async getManufacturerWithRollerCoaster() {
-    const data = await fetch(
-      `${remoteURL}/manufacturers/?_embed=rollerCoasters`
-    );
-    return await data.json();
-  },
+  // async getManufacturerWithRollerCoaster() {
+  //   const data = await fetch(
+  //     `${remoteURL}/manufacturers/?_embed=rollerCoasters`
+  //   );
+  //   return await data.json();
+  // },
 
   async postNewManufacturer(resource) {
     const data = await fetch(`${remoteURL}/manufacturers`, {
@@ -152,10 +152,10 @@ const ApiManager = {
     return await resp.json();
   },
 
-  async getRollerCoastersWithTrackType() {
-    const data = await fetch(`${remoteURL}/trackTypes/?_embed=rollerCoasters`);
-    return await data.json();
-  },
+  // async getRollerCoastersWithTrackType() {
+  //   const data = await fetch(`${remoteURL}/trackTypes/?_embed=rollerCoasters`);
+  //   return await data.json();
+  // },
 
   async postNewTrackType(resource) {
     const data = await fetch(`${remoteURL}/trackTypes`, {

@@ -4,6 +4,7 @@ import "../home/Home.css";
 import "bulma/css/bulma.css";
 
 const LoginLandingPage = () => {
+
   const { loading, user, loginWithRedirect, logout } = useAuth0();
 
   return (
