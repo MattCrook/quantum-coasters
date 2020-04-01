@@ -35,7 +35,8 @@ const MessageList = props => {
   useEffect(() => {
     getMessages();
     getUserProfile(user);
-  }, []);
+    return () => user;
+  }, [user]);
 
   return (
     <>

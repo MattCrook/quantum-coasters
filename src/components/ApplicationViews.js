@@ -1,6 +1,7 @@
 import { Route, Redirect } from "react-router-dom";
 import React from "react";
 import { useAuth0 } from "../contexts/react-auth0-context";
+// import AuthRoute from "./AuthRoute";
 import ProfileList from "./profile/ProfileList";
 import LoginLandingPage from "./auth/Login";
 import Home from "./home/Home";
@@ -30,7 +31,7 @@ const ApplicationViews = ({ userProfile, setUserProfile }) => {
               />
             );
           } else {
-            return <Redirect to="/" />;
+            return <LoginLandingPage />;
           }
         }}
       />

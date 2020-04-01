@@ -20,7 +20,7 @@ const CreateAccount = props => {
     picUrl: user.picture
   });
 
-// add another object with default pciture if there is no picture uploaded OR google image
+// ToDO: add another object with default picture if there is no picture uploaded OR google image
 
   const handleInputChange = e => {
     const stateToChange = { ...userProfile };
@@ -47,10 +47,11 @@ const CreateAccount = props => {
           {
             label: "Ok",
             onClick: () =>
-              ApiManager.postNewUser(userProfile).then(newProfile => {
+              ApiManager.postNewUserProfile(userProfile).then(newProfile => {
                 props.setUserProfile(newProfile, true);
                 props.history.push("/home");
                 // props.history.push("/home", {userProfile: userProfile});
+                // can use above method to transfer the state using location object - by props.location.state.userProfile
               })
           }
         ],

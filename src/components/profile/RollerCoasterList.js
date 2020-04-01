@@ -18,6 +18,7 @@ const RollerCoasterList = props => {
     setRollerCoasters(rollerCoastersData);
   };
 
+  // Grabbing the current user profile and drilling into credits [array] to determine how many/ what credits they have. Will determine on initial render if add button is shown.
   const currentUserProfileCredits = user => {
     ApiManager.getUserProfile(user.email).then(user => {
       user = user[0];
@@ -27,7 +28,7 @@ const RollerCoasterList = props => {
     });
   };
 
-  // function to hide the "ADD" button from the user if they already have
+  // function to hide the "ADD" button from the user if they already have the rollerCoaster on their profile
   const showButton = (rollercoasterId, credits) => {
     const creditIds = credits.map(credit => {
       return credit.rollerCoasterId;
@@ -44,7 +45,7 @@ const RollerCoasterList = props => {
       let credits = user.credits;
       credits.push({ rollerCoasterId });
       const id = user.id;
-      ApiManager.addCredit(id, credits).then(credits => {
+      ApiManager.addCredit(id, credits).then(() => {
         ApiManager.getUserProfile(user.email).then(user => {
           user = user[0];
           let creditsArray = user.credits;
@@ -58,7 +59,8 @@ const RollerCoasterList = props => {
   useEffect(() => {
     rollerCoastersFromAPI();
     currentUserProfileCredits(user);
-  }, []);
+    return () => user;
+  }, [user]);
 
   return (
     <>

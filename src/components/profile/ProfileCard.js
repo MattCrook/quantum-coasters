@@ -1,11 +1,13 @@
 import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import "./Profile.css";
 
 const ProfileCard = props => {
   const rollerCoaster = props.rollerCoaster;
   const manufacturer = props.manufacturer;
   const park = props.park;
-
+  console.log({ props });
   return (
     <div className="profile-card">
       <div className="profile-card-content">
@@ -19,22 +21,13 @@ const ProfileCard = props => {
         <h4>Home Park: {park.name}</h4>
         <h4>Manufactured By: {manufacturer.name}</h4>
         <div className="linkForCompanyWebsite">
-          <a
-            className="link-to-company"
-            href={manufacturer.manufacture_url}
-          >
+          <a className="link-to-company" href={manufacturer.manufacture_url}>
             See More
           </a>
         </div>
 
-        <p>
-          Max Speed:
-          {rollerCoaster.max_speed} mph
-        </p>
-        <p>
-          Max Height:
-          {rollerCoaster.max_height} ft
-        </p>
+        <p>Max Speed: {rollerCoaster.max_speed} mph</p>
+        <p>Max Height: {rollerCoaster.max_height} ft</p>
         <p>Track Type: {props.trackType.name}</p>
         <section className="card-btns">
           <span>
@@ -44,25 +37,17 @@ const ProfileCard = props => {
                 props.history.push(`/users/${rollerCoaster.id}/edit`)
               }
             >
-              Edit
+              <FontAwesomeIcon icon={faEdit} />
             </button>
           </span>
-          {/* <span>
-            <button
-              className="details-btn"
-              onClick={() =>
-                props.history.push(`/users/${rollerCoaster.id}/details`)
-              }
-            >
-              Ride Details
-            </button>
-          </span> */}
+
           <span>
-          <button
+            <button
+              data-testid="delete-credit-btn"
               className="delete-btn"
               onClick={() => props.deleteCredit(rollerCoaster.id)}
             >
-              Delete
+              <FontAwesomeIcon icon={faTrash} />
             </button>
           </span>
         </section>

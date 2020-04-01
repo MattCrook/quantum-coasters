@@ -132,7 +132,7 @@ const ProfileList = props => {
         Back
       </button>
       <p className="credits-title">
-        <strong>Credits</strong>
+        Credits
       </p>
       <div className="profile-container-card">
         {userCredits.map(rollerCoaster => (
