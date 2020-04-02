@@ -41,9 +41,13 @@ const EditCreditForm = props => {
       manufacturerId: credit.manufacturer
     };
 
-    ApiManager.updateCredit(editedCredit).then(() =>
-      props.history.push("/users")
+    //   ApiManager.updateCredit(editedCredit).then(() =>
+    //     props.history.push("/users")
+    //   );
+    window.alert(
+      "Edit functionality coming soon! Thanks for your patience as we continue to make this app the best it can be!"
     );
+    props.history.push("/users");
   };
 
   useEffect(() => {
@@ -94,9 +98,7 @@ const EditCreditForm = props => {
                 onChange={handleInputChange}
               >
                 {trackTypes.map(trackType => (
-                  <option key={trackType.id}>
-                    {trackType.name}
-                  </option>
+                  <option key={trackType.id}>{trackType.name}</option>
                 ))}
               </select>
             </div>
@@ -141,9 +143,7 @@ const EditCreditForm = props => {
                   value={credit.parkId}
                 >
                   {parks.map(park => (
-                    <option key={park.id}>
-                      {park.name}
-                    </option>
+                    <option key={park.id}>{park.name}</option>
                   ))}
                 </select>
               </p>
@@ -158,9 +158,7 @@ const EditCreditForm = props => {
                 onChange={handleInputChange}
               >
                 {manufacturers.map(manufacturer => (
-                  <option key={manufacturer.id}>
-                    {manufacturer.name}
-                  </option>
+                  <option key={manufacturer.id}>{manufacturer.name}</option>
                 ))}
               </select>
             </div>

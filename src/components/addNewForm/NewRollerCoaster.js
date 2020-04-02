@@ -101,8 +101,8 @@ const AddNewRollerCoaster = props => {
             label: "Yes",
             onClick: async () => {
             // Function to check database, when a user submits a New Roller Coaster to be added to database, (<AddNewForm/>)
-            // Function corrects problem of creating new resource when one already exists.
-            // Checks database for unique Id, if does not exist it creates new resource, if not will tie to existing resource.
+            // Function corrects problem of creating new resource when one already exists...
+            // Checks database for unique name, or what user inputs to field,  if does not exist it creates new resource, if not will tie to existing resource.
               try {
                 const getTrackTypeName = await ApiManager.getTrackTypeByByName(trackType.name);
                 const getParkName = await ApiManager.getParkByName(park.name);
