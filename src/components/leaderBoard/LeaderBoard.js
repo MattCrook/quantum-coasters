@@ -4,9 +4,10 @@ import { useAuth0 } from "../../contexts/react-auth0-context";
 import "./LeaderBoard.css";
 
 const LeaderBoard = props => {
-  const { user } = useAuth0();
 
+  const { user } = useAuth0();
   const [profiles, setProfiles] = useState([]);
+  const userProfile = props.userProfile;
 
   const getAllUsers = async () => {
     try {
@@ -22,9 +23,11 @@ const LeaderBoard = props => {
           })
         };
       });
-      profileWithCreditsArray.sort((a, b) => a.creditCount.length - b.creditCount.length);
+      profileWithCreditsArray.sort(
+        (a, b) => a.creditCount.length - b.creditCount.length
+      );
       profileWithCreditsArray.reverse();
-      setProfiles(profileWithCreditsArray)
+      setProfiles(profileWithCreditsArray);
     } catch (error) {
       console.log(error);
     }
@@ -44,7 +47,11 @@ const LeaderBoard = props => {
         </button>
         <p className="name">
           {user.nickname}
-          <img id="profile-pic" src={user.picture} alt="My Avatar" />
+          {userProfile.picUrl ? (
+            <img id="profile-pic" src={userProfile.picUrl} alt="My Avatar" />
+          ) : (
+            <img id="google-profile-pic" src={user.picture} alt="My Avatar" />
+          )}
           {user.email}
         </p>
       </nav>
@@ -64,10 +71,9 @@ const LeaderBoard = props => {
               <img id="profile-pic" src={profile.picUrl} alt="My Avatar" />
             ) : (
               <img id="profile-pic" src={user.picture} alt="My Avatar" />
-            )}
-            <p className="name">
-              {profile.firstName} {profile.lastName} Credit Count: {profile.creditCount.length}
-            </p>
+            )}{" "}
+            {profile.firstName}{" "}{profile.lastName}
+            <p className="leaderboard-name">Credit Count: {profile.creditCount.length}</p>
           </div>
         ))}
       </div>

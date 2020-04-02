@@ -47,3 +47,8 @@ export function setResourceStateHelperFunction(setManufacturers, setTrackTypes, 
     });
   });
 };
+
+
+// Function to check database, when a user submits a New Roller Coaster to be added to database, (<AddNewForm/>)
+// Function corrects problem of creating new resource when one already exists. 
+// Checks database for unique Id, if does not exist it creates new resource, if not will tie to existing resource.

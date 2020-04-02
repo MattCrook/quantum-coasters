@@ -195,6 +195,20 @@ const ApiManager = {
       body: JSON.stringify(newObject)
     });
     return await data.json();
+  },
+  /******************** ******************/
+
+  async getParkByName(park) {
+    const resp = await fetch(`${remoteURL}/parks?name=${park}`);
+    return await resp.json();
+  },
+  async getManufacturerByName(manufacturer) {
+    const resp = await fetch(`${remoteURL}/manufacturers?name=${manufacturer}`);
+    return await resp.json();
+  },
+  async getTrackTypeByByName(trackType) {
+    const resp = await fetch(`${remoteURL}/trackTypes?name=${trackType}`);
+    return await resp.json();
   }
 };
 
