@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import "./Home.css";
 
 const Home = ({ userProfile }) => {
-
   const { loading, user, logout } = useAuth0();
 
   return (
@@ -22,12 +21,18 @@ const Home = ({ userProfile }) => {
                 <button className="navbar-item">{user.name}</button>
                 {userProfile.picUrl ? (
                   <img
+                    data-testid="home-profile-pic-testid"
                     id="profile-pic"
                     src={userProfile.picUrl}
                     alt="My Avatar"
                   />
                 ) : (
-                  <img id="profile-pic" src={user.picture} alt="My Avatar" />
+                  <img
+                    data-testid="home-profile-pic-testid"
+                    id="profile-pic"
+                    src={user.picture}
+                    alt="My Avatar"
+                  />
                 )}
                 <button
                   onClick={() => logout({ returnTo: window.location.origin })}
@@ -71,7 +76,6 @@ const Home = ({ userProfile }) => {
   );
 };
 export default Home;
-
 
 // if using the location object, and adding guard, grab the state of userProfile passed thru props (from register)
 /* const userProfile = props.location && props.location.state && props.location.state.userProfile */
