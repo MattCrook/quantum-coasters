@@ -7,6 +7,7 @@ import "./Home.css";
 const Home = ({ userProfile }) => {
   const { loading, user, logout } = useAuth0();
 
+
   return (
     <header>
       <nav className="navbar is-dark">
@@ -37,6 +38,7 @@ const Home = ({ userProfile }) => {
                 <button
                   onClick={() => logout({ returnTo: window.location.origin })}
                   className="logout-navbar-item"
+                  data-testid="logout-btn-testid"
                 >
                   Logout
                 </button>
@@ -50,7 +52,7 @@ const Home = ({ userProfile }) => {
       {!userProfile.email && !loading && user && (
         <>
           <div className="banner-for-complete-profile">
-            <h3 className="welcome-greeting">
+            <h3 className="welcome-greeting" data-testid="welcome-greeting-testid">
               Welcome! Please click the button below and complete your profile
               to get started using Quantum.
             </h3>
@@ -66,7 +68,7 @@ const Home = ({ userProfile }) => {
       </div>
       <div className="hero is-fullheight has-background-black-bis ">
         {!loading && !userProfile.email && (
-          <Link className="complete-profile-link" to="/profile/welcome">
+          <Link data-testid="complete-profile-btn-testid" className="complete-profile-link" to="/profile/welcome">
             Complete Profile
           </Link>
         )}
