@@ -55,21 +55,18 @@
 
 .edit-form-fields > div > label{
     color: #fff;
-    /* font-size: 130%;
-    line-height: 160%;  */
     text-align: left; 
 }
 
 .edit-alignRight {
     align-items: flex-end;
-    margin-top: 40px;
+    margin-top: 90px;
 }
 
 .edit-alignRight button {
   width: 100%;
-
-
 }
+
 .button:hover {
   animation: fadein 1s both;
 }

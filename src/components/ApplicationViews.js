@@ -50,7 +50,7 @@ const ApplicationViews = ({ userProfile, setUserProfile }) => {
           if (isAuthenticated === true && userProfile.id) {
             return <ProfileList {...props} />;
           } else {
-            return <Redirect to="/" />;
+            return <LoginLandingPage />;
           }
         }}
       />
@@ -62,7 +62,7 @@ const ApplicationViews = ({ userProfile, setUserProfile }) => {
           if (isAuthenticated === true && userProfile.id) {
             return <AddNewCreditForm {...props} />;
           } else {
-            return <Redirect to="/" />;
+            return <LoginLandingPage />;
           }
         }}
       />
@@ -73,7 +73,7 @@ const ApplicationViews = ({ userProfile, setUserProfile }) => {
           if (isAuthenticated === true && userProfile.id) {
             return <NewRollerCoaster {...props} />;
           } else {
-            return <Redirect to="/" />;
+            return <LoginLandingPage />;
           }
         }}
       />
@@ -90,7 +90,7 @@ const ApplicationViews = ({ userProfile, setUserProfile }) => {
               />
             );
           } else {
-            return <Redirect to="/" />;
+            return <LoginLandingPage />;
           }
         }}
       />
@@ -105,7 +105,7 @@ const ApplicationViews = ({ userProfile, setUserProfile }) => {
               />
             );
           } else {
-            return <Redirect to="/login" />;
+            return <LoginLandingPage />;
           }
         }}
       />
@@ -116,7 +116,7 @@ const ApplicationViews = ({ userProfile, setUserProfile }) => {
           if (isAuthenticated === true && userProfile.id) {
             return <MessageList {...props} />;
           } else {
-            return <Redirect to="/login" />;
+            return <LoginLandingPage />;
           }
         }}
       />
@@ -132,7 +132,7 @@ const ApplicationViews = ({ userProfile, setUserProfile }) => {
               />
             );
           } else {
-            return <Redirect to="/login" />;
+            return <LoginLandingPage />;
           }
         }}
       />
@@ -141,9 +141,9 @@ const ApplicationViews = ({ userProfile, setUserProfile }) => {
         path="/leaderBoard"
         render={props => {
           if (isAuthenticated === true && userProfile.id) {
-            return <LeaderBoard {...props} />;
+            return <LeaderBoard userProfile={userProfile} {...props} />;
           } else {
-            return <Redirect to="/login" />;
+            return <LoginLandingPage />;
           }
         }}
       />

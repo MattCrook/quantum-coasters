@@ -1,6 +1,7 @@
 const remoteURL = "http://localhost:8200";
 
 const ApiManager = {
+
   /************* USERS ********************/
 
   async getAllUsers() {
@@ -195,6 +196,21 @@ const ApiManager = {
       body: JSON.stringify(newObject)
     });
     return await data.json();
+  },
+
+  /******************** Database Check API calls on AddNewForm ***********************/
+
+  async getParkByName(park) {
+    const resp = await fetch(`${remoteURL}/parks?name=${park}`);
+    return await resp.json();
+  },
+  async getManufacturerByName(manufacturer) {
+    const resp = await fetch(`${remoteURL}/manufacturers?name=${manufacturer}`);
+    return await resp.json();
+  },
+  async getTrackTypeByByName(trackType) {
+    const resp = await fetch(`${remoteURL}/trackTypes?name=${trackType}`);
+    return await resp.json();
   }
 };
 

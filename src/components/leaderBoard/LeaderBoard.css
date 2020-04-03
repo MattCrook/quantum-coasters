@@ -25,6 +25,7 @@
 }
 .navbar-item {
     margin-left: 50px;
+    color: white;
 }
 /* .leaderBoard-title {
     justify-content: center;
@@ -52,3 +53,7 @@
 .leaderBoard-back-btn {
     border: 2px solid black;
 }
+
+/* .chat-ScrollToBottom {
+
+} */

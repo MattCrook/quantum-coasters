@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import "./Home.css";
 
 const Home = ({ userProfile }) => {
-
   const { loading, user, logout } = useAuth0();
+
 
   return (
     <header>
@@ -22,16 +22,23 @@ const Home = ({ userProfile }) => {
                 <button className="navbar-item">{user.name}</button>
                 {userProfile.picUrl ? (
                   <img
+                    data-testid="home-profile-pic-testid"
                     id="profile-pic"
                     src={userProfile.picUrl}
                     alt="My Avatar"
                   />
                 ) : (
-                  <img id="profile-pic" src={user.picture} alt="My Avatar" />
+                  <img
+                    data-testid="home-profile-pic-testid"
+                    id="profile-pic"
+                    src={user.picture}
+                    alt="My Avatar"
+                  />
                 )}
                 <button
                   onClick={() => logout({ returnTo: window.location.origin })}
                   className="logout-navbar-item"
+                  data-testid="logout-btn-testid"
                 >
                   Logout
                 </button>
@@ -45,7 +52,7 @@ const Home = ({ userProfile }) => {
       {!userProfile.email && !loading && user && (
         <>
           <div className="banner-for-complete-profile">
-            <h3 className="welcome-greeting">
+            <h3 className="welcome-greeting" data-testid="welcome-greeting-testid">
               Welcome! Please click the button below and complete your profile
               to get started using Quantum.
             </h3>
@@ -61,7 +68,7 @@ const Home = ({ userProfile }) => {
       </div>
       <div className="hero is-fullheight has-background-black-bis ">
         {!loading && !userProfile.email && (
-          <Link className="complete-profile-link" to="/profile/welcome">
+          <Link data-testid="complete-profile-btn-testid" className="complete-profile-link" to="/profile/welcome">
             Complete Profile
           </Link>
         )}
@@ -71,7 +78,6 @@ const Home = ({ userProfile }) => {
   );
 };
 export default Home;
-
 
 // if using the location object, and adding guard, grab the state of userProfile passed thru props (from register)
 /* const userProfile = props.location && props.location.state && props.location.state.userProfile */

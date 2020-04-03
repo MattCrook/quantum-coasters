@@ -6,7 +6,6 @@ import "./Register.css";
 import { confirmAlert } from "react-confirm-alert";
 
 const CreateAccount = props => {
-  console.log("register", { props });
   const { user } = useAuth0();
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState({});
@@ -70,7 +69,9 @@ const CreateAccount = props => {
     data.append("upload_preset", "photoLab");
     setIsLoading(true);
     const res = await fetch(
-      `https://api.cloudinary.com/v1_1/${keys.cloudinary}/image/upload`,
+      // CLOUDINARY_URL=cloudinary://${keys.cloudinary}@capstone-project
+
+      `https://api.cloudinary.com/v1_1/capstone-project/image/upload`,
       {
         method: "POST",
         body: data

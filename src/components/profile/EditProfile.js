@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ApiManager from "../../modules/ApiManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
+import keys from "../../keys/Keys";
 import "./Profile.css";
 
 const EditProfile = props => {
@@ -48,17 +49,18 @@ const EditProfile = props => {
     const data = new FormData();
     data.append("file", files[0]);
     data.append("upload_preset", "photoLab");
-    // setIsLoading(true);
-    // const res = await fetch(
-    //   `https://api.cloudinary.com/v1_1/${keys.cloudinary}/image/upload`,
-    //   {
-    //     method: "POST",
-    //     body: data
-    //   }
-    // );
-    // const file = await res.json();
-    // setImage({ picUrl: file.secure_url });
-    // setIsLoading(false);
+    setIsLoading(true);
+    const res = await fetch(
+     // http://localhost:8200/cloudinary://418576712586226:IaXis96Iz93J6NH7PTrU1clKpGM@capstone-project
+      `https://api.cloudinary.com/v1_1/${keys.cloudinary}/image/upload`,
+      {
+        method: "POST",
+        body: data
+      }
+    );
+    const file = await res.json();
+    setImage({ picUrl: file.secure_url });
+    setIsLoading(false);
   };
 
   const getUserCredits = async user => {
