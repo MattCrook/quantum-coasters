@@ -30,7 +30,7 @@ test("renders the rollerCoaster credit card with edit, delete button and the det
     </Router>
   );
 
-  //   console.log(profileCard.debug());
+  // console.log(profileCard.debug());
   const parkNameTag = profileCard.getByText(/Home Park: six flags/i);
   const coasterNameTag = profileCard.getByText(/coaster/i);
   const manufactureNameTag = profileCard.getByText(/Manufactured By: Intamin/i);

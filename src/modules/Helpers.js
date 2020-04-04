@@ -33,7 +33,7 @@ export function handleFieldChangeHelper(currentState, setCurrentState) {
 };
 
 
-// helper to be called inside {useEffect} to call async functions, handle the returned data
+// helper to be called inside { useEffect } to call async functions, handle the returned data
 // and set the current state of its parameters
 export function setResourceStateHelperFunction(setManufacturers, setTrackTypes, setParks, setIsLoading) {
   ApiManager.getAllManufacturers().then(manufacturers => {

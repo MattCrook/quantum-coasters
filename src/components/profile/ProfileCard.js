@@ -4,10 +4,11 @@ import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import "./Profile.css";
 
 const ProfileCard = props => {
+
   const rollerCoaster = props.rollerCoaster;
   const manufacturer = props.manufacturer;
   const park = props.park;
-  console.log({ props });
+
   return (
     <div className="profile-card">
       <div className="profile-card-content">
