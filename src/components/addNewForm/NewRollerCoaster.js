@@ -7,7 +7,6 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import "./NewRollerCoasterForm.css";
 
 const AddNewRollerCoaster = props => {
-  console.log({ props });
   const [manufacturers, setManufacturers] = useState([]);
   const [trackTypes, setTrackTypes] = useState([]);
   const [parks, setParks] = useState([]);

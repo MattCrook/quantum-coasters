@@ -15,6 +15,7 @@ import {
 const NavBar = ({ userProfile }) => {
   const { isAuthenticated, loading } = useAuth0();
 
+
   if (loading) {
     return <div>Loading...</div>;
   }

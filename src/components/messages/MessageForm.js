@@ -5,7 +5,7 @@ import { isEditCheck, handleFieldChangeHelper } from "../../modules/helpers";
 
 
 const MessageForm = props => {
-  console.log({props})
+
   const userId = props.userProfile.id;
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ message: "" });
