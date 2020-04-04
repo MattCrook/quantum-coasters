@@ -25,6 +25,7 @@ const ApiManager = {
     return await data.json();
   },
   async deleteUserProfile(id) {
+    console.log("****************");
     const result = await fetch(`${remoteURL}/users/${id}`, {
       method: "DELETE"
     });

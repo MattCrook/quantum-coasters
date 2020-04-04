@@ -88,7 +88,7 @@ const ProfileList = props => {
 
   useEffect(() => {
     getUserCredits(user);
-  }, []);
+  }, [user]);
 
   return (
     <>
@@ -98,7 +98,7 @@ const ProfileList = props => {
           <button className="navbar-item">Quantum</button>
           </div>
           <button
-            className="add-new-credit-btn"
+            className="add-new-credit-btn" data-testid="add_new_credit_btn_testid"
             onClick={() => props.history.push("/users/new")}
           >
             Add New Credit
@@ -112,13 +112,13 @@ const ProfileList = props => {
             )}
           </p>
           <button
-            className="delete-profile-button"
+            className="delete-profile-button" data-testid="delete_profile_btn_testid"
             onClick={() => deleteUserProfile(userProfile.id)}
           >
             Delete Profile
           </button>
           <button
-            className="edit-profile-button"
+            className="edit-profile-button" data-testid="edit_profile_btn_testid"
             onClick={() => props.history.push(`/profile/${userProfile.id}`)}
           >
             Edit Profile
@@ -134,7 +134,7 @@ const ProfileList = props => {
       <p className="credits-title">
         Credits
       </p>
-      <div className="profile-container-card">
+      <div className="profile-container-card" data-testid="profile_card_container_testid">
         {userCredits.map(rollerCoaster => (
           <ProfileCard
             key={rollerCoaster.id}

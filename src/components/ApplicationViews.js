@@ -1,7 +1,6 @@
-import { Route, Redirect } from "react-router-dom";
+import { Route } from "react-router-dom";
 import React from "react";
 import { useAuth0 } from "../contexts/react-auth0-context";
-// import AuthRoute from "./AuthRoute";
 import ProfileList from "./profile/ProfileList";
 import LoginLandingPage from "./auth/Login";
 import Home from "./home/Home";
@@ -12,6 +11,7 @@ import EditCreditForm from "./profile/EditCreditForm";
 import MessageList from "./messages/Messages";
 import EditProfile from "./profile/EditProfile";
 import LeaderBoard from "./leaderBoard/LeaderBoard";
+// import AuthRoute from "./AuthRoute";
 
 const ApplicationViews = ({ userProfile, setUserProfile }) => {
   const { isAuthenticated } = useAuth0();

@@ -41,7 +41,7 @@ describe("components/Home - logged in", () => {
       </Router>
     );
 
-    console.log(homeComponent.debug());
+    // console.log(homeComponent.debug());
 
     const logoutBtnTag = homeComponent.getByTestId("logout-btn-testid");
     const homeNameTag = homeComponent.getByText(/matt/i);
