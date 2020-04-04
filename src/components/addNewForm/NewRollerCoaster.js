@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ApiManager from "../../modules/ApiManager";
 import { confirmAlert } from "react-confirm-alert";
-import { handleFieldChangeHelper } from "../../modules/Helpers";
-import { setResourceStateHelperFunction } from "../../modules/Helpers";
+import { handleFieldChangeHelper } from "../../modules/helpers";
+import { setResourceStateHelperFunction } from "../../modules/helpers";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import "./NewRollerCoasterForm.css";
 

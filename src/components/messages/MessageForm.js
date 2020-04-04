@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
 import ApiManager from "../../modules/ApiManager";
-import { isEditCheck } from "../../modules/Helpers";
+import { isEditCheck, handleFieldChangeHelper } from "../../modules/helpers";
+
 
 
 const MessageForm = props => {
+  console.log({props})
   const userId = props.userProfile.id;
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ message: "" });
 
-  const handleFieldChange = e => {
-    const stateToChange = { ...message };
-    stateToChange[e.target.id] = e.target.value;
-    setMessage(stateToChange);
-  };
+  const handleFieldChange = handleFieldChangeHelper(message, setMessage);
 
   const constructNewMessage = () => {
     if (message === "") {
