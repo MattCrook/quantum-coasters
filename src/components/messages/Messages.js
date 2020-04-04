@@ -3,7 +3,6 @@ import ApiManager from "../../modules/ApiManager";
 import MessageCard from "./MessageCard";
 import MessageForm from "./MessageForm";
 import { useAuth0 } from "../../contexts/react-auth0-context";
-
 import "./Messages.css";
 
 const MessageList = props => {

@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import ApiManager from "../../modules/ApiManager";
 import { confirmAlert } from "react-confirm-alert";
-import { handleFieldChangeHelper } from "../../modules/Helpers";
-import { setResourceStateHelperFunction } from "../../modules/Helpers";
+import { handleFieldChangeHelper } from "../../modules/helpers";
+import { setResourceStateHelperFunction } from "../../modules/helpers";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import "./NewRollerCoasterForm.css";
 
 const AddNewRollerCoaster = props => {
-  console.log({ props });
   const [manufacturers, setManufacturers] = useState([]);
   const [trackTypes, setTrackTypes] = useState([]);
   const [parks, setParks] = useState([]);

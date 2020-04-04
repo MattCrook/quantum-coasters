@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ApiManager from "../../modules/ApiManager";
-import { setResourceStateHelperFunction } from "../../modules/Helpers";
+import { setResourceStateHelperFunction } from "../../modules/helpers";
 import "./EditCreditForm.css";
 
 const EditCreditForm = props => {
