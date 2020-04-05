@@ -1,28 +1,10 @@
-/* .new-ride-form-back-button {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: flex-end;
-  color: #ffa260;
-  transition: 0.25s;
-  background-color: hsl(228, 7%, 13%);
-  border: 2px solid;
-  font: inherit;
-  line-height: 1;
-  margin: 0.5em;
-  padding: 1em 2em;
-} */
+
 .new-ride-form-back-button:hover,
 .new-ride-form-back-button:focus {
   animation: pulse 1s;
   box-shadow: 0 0 0 2em rgba(rgb(5, 3, 3), 0);
   border-color: var(--hover);
 }
-
-/* button.new-ride-form-back-button {
-  justify-content: flex-end;
-  align-items: flex-end;
-} */
 
 .new-ride-form-back-button {
   display: flex;
@@ -36,30 +18,46 @@
 
 .create-new-rollerCoaster-btn {
   border: 2px solid black;
+  margin-top: 12px;
+  margin-right: 150px;
+  margin-left: 150px;
+  padding-bottom: 3px;
+  padding-top: 3px;
+}
+
+.create-new-rollerCoaster-btn:hover {
+  animation: fade 1s both;
+}
+
+@keyframes fade {
+  0% {
+    background: white;
+  }
+  100% {
+    background: #3e4247;
+    color: white;
+  }
 }
 
 /*********** New Styles Added ***********/
 
-.main-form {
-  /* background: rgba(0, 0, 0, 0.9); */
-}
 .create-form {
   display: flex;
   flex-direction: column;
-  /* background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 1)); */
   padding: 10px;
   border-radius: 15px;
   box-shadow: 3px 3px 1px solid;
-  /* justify-content: center; */
-  /* align-items: center; */
   margin-top: 0rem;
-  margin-left: 100px;
-  margin-right: 200px;
+  margin-left: 400px;
+  margin-right: 400px;
   margin-bottom: 20px;
 
 }
 .title{
   margin-left: 20px;
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
 }
 
 .create-form > label{

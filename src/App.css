@@ -1,3 +1,7 @@
+#root {
+  font-size: initial;
+}
+
 
 .bg-img {
   background-image: url("./CoverPhoto.jpg");
@@ -6,7 +10,7 @@
   background-attachment: fixed;
   background-size: cover;
   background-color: white;
-  margin: 8em;
+  margin: 5em;
 }
 
 .App {

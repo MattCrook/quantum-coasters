@@ -19,7 +19,7 @@ const Home = ({ userProfile }) => {
           {!loading && user && (
             <>
               <div className="navbar-end">
-                <button className="navbar-item">{user.name}</button>
+                <button className="navbar-item-home-name">{user.name}</button>
                 {userProfile.picUrl ? (
                   <img
                     data-testid="home-profile-pic-testid"
@@ -49,6 +49,14 @@ const Home = ({ userProfile }) => {
         </div>
       </nav>
 
+      <div className="greeting">
+        {!loading && user && (
+          <>
+            <p>Hello {user.nickname}!</p>
+          </>
+        )}
+      </div>
+      
       {!userProfile.email && !loading && user && (
         <>
           <div className="banner-for-complete-profile">
@@ -59,13 +67,6 @@ const Home = ({ userProfile }) => {
           </div>
         </>
       )}
-      <div className="greeting">
-        {!loading && user && (
-          <>
-            <p>Hello {user.nickname}!</p>
-          </>
-        )}
-      </div>
       <div className="hero is-fullheight">
         {!loading && !userProfile.email && (
           <Link data-testid="complete-profile-btn-testid" className="complete-profile-link" to="/profile/welcome">

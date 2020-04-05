@@ -4,7 +4,7 @@ import ApiManager from "../../modules/ApiManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { confirmAlert } from "react-confirm-alert";
 import "./Profile.css";
-import 'react-confirm-alert/src/react-confirm-alert.css'
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 const ProfileList = props => {
   const { user } = useAuth0();
@@ -74,41 +74,45 @@ const ProfileList = props => {
       <nav className="navbar is-dark">
         <div className="container">
           <div className="navbar-brand">
-          <button className="navbar-item">Quantum</button>
+            <button className="navbar-item">Quantum</button>
           </div>
           <button
-            className="add-new-credit-btn" data-testid="add_new_credit_btn_testid"
+            className="add-new-credit-btn"
+            data-testid="add_new_credit_btn_testid"
             onClick={() => props.history.push("/users/new")}
           >
             Add New Credit
           </button>
           <button
-            className="edit-profile-button" data-testid="edit_profile_btn_testid"
+            className="edit-profile-button"
+            data-testid="edit_profile_btn_testid"
             onClick={() => props.history.push(`/profile/${userProfile.id}`)}
           >
             Edit Profile
           </button>
-          <p className="name">
-            {userProfile.first_name} {userProfile.last_name}
+          <div className="name-container-profile-list">
+            <p className="name-profile-list">
+              {userProfile.first_name} {userProfile.last_name}
+            </p>
             {userProfile.picUrl ? (
               <img id="profile-pic" src={userProfile.picUrl} alt="My Avatar" />
             ) : (
               <img id="profile-pic" src={user.picture} alt="My Avatar" />
             )}
-          </p>
-
+          </div>
         </div>
       </nav>
-      <button
+      {/* <button
         className="profile-back-btn"
         onClick={() => props.history.push("/home")}
       >
         Back
-      </button>
-      <p className="credits-title">
-        Credits
-      </p>
-      <div className="profile-container-card" data-testid="profile_card_container_testid">
+      </button> */}
+      <p className="credits-title">Credits</p>
+      <div
+        className="profile-container-card"
+        data-testid="profile_card_container_testid"
+      >
         {userCredits.map(rollerCoaster => (
           <ProfileCard
             key={rollerCoaster.id}

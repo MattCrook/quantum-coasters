@@ -45,22 +45,23 @@ const LeaderBoard = props => {
         >
           Quantum
         </button>
-        <p className="name">
-          {user.nickname}{" "}
+        <div className="leaderboard-name">
+          <p className="leaderboard-first-and-last-name-in-nav">
+          {userProfile.first_name} {userProfile.last_name}
+          </p>
           {userProfile.picUrl ? (
             <img id="profile-pic" src={userProfile.picUrl} alt="My Avatar" />
           ) : (
             <img id="google-profile-pic" src={user.picture} alt="My Avatar" />
           )}
-          {" "}{user.email}
-        </p>
+        </div>
       </nav>
-      <button
+      {/* <button
         className="leaderBoard-back-btn"
         onClick={() => props.history.push("/home")}
       >
         Back
-      </button>
+      </button> */}
       <div className="leaderBoard-header">
         <p className="leaderBoard-title">LeaderBoard</p>
       </div>

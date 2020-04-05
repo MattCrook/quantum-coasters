@@ -150,7 +150,7 @@ const EditProfile = props => {
               onChange={uploadImage}
               data-form-data="{ 'transformation': {'crop':'limit','tags':'samples','width':3000,'height':2000}}"
             />
-            <div className="newPhoto">
+            {/* <div className="newPhoto">
               {loading ? (
                 <h3> Loading...</h3>
               ) : (
@@ -162,7 +162,7 @@ const EditProfile = props => {
                   />
                 </>
               )}
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="profile-info-container">

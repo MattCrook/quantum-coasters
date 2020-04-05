@@ -22,7 +22,7 @@ const NavBar = ({ userProfile }) => {
 
   return (
     <nav>
-      <ul>
+      <ul className="nav-link-btns">
         {isAuthenticated && (
           <li>
             <FontAwesomeIcon icon={faHome} />
