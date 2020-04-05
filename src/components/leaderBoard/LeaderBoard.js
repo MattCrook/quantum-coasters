@@ -56,12 +56,12 @@ const LeaderBoard = props => {
           )}
         </div>
       </nav>
-      <button
+      {/* <button
         className="leaderBoard-back-btn"
         onClick={() => props.history.push("/home")}
       >
         Back
-      </button>
+      </button> */}
       <div className="leaderBoard-header">
         <p className="leaderBoard-title">LeaderBoard</p>
       </div>

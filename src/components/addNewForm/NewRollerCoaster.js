@@ -163,13 +163,13 @@ const AddNewRollerCoaster = props => {
 
   return (
     <>
-      <button
+      {/* <button
         className="new-ride-form-back-button"
         id="back-arrow-detail"
         onClick={() => props.history.push("/users/new")}
       >
         BACK
-      </button>
+      </button> */}
       <form className="main-form" onSubmit={constructNewRollerCoaster}>
         <h3 className="title">Input Ride Details</h3>
         <div className="create-form">

@@ -102,12 +102,12 @@ const ProfileList = props => {
           </div>
         </div>
       </nav>
-      <button
+      {/* <button
         className="profile-back-btn"
         onClick={() => props.history.push("/home")}
       >
         Back
-      </button>
+      </button> */}
       <p className="credits-title">Credits</p>
       <div
         className="profile-container-card"

@@ -17,7 +17,6 @@ button {
   color: white;
   margin-left: 70px;
   font-variant: small-caps;
-
 }
 
 .banner-for-complete-profile {
@@ -32,6 +31,27 @@ button {
   margin-top: 10px;
   font-size: 15px;
   font-weight: 900;
+  border: 2px solid black;
+  color: black;
+  margin-left: 690px;
+  margin-right: 690px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border-radius: 3px;
+}
+
+.complete-profile-link:hover {
+  animation: fade 1s both;
+}
+
+@keyframes fade {
+  0% {
+    background: white;
+  }
+  100% {
+    background: #3e4247;
+    color: white;
+  }
 }
 .greeting {
   font-size: 15px;
@@ -39,7 +59,6 @@ button {
   justify-content: center;
   font-style: oblique;
   font-variant: small-caps;
-
 }
 
 .logout-navbar-item {
