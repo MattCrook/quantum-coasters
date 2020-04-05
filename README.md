@@ -26,6 +26,7 @@ Quantum contains the following features and pages users will engage with:
 This project utilizes the following:
 * Project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app)
 
+
 * Auth0
 * Context API
 * React Router DOM
