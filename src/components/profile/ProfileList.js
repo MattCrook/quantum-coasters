@@ -7,7 +7,7 @@ import "./Profile.css";
 import 'react-confirm-alert/src/react-confirm-alert.css'
 
 const ProfileList = props => {
-  const { user, logout } = useAuth0();
+  const { user } = useAuth0();
   const [userCredits, setUserCredits] = useState([]);
   const [userProfile, setUserProfile] = useState({});
 
@@ -26,27 +26,6 @@ const ProfileList = props => {
       });
       Promise.all(promises).then(data => {
         setUserCredits(data);
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const deleteUserProfile = id => {
-    try {
-      confirmAlert({
-        title: "Confirm to delete",
-        message: "Are you sure you want to delete your profile? Once this is done you will no longer have an account and will loose your credits.",
-        buttons: [
-          {
-            label: "Yes",
-            onClick: () => ApiManager.deleteUserProfile(id).then(() => logout())
-          },
-          {
-            label: "No",
-            onClick: () => ""
-          }
-        ]
       });
     } catch (error) {
       console.log(error);
@@ -103,6 +82,12 @@ const ProfileList = props => {
           >
             Add New Credit
           </button>
+          <button
+            className="edit-profile-button" data-testid="edit_profile_btn_testid"
+            onClick={() => props.history.push(`/profile/${userProfile.id}`)}
+          >
+            Edit Profile
+          </button>
           <p className="name">
             {userProfile.first_name} {userProfile.last_name}
             {userProfile.picUrl ? (
@@ -111,18 +96,7 @@ const ProfileList = props => {
               <img id="profile-pic" src={user.picture} alt="My Avatar" />
             )}
           </p>
-          <button
-            className="delete-profile-button" data-testid="delete_profile_btn_testid"
-            onClick={() => deleteUserProfile(userProfile.id)}
-          >
-            Delete Profile
-          </button>
-          <button
-            className="edit-profile-button" data-testid="edit_profile_btn_testid"
-            onClick={() => props.history.push(`/profile/${userProfile.id}`)}
-          >
-            Edit Profile
-          </button>
+
         </div>
       </nav>
       <button

@@ -16,6 +16,8 @@ button {
 .home-logo {
   color: white;
   margin-left: 70px;
+  font-variant: small-caps;
+
 }
 
 .banner-for-complete-profile {
@@ -33,9 +35,15 @@ button {
 }
 .greeting {
   font-size: 15px;
+  display: flex;
+  justify-content: center;
+  font-style: oblique;
+  font-variant: small-caps;
+
 }
 
 .logout-navbar-item {
   color: white;
   margin-right: 30px;
+  font-variant: small-caps;
 }

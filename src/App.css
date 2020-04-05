@@ -1,11 +1,11 @@
 
 .bg-img {
-  background-image: url(https://pbs.twimg.com/media/D_rqulmWwAE3oiD.jpg);
+  background-image: url("./CoverPhoto.jpg");
   background-position: center center;
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
-  background-color: #999;
+  background-color: white;
   margin: 8em;
 }
 
@@ -35,15 +35,18 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.loading_pop_up {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
 }
 
-@keyframes App-logo-spin {
+
+/* @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(360deg);
   }
-}
+} */

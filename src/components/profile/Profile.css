@@ -5,7 +5,7 @@
   justify-content: center;
   font-size: 20px;
   font-weight: 900;
-
+  font-variant: small-caps;
 }
 
 .profile-card {
@@ -65,16 +65,20 @@ span.edit-delete-credit {
 .container {
   display: flex;
   justify-content: space-between;
-  margin: 0 25px;; 
-   padding-right: 20px; 
+  margin: 0 25px;
+  padding-right: 20px;
 }
 
 .navbar-item {
   justify-content: flex-start;
   color: white;
+  font-variant: small-caps;
+
 }
 .navbar-brand {
   color: white;
+  font-variant: small-caps;
+
 }
 
 .profile-content {
@@ -82,11 +86,11 @@ span.edit-delete-credit {
   justify-content: space-between;
 }
 
-.delete-profile-button {
-  color: white;
-}
 .edit-profile-button {
   color: white;
+  font-variant: small-caps;
+  font-style: oblique;
+
 }
 .profile-back-btn {
   border: 2px solid black;
@@ -94,20 +98,47 @@ span.edit-delete-credit {
 
 .add-new-credit-btn {
   color: white;
+  font-variant: small-caps;
+  font-style: oblique;
 }
 
 /******************* Add New Ride Form ********************/
 
 /*************** Edit Profile Form *********************/
 
+.navbar-edit-profile {
+  background-color: #363636;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+.delete-profile-button-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.delete-profile-button {
+  color: white;
+  margin-right: 3rem;
+  font-variant: small-caps;
+  font-style: oblique;
+
+}
+
 .edit-profile-title-container {
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   padding-left: 3rem;
 }
 .edit-profile-title {
   color: white;
   font-size: 18px;
+  font-variant: small-caps;
+
 }
 
 .profile-pic-container {

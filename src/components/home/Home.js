@@ -66,7 +66,7 @@ const Home = ({ userProfile }) => {
           </>
         )}
       </div>
-      <div className="hero is-fullheight has-background-black-bis ">
+      <div className="hero is-fullheight">
         {!loading && !userProfile.email && (
           <Link data-testid="complete-profile-btn-testid" className="complete-profile-link" to="/profile/welcome">
             Complete Profile

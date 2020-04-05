@@ -46,13 +46,13 @@ const LeaderBoard = props => {
           Quantum
         </button>
         <p className="name">
-          {user.nickname}
+          {user.nickname}{" "}
           {userProfile.picUrl ? (
             <img id="profile-pic" src={userProfile.picUrl} alt="My Avatar" />
           ) : (
             <img id="google-profile-pic" src={user.picture} alt="My Avatar" />
           )}
-          {user.email}
+          {" "}{user.email}
         </p>
       </nav>
       <button

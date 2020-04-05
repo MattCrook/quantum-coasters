@@ -23,9 +23,9 @@ Quantum contains the following features and pages users will engage with:
 * Logout
 
 ## Technologies Used
-
 This project utilizes the following:
-* Project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+* Project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app)
+
 
 * Auth0
 * Context API

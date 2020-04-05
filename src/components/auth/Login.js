@@ -37,7 +37,7 @@ const LoginLandingPage = () => {
           </div>
         </div>
       </nav>
-      <div className="hero is-fullheight has-background-black-bis ">
+      <div className="hero is-fullheight">
         <div className="hero-body bg-img">
           <div className="container has-text-centered login-foo"></div>
         </div>

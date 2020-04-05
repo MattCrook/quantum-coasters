@@ -52,7 +52,7 @@ const MessageList = props => {
               {!loading && user && (
                 <>
                   <div className="navbar-end">
-                    <button className="navbar-item">{userProfile.first_name} {userProfile.last_name}</button>
+                    <button className="navbar-item-name">{userProfile.first_name} {userProfile.last_name}</button>
                     {userProfile.picUrl ? (
                       <img
                         id="profile-pic"
@@ -70,7 +70,7 @@ const MessageList = props => {
                       onClick={() =>
                         logout({ returnTo: window.location.origin })
                       }
-                      className="navbar-item"
+                      className="navbar-item-logout-btn"
                     >
                       Logout
                     </button>
