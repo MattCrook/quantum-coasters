@@ -1,87 +1,17 @@
-/* .credit-form {
-  margin: 30px 0 0 25px;
-  border: 0;
+h3.banner {
+  padding-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: #363636;
+  color: white;
 }
 
-.icon-container {
-  margin-right: 90px;
-} */
-
-/***************/
-
-/* .new-credit-form-container {
-  display: flex;
-  justify-content: center;
-  padding: 5%;
-}
-.credit-form{
- flex-direction: column;
- align-items: center;
- background-color: rgba(179, 173, 173, 0.192);
- padding: 5%;
- box-shadow:  0 2.8px 2.2px rgba(0, 0, 0, 0.034),
- 0 6.7px 5.3px rgba(0, 0, 0, 0.048),
- 0 12.5px 10px rgba(0, 0, 0, 0.06),
- 0 22.3px 17.9px rgba(0, 0, 0, 0.072),
- 0 41.8px 33.4px rgba(0, 0, 0, 0.086),
- 0 100px 80px rgba(0, 0, 0, 0.12);
-
-}
-
-.new-credit-icon-container{
-display: flex;
-width: 80%;
-justify-content: space-between;
-
-}
-
-#back-arrow-detail:hover{
-  opacity: 0.8;
-  cursor: pointer;
-} */
-
-/* #detail-photo{
-  max-width: 300px;
-} */
-/* .delete-container{
-  margin-right: 18%;
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-} */
-
-/* .formgrid {
-  margin-top: 5%;
-  width: 80%;
-  display: flex;
-  flex-direction: column;
-} */
-
-/* .newCreditFormBtn {
-
-} */
-
-/* @media only screen and (max-width: 800px) {
-  #detail-photo{
-      max-width: 100px;
-  }
-} */
-
-/* body {
-  background: url("https://images.unsplash.com/photo-1570751485906-b0bbe415db74?ixlib=rb-1.2.1&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjE0NTg5fQ");
-  background-size: cover;
-} */
-
-/********* new styles ********/
-
-.banner h3 {
-  display: flex;
-  justify-content: center;
+.ride-not-found-section {
+  margin: 10px 0px 15px 0px;
 }
 .newCredit-credit-form {
   width: 100%;
   height: 100vh;
-  /* background: rgba(0, 0, 0, 0.2); */
   display: flex;
   justify-content: flex-end;
 }
@@ -91,8 +21,6 @@ justify-content: space-between;
 }
 
 .newCredit-formgrid {
-  /* width: 600px;
-  min-height: 50%; */
   background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 1));
   padding: 10px;
   border-radius: 15px;
@@ -110,12 +38,27 @@ justify-content: space-between;
 }
 
 .add-new-ride-btn {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: flex-end;
+
   transition: 0.25s;
   border: 2px solid black;
+  padding-left: 10px;
+  margin-top: 10px;
+  font-variant: small-caps;
+  /* font-style: oblique; */
+}
+
+.add-new-ride-btn:hover {
+  animation: fade 1s both;
+}
+
+@keyframes fade {
+  0% {
+    background: white;
+  }
+  100% {
+    background: #3e4247;
+    color: white
+  }
 }
 
 .newCredit-form-fields {
@@ -137,8 +80,6 @@ justify-content: space-between;
 
 .newCredit-form-fields > div > label {
   color: #fff;
-  /* font-size: 130%;
-    line-height: 160%;  */
   text-align: left;
 }
 
@@ -174,21 +115,22 @@ justify-content: space-between;
 .list-elements {
   display: flex;
   align-items: center;
-  justify-content: space-around;
-  box-shadow: 0 8px 12px 0 rgba(0, 0, 0, 0.2);
+  justify-content: space-between;
+  box-shadow: 1px 8px 12px 0 rgba(0, 0, 0, 0.2);
   transition: 0.3s;
   border-radius: 5px;
   margin-bottom: 15px;
-  /* width: 400px; */
-  /* border: 2px solid black; */
   align-content: center;
   padding: 7px 20px;
-  margin: 0 30%;
+  margin: 1px 30%;
 }
 
 .add-credit-button {
-  border: 1px solid black;
+  border: 2px solid black;
+  font-variant: small-caps;
+  font-style: oblique;
 }
 button.add-credit-button {
+  display: flex;
   justify-content: flex-end;
 }

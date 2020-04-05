@@ -2,12 +2,22 @@
   display: flex;
   justify-content: space-between;
   flex-direction: row;
+  padding: 0 30px 0 30px;
 }
 
-.name {
-  margin-right: 60px;
+.leaderboard-name {
+  display: flex;
+  /* justify-content: space-between; */
+  flex-direction: row;
+  align-items: center;
   font-style: oblique;
+  margin: 0px 50px 0px 0px;
 }
+
+.leaderboard-first-and-last-name-in-nav {
+  margin-right: 20px;
+}
+
 .leaderBoard-header {
   display: flex;
   justify-content: center;

@@ -3,7 +3,7 @@
 .credits-title {
   display: flex;
   justify-content: center;
-  font-size: 20px;
+  font-size: 40px;
   font-weight: 900;
   font-variant: small-caps;
 }
@@ -13,22 +13,56 @@
   transition: 0.3s;
   border-radius: 5px;
   background: aliceblue;
-  margin-bottom: 15px;
-  flex: 0 1 24%;
-  display: flex;
-  align-items: center;
-  width: 400px;
+  margin: 0 130px 15px 130px;
+  /* flex: 0 1 24%; */
+  /* justify-content: center; */
+  /* flex-direction: row; */
+  padding: 20px;
 }
 
 .profile-card-content {
-  margin: 50px 90px 0 90px;
+  /* margin: 50px 90px 0 90px; */
   font-size: 80%;
   color: black;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
 }
 
 .section-content {
   display: flex;
   justify-content: center;
+}
+
+.linkForCompanyWebsite {
+  display: flex;
+  flex-direction: row;
+}
+
+.link-to-company {
+  margin-left: 3px;
+}
+
+.ride-name-container {
+  justify-content: flex-start;
+  align-content: center;
+}
+
+.ride-details-section {
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.card-btns {
+  justify-content: flex-end;
+}
+
+.ride-name {
+  font-weight: bold;
+  font-variant: small-caps;
+  font-size: 20px;
 }
 
 /********** Header Section ***********/
@@ -60,25 +94,32 @@ span.edit-delete-credit {
   justify-content: space-evenly;
 }
 
+.name-container-profile-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.name-profile-list {
+  margin-right: 10px;
+}
+
 /*************** Profile List *************/
 
 .container {
   display: flex;
   justify-content: space-between;
-  margin: 0 25px;
-  padding-right: 20px;
+
 }
 
 .navbar-item {
   justify-content: flex-start;
   color: white;
   font-variant: small-caps;
-
 }
 .navbar-brand {
   color: white;
   font-variant: small-caps;
-
 }
 
 .profile-content {
@@ -90,7 +131,6 @@ span.edit-delete-credit {
   color: white;
   font-variant: small-caps;
   font-style: oblique;
-
 }
 .profile-back-btn {
   border: 2px solid black;
@@ -125,7 +165,6 @@ span.edit-delete-credit {
   margin-right: 3rem;
   font-variant: small-caps;
   font-style: oblique;
-
 }
 
 .edit-profile-title-container {
@@ -138,7 +177,6 @@ span.edit-delete-credit {
   color: white;
   font-size: 18px;
   font-variant: small-caps;
-
 }
 
 .profile-pic-container {

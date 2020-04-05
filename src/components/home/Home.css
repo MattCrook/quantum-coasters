@@ -47,3 +47,11 @@ button {
   margin-right: 30px;
   font-variant: small-caps;
 }
+
+.navbar-item-home-name {
+  color: white;
+}
+
+.welcome-greeting {
+  margin-top: 10px;
+}

@@ -9,7 +9,7 @@ const AddNewCreditForm = props => {
     <>
       <section className="ride-not-found-section">
         <h3 className="banner">
-          Don't see the ride you ar looking for? Click below and help us add to our repertoire!
+          Don't see the ride you are looking for? Click below and help us add to our repertoire!
         </h3>
         <button
           type="button"
@@ -20,7 +20,7 @@ const AddNewCreditForm = props => {
         </button>
       </section>
 
-      <div className="back-btn-newCredit-container">
+      {/* <div className="back-btn-newCredit-container">
         <button
           className="newCredit-form-back-button"
           id="back-arrow-detail"
@@ -28,7 +28,7 @@ const AddNewCreditForm = props => {
         >
           BACK
         </button>
-      </div>
+      </div> */}
       <div className="rollerCoaster-list-to-add-credits">
         <RollerCoasterList
           {...props}
