@@ -2,3 +2,9 @@ ul {
     display: flex;
     justify-content: space-evenly;
 }
+
+.nav-link {
+    color: black;
+    margin-top: 5px;
+    font-variant: small-caps;
+}

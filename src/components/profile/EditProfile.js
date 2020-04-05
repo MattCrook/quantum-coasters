@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import ApiManager from "../../modules/ApiManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
+import { confirmAlert } from "react-confirm-alert";
 import keys from "../../keys/Keys";
 import "./Profile.css";
 
 const EditProfile = props => {
 
-  const { user, loading } = useAuth0();
+  const { user, loading, logout } = useAuth0();
 
   const [userCredits, setUserCredits] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -84,19 +85,47 @@ const EditProfile = props => {
     }
   };
 
+  const deleteUserProfile = id => {
+    try {
+      confirmAlert({
+        title: "Confirm to delete",
+        message: "Are you sure you want to delete your profile? Once this is done you will no longer have an account and will loose your credits.",
+        buttons: [
+          {
+            label: "Yes",
+            onClick: () => ApiManager.deleteUserProfile(id).then(() => logout())
+          },
+          {
+            label: "No",
+            onClick: () => ""
+          }
+        ]
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    console.log("CALLED");
     getProfile(user);
     getUserCredits(user);
     setIsLoading(false);
-  }, []);
+  }, [user]);
 
   return (
     <>
-      <nav className="navbar is-dark">
+      <nav className="navbar-edit-profile">
         <div className="edit-profile-title-container">
           <h4 className="edit-profile-title">Edit Your Profile</h4>
-        </div>
+          </div>
+          <div className="delete-profile-button-container">
+        <button
+            className="delete-profile-button" data-testid="delete_profile_btn_testid"
+            onClick={() => deleteUserProfile(userProfile.id)}
+            >
+            Delete Profile
+          </button>
+          </div>
       </nav>
       <div className="profile-pic-container">
         <div className="profile-pic-flex-box">

@@ -39,7 +39,7 @@ const App = props => {
   }, [user]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="loading_pop_up">Loading...</div>;
   }
   return (
     <>

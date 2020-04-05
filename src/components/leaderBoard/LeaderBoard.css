@@ -1,35 +1,26 @@
-/* .leaderBoard-container {
-  display: flex;
-  flex-direction: column; 
-  justify-content: center;
-} */
-
 #nav-container {
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
 }
 
 .name {
-    margin-right: 60px;
-
+  margin-right: 60px;
+  font-style: oblique;
 }
 .leaderBoard-header {
   display: flex;
   justify-content: center;
 }
 .leaderBoard-title {
-    font-size: 20px;
-    font-weight: 900;
+  font-size: 20px;
+  font-weight: 900;
+  font-variant: small-caps;
 }
 .navbar-item {
-    margin-left: 50px;
-    color: white;
+  margin-left: 50px;
+  color: white;
 }
-/* .leaderBoard-title {
-    justify-content: center;
-} */
 
 .leaderBoard-main-content {
   display: flex;
@@ -47,11 +38,10 @@
   margin-bottom: 2px;
   margin-left: 100px;
   margin-right: 100px;
-
 }
 
 .leaderBoard-back-btn {
-    border: 2px solid black;
+  border: 2px solid black;
 }
 
 /* .chat-ScrollToBottom {

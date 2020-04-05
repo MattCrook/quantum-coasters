@@ -67,6 +67,12 @@
   color: #aaa;
 }
 
+.navbar-item-logout-btn {
+  color: white;
+  font-style: oblique;
+  font-variant: small-caps;
+}
+
 /*           Chat Buttons           */
 
 .chat-send-button {
@@ -107,6 +113,11 @@
   font-size: 10px;
 }
 
+.forum-header {
+  font-variant: small-caps;
+  font-size: 1rem;
+}
+
 /*          MESSAGE FORM INPUT       */
 
 .chat-form {
@@ -122,131 +133,12 @@
   box-sizing: border-box;
 }
 
+.navbar-item-name {
+font-style: oblique;
+margin-right: 5px;
+font-size: 1rem;
+color: white;
+}
+
+
 /*            CHAT ITSELF            */
-/*
-.chat-wrapper {
-  display: flex;
-  justify-content: center;
-}
-
-#chat-headerContainer {
-  display: flex;
-  justify-content: center;
-  border: 2px solid #dedede;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 5px 0;
-}
-.forum-header {
-  justify-content: center;
-}
- .profile-pic-header {
-   justify-content: right;
- }
-
-.chat-fixed-height-container {
-  height: 100px;
-  width: 550px;
-  padding: 3px;
-}
-
-/* Borrowed a bit from this CSS chat tutorial */
-/* https://www.w3schools.com/howto/howto_css_chat.asp */
-/* .message-container {
-  border: 2px solid #dedede;
-  background-color: #f1f1f1;
-  border-radius: 5px;
-  padding: 10px;
-  margin: 10px 5px;
-}
-
-.message-container img {
-  float: left;
-  max-width: 60px;
-  width: 100%;
-  margin-right: 20px;
-  border-radius: 50%;
-}
-
-.chat-fieldset {
-  background-color: none;
-  border-width: 0;
-}
-
-.message-container::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-.message-time-right {
-  float: right;
-  color: #aaa;
-} */
-
-/* Scrollbar always at the bottom trick: 
-  https://stackoverflow.com/a/44051405 */
-/* .chat-ScrollToBottom {
-  height: 600px;
-  overflow: auto;
-  display: flex;
-  flex-direction: column-reverse;
-}
-
-.darker {
-  border-color: #ccc;
-  background-color: #ddd;
-}
-
-/*           Chat Buttons           */
-/* 
-.chat-send-button {
-  display: inline-block;
-  cursor: pointer;
-  background-color: #ddd;
-  border: none;
-  padding: 12px 20px;
-  margin: 0px 5px;
-  border-radius: 5px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 16px;
-}
-
-.chat-send-button:hover {
-  opacity: 0.8;
-}
-
-.chat-input-inner-container {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.chat-edit-outline-icon {
-  cursor: pointer;
-  display: inline-block;
-}
-
-.chat-user-plus-icon {
-  cursor: pointer;
-  display: inline-block;
-}  */
-
-/*          MESSAGE FORM INPUT       */
-
-/* .chat-form {
-  width: 100%;
-  border-radius: 0;
-  background-color: none;
-}
-
-.chat-input {
-  width: 75%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  border-radius: 5px;
-  box-sizing: border-box;
-} */
