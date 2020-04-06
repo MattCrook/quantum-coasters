@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import ApiManager from "../../modules/ApiManager";
 import keys from "../../keys/Keys";
@@ -9,6 +9,10 @@ const CreateAccount = props => {
   const { user } = useAuth0();
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState({});
+
+  const uploadedImage = useRef(null);
+  const imageUploader = useRef(null);
+
   const [userProfile, setUserProfile] = useState({
     first_name: "",
     last_name: "",
@@ -19,7 +23,7 @@ const CreateAccount = props => {
     picUrl: user.picture
   });
 
-// ToDO: add another object with default picture if there is no picture uploaded OR google image
+  // ToDO: add another object with default picture if there is no picture uploaded OR google image
 
   const handleInputChange = e => {
     const stateToChange = { ...userProfile };
@@ -45,13 +49,62 @@ const CreateAccount = props => {
         buttons: [
           {
             label: "Ok",
-            onClick: () =>
-              ApiManager.postNewUserProfile(userProfile).then(newProfile => {
-                props.setUserProfile(newProfile, true);
-                props.history.push("/home");
-                // props.history.push("/home", {userProfile: userProfile});
-                // can use above method to transfer the state using location object - by props.location.state.userProfile
-              })
+            onClick: async () => {
+              if ((user.picture) && (image.picUrl === "")) {
+                const newUserProfile = {
+                  first_name: userProfile.first_name,
+                  last_name: userProfile.last_name,
+                  username: userProfile.username,
+                  email: user.email,
+                  address: userProfile.address,
+                  credits: [],
+                  picUrl: user.picture
+                };
+                ApiManager.postNewUserProfile(newUserProfile).then(
+                  newProfile => {
+                    props.setUserProfile(newProfile, true);
+                    props.history.push("/home");
+                    // props.history.push("/home", {userProfile: userProfile});
+                    // can use above method to transfer the state using location object - by props.location.state.userProfile
+                  }
+                );
+              } else if ((user.picture === "") && (image.picUrl === "")) {
+                const newUserProfile = {
+                  first_name: userProfile.first_name,
+                  last_name: userProfile.last_name,
+                  username: userProfile.username,
+                  email: user.email,
+                  address: userProfile.address,
+                  credits: [],
+                  picUrl:
+                    "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png"
+                };
+                ApiManager.postNewUserProfile(newUserProfile).then(
+                  newProfile => {
+                    props.setUserProfile(newProfile, true);
+                    props.history.push("/home");
+                  }
+                );
+              } else if (image.picUrl !== "") {
+                const newUserProfile = {
+                  first_name: userProfile.first_name,
+                  last_name: userProfile.last_name,
+                  username: userProfile.username,
+                  email: user.email,
+                  address: userProfile.address,
+                  credits: [],
+                  picUrl: image.picUrl
+                };
+                ApiManager.postNewUserProfile(newUserProfile).then(
+                  newProfile => {
+                    props.setUserProfile(newProfile, true);
+                    props.history.push("/home");
+                    // props.history.push("/home", {userProfile: userProfile});
+                    // can use above method to transfer the state using location object - by props.location.state.userProfile
+                  }
+                );
+              }
+            }
           }
         ],
         closeOnClickOutside: true,
@@ -62,25 +115,32 @@ const CreateAccount = props => {
     }
   };
 
-  const uploadImage = async e => {
-    const files = e.target.files;
-    const data = new FormData();
-    data.append("file", files[0]);
-    data.append("upload_preset", "photoLab");
-    setIsLoading(true);
-    const res = await fetch(
-      // CLOUDINARY_URL=cloudinary://${keys.cloudinary}@capstone-project
+  const uploadImage = e => {
+    const [file] = e.target.files;
+    if (file) {
+      setIsLoading(true);
+      const reader = new FileReader();
+      const { current } = uploadedImage;
+      current.file = file;
+      reader.onload = e => {
+        current.src = e.target.result;
+      };
+       reader.readAsText(file);
+      setImage({picUrl: file.name});
+      console.log("result", file);
 
-      `https://api.cloudinary.com/v1_1/capstone-project/image/upload`,
-      {
-        method: "POST",
-        body: data
-      }
-    );
-    const file = await res.json();
-    setImage({ picUrl: file.secure_url });
+
+
+
+      // console.log("src", current)
+      // console.log("src2", uploadedImage)
+      // console.log("src3", uploadedImage.current)
+      // console.log("src4", uploadedImage.current.src)
+    }
     setIsLoading(false);
   };
+  console.log({image})
+
 
   return (
     <form className="register-form" onSubmit={handleFormSubmit}>
@@ -133,10 +193,12 @@ const CreateAccount = props => {
             name="file"
             id="picUrl"
             type="file"
+            accept="image/*"
             className="file-upload"
             placeholder="Upload an Image"
-            data-cloudinary-field="image_id"
+            // data-cloudinary-field="image_id"
             onChange={uploadImage}
+            ref={imageUploader}
             data-form-data="{ 'transformation': {'crop':'limit','tags':'samples','width':3000,'height':2000}}"
           />
           <div className="newPhoto">
@@ -144,7 +206,7 @@ const CreateAccount = props => {
               <h3> Loading...</h3>
             ) : (
               <>
-                <img src={image.picUrl} style={{ width: "300px" }} alt="" />
+                <img src={image.picUrl} ref={uploadedImage} style={{ width: "300px" }} alt="" />
               </>
             )}
           </div>
