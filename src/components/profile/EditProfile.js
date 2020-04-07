@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import ApiManager from "../../modules/ApiManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { confirmAlert } from "react-confirm-alert";
-import keys from "../../keys/Keys";
+// import keys from "../../keys/Keys";
+import ImageUploader from "react-images-upload";
+
 import "./Profile.css";
 
 const EditProfile = props => {
-
-  const { user, loading, logout } = useAuth0();
+  const { user, logout } = useAuth0();
 
   const [userCredits, setUserCredits] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -45,23 +46,27 @@ const EditProfile = props => {
       .catch(e => console.log(e));
   };
 
-  const uploadImage = async e => {
-    const files = e.target.files;
-    const data = new FormData();
-    data.append("file", files[0]);
-    data.append("upload_preset", "photoLab");
-    setIsLoading(true);
-    const res = await fetch(
-     // http://localhost:8200/cloudinary://418576712586226:IaXis96Iz93J6NH7PTrU1clKpGM@capstone-project
-      `https://api.cloudinary.com/v1_1/${keys.cloudinary}/image/upload`,
-      {
-        method: "POST",
-        body: data
-      }
-    );
-    const file = await res.json();
-    setImage({ picUrl: file.secure_url });
-    setIsLoading(false);
+  // const uploadImage = async e => {
+  //   const files = e.target.files;
+  //   const data = new FormData();
+  //   data.append("file", files[0]);
+  //   data.append("upload_preset", "photoLab");
+  //   setIsLoading(true);
+  //   const res = await fetch(
+  //    // http://localhost:8200/cloudinary://418576712586226:IaXis96Iz93J6NH7PTrU1clKpGM@capstone-project
+  //     `https://api.cloudinary.com/v1_1/${keys.cloudinary}/image/upload`,
+  //     {
+  //       method: "POST",
+  //       body: data
+  //     }
+  //   );
+  //   const file = await res.json();
+  //   setImage({ picUrl: file.secure_url });
+  //   setIsLoading(false);
+  // };
+
+  const onDrop = picture => {
+    setImage({ ...image }, picture);
   };
 
   const getUserCredits = async user => {
@@ -89,7 +94,8 @@ const EditProfile = props => {
     try {
       confirmAlert({
         title: "Confirm to delete",
-        message: "Are you sure you want to delete your profile? Once this is done you will no longer have an account and will loose your credits.",
+        message:
+          "Are you sure you want to delete your profile? Once this is done you will no longer have an account and will loose your credits.",
         buttons: [
           {
             label: "Yes",
@@ -117,15 +123,16 @@ const EditProfile = props => {
       <nav className="navbar-edit-profile">
         <div className="edit-profile-title-container">
           <h4 className="edit-profile-title">Edit Your Profile</h4>
-          </div>
-          <div className="delete-profile-button-container">
-        <button
-            className="delete-profile-button" data-testid="delete_profile_btn_testid"
+        </div>
+        <div className="delete-profile-button-container">
+          <button
+            className="delete-profile-button"
+            data-testid="delete_profile_btn_testid"
             onClick={() => deleteUserProfile(userProfile.id)}
-            >
+          >
             Delete Profile
           </button>
-          </div>
+        </div>
       </nav>
       <div className="profile-pic-container">
         <div className="profile-pic-flex-box">
@@ -140,7 +147,7 @@ const EditProfile = props => {
           )}
           <div className="change-profile-pic">
             <label htmlFor="picUrl">Profile picture</label>
-            <input
+            {/* <input
               name="file"
               id="picUrl"
               type="file"
@@ -149,6 +156,17 @@ const EditProfile = props => {
               data-cloudinary-field="image_id"
               onChange={uploadImage}
               data-form-data="{ 'transformation': {'crop':'limit','tags':'samples','width':3000,'height':2000}}"
+            /> */}
+            <ImageUploader
+              {...props}
+              withIcon={true}
+              withPreview={true}
+              onChange={onDrop}
+              imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+              maxFileSize={5242880}
+              className="file-upload"
+              id="picUrl"
+              // accept="image/*"
             />
             {/* <div className="newPhoto">
               {loading ? (
@@ -169,7 +187,7 @@ const EditProfile = props => {
           <div>First: {userProfile.first_name}</div>
           <div>Last: {userProfile.last_name}</div>
           <div>Username: {userProfile.username}</div>
-              <div>Address: {userProfile.address}</div>
+          <div>Address: {userProfile.address}</div>
           <div className="list-of-credits">List of Credits</div>
           {userCredits.map(credit => (
             <li key={credit.id}>{credit.name}</li>

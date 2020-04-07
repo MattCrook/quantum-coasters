@@ -1,17 +1,18 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import ApiManager from "../../modules/ApiManager";
 import keys from "../../keys/Keys";
 import "./Register.css";
 import { confirmAlert } from "react-confirm-alert";
+// import ImageUploader from "react-images-upload";
 
 const CreateAccount = props => {
   const { user } = useAuth0();
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState({});
 
-  const uploadedImage = useRef(null);
-  const imageUploader = useRef(null);
+  // const uploadedImage = React.useRef(null);
+  // const imageUploader = React.useRef(null);
 
   const [userProfile, setUserProfile] = useState({
     first_name: "",
@@ -22,8 +23,6 @@ const CreateAccount = props => {
     credits: [],
     picUrl: user.picture
   });
-
-  // ToDO: add another object with default picture if there is no picture uploaded OR google image
 
   const handleInputChange = e => {
     const stateToChange = { ...userProfile };
@@ -50,7 +49,7 @@ const CreateAccount = props => {
           {
             label: "Ok",
             onClick: async () => {
-              if ((user.picture) && (image.picUrl === "")) {
+              if (user.picture && !image.picUrl) {
                 const newUserProfile = {
                   first_name: userProfile.first_name,
                   last_name: userProfile.last_name,
@@ -68,7 +67,7 @@ const CreateAccount = props => {
                     // can use above method to transfer the state using location object - by props.location.state.userProfile
                   }
                 );
-              } else if ((user.picture === "") && (image.picUrl === "")) {
+              } else if (!user.picture && !image.picUrl) {
                 const newUserProfile = {
                   first_name: userProfile.first_name,
                   last_name: userProfile.last_name,
@@ -85,7 +84,7 @@ const CreateAccount = props => {
                     props.history.push("/home");
                   }
                 );
-              } else if (image.picUrl !== "") {
+              } else if (image.picUrl) {
                 const newUserProfile = {
                   first_name: userProfile.first_name,
                   last_name: userProfile.last_name,
@@ -115,32 +114,29 @@ const CreateAccount = props => {
     }
   };
 
-  const uploadImage = e => {
-    const [file] = e.target.files;
-    if (file) {
-      setIsLoading(true);
-      const reader = new FileReader();
-      const { current } = uploadedImage;
-      current.file = file;
-      reader.onload = e => {
-        current.src = e.target.result;
-      };
-       reader.readAsText(file);
-      setImage({picUrl: file.name});
-      console.log("result", file);
+  // const onDrop = picture => {
+  //   console.log({...image})
+  //   console.log(picture)
+  //   setImage({...image}, picture);
+  // };
 
-
-
-
-      // console.log("src", current)
-      // console.log("src2", uploadedImage)
-      // console.log("src3", uploadedImage.current)
-      // console.log("src4", uploadedImage.current.src)
-    }
+  const uploadImage = async e => {
+    const files = e.target.files;
+    const data = new FormData();
+    data.append("file", files[0]);
+    data.append("upload_preset", "x2hshsf4");
+    setIsLoading(true);
+    const res = await fetch(
+      `https://api.cloudinary.com/v1_1/${keys.cloud_name}/image/upload`,
+      {
+        method: "POST",
+        body: data
+      }
+    );
+    const file = await res.json();
+    setImage({ picUrl: file.secure_url });
     setIsLoading(false);
   };
-  console.log({image})
-
 
   return (
     <form className="register-form" onSubmit={handleFormSubmit}>
@@ -189,16 +185,27 @@ const CreateAccount = props => {
             autoFocus=""
           />
           <label htmlFor="eventImage">Please upload a profile picture</label>
+          {/* <ImageUploader
+            {...props}
+            withIcon={true}
+            withPreview={true}
+            onChange={onDrop}
+            imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+            maxFileSize={5242880}
+            className="file-upload"
+            id="picUrl"
+            accept="image/*"
+          /> */}
           <input
             name="file"
             id="picUrl"
             type="file"
-            accept="image/*"
+            // accept="image/*"
             className="file-upload"
             placeholder="Upload an Image"
-            // data-cloudinary-field="image_id"
+            data-cloudinary-field="image_id"
             onChange={uploadImage}
-            ref={imageUploader}
+            // ref={imageUploader}
             data-form-data="{ 'transformation': {'crop':'limit','tags':'samples','width':3000,'height':2000}}"
           />
           <div className="newPhoto">
@@ -206,11 +213,15 @@ const CreateAccount = props => {
               <h3> Loading...</h3>
             ) : (
               <>
-                <img src={image.picUrl} ref={uploadedImage} style={{ width: "300px" }} alt="" />
+                <img src={image.picUrl} style={{ width: "300px" }} alt="" />
               </>
             )}
           </div>
-          <button className="register-create-btn" type="submit">
+          <button
+            className="register-create-btn"
+            type="submit"
+            disabled={isLoading}
+          >
             Finish
           </button>
         </div>
