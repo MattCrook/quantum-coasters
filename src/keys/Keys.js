@@ -1,6 +1,6 @@
 const keys = {
-    cloudinary: "418576712586226"
-}
-export default keys;
+  upload_preset: "x2hshsf4",
+  cloud_name: "capstone-project"
+};
 
-// CLOUDINARY_URL=cloudinary://418576712586226:IaXis96Iz93J6NH7PTrU1clKpGM@capstone-project
+export default keys;

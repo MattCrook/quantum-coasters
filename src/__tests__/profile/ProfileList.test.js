@@ -80,7 +80,7 @@ describe("<ProfileList />", () => {
     expect(profileListComponent).toBeTruthy();
 
     const profileCardTag = profileListComponent.getByTestId("profile_card_container_testid");
-    const deleteBtnTag = profileListComponent.getByTestId("delete_profile_btn_testid");
+    /* const deleteBtnTag = profileListComponent.getByTestId("delete_profile_btn_testid"); */
 
     expect(profileCardTag).toBeInTheDocument();
     expect(deleteBtnTag).toBeInTheDocument();

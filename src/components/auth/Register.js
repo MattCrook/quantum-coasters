@@ -4,11 +4,16 @@ import ApiManager from "../../modules/ApiManager";
 import keys from "../../keys/Keys";
 import "./Register.css";
 import { confirmAlert } from "react-confirm-alert";
+// import ImageUploader from "react-images-upload";
 
 const CreateAccount = props => {
   const { user } = useAuth0();
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState({});
+
+  // const uploadedImage = React.useRef(null);
+  // const imageUploader = React.useRef(null);
+
   const [userProfile, setUserProfile] = useState({
     first_name: "",
     last_name: "",
@@ -18,8 +23,6 @@ const CreateAccount = props => {
     credits: [],
     picUrl: user.picture
   });
-
-// ToDO: add another object with default picture if there is no picture uploaded OR google image
 
   const handleInputChange = e => {
     const stateToChange = { ...userProfile };
@@ -45,13 +48,62 @@ const CreateAccount = props => {
         buttons: [
           {
             label: "Ok",
-            onClick: () =>
-              ApiManager.postNewUserProfile(userProfile).then(newProfile => {
-                props.setUserProfile(newProfile, true);
-                props.history.push("/home");
-                // props.history.push("/home", {userProfile: userProfile});
-                // can use above method to transfer the state using location object - by props.location.state.userProfile
-              })
+            onClick: async () => {
+              if (user.picture && !image.picUrl) {
+                const newUserProfile = {
+                  first_name: userProfile.first_name,
+                  last_name: userProfile.last_name,
+                  username: userProfile.username,
+                  email: user.email,
+                  address: userProfile.address,
+                  credits: [],
+                  picUrl: user.picture
+                };
+                ApiManager.postNewUserProfile(newUserProfile).then(
+                  newProfile => {
+                    props.setUserProfile(newProfile, true);
+                    props.history.push("/home");
+                    // props.history.push("/home", {userProfile: userProfile});
+                    // can use above method to transfer the state using location object - by props.location.state.userProfile
+                  }
+                );
+              } else if (!user.picture && !image.picUrl) {
+                const newUserProfile = {
+                  first_name: userProfile.first_name,
+                  last_name: userProfile.last_name,
+                  username: userProfile.username,
+                  email: user.email,
+                  address: userProfile.address,
+                  credits: [],
+                  picUrl:
+                    "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png"
+                };
+                ApiManager.postNewUserProfile(newUserProfile).then(
+                  newProfile => {
+                    props.setUserProfile(newProfile, true);
+                    props.history.push("/home");
+                  }
+                );
+              } else if (image.picUrl) {
+                const newUserProfile = {
+                  first_name: userProfile.first_name,
+                  last_name: userProfile.last_name,
+                  username: userProfile.username,
+                  email: user.email,
+                  address: userProfile.address,
+                  credits: [],
+                  picUrl: image.picUrl
+                };
+                ApiManager.postNewUserProfile(newUserProfile).then(
+                  newProfile => {
+                    props.setUserProfile(newProfile, true);
+                    props.history.push("/home");
+                    // props.history.push("/home", {userProfile: userProfile});
+                    // can use above method to transfer the state using location object - by props.location.state.userProfile
+                  }
+                );
+              }
+            }
           }
         ],
         closeOnClickOutside: true,
@@ -62,16 +114,20 @@ const CreateAccount = props => {
     }
   };
 
+  // const onDrop = picture => {
+  //   console.log({...image})
+  //   console.log(picture)
+  //   setImage({...image}, picture);
+  // };
+
   const uploadImage = async e => {
     const files = e.target.files;
     const data = new FormData();
     data.append("file", files[0]);
-    data.append("upload_preset", "photoLab");
+    data.append("upload_preset", "x2hshsf4");
     setIsLoading(true);
     const res = await fetch(
-      // CLOUDINARY_URL=cloudinary://${keys.cloudinary}@capstone-project
-
-      `https://api.cloudinary.com/v1_1/capstone-project/image/upload`,
+      `https://api.cloudinary.com/v1_1/${keys.cloud_name}/image/upload`,
       {
         method: "POST",
         body: data
@@ -129,14 +185,27 @@ const CreateAccount = props => {
             autoFocus=""
           />
           <label htmlFor="eventImage">Please upload a profile picture</label>
+          {/* <ImageUploader
+            {...props}
+            withIcon={true}
+            withPreview={true}
+            onChange={onDrop}
+            imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+            maxFileSize={5242880}
+            className="file-upload"
+            id="picUrl"
+            accept="image/*"
+          /> */}
           <input
             name="file"
             id="picUrl"
             type="file"
+            // accept="image/*"
             className="file-upload"
             placeholder="Upload an Image"
             data-cloudinary-field="image_id"
             onChange={uploadImage}
+            // ref={imageUploader}
             data-form-data="{ 'transformation': {'crop':'limit','tags':'samples','width':3000,'height':2000}}"
           />
           <div className="newPhoto">
@@ -148,7 +217,11 @@ const CreateAccount = props => {
               </>
             )}
           </div>
-          <button className="register-create-btn" type="submit">
+          <button
+            className="register-create-btn"
+            type="submit"
+            disabled={isLoading}
+          >
             Finish
           </button>
         </div>
