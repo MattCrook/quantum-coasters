@@ -14,6 +14,7 @@
     "@testing-library/user-event": "^7.2.1",
     "bulma": "^0.8.0",
     "cloudinary": "^1.20.0",
+    "json-server": "^0.16.1",
     "react": "^16.13.0",
     "react-confirm-alert": "^2.6.1",
     "react-dom": "^16.13.0",
@@ -24,10 +25,12 @@
     "themeparks": "^5.1.34"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "json-server --static ./build api/database.json",
+    "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev-server": "json-server -p 8200 api/database.json"
   },
   "eslintConfig": {
     "extends": "react-app"

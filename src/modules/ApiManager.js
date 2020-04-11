@@ -1,5 +1,5 @@
-const remoteURL = "http://localhost:8200";
-// const remoteURL = "https://json-server-heroku-q5qgkriqr.now.sh/db.json";
+// const remoteURL = "http://localhost:8200";
+const remoteURL = process.env.REACT_APP_BASE_URL;
 
 const ApiManager = {
 
