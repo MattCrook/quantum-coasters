@@ -11,16 +11,16 @@ import history from "./utils/history";
 const onRedirectCallback = appState => {
   history.push(
     appState && appState.targetUrl
-      ? appState.targetUrl
-      : window.location.pathname
-  );
+    ? appState.targetUrl
+    : window.location.pathname
+    );
 };
 
 ReactDOM.render(
   <Auth0Provider
     domain={config.domain}
     client_id={config.clientId}
-    redirect_uri={`${window.location.origin}`}
+    redirect_uri={`${window.location.origin}/home`}
     onRedirectCallback={onRedirectCallback}
   >
     <App />
