@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import ApiManager from "../../modules/ApiManager";
 import { setResourceStateHelperFunction } from "../../modules/helpers";
 import "./EditCreditForm.css";
 
 const EditCreditForm = props => {
   console.log(props.creditId);
-  console.log({ props });
 
   const [manufacturers, setManufacturers] = useState([]);
   const [trackTypes, setTrackTypes] = useState([]);
