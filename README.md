@@ -1,4 +1,5 @@
 # Quantum Coasters
+![quantum cover](/public/Quantum.png)
 
 ## Setup
 
@@ -66,3 +67,4 @@ The skills and concepts utilized to complete this project included the following
 ![quantum database](./QuantumCoastersERD.png)
 
 ## Deployed Application Link
+[Quantum Coasters](https://quantum-application-71iyalov8.now.sh/)
