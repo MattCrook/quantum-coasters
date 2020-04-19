@@ -3,7 +3,6 @@ import { setResourceStateHelperFunction } from "../../modules/helpers";
 import "./EditCreditForm.css";
 
 const EditCreditForm = props => {
-  console.log(props.creditId);
 
   const [manufacturers, setManufacturers] = useState([]);
   const [trackTypes, setTrackTypes] = useState([]);
