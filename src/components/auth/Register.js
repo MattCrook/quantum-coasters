@@ -6,7 +6,7 @@ import "./Register.css";
 import { confirmAlert } from "react-confirm-alert";
 // import ImageUploader from "react-images-upload";
 
-const CreateAccount = props => {
+const CreateAccount = (props) => {
   const { user } = useAuth0();
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState({});
@@ -20,19 +20,22 @@ const CreateAccount = props => {
     username: "",
     email: user.email,
     address: "",
-    credits: [],
-    picUrl: user.picture
+    picUrl: user.picture,
+    credits: []
   });
 
-  const handleInputChange = e => {
+  const handleInputChange = (e) => {
     const stateToChange = { ...userProfile };
     stateToChange[e.target.id] = e.target.value;
     setUserProfile(stateToChange);
   };
 
-  const handleFormSubmit = e => {
+  const handleFormSubmit = (e) => {
     e.preventDefault();
-    sessionStorage.setItem("userPicture", JSON.stringify(user.picture));
+    sessionStorage.setItem(
+      "userPicture from createaccount",
+      JSON.stringify(user.picture)
+    );
     if (
       userProfile.first_name === "" ||
       userProfile.last_name === "" ||
@@ -60,7 +63,7 @@ const CreateAccount = props => {
                   picUrl: user.picture
                 };
                 ApiManager.postNewUserProfile(newUserProfile).then(
-                  newProfile => {
+                  (newProfile) => {
                     props.setUserProfile(newProfile, true);
                     props.history.push("/home");
                     // props.history.push("/home", {userProfile: userProfile});
@@ -74,12 +77,11 @@ const CreateAccount = props => {
                   username: userProfile.username,
                   email: user.email,
                   address: userProfile.address,
-                  credits: [],
-                  picUrl:
-                    "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png"
+                  picUrl: "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png",
+                  credits: []
                 };
                 ApiManager.postNewUserProfile(newUserProfile).then(
-                  newProfile => {
+                  (newProfile) => {
                     props.setUserProfile(newProfile, true);
                     props.history.push("/home");
                   }
@@ -91,11 +93,11 @@ const CreateAccount = props => {
                   username: userProfile.username,
                   email: user.email,
                   address: userProfile.address,
-                  credits: [],
-                  picUrl: image.picUrl
+                  picUrl: image.picUrl,
+                  credits: []
                 };
                 ApiManager.postNewUserProfile(newUserProfile).then(
-                  newProfile => {
+                  (newProfile) => {
                     props.setUserProfile(newProfile, true);
                     props.history.push("/home");
                     // props.history.push("/home", {userProfile: userProfile});
@@ -103,12 +105,12 @@ const CreateAccount = props => {
                   }
                 );
               }
-            }
-          }
+            },
+          },
         ],
         closeOnClickOutside: true,
         onClickOutside: () => {},
-        onKeypressEscape: () => {}
+        onKeypressEscape: () => {},
       });
       setIsLoading(false);
     }
@@ -120,7 +122,7 @@ const CreateAccount = props => {
   //   setImage({...image}, picture);
   // };
 
-  const uploadImage = async e => {
+  const uploadImage = async (e) => {
     const files = e.target.files;
     const data = new FormData();
     data.append("file", files[0]);
@@ -130,7 +132,7 @@ const CreateAccount = props => {
       `https://api.cloudinary.com/v1_1/${keys.cloud_name}/image/upload`,
       {
         method: "POST",
-        body: data
+        body: data,
       }
     );
     const file = await res.json();

@@ -8,13 +8,13 @@
 // server.use(router);
 
 // server.listen(port);
-
+/******************************  ******************************/
 var express = require("express");
 var app = express();
 var jwt = require("express-jwt");
 var jwks = require("jwks-rsa");
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 8000;
 
 var jwtCheck = jwt({
   secret: jwks.expressJwtSecret({
