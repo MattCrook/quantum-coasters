@@ -12,8 +12,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 const App = props => {
   const { loading, user } = useAuth0();
   const [userProfile, setUserProfile] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
-  // const [error, setError] = useState("");
+
 
   // fetching the userProfile (json server) to check if there is one. Will determine conditional rendering
   // further down in app. If there is no user profile, the rest of the app is blocked or hidden so user has to fill out
@@ -25,6 +24,7 @@ const App = props => {
       .then(userProfileFromAPI => {
         if (userProfileFromAPI.length > 0) {
           sessionStorage.setItem("credentials", JSON.stringify(user.email));
+          console.log(user)
           setUserProfile(userProfileFromAPI[0]);
         } else {
           console.log("DON'T HAVE USER YET.");

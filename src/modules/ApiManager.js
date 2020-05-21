@@ -1,22 +1,22 @@
-// const remoteURL = "http://localhost:8200";
-const remoteURL = process.env.REACT_APP_BASE_URL;
+const remoteURL = "http://localhost:8000";
+// const remoteURL = process.env.REACT_APP_BASE_URL;
 
 const ApiManager = {
 
   /************* USERS ********************/
 
   async getAllUsers() {
-    const resp = await fetch(`${remoteURL}/users`);
+    const resp = await fetch(`${remoteURL}/userprofiles`);
     return await resp.json();
   },
 
   async getUserProfile(email) {
-    const resp = await fetch(`${remoteURL}/users?email=${email}`);
+    const resp = await fetch(`${remoteURL}/userprofiles?email=${email}`);
     return await resp.json();
   },
 
   async postNewUserProfile(newUser) {
-    const data = await fetch(`${remoteURL}/users`, {
+    const data = await fetch(`${remoteURL}/userprofiles`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -27,14 +27,14 @@ const ApiManager = {
   },
   async deleteUserProfile(id) {
     console.log("****************");
-    const result = await fetch(`${remoteURL}/users/${id}`, {
+    const result = await fetch(`${remoteURL}/userprofiles/${id}`, {
       method: "DELETE"
     });
     return await result.json();
   },
 
   async deleteCredit(id, credits) {
-    const data = await fetch(`${remoteURL}/users/${id}`, {
+    const data = await fetch(`${remoteURL}/userprofiles/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json"
@@ -45,7 +45,7 @@ const ApiManager = {
   },
 
   async addCredit(id, credits) {
-    const data = await fetch(`${remoteURL}/users/${id}`, {
+    const data = await fetch(`${remoteURL}/userprofiles/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json"
@@ -56,7 +56,7 @@ const ApiManager = {
   },
 
   async updateCredit(editedObject) {
-    return fetch(`${remoteURL}/users/${editedObject.id}`, {
+    return fetch(`${remoteURL}/userprofiles/${editedObject.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
@@ -65,7 +65,7 @@ const ApiManager = {
     }).then(data => data.json());
   },
   async putEditedProfile(editedObject) {
-    return fetch(`${remoteURL}/users/${editedObject.id}`, {
+    return fetch(`${remoteURL}/userprofiles/${editedObject.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
@@ -78,20 +78,20 @@ const ApiManager = {
 
   async getRollerCoastersWithAllExpanded(id) {
     const resp = await fetch(
-      `${remoteURL}/rollerCoasters/${id}?_expand=trackType&_expand=manufacturer&_expand=park`
+      `${remoteURL}/rollercoasters/${id}?_expand=tracktype&_expand=manufacturer&_expand=park`
     );
     return await resp.json();
   },
 
   async getAllRollerCoastersWithAllExpanded() {
     const resp = await fetch(
-      `${remoteURL}/rollerCoasters?_expand=trackType&_expand=manufacturer&_expand=park`
+      `${remoteURL}/rollercoasters?_expand=tracktype&_expand=manufacturer&_expand=park`
     );
     return await resp.json();
   },
 
   async postNewRollerCoaster(resource) {
-    const data = await fetch(`${remoteURL}/rollerCoasters`, {
+    const data = await fetch(`${remoteURL}/rollercoasters`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -151,7 +151,7 @@ const ApiManager = {
   /*********************** TRACK TYPES ******************/
 
   async getTrackTypes() {
-    const resp = await fetch(`${remoteURL}/trackTypes`);
+    const resp = await fetch(`${remoteURL}/tracktype`);
     return await resp.json();
   },
 
@@ -161,7 +161,7 @@ const ApiManager = {
   // },
 
   async postNewTrackType(resource) {
-    const data = await fetch(`${remoteURL}/trackTypes`, {
+    const data = await fetch(`${remoteURL}/tracktype`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -211,7 +211,7 @@ const ApiManager = {
     return await resp.json();
   },
   async getTrackTypeByByName(trackType) {
-    const resp = await fetch(`${remoteURL}/trackTypes?name=${trackType}`);
+    const resp = await fetch(`${remoteURL}/tracktype?name=${trackType}`);
     return await resp.json();
   }
 };
