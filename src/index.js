@@ -24,7 +24,7 @@ ReactDOM.render(
     onRedirectCallback={onRedirectCallback}
     connection={config.connection}
     audience={config.audience}
-    id_token_hint={config.id_token_hint}
+    // id_token_hint={config.id_token_hint}
     scope={config.scope}
   >
     <App />

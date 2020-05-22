@@ -15,11 +15,8 @@ const ApiManager = {
   async getUserProfile(email, user) {
     const resp = await fetch(`${remoteURL}/userprofiles?email=${email}`);
     const result = await resp.json();
-    const token = user.sub
-    console.log(token);
-    if ("token" in result) {
-      localStorage.setItem("quantum_token", result.token);
-    }
+    const token = user.sub;
+    localStorage.setItem("quantum_user_auth_token", token);
     return result;
   },
 
@@ -34,9 +31,10 @@ const ApiManager = {
       body: JSON.stringify(newUser),
     });
     const result = await data.json();
-    if ("token" in result) {
-      localStorage.setItem("quantum_token", result.token);
-    }
+    // if ("token" in result) {
+    //   localStorage.setItem("quantum_token", result.token);
+    // }
+    return result;
   },
 
   // async getUserProfile(email) {

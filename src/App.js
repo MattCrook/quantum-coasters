@@ -10,7 +10,7 @@ import "bulma/css/bulma.css";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 const App = props => {
-  const { loading, user } = useAuth0();
+  const { loading, user, getTokenWithPopup, getIdTokenClaims } = useAuth0();
   const [userProfile, setUserProfile] = useState([]);
 
 
@@ -24,7 +24,7 @@ const App = props => {
       .then(userProfileFromAPI => {
         if (userProfileFromAPI.length > 0) {
           sessionStorage.setItem("credentials", JSON.stringify(user.email));
-          // localStorage.setItem('quantum_token', JSON.stringify(user.token))
+          // localStorage.setItem('browser-tabs-lock-key-auth0.lock.getTokenSilently', JSON.stringify())
           setUserProfile(userProfileFromAPI[0]);
         } else {
           console.log("DON'T HAVE USER YET.");
