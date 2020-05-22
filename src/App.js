@@ -20,12 +20,11 @@ const App = props => {
 
   useEffect(() => {
     if (user) {
-    ApiManager.getUserProfile(user.email)
+    ApiManager.getUserProfile(user.email, user)
       .then(userProfileFromAPI => {
         if (userProfileFromAPI.length > 0) {
           sessionStorage.setItem("credentials", JSON.stringify(user.email));
-          localStorage.getItem('quantum_token', JSON.stringify(user.token))
-          // console.log(user)
+          // localStorage.setItem('quantum_token', JSON.stringify(user.token))
           setUserProfile(userProfileFromAPI[0]);
         } else {
           console.log("DON'T HAVE USER YET.");

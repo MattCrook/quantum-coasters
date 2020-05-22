@@ -1,6 +1,9 @@
 const remoteURL = "http://localhost:8000";
 // const remoteURL = process.env.REACT_APP_BASE_URL;
 
+
+
+
 const ApiManager = {
   /************* USERS ********************/
 
@@ -9,10 +12,10 @@ const ApiManager = {
     return await resp.json();
   },
 
-  async getUserProfile(email) {
+  async getUserProfile(email, user) {
     const resp = await fetch(`${remoteURL}/userprofiles?email=${email}`);
     const result = await resp.json();
-    const token = result.token;
+    const token = user.sub
     console.log(token);
     if ("token" in result) {
       localStorage.setItem("quantum_token", result.token);
@@ -20,13 +23,13 @@ const ApiManager = {
     return result;
   },
 
-  async postNewUserProfile(newUser, token) {
+  async postNewUserProfile(newUser, user) {
     const data = await fetch(`${remoteURL}/userprofiles`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${user.sub}`
       },
       body: JSON.stringify(newUser),
     });
