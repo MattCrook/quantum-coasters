@@ -24,6 +24,7 @@ const App = props => {
       .then(userProfileFromAPI => {
         if (userProfileFromAPI.length > 0) {
           sessionStorage.setItem("credentials", JSON.stringify(user.email));
+          localStorage.getItem('quantum_token', JSON.stringify(user.token))
           // console.log(user)
           setUserProfile(userProfileFromAPI[0]);
         } else {

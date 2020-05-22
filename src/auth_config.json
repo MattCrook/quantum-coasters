@@ -1,4 +1,6 @@
 {
   "domain": "dev-405n1e6w.auth0.com",
-  "clientId": "fEY3uAhpmSRIjOHKHEHusdAkcNTse77C"
+  "clientId": "fEY3uAhpmSRIjOHKHEHusdAkcNTse77C",
+  "audience": "",
+  "id_token_hint": ""
 }

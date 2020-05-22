@@ -23,9 +23,7 @@ const LeaderBoard = props => {
           })
         };
       });
-      profileWithCreditsArray.sort(
-        (a, b) => a.creditCount.length - b.creditCount.length
-      );
+      profileWithCreditsArray.sort((a, b) => a.creditCount.length - b.creditCount.length);
       profileWithCreditsArray.reverse();
       setProfiles(profileWithCreditsArray);
     } catch (error) {

@@ -20,20 +20,19 @@ const ApiManager = {
     return result;
   },
 
-  async postNewUserProfile(newUser) {
+  async postNewUserProfile(newUser, token) {
     const data = await fetch(`${remoteURL}/userprofiles`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
-        // Authorization: Bearer <token>
+        Authorization: `Bearer ${token}`
       },
       body: JSON.stringify(newUser),
     });
     const result = await data.json();
     if ("token" in result) {
       localStorage.setItem("quantum_token", result.token);
-      return result;
     }
   },
 
