@@ -32,10 +32,7 @@ const CreateAccount = (props) => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    sessionStorage.setItem(
-      "userPicture from createaccount",
-      JSON.stringify(user.picture)
-    );
+    sessionStorage.setItem("userPicture from createaccount", JSON.stringify(user.picture));
     if (
       userProfile.first_name === "" ||
       userProfile.last_name === "" ||

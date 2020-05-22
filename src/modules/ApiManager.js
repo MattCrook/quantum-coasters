@@ -2,7 +2,6 @@ const remoteURL = "http://localhost:8000";
 // const remoteURL = process.env.REACT_APP_BASE_URL;
 
 const ApiManager = {
-
   /************* USERS ********************/
 
   async getAllUsers() {
@@ -12,23 +11,71 @@ const ApiManager = {
 
   async getUserProfile(email) {
     const resp = await fetch(`${remoteURL}/userprofiles?email=${email}`);
-    return await resp.json();
+    const result = await resp.json();
+    const token = result.token;
+    console.log(token);
+    if ("token" in result) {
+      localStorage.setItem("quantum_token", result.token);
+    }
+    return result;
   },
 
   async postNewUserProfile(newUser) {
     const data = await fetch(`${remoteURL}/userprofiles`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        // Authorization: Bearer <token>
       },
-      body: JSON.stringify(newUser)
+      body: JSON.stringify(newUser),
     });
-    return await data.json();
+    const result = await data.json();
+    if ("token" in result) {
+      localStorage.setItem("quantum_token", result.token);
+      return result;
+    }
   },
+
+  // async getUserProfile(email) {
+  //   var request = require("request");
+
+  //   var options = {
+  //     method: 'POST',
+  //     url: 'https://dev-405n1e6w.auth0.com/oauth/token',
+  //     headers: { 'content-type': 'application/x-www-form-urlencoded' },
+  //     form:
+  //     {
+  //       grant_type: 'authorization_code',
+  //       client_id: 'wnZJ4f90z3QCVelk8LXp6Uuxwi7hBeEE',
+  //       client_secret: 'qlj7YWFbbiLc4XLg9iQ6rrRF8paSYX_00nHg9DPhC-bQ3k3rv5pKroUmOI4u94ct',
+  //       code: 'AUTHORIZATION_CODE',
+  //       redirect_uri: 'undefined'
+  //     }
+  //   };
+  //   request(options, function (error, response, body) {
+  //     if (error) throw new Error(error);
+
+  //     console.log(body);
+  //   });
+  // },
+
+  //  async postNewUserProfile(newUser) {
+  //     const data = await fetch(`${remoteURL}/userprofiles`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Accept: "application/json",
+  //       },
+  //       body: JSON.stringify(newUser),
+  //     });
+  //     return await data.json();
+  //   },
+
   async deleteUserProfile(id) {
     console.log("****************");
     const result = await fetch(`${remoteURL}/userprofiles/${id}`, {
-      method: "DELETE"
+      method: "DELETE",
     });
     return await result.json();
   },
@@ -37,9 +84,9 @@ const ApiManager = {
     const data = await fetch(`${remoteURL}/userprofiles/${id}`, {
       method: "PATCH",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ credits })
+      body: JSON.stringify({ credits }),
     });
     return await data.json();
   },
@@ -48,9 +95,9 @@ const ApiManager = {
     const data = await fetch(`${remoteURL}/userprofiles/${id}`, {
       method: "PATCH",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({ credits })
+      body: JSON.stringify({ credits }),
     });
     return await data.json();
   },
@@ -59,19 +106,19 @@ const ApiManager = {
     return fetch(`${remoteURL}/userprofiles/${editedObject.id}`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(editedObject)
-    }).then(data => data.json());
+      body: JSON.stringify(editedObject),
+    }).then((data) => data.json());
   },
   async putEditedProfile(editedObject) {
     return fetch(`${remoteURL}/userprofiles/${editedObject.id}`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(editedObject)
-    }).then(data => data.json());
+      body: JSON.stringify(editedObject),
+    }).then((data) => data.json());
   },
 
   /*********** ROLLERCOASTERS ************/
@@ -94,9 +141,9 @@ const ApiManager = {
     const data = await fetch(`${remoteURL}/rollercoasters`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(resource)
+      body: JSON.stringify(resource),
     });
     return await data.json();
   },
@@ -107,9 +154,9 @@ const ApiManager = {
     const data = await fetch(`${remoteURL}/parks`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(resource)
+      body: JSON.stringify(resource),
     });
     return await data.json();
   },
@@ -141,9 +188,9 @@ const ApiManager = {
     const data = await fetch(`${remoteURL}/manufacturers`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(resource)
+      body: JSON.stringify(resource),
     });
     return await data.json();
   },
@@ -164,9 +211,9 @@ const ApiManager = {
     const data = await fetch(`${remoteURL}/tracktype`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(resource)
+      body: JSON.stringify(resource),
     });
     return await data.json();
   },
@@ -182,9 +229,9 @@ const ApiManager = {
     const data = await fetch(`${remoteURL}/messages/${editedObject.id}`, {
       method: "PUT",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(editedObject)
+      body: JSON.stringify(editedObject),
     });
     return await data.json();
   },
@@ -193,9 +240,9 @@ const ApiManager = {
     const data = await fetch(`${remoteURL}/messages`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(newObject)
+      body: JSON.stringify(newObject),
     });
     return await data.json();
   },
@@ -213,7 +260,7 @@ const ApiManager = {
   async getTrackTypeByByName(trackType) {
     const resp = await fetch(`${remoteURL}/tracktype?name=${trackType}`);
     return await resp.json();
-  }
+  },
 };
 
 export default ApiManager;

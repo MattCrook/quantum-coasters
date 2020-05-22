@@ -24,7 +24,7 @@ const App = props => {
       .then(userProfileFromAPI => {
         if (userProfileFromAPI.length > 0) {
           sessionStorage.setItem("credentials", JSON.stringify(user.email));
-          console.log(user)
+          // console.log(user)
           setUserProfile(userProfileFromAPI[0]);
         } else {
           console.log("DON'T HAVE USER YET.");
