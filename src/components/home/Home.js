@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import "./Home.css";
 
 const Home = ({ userProfile }) => {
-  const { loading, user, logout } = useAuth0();
+  const { loading, user, logout, clearStorage } = useAuth0();
 
 
   return (
@@ -36,7 +36,7 @@ const Home = ({ userProfile }) => {
                   />
                 )}
                 <button
-                  onClick={() => logout({ returnTo: window.location.origin })}
+                  onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
                   className="logout-navbar-item"
                   data-testid="logout-btn-testid"
                 >
@@ -56,7 +56,7 @@ const Home = ({ userProfile }) => {
           </>
         )}
       </div>
-      
+
       {!userProfile.email && !loading && user && (
         <>
           <div className="banner-for-complete-profile">

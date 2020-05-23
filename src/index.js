@@ -7,6 +7,8 @@ import * as serviceWorker from "./serviceWorker";
 import config from "./auth_config.json";
 import history from "./utils/history";
 
+
+
 // A function that routes the user to the right place after login
 const onRedirectCallback = appState => {
   history.push(
@@ -16,6 +18,7 @@ const onRedirectCallback = appState => {
     );
 };
 
+
 ReactDOM.render(
   <Auth0Provider
     domain={config.domain}
@@ -24,7 +27,7 @@ ReactDOM.render(
     onRedirectCallback={onRedirectCallback}
     connection={config.connection}
     audience={config.audience}
-    // id_token_hint={config.id_token_hint}
+    id_token_hint={config.id_token_hint}
     scope={config.scope}
   >
     <App />
