@@ -5,11 +5,15 @@
 
 1. `git clone git@github.com:MattCrook/quantum-front-end-capstone.git`
 1. `cd` into the directory it creates
-1. `mkdir api`
-1. `npm install` to build dependencies
-1. `npm start` to run the app in the development mode
-1. `json-server -p 8200 -w api/database.json`
-1. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+2. To run locally using `json-server` do the following steps:
+3. `mkdir api`
+4. Cd in api directory and `touch db.json`
+5. Populate the mock database with dummy data found [here](https://gist.github.com/MattCrook/57da766ddee58d9535ebb9beb910e0c8)
+6. Install [json-server](https://www.npmjs.com/package/json-server): `npm install -g json-server`
+7. `npm install` to build dependencies
+8. `npm run dev` to run the app in the development mode
+9. `json-server -p 8200 -w api/database.json`...or I've set up a development server, so you can run `npm run dev-server` to run json-server.
+10. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ## Overview
 

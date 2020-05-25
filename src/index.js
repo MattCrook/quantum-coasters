@@ -6,6 +6,14 @@ import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 import config from "./auth_config.json";
 import history from "./utils/history";
+// import configureStore from './store'
+// import createHistory from 'history/createBrowserHistory'
+// import { ConnectedRouter } from 'react-router-redux'
+// import { Provider } from 'react-redux
+
+
+// const history = createHistory()
+// const store = configureStore(history)
 
 
 
