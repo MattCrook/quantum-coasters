@@ -4,8 +4,7 @@ import "../home/Home.css";
 import "bulma/css/bulma.css";
 
 const LoginLandingPage = () => {
-
-  const { loading, user, loginWithRedirect, logout } = useAuth0();
+  const { loading, user, loginWithRedirect, logout, clearStorage } = useAuth0();
 
   return (
     <header>
@@ -28,11 +27,10 @@ const LoginLandingPage = () => {
 
               {/* if for some reason user lands on this page and is logged in, show home and logout button */}
               {!loading && user && (
-                <button onClick={logout} className="navbar-item">
+                <button onClick={logout(clearStorage())} className="navbar-item">
                   Logout
                 </button>
               )}
-
             </div>
           </div>
         </div>

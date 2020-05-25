@@ -1,76 +1,38 @@
 const remoteURL = "http://localhost:8000";
 // const remoteURL = process.env.REACT_APP_BASE_URL;
 
-
-
-
 const ApiManager = {
+
   /************* USERS ********************/
 
   async getAllUsers() {
-    const resp = await fetch(`${remoteURL}/userprofiles`);
+    const resp = await fetch(`${remoteURL}/userprofiles`, {
+      method: "GET",
+      headers: {
+        'Authorization': "Bearer " + localStorage.getItem("accessToken"),
+      },
+      Accept: "application/json",
+    });
     return await resp.json();
   },
 
-  async getUserProfile(email, user) {
-    const resp = await fetch(`${remoteURL}/userprofiles?email=${email}`);
-    const result = await resp.json();
-    const token = user.sub;
-    localStorage.setItem("quantum_user_auth_token", token);
-    return result;
+  async getUserProfile(email) {
+    const resp = await fetch(`${remoteURL}/userprofiles?email=${email}`)
+    return await resp.json();
   },
 
-  async postNewUserProfile(newUser, user) {
+  async postNewUserProfile(newUser) {
     const data = await fetch(`${remoteURL}/userprofiles`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${user.sub}`
+        'Content-Type': "application/json",
+        'Authorization': "Bearer " + localStorage.getItem("accessToken"),
       },
       body: JSON.stringify(newUser),
     });
     const result = await data.json();
-    // if ("token" in result) {
-    //   localStorage.setItem("quantum_token", result.token);
-    // }
     return result;
   },
-
-  // async getUserProfile(email) {
-  //   var request = require("request");
-
-  //   var options = {
-  //     method: 'POST',
-  //     url: 'https://dev-405n1e6w.auth0.com/oauth/token',
-  //     headers: { 'content-type': 'application/x-www-form-urlencoded' },
-  //     form:
-  //     {
-  //       grant_type: 'authorization_code',
-  //       client_id: 'wnZJ4f90z3QCVelk8LXp6Uuxwi7hBeEE',
-  //       client_secret: 'qlj7YWFbbiLc4XLg9iQ6rrRF8paSYX_00nHg9DPhC-bQ3k3rv5pKroUmOI4u94ct',
-  //       code: 'AUTHORIZATION_CODE',
-  //       redirect_uri: 'undefined'
-  //     }
-  //   };
-  //   request(options, function (error, response, body) {
-  //     if (error) throw new Error(error);
-
-  //     console.log(body);
-  //   });
-  // },
-
-  //  async postNewUserProfile(newUser) {
-  //     const data = await fetch(`${remoteURL}/userprofiles`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Accept: "application/json",
-  //       },
-  //       body: JSON.stringify(newUser),
-  //     });
-  //     return await data.json();
-  //   },
 
   async deleteUserProfile(id) {
     console.log("****************");

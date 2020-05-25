@@ -21,7 +21,7 @@ const CreateAccount = (props) => {
     email: user.email,
     address: "",
     picUrl: user.picture,
-    credits: []
+    credits: [],
   });
 
   const handleInputChange = (e) => {
@@ -32,7 +32,10 @@ const CreateAccount = (props) => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    sessionStorage.setItem("userPicture from createaccount", JSON.stringify(user.picture));
+    sessionStorage.setItem(
+      "userPicture from createaccount",
+      JSON.stringify(user.picture)
+    );
     if (
       userProfile.first_name === "" ||
       userProfile.last_name === "" ||
@@ -57,7 +60,7 @@ const CreateAccount = (props) => {
                   email: user.email,
                   address: userProfile.address,
                   credits: [],
-                  picUrl: user.picture
+                  picUrl: user.picture,
                 };
                 ApiManager.postNewUserProfile(newUserProfile).then(
                   (newProfile) => {
@@ -74,8 +77,9 @@ const CreateAccount = (props) => {
                   username: userProfile.username,
                   email: user.email,
                   address: userProfile.address,
-                  picUrl: "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png",
-                  credits: []
+                  picUrl:
+                    "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png",
+                  credits: [],
                 };
                 ApiManager.postNewUserProfile(newUserProfile).then(
                   (newProfile) => {
@@ -91,7 +95,7 @@ const CreateAccount = (props) => {
                   email: user.email,
                   address: userProfile.address,
                   picUrl: image.picUrl,
-                  credits: []
+                  credits: [],
                 };
                 ApiManager.postNewUserProfile(newUserProfile).then(
                   (newProfile) => {
@@ -123,13 +127,18 @@ const CreateAccount = (props) => {
     const files = e.target.files;
     const data = new FormData();
     data.append("file", files[0]);
-    data.append("upload_preset", "x2hshsf4");
+    data.append(`upload_preset, ${keys.upload_preset}`);
     setIsLoading(true);
     const res = await fetch(
       `https://api.cloudinary.com/v1_1/${keys.cloud_name}/image/upload`,
       {
         method: "POST",
         body: data,
+        cache: false,
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        },
       }
     );
     const file = await res.json();
