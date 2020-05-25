@@ -9,47 +9,24 @@ const ApiManager = {
     const resp = await fetch(`${remoteURL}/userprofiles`, {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        'Authorization': "Bearer " + localStorage.getItem("accessToken"),
       },
       Accept: "application/json",
-      cache: false,
     });
     return await resp.json();
   },
 
-  async getUserProfile(email, user) {
+  async getUserProfile(email) {
     const resp = await fetch(`${remoteURL}/userprofiles?email=${email}`)
-    const result = await resp.json();
-    // const sub = user.sub;
-    // localStorage.setItem("user_sub_token_id", sub);
-    return result;
+    return await resp.json();
   },
-
-
-
-
-  // async getUserProfile(email, user) {
-  //   const resp = await fetch(`${remoteURL}/userprofiles?email=${email}`, {
-  //     method: "GET",
-  //     headers: {
-  //       Authorization: "Bearer " + localStorage.getItem("accessToken"),
-  //     },
-  //     Accept: "application/json",
-  //     cache: false,
-  //   });
-  //   const result = await resp.json();
-  //   const sub = user.sub;
-  //   localStorage.setItem("user_sub_token_id", sub);
-  //   return result;
-  // },
 
   async postNewUserProfile(newUser) {
     const data = await fetch(`${remoteURL}/userprofiles`, {
       method: "POST",
-      cache: false,
       headers: {
-        Accept: "application/json",
-        Authorization: "Bearer " + localStorage.getItem("accessToken"),
+        'Content-Type': "application/json",
+        'Authorization': "Bearer " + localStorage.getItem("accessToken"),
       },
       body: JSON.stringify(newUser),
     });

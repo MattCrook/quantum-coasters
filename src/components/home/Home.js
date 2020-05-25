@@ -24,7 +24,9 @@ const Home = ({ userProfile }) => {
                   <img
                     data-testid="home-profile-pic-testid"
                     id="profile-pic"
-                    src={userProfile.picUrl}
+                    // src={userProfile.picUrl}
+                    // TODO: Change back to above after figure out API CAll to cloudinary
+                    src={user.picture}
                     alt="My Avatar"
                   />
                 ) : (

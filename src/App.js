@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth0 } from "./contexts/react-auth0-context";
 import { BrowserRouter as Router } from "react-router-dom";
 import NavBar from "./components/nav/NavBar";
