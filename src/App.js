@@ -12,7 +12,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 //browser-tabs-lock-key-auth0.lock.getTokenSilently
 
 const App = (props) => {
-  const { loading, user, getTokenSilently } = useAuth0();
+  const { loading, user, getTokenSilently, getTokenWithPopup } = useAuth0();
   const [userProfile, setUserProfile] = useState([]);
 
   // fetching the userProfile (when i was using json server) to check if there is one. Will determine conditional rendering

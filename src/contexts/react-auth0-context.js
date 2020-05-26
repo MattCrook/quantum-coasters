@@ -46,7 +46,7 @@ export const Auth0Provider = ({
       }
 
       if (isAuthenticated) {
-        localStorage.setItem("authCache", JSON.stringify({ auth0FromHook }));
+        localStorage.setItem("auth0Cache", JSON.stringify(auth0FromHook.cache.cache["default::openid profile email"]));
       }
       setLoading(false);
     };
@@ -80,7 +80,7 @@ export const Auth0Provider = ({
   const clearStorage = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("authCache");
-    localStorage.removeItem("user_sub_token_id")
+    localStorage.removeItem("user_sub_token_id");
     sessionStorage.removeItem("credentials");
   };
 

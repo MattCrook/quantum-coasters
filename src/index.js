@@ -30,13 +30,13 @@ const onRedirectCallback = appState => {
 ReactDOM.render(
   <Auth0Provider
     domain={config.domain}
-    client_id={config.clientId}
+    client_id={config.client_id}
     redirect_uri={`${window.location.origin}/home`}
     onRedirectCallback={onRedirectCallback}
-    connection={config.connection}
-    audience={config.audience}
+    // connection={config.connection}
+    // audience={config.audience}
     id_token_hint={config.id_token_hint}
-    scope={config.scope}
+    // scope={config.scope}
   >
     <App />
   </Auth0Provider>,

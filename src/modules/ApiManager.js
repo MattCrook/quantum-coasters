@@ -9,9 +9,11 @@ const ApiManager = {
     const resp = await fetch(`${remoteURL}/userprofiles`, {
       method: "GET",
       headers: {
-        'Authorization': "Bearer " + localStorage.getItem("accessToken"),
+        'Content-Type': "application/json",
+        'authorization': "Bearer " + localStorage.getItem("accessToken"),
+        'audience': 'https://api.quantumcoasters.com'
       },
-      Accept: "application/json",
+      // Accept: "application/json",
     });
     return await resp.json();
   },
@@ -26,7 +28,8 @@ const ApiManager = {
       method: "POST",
       headers: {
         'Content-Type': "application/json",
-        'Authorization': "Bearer " + localStorage.getItem("accessToken"),
+        'authorization': "Bearer " + localStorage.getItem("accessToken"),
+        'audience': 'https://api.quantumcoasters.com'
       },
       body: JSON.stringify(newUser),
     });
