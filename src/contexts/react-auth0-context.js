@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import createAuth0Client from "@auth0/auth0-spa-js";
+
 // import createContext from "react"
 
 const DEFAULT_REDIRECT_CALLBACK = () =>
@@ -28,6 +29,19 @@ export const Auth0Provider = ({
     const initAuth0 = async () => {
       const auth0FromHook = await createAuth0Client(initOptions);
       setAuth0(auth0FromHook);
+      // const claims = await auth0FromHook.getIdTokenClaims();
+      // const token = await auth0FromHook.getTokenSilently();
+      // const id_token = claims.__raw;
+      // console.log({ token });
+      // console.log({ id_token });
+
+      // const auth0FromHook = await createAuth0Client({
+      //   domain: "dev-405n1e6w.auth0.com",
+      //   client_id: "kaXZdymNjopdmrlQpOL5mMBQZyvrSry0",
+      // });
+      // const user = await auth0FromHook.getUser();
+      // console.log(user);
+      // setAuth0(auth0FromHook);
 
       if (
         window.location.search.includes("code=") &&
@@ -83,6 +97,7 @@ export const Auth0Provider = ({
     localStorage.removeItem("user_sub_token_id");
     sessionStorage.removeItem("credentials");
   };
+
 
   return (
     <Auth0Context.Provider
