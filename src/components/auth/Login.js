@@ -22,7 +22,7 @@ const LoginLandingPage = () => {
             <div className="navbar-end">
               {/* if there is no user. show the login button */}
               {!loading && !user && (
-                <button onClick={loginWithRedirect} className="navbar-item" id="login">
+                <button onClick={loginWithRedirect} className="navbar-item">
                   Login
                 </button>
               )}
