@@ -14,40 +14,82 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 const App = (props) => {
   const { loading, user, getTokenSilently } = useAuth0();
   const [userProfile, setUserProfile] = useState([]);
+  const [userFromAuth0, setUserFromAuth0] = useState([])
 
   // fetching the userProfile (when i was using json server) to check if there is one. Will determine conditional rendering
   // further down in app. If there is no user profile, the rest of the app is blocked or hidden so user has to fill out
   // complete profile form.
+  // const email = user.email
+  // const user = user
+
+
+  // useEffect(() => {
+  //   if (user) {
+  //     const userEmail = user.email;
+  //     console.log(userEmail)
+  //     getTokenSilently(user)
+  //       .then((response) => {
+  //         localStorage.setItem("accessToken", JSON.stringify(response));
+  //       })
+  //         ApiManager.getUserProfile(userEmail)
+  //           .then((userProfileFromAPI) => {
+  //             console.log(userProfileFromAPI)
+  //             if (userProfileFromAPI.length > 0) {
+  //               sessionStorage.setItem("credentials", JSON.stringify(userEmail));
+  //               // const sub = user.sub;
+  //               // localStorage.setItem("user_sub_token_id", sub);
+  //               setUserProfile(userProfileFromAPI[0]);
+  //             } else {
+  //               console.log("DON'T HAVE USER YET.");
+  //               setUserProfile({});
+  //             }
+  //           })
+  //           .catch((error) => {
+  //             console.log(error);
+  //           });
+  //       // })
+  //     //   .catch((err) => {
+  //     //     console.log(err);
+  //     // })
+  //   }
+  //   return () => user;
+  // }, [user, getTokenSilently]);
+
 
   useEffect(() => {
     if (user) {
-      getTokenSilently(user)
-        .then((response) => {
-          localStorage.setItem("accessToken", JSON.stringify(response));
-        })
-        .then(() => {
-          ApiManager.getUserProfile(user.email, user)
-            .then((userProfileFromAPI) => {
-              if (userProfileFromAPI.length > 0) {
-                sessionStorage.setItem("credentials", JSON.stringify(user.email));
-                const sub = user.sub;
-                localStorage.setItem("user_sub_token_id", sub);
-                setUserProfile(userProfileFromAPI[0]);
-              } else {
-                console.log("DON'T HAVE USER YET.");
-                setUserProfile({});
-              }
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        })
-        .catch((err) => {
-          console.log(err);
-      })
-    }
-    return () => user;
-  }, [user, getTokenSilently]);
+      const userEmail = user.email;
+      console.log("USEREMAIL", userEmail)
+        const guardForUserProfile = async (userEmail) => {
+          const token = await getTokenSilently(user)
+          const getProfile = await ApiManager.getUserProfile(userEmail)
+          console.log("GETPROFILE", getProfile)
+          localStorage.setItem("accessToken", JSON.stringify(token));
+          console.log("USER", user)
+          if (userProfile.length > 0) {
+            sessionStorage.setItem("credentials", JSON.stringify(userEmail));
+            setUserProfile(user);
+            console.log("USERPROFILE", userProfile)
+          } else {
+            console.log("DON'T HAVE USER YET.");
+            setUserProfile([]);
+          }
+        }
+
+        guardForUserProfile()
+      }
+      // return () => user;
+    }, [user]);
+ 
+
+
+
+
+
+
+
+
+
 
 
   if (loading) {

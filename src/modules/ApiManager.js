@@ -18,6 +18,17 @@ const ApiManager = {
     return await resp.json();
   },
 
+  // async getUserProfile(email) {
+  //   const resp = await fetch(`${remoteURL}/users?email=${email}`, {
+  //     method: "GET",
+  //     headers: {
+  //       'Content-Type': 'application/x-www-form-urlencoded',
+  //       Authorization: 'JWT' + localStorage.getItem("accessToken"),
+  //     },
+  //   })
+  //   return await resp.json();
+  // },
+
   async getUserProfile(email) {
     const resp = await fetch(`${remoteURL}/users?email=${email}`, {
       method: "GET",

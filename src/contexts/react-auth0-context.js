@@ -60,7 +60,7 @@ export const Auth0Provider = ({
       }
 
       if (isAuthenticated) {
-        localStorage.setItem("auth0Cache", JSON.stringify(auth0FromHook.cache.cache["default::openid profile email"]));
+        localStorage.setItem("auth0Cache", JSON.stringify(auth0FromHook));
       }
       setLoading(false);
     };
