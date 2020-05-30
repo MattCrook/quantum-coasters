@@ -15,21 +15,6 @@ const App = (props) => {
   const { loading, user, getTokenSilently } = useAuth0();
   const [userProfile, setUserProfile] = useState([]);
 
-  // fetching the userProfile (when i was using json server) to check if there is one. Will determine conditional rendering
-  // further down in app. If there is no user profile, the rest of the app is blocked or hidden so user has to fill out
-  // complete profile form.
-
-  // user is auth0 user
-  // userEmail is auth0 user email
-  // getting token for auth0 user coming back from auth0
-  // getUSerProfile takes email from auth0, searches my database for that email
-  // sets the access token from auth0 in local storage for that user and user profile
-  // userProfile is an array
-  // if there is a profile (length > 0) means they have completed the profile form and have a profile in my databse
-  // if not, means they have to complete profile, should see banner for form
-  // thier token (password), email should follow them and they complete thier profile
-  // thus making a POST to my database tying the user, userProfile, and Auth0 user together.
-
   useEffect(() => {
     if (user) {
       const userEmail = user.email;
@@ -74,3 +59,19 @@ const App = (props) => {
   );
 };
 export default App;
+
+
+ // fetching the userProfile (when i was using json server) to check if there is one. Will determine conditional rendering
+  // further down in app. If there is no user profile, the rest of the app is blocked or hidden so user has to fill out
+  // complete profile form.
+
+  // user is auth0 user
+  // userEmail is auth0 user email
+  // getting token for auth0 user coming back from auth0
+  // getUSerProfile takes email from auth0, searches my database for that email
+  // sets the access token from auth0 in local storage for that user and user profile
+  // userProfile is an array
+  // if there is a profile (length > 0) means they have completed the profile form and have a profile in my databse
+  // if not, means they have to complete profile, should see banner for form
+  // thier token (password), email should follow them and they complete thier profile
+  // thus making a POST to my database tying the user, userProfile, and Auth0 user together.
