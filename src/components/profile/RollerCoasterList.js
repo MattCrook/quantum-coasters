@@ -6,12 +6,10 @@ import { useAuth0 } from "../../contexts/react-auth0-context";
 // need check to see if the roller coaster exists in DB, if not user is taken to NewRollerCoasterForm
 // to create the entry in DB, then back to their credit form to fill it out.
 const RollerCoasterList = (props) => {
-  console.log("PROPS", props);
   const { user } = useAuth0();
   const [rollerCoasters, setRollerCoasters] = useState([]);
   const [userProfile, setUserProfile] = useState([]);
   const [credits, setCredits] = useState([]);
-  // console.log("USERPROFILE1", userProfile);
 
   // function to populate entire list of rollerCoasters in database
   const rollerCoastersFromAPI = async () => {
@@ -30,38 +28,21 @@ const RollerCoasterList = (props) => {
   };
 
   // function to hide the "ADD" button from the user if they already have the rollerCoaster on their profile
+  // Returns the credits(which are in State) which don't include the rollercoasterId
   const showButton = (rollercoasterId, credits) => {
     const creditIds = credits.map((credit) => {
-      return credit.rollerCoasterId;
+      return credit;
     });
     return !creditIds.includes(rollercoasterId);
   };
 
-  // handles user adding the credit. gets the email from State which was set above
-  // puts the rollerCoasterId into an array,
-  // POSTs to the userProfile
-  // const handleAddCredit = (rollerCoasterId) => {
-  //   let credits = userProfile.userprofile.rollerCoaster_id;
-  //   credits.push({ rollerCoasterId });
-  //   const id = userProfile.userprofile.id;
-  //   ApiManager.addCredit(id, credits).then(() => {
-  //     ApiManager.getUserProfile(user.email).then((userData) => {
-  //       const profile = userData[0];
-  //       const creditsArray = profile.userprofile.rollerCoaster_id;
-  //       setUserProfile(profile);
-  //       setCredits(creditsArray);
-  //     });
-  //   });
-  // };
-
+  // handles user adding the credit. gets the email from State which was set above.
+  // Refactored from above function
   const handleAddCredit = (rollerCoasterId) => {
-    // const userProfileId = userProfile.userprofile.id;
-    // const creditId = rollerCoaster.id;
-
     const newCreditObj = {
       rollerCoaster_id: rollerCoasterId,
-      userProfile_id: userProfile.userprofile.id
-    }
+      userProfile_id: userProfile.userprofile.id,
+    };
 
     ApiManager.addCredit(newCreditObj).then(() => {
       ApiManager.getUserProfile(user.email).then((userData) => {

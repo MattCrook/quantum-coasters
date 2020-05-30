@@ -16,17 +16,6 @@ const ApiManager = {
     return await resp.json();
   },
 
-  // async getUserProfile(email) {
-  //   const resp = await fetch(`${remoteURL}/users?email=${email}`, {
-  //     method: "GET",
-  //     headers: {
-  //       'Content-Type': 'application/x-www-form-urlencoded',
-  //       Authorization: 'JWT' + localStorage.getItem("accessToken"),
-  //     },
-  //   })
-  //   return await resp.json();
-  // },
-
   async getUserProfile(email) {
     const resp = await fetch(`${remoteURL}/users?email=${email}`, {
       method: "GET",
@@ -156,13 +145,6 @@ const ApiManager = {
     return await resp.json();
   },
 
-  // async getManufacturerWithRollerCoaster() {
-  //   const data = await fetch(
-  //     `${remoteURL}/manufacturers/?_embed=rollerCoasters`
-  //   );
-  //   return await data.json();
-  // },
-
   async postNewManufacturer(resource) {
     const data = await fetch(`${remoteURL}/manufacturers`, {
       method: "POST",
@@ -180,11 +162,6 @@ const ApiManager = {
     const resp = await fetch(`${remoteURL}/tracktype`);
     return await resp.json();
   },
-
-  // async getRollerCoastersWithTrackType() {
-  //   const data = await fetch(`${remoteURL}/trackTypes/?_embed=rollerCoasters`);
-  //   return await data.json();
-  // },
 
   async postNewTrackType(resource) {
     const data = await fetch(`${remoteURL}/tracktype`, {
