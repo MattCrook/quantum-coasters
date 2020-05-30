@@ -1,4 +1,13 @@
 {
   "domain": "dev-405n1e6w.auth0.com",
-  "clientId": "fEY3uAhpmSRIjOHKHEHusdAkcNTse77C"
+  "client_id": "ouQeFaroORjm08Dp6slPLQaNYri0sNY5",
+  "client_secret": "moWYcL19X4PtwLFqtRx2QiB5l7KfzUqIM1LZ31rzXjuWNeJx_w1OJqoueYKP_4kx",
+  "connection": "",
+  "audience": "appointments:api",
+  "scope": "appointments%20contacts",
+  "response_type": "code",
+  "code_challenge": "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
+  "code_challenge_method": "S256",
+  "state": "xyzABC12"
 }
+

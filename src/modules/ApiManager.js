@@ -6,18 +6,36 @@ const ApiManager = {
   /************* USERS ********************/
 
   async getAllUsers() {
-    const resp = await fetch(`${remoteURL}/userprofiles`, {
+    const resp = await fetch(`${remoteURL}/users`, {
       method: "GET",
       headers: {
-        'Authorization': "Bearer " + localStorage.getItem("accessToken"),
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: 'JWT' + localStorage.getItem("accessToken"),
       },
       Accept: "application/json",
     });
     return await resp.json();
   },
 
+  // async getUserProfile(email) {
+  //   const resp = await fetch(`${remoteURL}/users?email=${email}`, {
+  //     method: "GET",
+  //     headers: {
+  //       'Content-Type': 'application/x-www-form-urlencoded',
+  //       Authorization: 'JWT' + localStorage.getItem("accessToken"),
+  //     },
+  //   })
+  //   return await resp.json();
+  // },
+
   async getUserProfile(email) {
-    const resp = await fetch(`${remoteURL}/userprofiles?email=${email}`)
+    const resp = await fetch(`${remoteURL}/users?email=${email}`, {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json', // can change back to 'application/x-www-form-urlencoded'
+        Authorization: 'JWT' + localStorage.getItem("accessToken"),
+      },
+    })
     return await resp.json();
   },
 
@@ -25,8 +43,9 @@ const ApiManager = {
     const data = await fetch(`${remoteURL}/userprofiles`, {
       method: "POST",
       headers: {
-        'Content-Type': "application/json",
-        'Authorization': "Bearer " + localStorage.getItem("accessToken"),
+        'Content-Type': 'application/x-www-form-urlencoded',
+        Authorization: 'JWT' + localStorage.getItem("accessToken"),
+        // Audience: 'https://api.quantumcoasters.com'
       },
       body: JSON.stringify(newUser),
     });

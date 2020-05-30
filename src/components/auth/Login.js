@@ -3,8 +3,10 @@ import { useAuth0 } from "../../contexts/react-auth0-context";
 import "../home/Home.css";
 import "bulma/css/bulma.css";
 
+
 const LoginLandingPage = () => {
   const { loading, user, loginWithRedirect, logout, clearStorage } = useAuth0();
+
 
   return (
     <header>
