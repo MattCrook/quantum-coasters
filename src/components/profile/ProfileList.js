@@ -43,14 +43,14 @@ const ProfileList = (props) => {
           {
             label: "Yes",
             onClick: () => {
-              ApiManager.getUserProfile(user.email).then((user) => {
-                user = user[0];
-                let credits = user.credits;
-                const userId = user.id;
-                const filteredCredits = credits.filter(
-                  (credit) => credit.rollerCoasterId !== rollerCoasterId
+              ApiManager.getUserProfile(user.email).then((profile) => {
+                profile = profile[0];
+                const id = userProfile.userprofile.id
+                // const userProfileId = profile.userprofile.id;
+                const filteredCredits = userCredits.filter(
+                  (credit) => credit.id !== rollerCoasterId
                 );
-                ApiManager.deleteCredit(userId, filteredCredits).then(() => {
+                ApiManager.deleteCredit(id, filteredCredits).then(() => {
                   getUserCredits(user);
                 });
               });

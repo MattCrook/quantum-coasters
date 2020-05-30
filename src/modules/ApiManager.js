@@ -49,12 +49,12 @@ const ApiManager = {
   },
 
   async deleteCredit(id, credits) {
-    const data = await fetch(`${remoteURL}/userprofiles/${id}`, {
-      method: "PATCH",
+    const data = await fetch(`${remoteURL}/credits/${id}`, {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ credits }),
+      body: JSON.stringify(credits),
     });
     return await data.json();
   },
