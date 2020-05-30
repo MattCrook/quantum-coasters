@@ -6,25 +6,27 @@ import { confirmAlert } from "react-confirm-alert";
 import "./Profile.css";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
-const ProfileList = props => {
+const ProfileList = (props) => {
   const { user } = useAuth0();
   const [userCredits, setUserCredits] = useState([]);
   const [userProfile, setUserProfile] = useState({});
 
-  const getUserCredits = async user => {
+  const getUserCredits = async (user) => {
     try {
       const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
       setUserProfile(userProfileFromAPI[0]);
-      const rollerCoasterIds = userProfileFromAPI[0].credits.map(credit => {
-        const creditId = credit.rollerCoasterId;
-        return creditId;
-      });
+      const rollerCoasterIds = userProfileFromAPI[0].userprofile.rollerCoaster_id.map(
+        (credit) => {
+          const creditId = credit;
+          return creditId;
+        }
+      );
 
       let promises = [];
-      rollerCoasterIds.forEach(creditId => {
+      rollerCoasterIds.forEach((creditId) => {
         promises.push(ApiManager.getRollerCoastersWithAllExpanded(creditId));
       });
-      Promise.all(promises).then(data => {
+      Promise.all(promises).then((data) => {
         setUserCredits(data);
       });
     } catch (error) {
@@ -32,7 +34,7 @@ const ProfileList = props => {
     }
   };
 
-  const deleteCredit = rollerCoasterId => {
+  const deleteCredit = (rollerCoasterId) => {
     try {
       confirmAlert({
         title: "Confirm to delete",
@@ -41,24 +43,24 @@ const ProfileList = props => {
           {
             label: "Yes",
             onClick: () => {
-              ApiManager.getUserProfile(user.email).then(user => {
+              ApiManager.getUserProfile(user.email).then((user) => {
                 user = user[0];
                 let credits = user.credits;
                 const userId = user.id;
                 const filteredCredits = credits.filter(
-                  credit => credit.rollerCoasterId !== rollerCoasterId
+                  (credit) => credit.rollerCoasterId !== rollerCoasterId
                 );
                 ApiManager.deleteCredit(userId, filteredCredits).then(() => {
                   getUserCredits(user);
                 });
               });
-            }
+            },
           },
           {
             label: "No",
-            onClick: () => ""
-          }
-        ]
+            onClick: () => "",
+          },
+        ],
       });
     } catch (error) {
       console.log(error);
@@ -102,26 +104,20 @@ const ProfileList = props => {
           </div>
         </div>
       </nav>
-      {/* <button
-        className="profile-back-btn"
-        onClick={() => props.history.push("/home")}
-      >
-        Back
-      </button> */}
       <p className="credits-title">Credits</p>
       <div
         className="profile-container-card"
         data-testid="profile_card_container_testid"
       >
-        {userCredits.map(rollerCoaster => (
+        {userCredits.map((rollerCoaster) => (
           <ProfileCard
             key={rollerCoaster.id}
             userProfile={userProfile}
+            userCredits={userCredits}
             rollerCoaster={rollerCoaster}
             manufacturer={rollerCoaster.manufacturer}
-            user={user}
             park={rollerCoaster.park}
-            trackType={rollerCoaster.trackType}
+            trackType={rollerCoaster.tracktype}
             deleteCredit={deleteCredit}
             {...props}
           />
