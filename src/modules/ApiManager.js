@@ -11,9 +11,8 @@ const ApiManager = {
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
         Authorization: 'JWT' + localStorage.getItem("accessToken"),
-        // Audience: 'https://api.quantumcoasters.com'
       },
-      // Accept: "application/json",
+      Accept: "application/json",
     });
     return await resp.json();
   },
@@ -33,7 +32,7 @@ const ApiManager = {
     const resp = await fetch(`${remoteURL}/users?email=${email}`, {
       method: "GET",
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json', // can change back to 'application/x-www-form-urlencoded'
         Authorization: 'JWT' + localStorage.getItem("accessToken"),
       },
     })
