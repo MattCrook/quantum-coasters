@@ -2,15 +2,14 @@ const remoteURL = "http://localhost:8000";
 // const remoteURL = process.env.REACT_APP_BASE_URL;
 
 const ApiManager = {
-
   /************* USERS ********************/
 
   async getAllUsers() {
     const resp = await fetch(`${remoteURL}/users`, {
       method: "GET",
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: 'JWT' + localStorage.getItem("accessToken"),
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
       },
       Accept: "application/json",
     });
@@ -32,10 +31,10 @@ const ApiManager = {
     const resp = await fetch(`${remoteURL}/users?email=${email}`, {
       method: "GET",
       headers: {
-        'Content-Type': 'application/json', // can change back to 'application/x-www-form-urlencoded'
-        Authorization: 'JWT' + localStorage.getItem("accessToken"),
+        "Content-Type": "application/json", // can change back to 'application/x-www-form-urlencoded'
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
       },
-    })
+    });
     return await resp.json();
   },
 
@@ -43,9 +42,8 @@ const ApiManager = {
     const data = await fetch(`${remoteURL}/userprofiles`, {
       method: "POST",
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: 'JWT' + localStorage.getItem("accessToken"),
-        // Audience: 'https://api.quantumcoasters.com'
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
       },
       body: JSON.stringify(newUser),
     });
@@ -72,13 +70,15 @@ const ApiManager = {
     return await data.json();
   },
 
-  async addCredit(id, credits) {
-    const data = await fetch(`${remoteURL}/userprofiles/${id}`, {
-      method: "PATCH",
+  async addCredit(creditObj) {
+    const data = await fetch(`${remoteURL}/credits`, {
+      method: "POST",
       headers: {
+        Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
       },
-      body: JSON.stringify({ credits }),
+      body: JSON.stringify(creditObj),
     });
     return await data.json();
   },
@@ -112,9 +112,7 @@ const ApiManager = {
   },
 
   async getAllRollerCoastersWithAllExpanded() {
-    const resp = await fetch(
-      `${remoteURL}/rollercoasters?_expand=tracktype&_expand=manufacturer&_expand=park`
-    );
+    const resp = await fetch(`${remoteURL}/rollercoasters`);
     return await resp.json();
   },
 

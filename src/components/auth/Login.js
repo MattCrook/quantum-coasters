@@ -29,9 +29,12 @@ const LoginLandingPage = () => {
 
               {/* if for some reason user lands on this page and is logged in, show home and logout button */}
               {!loading && user && (
-                <button onClick={logout(clearStorage())} className="navbar-item">
-                  Logout
-                </button>
+                // <button onClick={logout(clearStorage())} className="navbar-item">
+                //   Logout
+                // </button>
+                <button onClick={logout} className="navbar-item">
+                Logout
+              </button>
               )}
             </div>
           </div>
