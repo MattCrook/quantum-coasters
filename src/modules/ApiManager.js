@@ -48,16 +48,17 @@ const ApiManager = {
     return await result.json();
   },
 
-  async deleteCredit(id, credits) {
-    const data = await fetch(`${remoteURL}/credits/${id}`, {
+
+  async deleteCredit(id) {
+    return await fetch(`${remoteURL}/credits/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
       },
-      body: JSON.stringify(credits),
     });
-    return await data.json();
   },
+
 
   async addCredit(creditObj) {
     const data = await fetch(`${remoteURL}/credits`, {
@@ -81,6 +82,17 @@ const ApiManager = {
       body: JSON.stringify(editedObject),
     }).then((data) => data.json());
   },
+
+  async getCreditIdFromApi() {
+    const data = await fetch(`${remoteURL}/credits`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
+      }
+    });
+    return await data.json();
+  },
   async putEditedProfile(editedObject) {
     return fetch(`${remoteURL}/userprofiles/${editedObject.id}`, {
       method: "PUT",
@@ -103,6 +115,17 @@ const ApiManager = {
   async getAllRollerCoastersWithAllExpanded() {
     const resp = await fetch(`${remoteURL}/rollercoasters`);
     return await resp.json();
+  },
+
+  async getRollerCoastersForUserProfile(id) {
+    const data = await fetch(`${remoteURL}/rollercoasters/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
+      }
+    });
+    return await data.json();
   },
 
   async postNewRollerCoaster(resource) {

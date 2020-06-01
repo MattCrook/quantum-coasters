@@ -8,11 +8,12 @@ import {
 import "./Profile.css";
 
 const ProfileCard = (props) => {
-
   const { rollerCoaster } = props;
   const { manufacturer } = props;
   const { park } = props;
   const { trackType } = props;
+
+
 
   return (
     <div className="profile-card">
