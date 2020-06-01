@@ -26,7 +26,7 @@ const ProfileCard = (props) => {
           <h4>Home Park: {park.name}</h4>
           <div className="linkForCompanyWebsite">
             <h4>Manufactured By: {manufacturer.name}</h4>
-            <a className="link-to-company" href={manufacturer.manufacture_url}>
+            <a className="link-to-company" href={manufacturer.company_website}>
               <FontAwesomeIcon icon={faExternalLinkSquareAlt} />
             </a>
           </div>

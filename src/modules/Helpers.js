@@ -44,7 +44,7 @@ export function setResourceStateHelperFunction(setManufacturers, setTrackTypes, 
         setManufacturers(manufacturers);
         setTrackTypes(trackTypes);
         setParks(parks);
-        setIsLoading(false);
+        // setIsLoading(false);
       });
     });
   });
