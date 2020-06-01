@@ -85,9 +85,9 @@ const AddNewRollerCoaster = props => {
       park.name === "" ||
       park.parkLocation === "" ||
       park.parkCountry === "" ||
-      manufacturer.name === "" ||
-      manufacturer.origin_country === "" ||
-      manufacturer.manufacture_url === ""
+      manufacturer.name === ""
+      // manufacturer.origin_country === "" ||
+      // manufacturer.manufacture_url === ""
     ) {
       alert("Please fill out all fields in form");
     } else {
@@ -106,6 +106,8 @@ const AddNewRollerCoaster = props => {
                 const getTrackTypeName = await ApiManager.getTrackTypeByByName(trackType.name);
                 const getParkName = await ApiManager.getParkByName(park.name);
                 const getManufacturerName = await ApiManager.getManufacturerByName(manufacturer.name);
+                console.log({getManufacturerName})
+
                 var trackTypeId = getTrackTypeName.length > 0 ? getTrackTypeName[0].id : false;
                 var parkId = getParkName.length > 0 ? getParkName[0].id : false;
                 var manufacturerId = getManufacturerName.length > 0 ? getManufacturerName[0].id : false;
@@ -138,9 +140,10 @@ const AddNewRollerCoaster = props => {
                 manufacturerId: manufacturerId
               };
 
-              ApiManager.postNewRollerCoaster(newRollerCoaster).then(() =>
+              ApiManager.postNewRollerCoaster(newRollerCoaster).then(() => {
+                setIsLoading(false);
                 props.history.push("/users/new")
-              );
+              });
             }
           },
           {
@@ -152,12 +155,13 @@ const AddNewRollerCoaster = props => {
     }
   };
 
+
+
   useEffect(() => {
     setResourceStateHelperFunction(
       setManufacturers,
       setTrackTypes,
       setParks,
-      setIsLoading
     );
   }, []);
 
@@ -269,7 +273,7 @@ const AddNewRollerCoaster = props => {
               </option>
             ))}
           </select>
-          <label htmlFor="inputManufacturer">
+          {/* <label htmlFor="inputManufacturer">
             Manufacturer Country Of Operations
           </label>
           <input
@@ -294,7 +298,7 @@ const AddNewRollerCoaster = props => {
             required=""
             autoFocus=""
             value={manufacturer.manufacture_url}
-          />
+          /> */}
           <button
             className="create-new-rollerCoaster-btn"
             type="submit"

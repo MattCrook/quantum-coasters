@@ -48,7 +48,6 @@ const ApiManager = {
     return await result.json();
   },
 
-
   async deleteCredit(id) {
     return await fetch(`${remoteURL}/credits/${id}`, {
       method: "DELETE",
@@ -58,7 +57,6 @@ const ApiManager = {
       },
     });
   },
-
 
   async addCredit(creditObj) {
     const data = await fetch(`${remoteURL}/credits`, {
@@ -89,7 +87,7 @@ const ApiManager = {
       headers: {
         "Content-Type": "application/json",
         Authorization: "JWT" + localStorage.getItem("accessToken"),
-      }
+      },
     });
     return await data.json();
   },
@@ -106,9 +104,13 @@ const ApiManager = {
   /*********** ROLLERCOASTERS ************/
 
   async getRollerCoastersWithAllExpanded(id) {
-    const resp = await fetch(
-      `${remoteURL}/rollercoasters/${id}?_expand=tracktype&_expand=manufacturer&_expand=park`
-    );
+    const resp = await fetch(`${remoteURL}/rollercoasters/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
+      },
+    });
     return await resp.json();
   },
 
@@ -123,7 +125,7 @@ const ApiManager = {
       headers: {
         "Content-Type": "application/json",
         Authorization: "JWT" + localStorage.getItem("accessToken"),
-      }
+      },
     });
     return await data.json();
   },
@@ -146,25 +148,36 @@ const ApiManager = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
       },
       body: JSON.stringify(resource),
     });
     return await data.json();
   },
 
-  // async getParkWithRollerCoasters() {
-  //   const data = await fetch(`${remoteURL}/parks/?_embed=rollerCoasters`);
-  //   return await data.json();
-  // },
   async getParks() {
-    const resp = await fetch(`${remoteURL}/parks`);
+    const resp = await fetch(`${remoteURL}/parks`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
+      },
+      Accept: "application/json",
+    });
     return await resp.json();
   },
 
   /******************** MANUFACTURERS ********************/
 
   async getAllManufacturers() {
-    const resp = await fetch(`${remoteURL}/manufacturers`);
+    const resp = await fetch(`${remoteURL}/manufacturers`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
+      },
+      Accept: "application/json",
+    });
     return await resp.json();
   },
 
@@ -173,6 +186,7 @@ const ApiManager = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
       },
       body: JSON.stringify(resource),
     });
@@ -182,15 +196,23 @@ const ApiManager = {
   /*********************** TRACK TYPES ******************/
 
   async getTrackTypes() {
-    const resp = await fetch(`${remoteURL}/tracktype`);
+    const resp = await fetch(`${remoteURL}/tracktypes`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
+      },
+      Accept: "application/json",
+    });
     return await resp.json();
   },
 
   async postNewTrackType(resource) {
-    const data = await fetch(`${remoteURL}/tracktype`, {
+    const data = await fetch(`${remoteURL}/tracktypes`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
       },
       body: JSON.stringify(resource),
     });
@@ -200,7 +222,14 @@ const ApiManager = {
   /***************** MESSAGES ********************/
 
   async getAllMessages() {
-    const resp = await fetch(`${remoteURL}/messages?_expand=user`);
+    const resp = await fetch(`${remoteURL}/messages?_expand=user`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
+      },
+      Accept: "application/json",
+    });
     return await resp.json();
   },
 
@@ -209,6 +238,7 @@ const ApiManager = {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
       },
       body: JSON.stringify(editedObject),
     });
@@ -220,6 +250,7 @@ const ApiManager = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
       },
       body: JSON.stringify(newObject),
     });
@@ -229,15 +260,39 @@ const ApiManager = {
   /******************** Database Check API calls on AddNewForm ***********************/
 
   async getParkByName(park) {
-    const resp = await fetch(`${remoteURL}/parks?name=${park}`);
+    const resp = await fetch(`${remoteURL}/parks?name=${park}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
+      },
+      Accept: "application/json",
+    });
     return await resp.json();
   },
+
   async getManufacturerByName(manufacturer) {
-    const resp = await fetch(`${remoteURL}/manufacturers?name=${manufacturer}`);
+    const resp = await fetch(`${remoteURL}/manufacturers?name=${manufacturer}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Authorization: "JWT" + localStorage.getItem("accessToken"),
+        },
+        Accept: "application/json",
+      }
+    );
     return await resp.json();
   },
+
   async getTrackTypeByByName(trackType) {
-    const resp = await fetch(`${remoteURL}/tracktype?name=${trackType}`);
+    const resp = await fetch(`${remoteURL}/tracktypes?name=${trackType}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
+      },
+      Accept: "application/json",
+    });
     return await resp.json();
   },
 };
