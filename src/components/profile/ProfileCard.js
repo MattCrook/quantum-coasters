@@ -1,13 +1,19 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash, faExternalLinkSquareAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEdit,
+  faTrash,
+  faExternalLinkSquareAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import "./Profile.css";
 
-const ProfileCard = props => {
+const ProfileCard = (props) => {
+  const { rollerCoaster } = props;
+  const { manufacturer } = props;
+  const { park } = props;
+  const { trackType } = props;
 
-  const rollerCoaster = props.rollerCoaster;
-  const manufacturer = props.manufacturer;
-  const park = props.park;
+
 
   return (
     <div className="profile-card">
@@ -17,17 +23,17 @@ const ProfileCard = props => {
         </div>
         <div className="ride-details-section">
           <strong>Details</strong>
-        <h4>Home Park: {park.name}</h4>
-        <div className="linkForCompanyWebsite">
-        <h4>Manufactured By: {manufacturer.name}</h4>
-          <a className="link-to-company" href={manufacturer.manufacture_url}>
-            <FontAwesomeIcon icon={faExternalLinkSquareAlt} />
-          </a>
-        </div>
+          <h4>Home Park: {park.name}</h4>
+          <div className="linkForCompanyWebsite">
+            <h4>Manufactured By: {manufacturer.name}</h4>
+            <a className="link-to-company" href={manufacturer.manufacture_url}>
+              <FontAwesomeIcon icon={faExternalLinkSquareAlt} />
+            </a>
+          </div>
 
-        <p>Max Speed: {rollerCoaster.max_speed} mph</p>
-        <p>Max Height: {rollerCoaster.max_height} ft</p>
-        <p>Track Type: {props.trackType.name}</p>
+          <p>Max Speed: {rollerCoaster.max_speed} mph</p>
+          <p>Max Height: {rollerCoaster.max_height} ft</p>
+          <p>Track Type: {trackType.name}</p>
         </div>
         <section className="card-btns">
           <span>

@@ -2,40 +2,28 @@ const remoteURL = "http://localhost:8000";
 // const remoteURL = process.env.REACT_APP_BASE_URL;
 
 const ApiManager = {
-
   /************* USERS ********************/
 
   async getAllUsers() {
     const resp = await fetch(`${remoteURL}/users`, {
       method: "GET",
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: 'JWT' + localStorage.getItem("accessToken"),
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
       },
       Accept: "application/json",
     });
     return await resp.json();
   },
 
-  // async getUserProfile(email) {
-  //   const resp = await fetch(`${remoteURL}/users?email=${email}`, {
-  //     method: "GET",
-  //     headers: {
-  //       'Content-Type': 'application/x-www-form-urlencoded',
-  //       Authorization: 'JWT' + localStorage.getItem("accessToken"),
-  //     },
-  //   })
-  //   return await resp.json();
-  // },
-
   async getUserProfile(email) {
     const resp = await fetch(`${remoteURL}/users?email=${email}`, {
       method: "GET",
       headers: {
-        'Content-Type': 'application/json', // can change back to 'application/x-www-form-urlencoded'
-        Authorization: 'JWT' + localStorage.getItem("accessToken"),
+        "Content-Type": "application/json", // can change back to 'application/x-www-form-urlencoded'
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
       },
-    })
+    });
     return await resp.json();
   },
 
@@ -43,9 +31,8 @@ const ApiManager = {
     const data = await fetch(`${remoteURL}/userprofiles`, {
       method: "POST",
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: 'JWT' + localStorage.getItem("accessToken"),
-        // Audience: 'https://api.quantumcoasters.com'
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
       },
       body: JSON.stringify(newUser),
     });
@@ -61,24 +48,27 @@ const ApiManager = {
     return await result.json();
   },
 
-  async deleteCredit(id, credits) {
-    const data = await fetch(`${remoteURL}/userprofiles/${id}`, {
-      method: "PATCH",
+
+  async deleteCredit(id) {
+    return await fetch(`${remoteURL}/credits/${id}`, {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
       },
-      body: JSON.stringify({ credits }),
     });
-    return await data.json();
   },
 
-  async addCredit(id, credits) {
-    const data = await fetch(`${remoteURL}/userprofiles/${id}`, {
-      method: "PATCH",
+
+  async addCredit(creditObj) {
+    const data = await fetch(`${remoteURL}/credits`, {
+      method: "POST",
       headers: {
+        Accept: "application/json",
         "Content-Type": "application/json",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
       },
-      body: JSON.stringify({ credits }),
+      body: JSON.stringify(creditObj),
     });
     return await data.json();
   },
@@ -91,6 +81,17 @@ const ApiManager = {
       },
       body: JSON.stringify(editedObject),
     }).then((data) => data.json());
+  },
+
+  async getCreditIdFromApi() {
+    const data = await fetch(`${remoteURL}/credits`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
+      }
+    });
+    return await data.json();
   },
   async putEditedProfile(editedObject) {
     return fetch(`${remoteURL}/userprofiles/${editedObject.id}`, {
@@ -112,10 +113,19 @@ const ApiManager = {
   },
 
   async getAllRollerCoastersWithAllExpanded() {
-    const resp = await fetch(
-      `${remoteURL}/rollercoasters?_expand=tracktype&_expand=manufacturer&_expand=park`
-    );
+    const resp = await fetch(`${remoteURL}/rollercoasters`);
     return await resp.json();
+  },
+
+  async getRollerCoastersForUserProfile(id) {
+    const data = await fetch(`${remoteURL}/rollercoasters/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
+      }
+    });
+    return await data.json();
   },
 
   async postNewRollerCoaster(resource) {
@@ -158,13 +168,6 @@ const ApiManager = {
     return await resp.json();
   },
 
-  // async getManufacturerWithRollerCoaster() {
-  //   const data = await fetch(
-  //     `${remoteURL}/manufacturers/?_embed=rollerCoasters`
-  //   );
-  //   return await data.json();
-  // },
-
   async postNewManufacturer(resource) {
     const data = await fetch(`${remoteURL}/manufacturers`, {
       method: "POST",
@@ -182,11 +185,6 @@ const ApiManager = {
     const resp = await fetch(`${remoteURL}/tracktype`);
     return await resp.json();
   },
-
-  // async getRollerCoastersWithTrackType() {
-  //   const data = await fetch(`${remoteURL}/trackTypes/?_embed=rollerCoasters`);
-  //   return await data.json();
-  // },
 
   async postNewTrackType(resource) {
     const data = await fetch(`${remoteURL}/tracktype`, {

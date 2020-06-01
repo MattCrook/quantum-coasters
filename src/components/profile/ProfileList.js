@@ -6,33 +6,45 @@ import { confirmAlert } from "react-confirm-alert";
 import "./Profile.css";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
-const ProfileList = props => {
+
+const ProfileList = (props) => {
   const { user } = useAuth0();
   const [userCredits, setUserCredits] = useState([]);
   const [userProfile, setUserProfile] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
-  const getUserCredits = async user => {
+
+
+  const getUserCreditsToFetch = async (user) => {
     try {
       const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
-      setUserProfile(userProfileFromAPI[0]);
-      const rollerCoasterIds = userProfileFromAPI[0].credits.map(credit => {
-        const creditId = credit.rollerCoasterId;
-        return creditId;
+      const creditsToFetch = await ApiManager.getCreditIdFromApi();
+      const profile = userProfileFromAPI[0];
+      const filterUsersCredits = creditsToFetch.filter(
+        (credit) => credit.userProfile === profile.userprofile.id
+      );
+      setUserProfile(profile);
+      const creditsMap = filterUsersCredits.map((credit) => {
+        const rollerCoasterId = credit.rollerCoaster;
+        return rollerCoasterId;
       });
-
       let promises = [];
-      rollerCoasterIds.forEach(creditId => {
-        promises.push(ApiManager.getRollerCoastersWithAllExpanded(creditId));
+      creditsMap.forEach((item) => {
+        promises.push(ApiManager.getRollerCoastersForUserProfile(item))
       });
-      Promise.all(promises).then(data => {
+      Promise.all(promises).then((data) => {
         setUserCredits(data);
-      });
-    } catch (error) {
-      console.log(error);
+      })
+        .catch((error) => {
+        console.log(error)
+      })
+    } catch (err) {
+      console.log(err);
     }
   };
 
-  const deleteCredit = rollerCoasterId => {
+
+  const deleteCredit = (creditId) => {
     try {
       confirmAlert({
         title: "Confirm to delete",
@@ -41,33 +53,35 @@ const ProfileList = props => {
           {
             label: "Yes",
             onClick: () => {
-              ApiManager.getUserProfile(user.email).then(user => {
-                user = user[0];
-                let credits = user.credits;
-                const userId = user.id;
-                const filteredCredits = credits.filter(
-                  credit => credit.rollerCoasterId !== rollerCoasterId
+              setIsLoading(true);
+              ApiManager.getCreditIdFromApi().then((credits) => {
+                const filteredCreditToDelete = credits.filter(
+                  (credit) => credit.rollerCoaster === creditId
                 );
-                ApiManager.deleteCredit(userId, filteredCredits).then(() => {
-                  getUserCredits(user);
+                ApiManager.deleteCredit(filteredCreditToDelete[0].id).then(() => {
+                  ApiManager.getUserProfile(user.email).then(response => {
+                    setUserProfile(response[0])
+                  })
                 });
               });
-            }
+            },
           },
           {
             label: "No",
-            onClick: () => ""
-          }
-        ]
+            onClick: () => "",
+          },
+        ],
       });
     } catch (error) {
       console.log(error);
     }
   };
 
+
   useEffect(() => {
-    getUserCredits(user);
-  }, [user]);
+    getUserCreditsToFetch(user);
+  }, [user, isLoading]);
+
 
   return (
     <>
@@ -102,26 +116,19 @@ const ProfileList = props => {
           </div>
         </div>
       </nav>
-      {/* <button
-        className="profile-back-btn"
-        onClick={() => props.history.push("/home")}
-      >
-        Back
-      </button> */}
       <p className="credits-title">Credits</p>
       <div
         className="profile-container-card"
         data-testid="profile_card_container_testid"
       >
-        {userCredits.map(rollerCoaster => (
+        {userCredits.map((rollerCoaster) => (
           <ProfileCard
             key={rollerCoaster.id}
             userProfile={userProfile}
             rollerCoaster={rollerCoaster}
             manufacturer={rollerCoaster.manufacturer}
-            user={user}
             park={rollerCoaster.park}
-            trackType={rollerCoaster.trackType}
+            trackType={rollerCoaster.tracktype}
             deleteCredit={deleteCredit}
             {...props}
           />
