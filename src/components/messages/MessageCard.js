@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./Messages.css";
 
 const MessageCard = (props) => {
@@ -7,9 +7,6 @@ const MessageCard = (props) => {
   const text = props.message.message;
   const profile = props.userProfile.userprofile;
   const messageUserProfileId = props.message.user_id;
-
-  console.log("messageuserProfileId", messageUserProfileId);
-  console.log(props);
 
   if (profile) {
     props.userProfile.userprofile.picUrl !== null
@@ -21,8 +18,6 @@ const MessageCard = (props) => {
       : (timestamp = new Date().toLocaleString());
   }
 
-  // useEffect(() => {}, [props.userProfile])
-  console.log(profile);
   return (
     <>
       <div className="message-card">

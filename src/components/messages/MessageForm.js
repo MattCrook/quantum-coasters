@@ -2,11 +2,9 @@ import React, { useState, useEffect } from "react";
 import ApiManager from "../../modules/ApiManager";
 import { isEditCheck, handleFieldChangeHelper } from "../../modules/helpers";
 
+const MessageForm = (props) => {
 
-
-const MessageForm = props => {
-
-  const userId = props.userProfile.id
+  const { userProfileId } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ message: "" });
 
@@ -16,27 +14,26 @@ const MessageForm = props => {
     return dateString.split("T")[0];
   };
 
-
+  // If this is an edit, we need the id
+  // and the timestamp should be what it was.
+  // userId doesn't need to change because users
+  // will not have a button to edit other users' messages
+  // this function was extracted to module scope (in helpers directory)
   const constructNewMessage = () => {
     if (message === "") {
       window.alert("Please input a post");
     } else {
       setIsLoading(true);
       const messageToPost = {
-        user_id: userId,
+        user_id: userProfileId,
         message: message.message,
-        timestamp: dateFormatter(new Date().toISOString())
+        timestamp: dateFormatter(new Date().toISOString()),
       };
-      // If this is an edit, we need the id
-      // and the timestamp should be what it was.
-      // userId doesn't need to change because users
-      // will not have a button to edit other users' messages
-      // this function was extracted to module scope (in helpers directory)
       return isEditCheck(props, messageToPost);
     }
   };
 
-  const postEditedMessage = message => {
+  const postEditedMessage = (message) => {
     // If the object has an id, it is an edit
     // so we put/update
     if (message.hasOwnProperty("id")) {
@@ -47,7 +44,7 @@ const MessageForm = props => {
     }
   };
 
-  const handleSubmit = evt => {
+  const handleSubmit = (evt) => {
     setIsLoading(true);
     evt.preventDefault();
     evt.stopPropagation();
@@ -56,7 +53,7 @@ const MessageForm = props => {
     evt.target.reset();
     // Defaults the messageToEdit state
     // so it doesn't continue "editing" on subsequent sends
-    props.setMessageToEdit({ text: "", user_id: 0, timestamp: "" });
+    props.setMessageToEdit({ text: "", user_id: "", timestamp: "" });
     postEditedMessage(constructedMessage)
       // Gets the messages again and re-renders
       .then(props.getMessages)
@@ -72,9 +69,7 @@ const MessageForm = props => {
       document.getElementById("message").value = props.messageToEdit.message;
     }
     setIsLoading(false);
-  }, [props.messageToEdit, userId]);
-
-
+  }, [props.messageToEdit]);
 
   return (
     <>

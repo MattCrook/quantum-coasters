@@ -9,9 +9,10 @@ const MessageList = props => {
   const { user, loading, logout } = useAuth0();
   const [userProfile, setUserProfile] = useState({});
   const [messages, setMessages] = useState([]);
+  const [userProfileId, setUserProfileId] = useState({})
   const [messageToEdit, setMessageToEdit] = useState({
+    user_id: "",
     text: "",
-    userId: "",
     timestamp: ""
   });
 
@@ -26,6 +27,8 @@ const MessageList = props => {
     try {
       const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
       setUserProfile(userProfileFromAPI[0]);
+      const profileId = userProfileFromAPI[0].userprofile.id;
+      setUserProfileId(profileId)
     } catch (error) {
       console.log(error);
     }
@@ -116,6 +119,7 @@ const MessageList = props => {
           <div className="container-form">
             <MessageForm
               userProfile={userProfile}
+              userProfileId={userProfileId}
               getMessages={getMessages}
               messageToEdit={messageToEdit}
               setMessageToEdit={setMessageToEdit}

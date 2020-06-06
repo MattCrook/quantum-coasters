@@ -242,7 +242,7 @@ const ApiManager = {
       },
       body: JSON.stringify(editedObject),
     });
-    return await data.json();
+    // return await data.json();
   },
 
   async postMessage(newObject) {
