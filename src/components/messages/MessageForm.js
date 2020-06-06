@@ -6,11 +6,16 @@ import { isEditCheck, handleFieldChangeHelper } from "../../modules/helpers";
 
 const MessageForm = props => {
 
-  const userId = props.userProfile.id;
+  const userId = props.userProfile.id
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ message: "" });
 
   const handleFieldChange = handleFieldChangeHelper(message, setMessage);
+
+  const dateFormatter = (dateString) => {
+    return dateString.split("T")[0];
+  };
+
 
   const constructNewMessage = () => {
     if (message === "") {
@@ -18,9 +23,9 @@ const MessageForm = props => {
     } else {
       setIsLoading(true);
       const messageToPost = {
-        userId: userId,
+        user_id: userId,
         message: message.message,
-        timestamp: new Date().toLocaleString()
+        timestamp: dateFormatter(new Date().toISOString())
       };
       // If this is an edit, we need the id
       // and the timestamp should be what it was.
@@ -51,7 +56,7 @@ const MessageForm = props => {
     evt.target.reset();
     // Defaults the messageToEdit state
     // so it doesn't continue "editing" on subsequent sends
-    props.setMessageToEdit({ text: "", userId: 0, timestamp: "" });
+    props.setMessageToEdit({ text: "", user_id: 0, timestamp: "" });
     postEditedMessage(constructedMessage)
       // Gets the messages again and re-renders
       .then(props.getMessages)
@@ -67,15 +72,12 @@ const MessageForm = props => {
       document.getElementById("message").value = props.messageToEdit.message;
     }
     setIsLoading(false);
-  }, [props.messageToEdit]); // not sure about the [setLoading]
+  }, [props.messageToEdit, userId]);
+
+
 
   return (
     <>
-      {/*
-      https://stackoverflow.com/a/33212911
-      Form Submit allows the Enter key to work 
-      instead of just clicking the send button
-      */}
       <div className="message-container, darker, chat-input-container">
         <form className="chat-form" onSubmit={handleSubmit}>
           <fieldset className="chat-fieldset">

@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Messages.css";
 
 const MessageCard = (props) => {
   let profilePic = "";
   let timestamp = "";
-
-  const userId = props.message.user_id;
   const text = props.message.message;
   const profile = props.userProfile.userprofile;
+  const messageUserProfileId = props.message.user_id;
+
+  console.log("messageuserProfileId", messageUserProfileId);
+  console.log(props);
 
   if (profile) {
     props.userProfile.userprofile.picUrl !== null
@@ -16,9 +18,11 @@ const MessageCard = (props) => {
 
     props.message.timestamp !== null
       ? (timestamp = props.message.timestamp)
-      : (timestamp = Date.now());
+      : (timestamp = new Date().toLocaleString());
   }
 
+  // useEffect(() => {}, [props.userProfile])
+  console.log(profile);
   return (
     <>
       <div className="message-card">
@@ -33,17 +37,21 @@ const MessageCard = (props) => {
             />
           )}
           <p>
-            <strong className="message-name">{props.userProfile.first_name}</strong>:{" "}
-            {text}
+            <strong className="message-name">
+              {props.userProfile.first_name}
+            </strong>
+            : {text}
           </p>
-          {props.userProfile.id === userId ? (
-            <button
-              data-testid="edit-testid"
-              className="edit-outline-icon"
-              onClick={() => props.setMessageToEdit(props.message)}
-            >
-              Edit
-            </button>
+          {profile ? (
+            messageUserProfileId === profile.id ? (
+              <button
+                data-testid="edit-testid"
+                className="edit-outline-icon"
+                onClick={() => props.setMessageToEdit(props.message)}
+              >
+                Edit
+              </button>
+            ) : null
           ) : null}
           <span className="message-time-right">{timestamp}</span>
         </div>
