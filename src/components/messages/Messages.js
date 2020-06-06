@@ -30,7 +30,6 @@ const MessageList = props => {
       console.log(error);
     }
   };
-
   useEffect(() => {
     getMessages();
     getUserProfile(user);

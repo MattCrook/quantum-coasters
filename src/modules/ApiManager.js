@@ -222,7 +222,7 @@ const ApiManager = {
   /***************** MESSAGES ********************/
 
   async getAllMessages() {
-    const resp = await fetch(`${remoteURL}/messages?_expand=user`, {
+    const resp = await fetch(`${remoteURL}/messages`, {
       method: "GET",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
