@@ -11,15 +11,8 @@ const AddNewRollerCoaster = props => {
   const [trackTypes, setTrackTypes] = useState([]);
   const [parks, setParks] = useState([]);
   const [IsLoading, setIsLoading] = useState(false);
-
-  const [manufacturer, setManufacturer] = useState({
-    name: "",
-    origin_country: "",
-    manufacture_url: ""
-  });
-
+  const [manufacturer, setManufacturer] = useState({});
   const [trackType, setTrackType] = useState({ name: "" });
-
   const [park, setPark] = useState({
     name: "",
     parkLocation: "",
@@ -36,23 +29,11 @@ const AddNewRollerCoaster = props => {
     parkId: ""
   });
 
-  // handle what user is typing in (helper function in Helpers.js)
-  const handleRollerCoasterFieldChange = handleFieldChangeHelper(
-    rollerCoaster,
-    setRollerCoaster
-  );
-
+  // handle what user is typing in (helper function in helpers.js)
+  const handleRollerCoasterFieldChange = handleFieldChangeHelper(rollerCoaster, setRollerCoaster);
   const handleParkFieldChange = handleFieldChangeHelper(park, setPark);
-
-  const handleManufacturerFieldChange = handleFieldChangeHelper(
-    manufacturer,
-    setManufacturer
-  );
-
-  const handleTrackTypeFieldChange = handleFieldChangeHelper(
-    trackType,
-    setTrackType
-  );
+  const handleTrackTypeFieldChange = handleFieldChangeHelper(trackType, setTrackType);
+  const handleManufacturerFieldChange = handleFieldChangeHelper(manufacturer, setManufacturer);
 
   // object to go into database
   const constructNewRollerCoaster = e => {
@@ -162,6 +143,7 @@ const AddNewRollerCoaster = props => {
       setManufacturers,
       setTrackTypes,
       setParks,
+      setIsLoading
     );
   }, []);
 
@@ -265,10 +247,12 @@ const AddNewRollerCoaster = props => {
             onChange={handleManufacturerFieldChange}
             id="name"
             placeholder="Select Manufacturer Name"
-            value={manufacturer.name}
+            required=""
+            autoFocus=""
+            // value={manufacturer.name}
           >
             {manufacturers.map(manufacturer => (
-              <option key={manufacturer.id} value={manufacturer.name}>
+              <option key={manufacturer.id} >
                 {manufacturer.name}
               </option>
             ))}
