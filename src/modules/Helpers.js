@@ -28,7 +28,6 @@ export function handleFieldChangeHelper(currentState, setCurrentState) {
   return e => {
     const stateToChange = { ...currentState };
     stateToChange[e.target.id] = e.target.value;
-    console.log(stateToChange)
     setCurrentState(stateToChange);
   };
 };
@@ -44,7 +43,7 @@ export function setResourceStateHelperFunction(setManufacturers, setTrackTypes, 
         setManufacturers(manufacturers);
         setTrackTypes(trackTypes);
         setParks(parks);
-        // setIsLoading(false);
+        setIsLoading(false);
       });
     });
   });

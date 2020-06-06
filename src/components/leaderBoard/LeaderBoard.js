@@ -3,24 +3,24 @@ import ApiManager from "../../modules/ApiManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import "./LeaderBoard.css";
 
+
 const LeaderBoard = props => {
 
   const { user } = useAuth0();
   const [profiles, setProfiles] = useState([]);
-  const userProfile = props.userProfile;
-
+  const { userProfile } = props;
+  // const profile = props.userProfile.userprofile;
   const getAllUsers = async () => {
     try {
-      const userProfiles = await ApiManager.getAllUsers();
-      const profileWithCreditsArray = userProfiles.map(profile => {
+      const users = await ApiManager.getAllUsers();
+      const profileWithCreditsArray = users.map(user => {
+        const profile = user.userprofile;
         return {
           id: profile.id,
           firstName: profile.first_name,
           lastName: profile.last_name,
           picUrl: profile.picUrl,
-          creditCount: profile.credits.map(credit => {
-            return credit.rollerCoasterId;
-          })
+          creditCount: profile.rollerCoaster_id.map(credit => credit)
         };
       });
       profileWithCreditsArray.sort((a, b) => a.creditCount.length - b.creditCount.length);
