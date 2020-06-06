@@ -3,6 +3,7 @@ import ApiManager from "../../modules/ApiManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import "./LeaderBoard.css";
 
+
 const LeaderBoard = props => {
 
   const { user } = useAuth0();
@@ -14,9 +15,6 @@ const LeaderBoard = props => {
       const users = await ApiManager.getAllUsers();
       const profileWithCreditsArray = users.map(user => {
         const profile = user.userprofile;
-        console.log("profile", profile)
-        const credits = profile.rollerCoaster_id;
-        console.log("credits", credits)
         return {
           id: profile.id,
           firstName: profile.first_name,
