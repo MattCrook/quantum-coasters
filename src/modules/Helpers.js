@@ -28,7 +28,6 @@ export function handleFieldChangeHelper(currentState, setCurrentState) {
   return e => {
     const stateToChange = { ...currentState };
     stateToChange[e.target.id] = e.target.value;
-    console.log(stateToChange)
     setCurrentState(stateToChange);
   };
 };
