@@ -6,18 +6,18 @@ import { confirmAlert } from "react-confirm-alert";
 import ImageUploader from "react-images-upload";
 import "./Profile.css";
 
-const EditProfile = props => {
+const EditProfile = (props) => {
   const { user, logout } = useAuth0();
 
   const [userCredits, setUserCredits] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [image, setImage] = useState({});
+  const [image, setImage] = useState([]);
   const [apiUser, setApiUser] = useState({
     first_name: "",
     last_name: "",
     username: "",
     email: user.email,
-  })
+  });
   const [userProfile, setUserProfile] = useState({
     email: user.email,
     address: "",
@@ -25,6 +25,13 @@ const EditProfile = props => {
     rollerCoaster_id: [],
   });
 
+
+  // const [apiUser, setApiUser] = useState([])
+  // const [userProfile, setUserProfile] = useState([])
+
+  console.log(userProfile)
+
+  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
   const getProfileAndCredits = async (user) => {
     try {
@@ -35,27 +42,57 @@ const EditProfile = props => {
       const filterUsersCredits = creditsToFetch.filter(
         (credit) => credit.userProfile === profile.userprofile.id
       );
+      const picture = user.picture;
+      const picUrl = profile.userprofile.picUrl;
+      
+      if (picUrl === null) {
+        const userProfileObject = {
+          id: profile.userprofile.id,
+          // email: user.email,
+          address: profile.userprofile.address,
+          picUrl: defaultProfilePicture,
+          rollerCoaster_id: profile.userprofile.rollerCoaster_id,
+        };
+        setUserProfile(userProfileObject);
+      } else if (!picUrl && picture) {
+        const userProfileObj = {
+          id: profile.userprofile.id,
+          // email: user.email,
+          address: profile.userprofile.address,
+          picUrl: picture,
+          rollerCoaster_id: profile.userprofile.rollerCoaster_id,
+        };
+        setUserProfile(userProfileObj);
+      } else if (picUrl) {
+        const userProfObj = {
+          id: profile.userprofile.id,
+          // email: user.email,
+          address: profile.userprofile.address,
+          picUrl: picUrl,
+          rollerCoaster_id: profile.userprofile.rollerCoaster_id,
+        };
+        setUserProfile(userProfObj);
+      }
       setApiUser(profile);
-      setUserProfile(expandedUserProfile);
       const creditsMap = filterUsersCredits.map((credit) => {
         const rollerCoasterId = credit.rollerCoaster;
         return rollerCoasterId;
       });
       let promises = [];
       creditsMap.forEach((item) => {
-        promises.push(ApiManager.getRollerCoastersForUserProfile(item))
+        promises.push(ApiManager.getRollerCoastersForUserProfile(item));
       });
-      Promise.all(promises).then((data) => {
-        setUserCredits(data);
-      })
+      Promise.all(promises)
+        .then((data) => {
+          setUserCredits(data);
+        })
         .catch((error) => {
-        console.log(error)
-      })
+          console.log(error);
+        });
     } catch (err) {
       console.log(err);
     }
   };
-
 
   const handleInputChangeUserProfile = (e) => {
     const stateToChange = { ...userProfile };
@@ -64,34 +101,32 @@ const EditProfile = props => {
   };
 
   const handleInputChangeUser = (e) => {
-    const stateToChange = { ...apiUser }
+    const stateToChange = { ...apiUser };
     stateToChange[e.target.id] = e.target.value;
-    setApiUser(stateToChange)
-  }
-
-  const handleFormSubmit = e => {
-    e.preventDefault();
-    setIsLoading(true);
-    ApiManager.putEditedProfile(userProfile)
-      .then(updatedUserProfile => {
-        setUserProfile(updatedUserProfile);
-      })
-      .catch(e => console.log(e));
-      ApiManager.putEditedAPIUser(apiUser)
-      .then(updatedApiUser => {
-        setApiUser(updatedApiUser);
-        setIsLoading(false);
-        window.alert("Profile has been updated!");
-        props.history.push("/users");
-    })
+    setApiUser(stateToChange);
   };
 
-  const onDrop = picture => {
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    ApiManager.putEditedUserProfile(userProfile)
+      .then((updatedUserProfile) => {
+        setUserProfile(updatedUserProfile);
+      })
+      .catch((e) => console.log(e));
+    ApiManager.putEditedAPIUser(apiUser).then((updatedApiUser) => {
+      setApiUser(updatedApiUser);
+    });
+      setIsLoading(false);
+      window.alert("Profile has been updated!");
+      props.history.push("/users");
+  };
+
+  const onDrop = (picture) => {
     setImage({ ...image }, picture);
   };
 
-
-  const deleteUserProfile = id => {
+  const deleteUserProfile = (id) => {
     try {
       confirmAlert({
         title: "Confirm to delete",
@@ -100,19 +135,19 @@ const EditProfile = props => {
         buttons: [
           {
             label: "Yes",
-            onClick: () => ApiManager.deleteUserProfile(id).then(() => logout())
+            onClick: () =>
+              ApiManager.deleteUserProfile(id).then(() => logout()),
           },
           {
             label: "No",
-            onClick: () => ""
-          }
-        ]
+            onClick: () => "",
+          },
+        ],
       });
     } catch (error) {
       console.log(error);
     }
   };
-
 
   useEffect(() => {
     getProfileAndCredits(user);
@@ -137,15 +172,22 @@ const EditProfile = props => {
       </nav>
       <div className="profile-pic-container">
         <div className="profile-pic-flex-box">
-          {userProfile.picUrl ? (
+          {userProfile.picUrl === null && !user.picture ? (
+            <img
+              id="edit-profile-pic"
+              src={defaultProfilePicture}
+              alt="My Avatar"
+            />
+          ) : (
             <img
               id="edit-profile-pic"
               src={userProfile.picUrl}
               alt="My Avatar"
             />
-          ) : (
+        )}
+          {/* {!userProfile.picUrl ? (
             <img id="edit-profile-pic" src={user.picture} alt="My Avatar" />
-          )}
+          )} */}
           <div className="change-profile-pic">
             <label htmlFor="picUrl">Profile picture</label>
 
@@ -169,11 +211,10 @@ const EditProfile = props => {
           <div>Username: {apiUser.username}</div>
           <div>Address: {userProfile.address}</div>
           <div className="list-of-credits">List of Credits</div>
-          {userCredits.map(credit => (
+          {userCredits.map((credit) => (
             <li key={credit.id}>{credit.name}</li>
           ))}
         </div>
-
       </div>
       <form className="edit-profile-form" onSubmit={handleFormSubmit}>
         <div className="profile-inputs">
