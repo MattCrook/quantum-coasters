@@ -140,3 +140,47 @@
 //       getCreditId();
 //     }, [user]);
 /******************** ***********************************/
+
+// FROM EDITPROFILE COMPONENT. Not using this api call to get the user credits or the cloudinary function. 
+
+  // const uploadImage = async e => {
+  //   const files = e.target.files;
+  //   const data = new FormData();
+  //   data.append("file", files[0]);
+  //   data.append("upload_preset", "photoLab");
+  //   setIsLoading(true);
+  //   const res = await fetch(
+  //    // http://localhost:8200/cloudinary://418576712586226:IaXis96Iz93J6NH7PTrU1clKpGM@capstone-project
+  //     `https://api.cloudinary.com/v1_1/${keys.cloudinary}/image/upload`,
+  //     {
+  //       method: "POST",
+  //       body: data
+  //     }
+  //   );
+  //   const file = await res.json();
+  //   setImage({ picUrl: file.secure_url });
+  //   setIsLoading(false);
+  // };
+
+
+  // const getUserCredits = async user => {
+  //   try {
+  //     const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
+  //     setUserProfile(userProfileFromAPI[0]);
+  //     const rollerCoasterIds = userProfileFromAPI[0].credits.map(credit => {
+  //       const creditId = credit.rollerCoasterId;
+  //       return creditId;
+  //     });
+
+  //     let promises = [];
+  //     rollerCoasterIds.forEach(creditId => {
+  //       promises.push(ApiManager.getRollerCoastersWithAllExpanded(creditId));
+  //     });
+  //     Promise.all(promises).then(data => {
+  //       setUserCredits(data);
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+/************************ ******************************/

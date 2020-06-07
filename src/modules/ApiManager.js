@@ -91,11 +91,23 @@ const ApiManager = {
     });
     return await data.json();
   },
-  async putEditedProfile(editedObject) {
+  async putEditedUserProfile(editedObject) {
     return fetch(`${remoteURL}/userprofiles/${editedObject.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
+      },
+      body: JSON.stringify(editedObject),
+    }).then((data) => data.json());
+  },
+
+  async putEditedAPIUser(editedObject) {
+    return fetch(`${remoteURL}/users/${editedObject.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
       },
       body: JSON.stringify(editedObject),
     }).then((data) => data.json());

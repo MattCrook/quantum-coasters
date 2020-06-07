@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { setResourceStateHelperFunction } from "../../modules/helpers";
+import { setResourceStateHelperFunction } from "../../modules/Helpers";
 import "./EditCreditForm.css";
 
 const EditCreditForm = props => {
