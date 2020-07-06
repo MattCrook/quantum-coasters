@@ -86,7 +86,7 @@ const ProfileList = (props) => {
   return (
     <>
       <nav className="navbar is-dark">
-        <div className="container">
+        <div className="container" id="nav-container-profile">
           <div className="navbar-brand">
             <button className="navbar-item">Quantum</button>
           </div>

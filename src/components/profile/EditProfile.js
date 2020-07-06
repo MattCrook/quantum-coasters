@@ -29,7 +29,6 @@ const EditProfile = (props) => {
   // const [apiUser, setApiUser] = useState([])
   // const [userProfile, setUserProfile] = useState([])
 
-  console.log(userProfile)
 
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
@@ -44,7 +43,7 @@ const EditProfile = (props) => {
       );
       const picture = user.picture;
       const picUrl = profile.userprofile.picUrl;
-      
+
       if (picUrl === null) {
         const userProfileObject = {
           id: profile.userprofile.id,
@@ -200,7 +199,6 @@ const EditProfile = (props) => {
               maxFileSize={5242880}
               className="file-upload"
               id="picUrl"
-              // accept="image/*"
             />
           </div>
         </div>
@@ -210,10 +208,10 @@ const EditProfile = (props) => {
           <div>Last: {apiUser.last_name}</div>
           <div>Username: {apiUser.username}</div>
           <div>Address: {userProfile.address}</div>
-          <div className="list-of-credits">List of Credits</div>
-          {userCredits.map((credit) => (
+          {/* <div className="list-of-credits">List of Credits</div> */}
+          {/* {userCredits.map((credit) => (
             <li key={credit.id}>{credit.name}</li>
-          ))}
+          ))} */}
         </div>
       </div>
       <form className="edit-profile-form" onSubmit={handleFormSubmit}>
@@ -225,7 +223,7 @@ const EditProfile = (props) => {
             type="text"
             id="first_name"
             required=""
-            autoFocus=""
+            // autoFocus=""
             value={apiUser.first_name}
           />
           <label htmlFor="last_name">Last Name</label>
@@ -236,7 +234,7 @@ const EditProfile = (props) => {
             type="text"
             id="last_name"
             required=""
-            autoFocus=""
+            // autoFocus=""
             value={apiUser.last_name}
           />
           <label htmlFor="inputUsername">Username</label>
@@ -246,7 +244,7 @@ const EditProfile = (props) => {
             type="text"
             id="username"
             required=""
-            autoFocus=""
+            // autoFocus=""
             value={apiUser.username}
           />
           <label htmlFor="inputAddress">Address</label>
@@ -256,7 +254,7 @@ const EditProfile = (props) => {
             type="text"
             id="address"
             required=""
-            autoFocus=""
+            // autoFocus=""
             value={userProfile.address}
           />
           <button

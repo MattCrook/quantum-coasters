@@ -91,12 +91,12 @@ export const Auth0Provider = ({
     setUser(user);
   };
 
-  // const clearStorage = () => {
-  //   localStorage.removeItem("accessToken");
-  //   localStorage.removeItem("authCache");
-  //   localStorage.removeItem("user_sub_token_id");
-  //   sessionStorage.removeItem("credentials");
-  // };
+  const clearStorage = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("authCache");
+    localStorage.removeItem("user_sub_token_id");
+    sessionStorage.removeItem("credentials");
+  };
 
 
   return (
@@ -108,7 +108,7 @@ export const Auth0Provider = ({
         popupOpen,
         loginWithPopup,
         handleRedirectCallback,
-        // clearStorage,
+        clearStorage,
         getIdTokenClaims: (...p) => auth0Client.getIdTokenClaims(...p),
         loginWithRedirect: (...p) => auth0Client.loginWithRedirect(...p),
         getTokenSilently: (...p) => auth0Client.getTokenSilently(...p),

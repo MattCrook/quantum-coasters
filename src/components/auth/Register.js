@@ -54,14 +54,16 @@ const CreateAccount = (props) => {
             onClick: async () => {
               if (user.picture && !image.picUrl) {
                 const newUserProfile = {
-                  first_name: userProfile.first_name,
-                  last_name: userProfile.last_name,
-                  username: userProfile.username,
-                  email: user.email,
                   address: userProfile.address,
                   credits: [],
                   picUrl: user.picture,
                 };
+                const newUser = {
+                  first_name: userProfile.first_name,
+                  last_name: userProfile.last_name,
+                  username: userProfile.username,
+                  email: user.email,
+                }
                 ApiManager.postNewUserProfile(newUserProfile).then(
                   (newProfile) => {
                     props.setUserProfile(newProfile, true);
@@ -99,6 +101,7 @@ const CreateAccount = (props) => {
                 };
                 ApiManager.postNewUserProfile(newUserProfile).then(
                   (newProfile) => {
+                    console.log(newProfile)
                     props.setUserProfile(newProfile, true);
                     props.history.push("/home");
                     // props.history.push("/home", {userProfile: userProfile});
@@ -127,22 +130,26 @@ const CreateAccount = (props) => {
     const files = e.target.files;
     const data = new FormData();
     data.append("file", files[0]);
-    data.append(`upload_preset, ${keys.upload_preset}`);
+    // data.append(`upload_preset, ${keys.upload_preset}`);
+    console.log(files)
+    const file = files[0];
+    setImage({picUrl: file.name})
     setIsLoading(true);
-    const res = await fetch(
-      `https://api.cloudinary.com/v1_1/${keys.cloud_name}/image/upload`,
-      {
-        method: "POST",
-        body: data,
-        cache: false,
-        headers: {
-          Accept: "application/json",
-          Authorization: "Bearer " + localStorage.getItem("accessToken"),
-        },
-      }
-    );
-    const file = await res.json();
-    setImage({ picUrl: file.secure_url });
+    // const res = await fetch(
+    //   // `https://api.cloudinary.com/v1_1/${keys.cloud_name}/image/upload`,
+    //   `http://localhost:3000/userprofiles`,
+    //   {
+    //     method: "POST",
+    //     body: data,
+    //     cache: false,
+    //     headers: {
+    //       Accept: "application/json",
+    //       Authorization: "Bearer " + localStorage.getItem("accessToken"),
+    //     },
+    //   }
+    // );
+    // const file = await res.json();
+    // setImage({ picUrl: file.secure_url });
     setIsLoading(false);
   };
 
