@@ -7,28 +7,39 @@ import { confirmAlert } from "react-confirm-alert";
 // import ImageUploader from "react-images-upload";
 
 const CreateAccount = (props) => {
+  console.log(props);
   const { user } = useAuth0();
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState({});
+  const { authUser } = props;
+  const { setAuthUser } = props;
+  const { userProfile } = props;
+  const { setUserProfile } = props;
+  const authUseriId = authUser.id;
+  const userProfileId = userProfile.id;
+  const imageId = userProfile.image_id;
+  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
-  console.log({user})
-  // const uploadedImage = React.useRef(null);
-  // const imageUploader = React.useRef(null);
+// console.log(userProfile.image)
 
-  const [userProfile, setUserProfile] = useState({
-    first_name: "",
-    last_name: "",
-    username: "",
-    email: user.email,
-    address: "",
-    picUrl: user.picture,
-    credits: [],
-  });
+//   if (user.picture && !userProfile.image.image) {
+//     ApiManager.updateUserProfileImage(imageId, defaultProfilePicture)
+//       .then((result) => {
+//         setImage(result);
+//       }
+//     );
+//   }
 
-  const handleInputChange = (e) => {
+  const handleProfileInputChange = (e) => {
     const stateToChange = { ...userProfile };
     stateToChange[e.target.id] = e.target.value;
     setUserProfile(stateToChange);
+  };
+
+  const handleAuthUserInputChange = (e) => {
+    const stateToChange = { ...authUser };
+    stateToChange[e.target.id] = e.target.value;
+    setAuthUser(stateToChange);
   };
 
   const handleFormSubmit = (e) => {
@@ -38,9 +49,9 @@ const CreateAccount = (props) => {
       JSON.stringify(user.picture)
     );
     if (
-      userProfile.first_name === "" ||
-      userProfile.last_name === "" ||
-      userProfile.username === "" ||
+      authUser.first_name === "" ||
+      authUser.last_name === "" ||
+      authUser.username === "" ||
       userProfile.address === ""
     ) {
       window.alert("Please fill out all form fields.");
@@ -53,62 +64,78 @@ const CreateAccount = (props) => {
           {
             label: "Ok",
             onClick: async () => {
-              if (user.picture && !image.picUrl) {
+              if (user.picture && !image.image) {
                 const newUserProfile = {
                   address: userProfile.address,
                   credits: [],
-                  picUrl: user.picture,
+                  image_id: image.id,
                 };
                 const newUser = {
                   first_name: userProfile.first_name,
                   last_name: userProfile.last_name,
                   username: userProfile.username,
                   email: user.email,
-                }
-                ApiManager.postNewUserProfile(newUserProfile).then(
-                  (newProfile) => {
-                    props.setUserProfile(newProfile, true);
+                };
+                ApiManager.postNewAuthUser(newUser).then(() => {
+                  ApiManager.postNewUserProfile(userProfileId, newUserProfile).then(() => {
                     props.history.push("/home");
-                    // props.history.push("/home", {userProfile: userProfile});
-                    // can use above method to transfer the state using location object - by props.location.state.userProfile
-                  }
-                );
+                  });
+                });
+
+                // ApiManager.postNewUserProfile(userProfileId, newUserProfile)
+                //   .then((newProfile) => {
+                //     props.setUserProfile(newProfile, true);
+                //     ApiManager.postNewAuthUser(newUser).then(newAuthUser => {
+                //       props.setAuthUser(newAuthUser, true);
+                //     })
+                //     props.history.push("/home");
+                // props.history.push("/home", {userProfile: userProfile});
+                // can use above method to transfer the state using location object - by props.location.state.userProfile
               } else if (!user.picture && !image.picUrl) {
                 const newUserProfile = {
-                  first_name: userProfile.first_name,
-                  last_name: userProfile.last_name,
-                  username: userProfile.username,
-                  email: user.email,
                   address: userProfile.address,
+                  credits: [],
                   picUrl:
                     "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png",
-                  credits: [],
                 };
-                ApiManager.postNewUserProfile(newUserProfile).then(
-                  (newProfile) => {
-                    props.setUserProfile(newProfile, true);
-                    props.history.push("/home");
-                  }
-                );
-              } else if (image.picUrl) {
-                const newUserProfile = {
+                const newUser = {
                   first_name: userProfile.first_name,
                   last_name: userProfile.last_name,
                   username: userProfile.username,
                   email: user.email,
-                  address: userProfile.address,
-                  picUrl: image.picUrl,
-                  credits: [],
                 };
-                ApiManager.postNewUserProfile(newUserProfile).then(
-                  (newProfile) => {
-                    console.log(newProfile)
-                    props.setUserProfile(newProfile, true);
-                    props.history.push("/home");
-                    // props.history.push("/home", {userProfile: userProfile});
-                    // can use above method to transfer the state using location object - by props.location.state.userProfile
-                  }
-                );
+                ApiManager.postNewUserProfile(
+                  userProfileId,
+                  newUserProfile
+                ).then((newProfile) => {
+                  props.setUserProfile(newProfile, true);
+                  ApiManager.postNewAuthUser(newUser).then((newAuthUser) => {
+                    props.setAuthUser(newAuthUser, true);
+                  });
+                  props.history.push("/home");
+                });
+              } else if (image.picUrl) {
+                const newUserProfile = {
+                  address: userProfile.address,
+                  credits: [],
+                  picUrl: image.picUrl,
+                };
+                const newUser = {
+                  first_name: userProfile.first_name,
+                  last_name: userProfile.last_name,
+                  username: userProfile.username,
+                  email: user.email,
+                };
+                ApiManager.postNewUserProfile(
+                  userProfileId,
+                  newUserProfile
+                ).then((newProfile) => {
+                  props.setUserProfile(newProfile, true);
+                  ApiManager.postNewAuthUser(newUser).then((newAuthUser) => {
+                    props.setAuthUser(newAuthUser, true);
+                  });
+                  props.history.push("/home");
+                });
               }
             },
           },
@@ -132,9 +159,9 @@ const CreateAccount = (props) => {
     const data = new FormData();
     data.append("file", files[0]);
     // data.append(`upload_preset, ${keys.upload_preset}`);
-    console.log(files)
+    console.log(files);
     const file = files[0];
-    setImage({picUrl: file.name})
+    setImage({ picUrl: file.name });
     setIsLoading(true);
     // const res = await fetch(
     //   // `https://api.cloudinary.com/v1_1/${keys.cloud_name}/image/upload`,
@@ -155,14 +182,14 @@ const CreateAccount = (props) => {
   };
 
   return (
-    <form className="register-form" onSubmit={handleFormSubmit}>
+    <form className="register-form" onSubmit={handleFormSubmit} method="PUT">
       <fieldset className="fs-register-form">
         <h3 className="register-title">Complete Your Profile</h3>
         <div className="profile-create-form">
           <label htmlFor="first_name">First Name</label>
           <input
             className="input"
-            onChange={handleInputChange}
+            onChange={handleAuthUserInputChange}
             type="text"
             id="first_name"
             placeholder="First Name"
@@ -173,7 +200,7 @@ const CreateAccount = (props) => {
 
           <input
             className="input"
-            onChange={handleInputChange}
+            onChange={handleAuthUserInputChange}
             type="text"
             id="last_name"
             placeholder="Last Name"
@@ -183,7 +210,7 @@ const CreateAccount = (props) => {
           <label htmlFor="inputUsername">Username</label>
           <input
             className="input"
-            onChange={handleInputChange}
+            onChange={handleAuthUserInputChange}
             type="text"
             id="username"
             placeholder="Enter Username"
@@ -193,7 +220,7 @@ const CreateAccount = (props) => {
           <label htmlFor="inputAddress">Address</label>
           <input
             className="input"
-            onChange={handleInputChange}
+            onChange={handleProfileInputChange}
             type="text"
             id="address"
             placeholder="Enter Address"

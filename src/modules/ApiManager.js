@@ -16,7 +16,18 @@ const ApiManager = {
     return await resp.json();
   },
 
-  async getUserProfile(email) {
+  async getUserProfileEmbededAuthUser(userId) {
+    const resp = await fetch(`${remoteURL}/userprofiles?userId=${userId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json", // can change back to 'application/x-www-form-urlencoded'
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
+      },
+    });
+    return await resp.json();
+  },
+
+  async getAuthUser(email) {
     const resp = await fetch(`${remoteURL}/userprofiles?email=${email}`, {
       method: "GET",
       headers: {
@@ -27,14 +38,62 @@ const ApiManager = {
     return await resp.json();
   },
 
-  async postNewUserProfile(newUser) {
-    const data = await fetch(`${remoteURL}/userprofiles`, {
+  // async postNewUserProfile(newUser) {
+  //   const data = await fetch(`${remoteURL}/userprofiles`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/x-www-form-urlencoded",
+  //       Authorization: "JWT" + localStorage.getItem("accessToken"),
+  //     },
+  //     body: JSON.stringify(newUser),
+  //   });
+  //   const result = await data.json();
+  //   return result;
+  // },
+
+  async postNewAuthUser(authUserId, newAuthUserObject) {
+    const data = await fetch(`${remoteURL}/userprofiles/auth/${authUserId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
+      },
+      body: JSON.stringify(newAuthUserObject),
+    })
+  },
+
+//   async postNewAuthUser(newAuthUserObject) {
+//     console.log({newAuthUserObject})
+//     const data = await fetch(`${remoteURL}/userprofiles?email=${newAuthUserObject.email}`, {
+//       method: "PUT",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: "JWT" + localStorage.getItem("accessToken"),
+//       },
+//       body: JSON.stringify(newAuthUserObject),
+//     })
+//   },
+
+  async postNewUserProfile(id, newUserObject) {
+    console.log({newUserObject})
+    const data = await fetch(`${remoteURL}/userprofiles/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
+      },
+    body: JSON.stringify(newUserObject),
+  })
+  },
+
+    async updateUserProfileImage(image_id, imageObject) {
+    const data = await fetch(`${remoteURL}/images/${image_id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
         Authorization: "JWT" + localStorage.getItem("accessToken"),
       },
-      body: JSON.stringify(newUser),
+      body: JSON.stringify(imageObject),
     });
     const result = await data.json();
     return result;

@@ -13,7 +13,7 @@ import EditProfile from "./profile/EditProfile";
 import LeaderBoard from "./leaderBoard/LeaderBoard";
 // import AuthRoute from "./AuthRoute";
 
-const ApplicationViews = ({ userProfile, setUserProfile }) => {
+const ApplicationViews = ({ userProfile, setUserProfile, authUser, setAuthUser }) => {
   const { isAuthenticated } = useAuth0();
 
   return (
@@ -26,7 +26,9 @@ const ApplicationViews = ({ userProfile, setUserProfile }) => {
             return (
               <Home
                 userProfile={userProfile}
+                authUser={authUser}
                 setUserProfile={setUserProfile}
+                setAuthUser={setAuthUser}
                 {...props}
               />
             );
@@ -85,7 +87,9 @@ const ApplicationViews = ({ userProfile, setUserProfile }) => {
             return (
               <CreateAccount
                 userProfile={userProfile}
+                authUser={authUser}
                 setUserProfile={setUserProfile}
+                setAuthUser={setAuthUser}
                 {...props}
               />
             );
@@ -141,7 +145,7 @@ const ApplicationViews = ({ userProfile, setUserProfile }) => {
         path="/leaderBoard"
         render={props => {
           if (isAuthenticated === true && userProfile.id) {
-            return <LeaderBoard userProfile={userProfile} {...props} />;
+            return <LeaderBoard userProfile={userProfile} authUser={authUser} {...props} />;
           } else {
             return <LoginLandingPage />;
           }
