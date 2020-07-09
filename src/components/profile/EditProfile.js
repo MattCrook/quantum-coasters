@@ -26,9 +26,6 @@ const EditProfile = (props) => {
   });
 
 
-  // const [apiUser, setApiUser] = useState([])
-  // const [userProfile, setUserProfile] = useState([])
-
 
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
@@ -37,57 +34,86 @@ const EditProfile = (props) => {
       const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
       const creditsToFetch = await ApiManager.getCreditIdFromApi();
       const profile = userProfileFromAPI[0];
-      const expandedUserProfile = userProfileFromAPI[0].userprofile;
+      const userProfile = userProfileFromAPI[0].userprofile;
       const filterUsersCredits = creditsToFetch.filter(
         (credit) => credit.userProfile === profile.userprofile.id
       );
       const picture = user.picture;
       const picUrl = profile.userprofile.picUrl;
 
+
       if (picUrl === null) {
         const userProfileObject = {
-          id: profile.userprofile.id,
-          // email: user.email,
-          address: profile.userprofile.address,
+          id: userProfile.id,
+          address: userProfile.address,
           picUrl: defaultProfilePicture,
-          rollerCoaster_id: profile.userprofile.rollerCoaster_id,
+          rollerCoaster_id: userProfile.rollerCoaster_id,
         };
+
+        const apiUserObject = {
+          id: profile.id,
+          first_name: profile.first_name,
+          last_name: profile.last_name,
+          username: profile.username,
+          email: user.email,
+
+        }
+
         setUserProfile(userProfileObject);
+        setApiUser(apiUserObject)
+
       } else if (!picUrl && picture) {
         const userProfileObj = {
-          id: profile.userprofile.id,
-          // email: user.email,
-          address: profile.userprofile.address,
+          id: userProfile.id,
+          address: userProfile.address,
           picUrl: picture,
-          rollerCoaster_id: profile.userprofile.rollerCoaster_id,
+          rollerCoaster_id: userProfile.rollerCoaster_id,
         };
+        const apiUserObject = {
+          id: profile.id,
+          first_name: profile.first_name,
+          last_name: profile.last_name,
+          username: profile.username,
+          email: user.email,
+
+        }
         setUserProfile(userProfileObj);
+        setApiUser(apiUserObject)
+
       } else if (picUrl) {
         const userProfObj = {
-          id: profile.userprofile.id,
-          // email: user.email,
-          address: profile.userprofile.address,
+          id: userProfile.id,
+          address: userProfile.address,
           picUrl: picUrl,
-          rollerCoaster_id: profile.userprofile.rollerCoaster_id,
+          rollerCoaster_id: userProfile.rollerCoaster_id,
         };
+        const apiUserObject = {
+          id: profile.id,
+          first_name: profile.first_name,
+          last_name: profile.last_name,
+          username: profile.username,
+          email: user.email,
+
+        }
         setUserProfile(userProfObj);
+        setApiUser(apiUserObject)
+
       }
-      setApiUser(profile);
-      const creditsMap = filterUsersCredits.map((credit) => {
-        const rollerCoasterId = credit.rollerCoaster;
-        return rollerCoasterId;
-      });
-      let promises = [];
-      creditsMap.forEach((item) => {
-        promises.push(ApiManager.getRollerCoastersForUserProfile(item));
-      });
-      Promise.all(promises)
-        .then((data) => {
-          setUserCredits(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+  //     const creditsMap = filterUsersCredits.map((credit) => {
+  //       const rollerCoasterId = credit.rollerCoaster;
+  //       return rollerCoasterId;
+  //     });
+  //     let promises = [];
+  //     creditsMap.forEach((item) => {
+  //       promises.push(ApiManager.getRollerCoastersForUserProfile(item));
+  //     });
+  //     Promise.all(promises)
+  //       .then((data) => {
+  //         setUserCredits(data);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
     } catch (err) {
       console.log(err);
     }
@@ -208,10 +234,7 @@ const EditProfile = (props) => {
           <div>Last: {apiUser.last_name}</div>
           <div>Username: {apiUser.username}</div>
           <div>Address: {userProfile.address}</div>
-          {/* <div className="list-of-credits">List of Credits</div> */}
-          {/* {userCredits.map((credit) => (
-            <li key={credit.id}>{credit.name}</li>
-          ))} */}
+
         </div>
       </div>
       <form className="edit-profile-form" onSubmit={handleFormSubmit}>

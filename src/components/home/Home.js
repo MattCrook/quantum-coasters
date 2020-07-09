@@ -26,7 +26,7 @@ const Home = ({ userProfile }) => {
                     id="profile-pic"
                     // src={userProfile.picUrl}
                     // TODO: Change back to above after figure out API CAll to cloudinary
-                    src={user.picture}
+                    src={userProfile.picUrl}
                     alt="My Avatar"
                   />
                 ) : (

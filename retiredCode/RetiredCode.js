@@ -1,5 +1,7 @@
 // This is a folder of most the old code which was removed during the Refactor from using Json server, to uing my own custom built API
 
+const { Form } = require("semantic-ui-react")
+
 
 /******************** ***********************************/
 
@@ -184,3 +186,22 @@
   //   }
   // };
 /************************ ******************************/
+// Get the Credits on the user Edit Form
+  //     const creditsMap = filterUsersCredits.map((credit) => {
+  //       const rollerCoasterId = credit.rollerCoaster;
+  //       return rollerCoasterId;
+  //     });
+  //     let promises = [];
+  //     creditsMap.forEach((item) => {
+  //       promises.push(ApiManager.getRollerCoastersForUserProfile(item));
+  //     });
+  //     Promise.all(promises)
+  //       .then((data) => {
+  //         setUserCredits(data);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+
+
+  /************************ ******************************/

@@ -11,6 +11,7 @@ const CreateAccount = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState({});
 
+  console.log({user})
   // const uploadedImage = React.useRef(null);
   // const imageUploader = React.useRef(null);
 

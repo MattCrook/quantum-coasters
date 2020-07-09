@@ -15,6 +15,7 @@ const App = (props) => {
   const { loading, user, getTokenSilently } = useAuth0();
   const [userProfile, setUserProfile] = useState([]);
 
+  // Fetch call to Users Table
   useEffect(() => {
     if (user) {
       const userEmail = user.email;
@@ -26,7 +27,7 @@ const App = (props) => {
           sessionStorage.setItem("credentials", JSON.stringify(userEmail));
           setUserProfile(getProfile[0]);
         } else {
-          console.log("DON'T HAVE USER YET.");
+          console.log("Please Complete your Profile. :) ");
           setUserProfile([]);
         }
       };

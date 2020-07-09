@@ -17,7 +17,7 @@ const ApiManager = {
   },
 
   async getUserProfile(email) {
-    const resp = await fetch(`${remoteURL}/users?email=${email}`, {
+    const resp = await fetch(`${remoteURL}/userprofiles?email=${email}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json", // can change back to 'application/x-www-form-urlencoded'
