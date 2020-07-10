@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import createAuth0Client from "@auth0/auth0-spa-js";
+import ApiManager from "../modules/ApiManager";
 
 // import createContext from "react"
 
@@ -24,24 +25,17 @@ export const Auth0Provider = ({
   const [auth0Client, setAuth0] = useState();
   const [loading, setLoading] = useState(true);
   const [popupOpen, setPopupOpen] = useState(false);
+  const [authUser, setAuthUser] = useState({
+    email: "",
+    password: ""
+  })
 
   useEffect(() => {
     const initAuth0 = async () => {
       const auth0FromHook = await createAuth0Client(initOptions);
+      console.log({auth0FromHook})
+      console.log({initOptions})
       setAuth0(auth0FromHook);
-      // const claims = await auth0FromHook.getIdTokenClaims();
-      // const token = await auth0FromHook.getTokenSilently();
-      // const id_token = claims.__raw;
-      // console.log({ token });
-      // console.log({ id_token });
-
-      // const auth0FromHook = await createAuth0Client({
-      //   domain: "dev-405n1e6w.auth0.com",
-      //   client_id: "kaXZdymNjopdmrlQpOL5mMBQZyvrSry0",
-      // });
-      // const user = await auth0FromHook.getUser();
-      // console.log(user);
-      // setAuth0(auth0FromHook);
 
       if (
         window.location.search.includes("code=") &&
@@ -56,6 +50,7 @@ export const Auth0Provider = ({
 
       if (isAuthenticated) {
         const user = await auth0FromHook.getUser();
+        console.log(user.password)
         setUser(user);
       }
 
@@ -99,6 +94,11 @@ export const Auth0Provider = ({
   };
 
 
+  // const newAuthUser = {
+  //   email: user.email,
+  //   password: user.password
+  // }
+  // const registerAuthUser = await ApiManager.register(newAuthUser);
   return (
     <Auth0Context.Provider
       value={{

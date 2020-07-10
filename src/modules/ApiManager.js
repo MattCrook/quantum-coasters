@@ -4,6 +4,28 @@ const remoteURL = "http://localhost:8000";
 const ApiManager = {
   /************* USERS ********************/
 
+  async register(userToPost) {
+    const result = await fetch(`${remoteURL}/register/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userToPost),
+    });
+    return await result.json();
+  },
+  async login(userToLogin) {
+    const result = await fetch(`${remoteURL}/login/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userToLogin),
+    });
+    return await result.json();
+  },
+  
+
   async getAllUsers() {
     const resp = await fetch(`${remoteURL}/users`, {
       method: "GET",

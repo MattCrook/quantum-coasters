@@ -13,7 +13,12 @@ import EditProfile from "./profile/EditProfile";
 import LeaderBoard from "./leaderBoard/LeaderBoard";
 // import AuthRoute from "./AuthRoute";
 
-const ApplicationViews = ({ userProfile, setUserProfile, authUser, setAuthUser }) => {
+const ApplicationViews = ({
+  userProfile,
+  setUserProfile,
+  authUser,
+  setAuthUser,
+}) => {
   const { isAuthenticated } = useAuth0();
 
   return (
@@ -21,7 +26,7 @@ const ApplicationViews = ({ userProfile, setUserProfile, authUser, setAuthUser }
       <Route
         exact
         path="/home"
-        render={props => {
+        render={(props) => {
           if (isAuthenticated === true) {
             return (
               <Home
@@ -40,7 +45,7 @@ const ApplicationViews = ({ userProfile, setUserProfile, authUser, setAuthUser }
       <Route
         exact
         path="/"
-        render={props => {
+        render={(props) => {
           return <LoginLandingPage {...props} />;
         }}
       />
@@ -48,7 +53,7 @@ const ApplicationViews = ({ userProfile, setUserProfile, authUser, setAuthUser }
       <Route
         exact
         path="/users"
-        render={props => {
+        render={(props) => {
           if (isAuthenticated === true && userProfile.id) {
             return <ProfileList {...props} />;
           } else {
@@ -60,7 +65,7 @@ const ApplicationViews = ({ userProfile, setUserProfile, authUser, setAuthUser }
       <Route
         exact
         path="/users/new"
-        render={props => {
+        render={(props) => {
           if (isAuthenticated === true && userProfile.id) {
             return <AddNewCreditForm {...props} />;
           } else {
@@ -71,7 +76,7 @@ const ApplicationViews = ({ userProfile, setUserProfile, authUser, setAuthUser }
       <Route
         exact
         path="/new/rollercoaster"
-        render={props => {
+        render={(props) => {
           if (isAuthenticated === true && userProfile.id) {
             return <NewRollerCoaster {...props} />;
           } else {
@@ -82,7 +87,8 @@ const ApplicationViews = ({ userProfile, setUserProfile, authUser, setAuthUser }
       <Route
         exact
         path="/profile/welcome"
-        render={props => {
+        // path="register/"
+        render={(props) => {
           if (isAuthenticated === true) {
             return (
               <CreateAccount
@@ -98,9 +104,33 @@ const ApplicationViews = ({ userProfile, setUserProfile, authUser, setAuthUser }
           }
         }}
       />
+
+      
+      <Route
+        exact
+        // path="/profile/welcome"
+        path="login/"
+        render={(props) => {
+          if (isAuthenticated === true) {
+            return (
+              <CreateAccount
+                userProfile={userProfile}
+                authUser={authUser}
+                setUserProfile={setUserProfile}
+                setAuthUser={setAuthUser}
+                {...props}
+              />
+            );
+          } else {
+            return <LoginLandingPage />;
+          }
+        }}
+      />
+
+      
       <Route
         path="/users/:creditId(\d+)/edit"
-        render={props => {
+        render={(props) => {
           if (isAuthenticated === true && userProfile.id) {
             return (
               <EditCreditForm
@@ -116,7 +146,7 @@ const ApplicationViews = ({ userProfile, setUserProfile, authUser, setAuthUser }
       <Route
         exact
         path="/messages"
-        render={props => {
+        render={(props) => {
           if (isAuthenticated === true && userProfile.id) {
             return <MessageList {...props} />;
           } else {
@@ -127,7 +157,7 @@ const ApplicationViews = ({ userProfile, setUserProfile, authUser, setAuthUser }
       <Route
         exact
         path="/profile/:userProfileId(\d+)"
-        render={props => {
+        render={(props) => {
           if (isAuthenticated === true && userProfile.id) {
             return (
               <EditProfile
@@ -143,9 +173,15 @@ const ApplicationViews = ({ userProfile, setUserProfile, authUser, setAuthUser }
       <Route
         exact
         path="/leaderBoard"
-        render={props => {
+        render={(props) => {
           if (isAuthenticated === true && userProfile.id) {
-            return <LeaderBoard userProfile={userProfile} authUser={authUser} {...props} />;
+            return (
+              <LeaderBoard
+                userProfile={userProfile}
+                authUser={authUser}
+                {...props}
+              />
+            );
           } else {
             return <LoginLandingPage />;
           }

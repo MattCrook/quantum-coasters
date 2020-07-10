@@ -7,17 +7,29 @@ import { confirmAlert } from "react-confirm-alert";
 // import ImageUploader from "react-images-upload";
 
 const CreateAccount = (props) => {
-  console.log(props);
   const { user } = useAuth0();
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState({});
-  const { authUser } = props;
-  console.log({authUser})
-  const { setAuthUser } = props;
-  const { userProfile } = props;
-  const { setUserProfile } = props;
-  const authUseriId = authUser.id;
-  const userProfileId = userProfile.id;
+  const [authUser, setAuthUser] = useState({
+    first_name: "",
+    last_name: "",
+    username: "",
+    email: user.email
+  })
+  const [userProfile, setUserProfile] = useState({
+    address: "",
+    image: "",
+    credits: [],
+    user_id: ""
+  })
+  const authUserFromProps = props.authUser;
+  const setAuthUserFromProp = props.setAuthUser;
+  const userProfileFromProps = props.userProfile
+  const setUserProfileFromProps = props.setUserProfile
+
+  const authUserId = authUserFromProps.id;
+  const userProfileId = userProfileFromProps.id;
+
   const imageId = userProfile.image_id;
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
@@ -99,48 +111,48 @@ const CreateAccount = (props) => {
 
 
 
-              } else if (!user.picture && !image.image) {
-                const newUserProfile = {
-                  address: userProfile.address,
-                  credits: [],
-                  picUrl:
-                    "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png",
-                };
-                const newUser = {
-                  first_name: userProfile.first_name,
-                  last_name: userProfile.last_name,
-                  username: userProfile.username,
-                  email: user.email,
-                };
-                ApiManager.postNewUserProfile(
-                  userProfileId,
-                  newUserProfile
-                ).then((newProfile) => {
-                  props.setUserProfile(newProfile, true);
-                  ApiManager.postNewAuthUser(newUser).then((newAuthUser) => {
-                    props.setAuthUser(newAuthUser, true);
-                  });
-                  props.history.push("/home");
-                });
-              } else if (image.picUrl) {
-                const newUserProfile = {
-                  address: userProfile.address,
-                  credits: [],
-                  picUrl: image.picUrl,
-                };
-                const newUser = {
-                  first_name: userProfile.first_name,
-                  last_name: userProfile.last_name,
-                  username: userProfile.username,
-                  email: user.email,
-                };
-                ApiManager.postNewUserProfile(userProfileId, newUserProfile).then((newProfile) => {
-                  props.setUserProfile(newProfile, true);
-                  ApiManager.postNewAuthUser(newUser).then((newAuthUser) => {
-                    props.setAuthUser(newAuthUser, true);
-                  });
-                  props.history.push("/home");
-                });
+              // } else if (!user.picture && !image.image) {
+              //   const newUserProfile = {
+              //     address: userProfile.address,
+              //     credits: [],
+              //     picUrl:
+              //       "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png",
+              //   };
+              //   const newUser = {
+              //     first_name: userProfile.first_name,
+              //     last_name: userProfile.last_name,
+              //     username: userProfile.username,
+              //     email: user.email,
+              //   };
+              //   ApiManager.postNewUserProfile(
+              //     userProfileId,
+              //     newUserProfile
+              //   ).then((newProfile) => {
+              //     props.setUserProfile(newProfile, true);
+              //     ApiManager.postNewAuthUser(newUser).then((newAuthUser) => {
+              //       props.setAuthUser(newAuthUser, true);
+              //     });
+              //     props.history.push("/home");
+              //   });
+              // } else if (image.picUrl) {
+              //   const newUserProfile = {
+              //     address: userProfile.address,
+              //     credits: [],
+              //     picUrl: image.picUrl,
+              //   };
+              //   const newUser = {
+              //     first_name: userProfile.first_name,
+              //     last_name: userProfile.last_name,
+              //     username: userProfile.username,
+              //     email: user.email,
+              //   };
+              //   ApiManager.postNewUserProfile(userProfileId, newUserProfile).then((newProfile) => {
+              //     props.setUserProfile(newProfile, true);
+              //     ApiManager.postNewAuthUser(newUser).then((newAuthUser) => {
+              //       props.setAuthUser(newAuthUser, true);
+              //     });
+              //     props.history.push("/home");
+              //   });
               }
             },
           },
