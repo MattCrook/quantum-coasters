@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import ApiManager from "../../modules/ApiManager";
 import keys from "../../keys/Keys";
@@ -12,6 +12,7 @@ const CreateAccount = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState({});
   const { authUser } = props;
+  console.log({authUser})
   const { setAuthUser } = props;
   const { userProfile } = props;
   const { setUserProfile } = props;
@@ -20,7 +21,9 @@ const CreateAccount = (props) => {
   const imageId = userProfile.image_id;
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
-// console.log(userProfile.image)
+  console.log(userProfile.image)
+  console.log(image)
+
 
 //   if (user.picture && !userProfile.image.image) {
 //     ApiManager.updateUserProfileImage(imageId, defaultProfilePicture)
@@ -44,10 +47,8 @@ const CreateAccount = (props) => {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    sessionStorage.setItem(
-      "userPicture from createaccount",
-      JSON.stringify(user.picture)
-    );
+    sessionStorage.setItem("userPicture from createaccount", JSON.stringify(user.picture));
+
     if (
       authUser.first_name === "" ||
       authUser.last_name === "" ||
@@ -76,12 +77,13 @@ const CreateAccount = (props) => {
                   username: userProfile.username,
                   email: user.email,
                 };
-                ApiManager.postNewAuthUser(newUser).then(() => {
-                  ApiManager.postNewUserProfile(userProfileId, newUserProfile).then(() => {
-                    props.history.push("/home");
-                  });
-                });
-
+                ApiManager.postNewAuthUser(newUser).then((newAuthUser) => {
+                  setAuthUser(newAuthUser, true);
+                  ApiManager.postNewUserProfile(userProfileId, newUserProfile).then((newUserProfile) => {
+                    setUserProfile(newUserProfile, true);
+                  })
+                  props.history.push("/home");
+                })
                 // ApiManager.postNewUserProfile(userProfileId, newUserProfile)
                 //   .then((newProfile) => {
                 //     props.setUserProfile(newProfile, true);
@@ -89,9 +91,15 @@ const CreateAccount = (props) => {
                 //       props.setAuthUser(newAuthUser, true);
                 //     })
                 //     props.history.push("/home");
+
+
+
                 // props.history.push("/home", {userProfile: userProfile});
                 // can use above method to transfer the state using location object - by props.location.state.userProfile
-              } else if (!user.picture && !image.picUrl) {
+
+
+
+              } else if (!user.picture && !image.image) {
                 const newUserProfile = {
                   address: userProfile.address,
                   credits: [],
@@ -126,10 +134,7 @@ const CreateAccount = (props) => {
                   username: userProfile.username,
                   email: user.email,
                 };
-                ApiManager.postNewUserProfile(
-                  userProfileId,
-                  newUserProfile
-                ).then((newProfile) => {
+                ApiManager.postNewUserProfile(userProfileId, newUserProfile).then((newProfile) => {
                   props.setUserProfile(newProfile, true);
                   ApiManager.postNewAuthUser(newUser).then((newAuthUser) => {
                     props.setAuthUser(newAuthUser, true);
@@ -180,6 +185,16 @@ const CreateAccount = (props) => {
     // setImage({ picUrl: file.secure_url });
     setIsLoading(false);
   };
+
+//   useEffect(() => {
+//     const updateDefaultProfilePicture = async (imageId) => {
+//       const getUserProfileImage = ApiManager.getProfileImage(imageId);
+//       console.log(getUserProfileImage)
+//       setImage(getUserProfileImage);
+//     }
+//     updateDefaultProfilePicture(imageId)
+// }, [imageId])
+
 
   return (
     <form className="register-form" onSubmit={handleFormSubmit} method="PUT">

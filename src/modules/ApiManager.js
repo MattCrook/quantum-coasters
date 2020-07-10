@@ -51,42 +51,69 @@ const ApiManager = {
   //   return result;
   // },
 
-  async postNewAuthUser(authUserId, newAuthUserObject) {
-    const data = await fetch(`${remoteURL}/userprofiles/auth/${authUserId}`, {
-      method: "PUT",
+  async postNewAuthUser(newAuthUserObject) {
+    const data = await fetch(`${remoteURL}/users`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: "JWT" + localStorage.getItem("accessToken"),
       },
       body: JSON.stringify(newAuthUserObject),
-    })
+    });
+    const result = await data.json();
+    return result;
   },
 
-//   async postNewAuthUser(newAuthUserObject) {
-//     console.log({newAuthUserObject})
-//     const data = await fetch(`${remoteURL}/userprofiles?email=${newAuthUserObject.email}`, {
-//       method: "PUT",
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: "JWT" + localStorage.getItem("accessToken"),
-//       },
-//       body: JSON.stringify(newAuthUserObject),
-//     })
-//   },
+  //   async postNewAuthUser(newAuthUserObject) {
+  //     console.log({newAuthUserObject})
+  //     const data = await fetch(`${remoteURL}/userprofiles?email=${newAuthUserObject.email}`, {
+  //       method: "PUT",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: "JWT" + localStorage.getItem("accessToken"),
+  //       },
+  //       body: JSON.stringify(newAuthUserObject),
+  //     })
+  //   },
 
   async postNewUserProfile(id, newUserObject) {
-    console.log({newUserObject})
-    const data = await fetch(`${remoteURL}/userprofiles/${id}`, {
-      method: "PUT",
+    const data = await fetch(`${remoteURL}/userprofiles`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: "JWT" + localStorage.getItem("accessToken"),
       },
-    body: JSON.stringify(newUserObject),
-  })
+      body: JSON.stringify(newUserObject),
+    });
+    const result = await data.json();
+    return result;
   },
 
-    async updateUserProfileImage(image_id, imageObject) {
+  async getProfileImage(imageId) {
+    const resp = await fetch(`${remoteURL}/images/${imageId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
+      },
+    });
+    return await resp.json();
+  },
+
+  async postProfileImage(imageObject) {
+    const data = await fetch(`${remoteURL}/images`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
+      },
+      body: JSON.stringify(imageObject),
+    });
+    const result = await data.json();
+    return result;
+  },
+
+  async updateUserProfileImage(image_id, imageObject) {
     const data = await fetch(`${remoteURL}/images/${image_id}`, {
       method: "POST",
       headers: {
@@ -158,7 +185,7 @@ const ApiManager = {
         Authorization: "JWT" + localStorage.getItem("accessToken"),
       },
       body: JSON.stringify(editedObject),
-    })
+    });
   },
 
   async putEditedAPIUser(editedObject) {
@@ -169,7 +196,7 @@ const ApiManager = {
         Authorization: "JWT" + localStorage.getItem("accessToken"),
       },
       body: JSON.stringify(editedObject),
-    })
+    });
   },
 
   /*********** ROLLERCOASTERS ************/
@@ -343,7 +370,9 @@ const ApiManager = {
   },
 
   async getManufacturerByName(manufacturer) {
-    const resp = await fetch(`${remoteURL}/manufacturers?name=${manufacturer}`, {
+    const resp = await fetch(
+      `${remoteURL}/manufacturers?name=${manufacturer}`,
+      {
         method: "GET",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
