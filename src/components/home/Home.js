@@ -29,7 +29,7 @@ const Home = (props) => {
                     id="profile-pic"
                     // src={userProfile.picUrl}
                     // TODO: Change back to above after figure out API CAll to cloudinary
-                    src={userProfile.image.image.url}
+                    src={userProfile.image.url}
                     alt="My Avatar"
                   />
                 ) : (
@@ -74,7 +74,7 @@ const Home = (props) => {
       )}
       <div className="hero is-fullheight">
         {!loading && !authUser.username && (
-          <Link data-testid="complete-profile-btn-testid" className="complete-profile-link" to="/profile/welcome">
+          <Link data-testid="complete-profile-btn-testid" className="complete-profile-link" to="register/">
             Complete Profile
           </Link>
         )}

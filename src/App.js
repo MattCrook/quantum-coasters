@@ -15,6 +15,7 @@ const App = (props) => {
   const [userProfile, setUserProfile] = useState([]);
   const [authUser, setAuthUser] = useState([]);
 
+
   // Fetch call to Users Table
   useEffect(() => {
     if (user) {
@@ -34,8 +35,36 @@ const App = (props) => {
           setUserProfile([]);
         }
       };
+      // const checkIfLoginOrRegister = (user) => {
+      //   if (user && !user.username) {
+      //     const newAuthUser = {
+      //       email: user.email,
+      //       password: user.sub,
+      //     };
+      //     ApiManager.register(newAuthUser)
+      //       .then((response) => {
+      //         console.log(response);
+      //       })
+      //       .catch((error) => {
+      //         console.log(error);
+      //       });
+      //   } else if (user && user.username) {
+      //     const userLogin = {
+      //       email: user.email,
+      //       password: user.sub,
+      //     };
+      //     ApiManager.login(userLogin)
+      //       .then((response) => {
+      //         console.log(response);
+      //       })
+      //       .catch((error) => {
+      //         console.log("Failed Login Attempt. Bad Credentials.", error);
+      //       });
+      //   }
+      // };
 
       guardForUserProfile(userEmail);
+
     }
     // return () => userProfile;
   }, [user, getTokenSilently]);

@@ -4,7 +4,7 @@ import "../home/Home.css";
 import "bulma/css/bulma.css";
 
 
-const LoginLandingPage = () => {
+const LandingPage = () => {
   const { loading, user, loginWithRedirect, logout, clearStorage } = useAuth0();
 
 
@@ -49,4 +49,4 @@ const LoginLandingPage = () => {
   );
 };
 
-export default LoginLandingPage;
+export default LandingPage;
