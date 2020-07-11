@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import createAuth0Client from "@auth0/auth0-spa-js";
+import ApiManager from "../modules/ApiManager";
 
 // import createContext from "react"
 
@@ -24,24 +25,19 @@ export const Auth0Provider = ({
   const [auth0Client, setAuth0] = useState();
   const [loading, setLoading] = useState(true);
   const [popupOpen, setPopupOpen] = useState(false);
+  // const [authUser, setAuthUser] = useState({
+  //   email: "",
+  //   password: "",
+  // });
 
   useEffect(() => {
     const initAuth0 = async () => {
       const auth0FromHook = await createAuth0Client(initOptions);
+      // console.log({auth0FromHook})
+      // console.log({ initOptions })
+      // const transactions = auth0FromHook.transactionManager.transactions;
+      // console.log(transactions)
       setAuth0(auth0FromHook);
-      // const claims = await auth0FromHook.getIdTokenClaims();
-      // const token = await auth0FromHook.getTokenSilently();
-      // const id_token = claims.__raw;
-      // console.log({ token });
-      // console.log({ id_token });
-
-      // const auth0FromHook = await createAuth0Client({
-      //   domain: "dev-405n1e6w.auth0.com",
-      //   client_id: "kaXZdymNjopdmrlQpOL5mMBQZyvrSry0",
-      // });
-      // const user = await auth0FromHook.getUser();
-      // console.log(user);
-      // setAuth0(auth0FromHook);
 
       if (
         window.location.search.includes("code=") &&
@@ -91,13 +87,45 @@ export const Auth0Provider = ({
     setUser(user);
   };
 
-  // const clearStorage = () => {
-  //   localStorage.removeItem("accessToken");
-  //   localStorage.removeItem("authCache");
-  //   localStorage.removeItem("user_sub_token_id");
-  //   sessionStorage.removeItem("credentials");
+  const clearStorage = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("authCache");
+    localStorage.removeItem("user_sub_token_id");
+    sessionStorage.removeItem("credentials");
+  };
+
+  // const checkIfLoginOrRegister = (user) => {
+  //   if (user && !user.username) {
+
+  //     const newAuthUser = {
+  //       email: user.email,
+  //       password: user.sub,
+  //     };
+  //     ApiManager.register(newAuthUser)
+  //       .then((response) => {
+  //         console.log(response);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   } else if (user && user.username) {
+  //     const userLogin = {
+  //       email: user.email,
+  //       password: user.sub,
+  //     };
+  //     ApiManager.login(userLogin)
+  //       .then((response) => {
+  //         console.log(response);
+  //       })
+  //       .catch((error) => {
+  //         console.log("Failed Login Attempt. Bad Credentials.", error);
+  //       });
+  //   }
   // };
 
+  // useEffect(() => {
+  //   checkIfLoginOrRegister(user);
+  // }, [user]);
 
   return (
     <Auth0Context.Provider
@@ -108,7 +136,7 @@ export const Auth0Provider = ({
         popupOpen,
         loginWithPopup,
         handleRedirectCallback,
-        // clearStorage,
+        clearStorage,
         getIdTokenClaims: (...p) => auth0Client.getIdTokenClaims(...p),
         loginWithRedirect: (...p) => auth0Client.loginWithRedirect(...p),
         getTokenSilently: (...p) => auth0Client.getTokenSilently(...p),

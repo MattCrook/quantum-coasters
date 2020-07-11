@@ -35,3 +35,6 @@ yarn-error.log*
 .auth_config
 
 .now
+
+#retiredCode
+retiredCode/

@@ -12,7 +12,7 @@ import {
   faCommentDots
 } from "@fortawesome/free-solid-svg-icons";
 
-const NavBar = ({ userProfile }) => {
+const NavBar = ({ userProfile, authUser }) => {
   const { isAuthenticated, loading } = useAuth0();
 
 
@@ -36,7 +36,7 @@ const NavBar = ({ userProfile }) => {
             </Link>
           </li>
         )}
-        {isAuthenticated && userProfile.email ? (
+        {isAuthenticated && authUser.username ? (
           <li>
             <FontAwesomeIcon icon={faUser} />
             <Link className="nav-link" to="/users">
@@ -45,7 +45,7 @@ const NavBar = ({ userProfile }) => {
             </Link>
           </li>
         ) : null}
-        {isAuthenticated && userProfile.email ? (
+        {isAuthenticated && authUser.username ? (
           <li>
             <FontAwesomeIcon icon={faPollH} />
 
@@ -55,7 +55,7 @@ const NavBar = ({ userProfile }) => {
             </Link>
           </li>
         ) : null}
-        {isAuthenticated && userProfile.email ? (
+        {isAuthenticated && authUser.username ? (
           <li>
             <FontAwesomeIcon icon={faCommentDots} />
             <Link className="nav-link" to="/messages">

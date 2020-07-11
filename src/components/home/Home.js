@@ -4,8 +4,11 @@ import { useAuth0 } from "../../contexts/react-auth0-context";
 import { Link } from "react-router-dom";
 import "./Home.css";
 
-const Home = ({ userProfile }) => {
+const Home = (props) => {
   const { loading, user, logout, clearStorage } = useAuth0();
+  console.log({ props })
+  const { userProfile } = props;
+  const { authUser } = props;
 
 
   return (
@@ -20,13 +23,13 @@ const Home = ({ userProfile }) => {
             <>
               <div className="navbar-end">
                 <button className="navbar-item-home-name">{user.name}</button>
-                {userProfile.picUrl ? (
+                {userProfile.image ? (
                   <img
                     data-testid="home-profile-pic-testid"
                     id="profile-pic"
                     // src={userProfile.picUrl}
                     // TODO: Change back to above after figure out API CAll to cloudinary
-                    src={user.picture}
+                    src={userProfile.image.url}
                     alt="My Avatar"
                   />
                 ) : (
@@ -59,7 +62,7 @@ const Home = ({ userProfile }) => {
         )}
       </div>
 
-      {!userProfile.email && !loading && user && (
+      {!authUser.username && !loading && user && (
         <>
           <div className="banner-for-complete-profile">
             <h3 className="welcome-greeting" data-testid="welcome-greeting-testid">
@@ -70,8 +73,8 @@ const Home = ({ userProfile }) => {
         </>
       )}
       <div className="hero is-fullheight">
-        {!loading && !userProfile.email && (
-          <Link data-testid="complete-profile-btn-testid" className="complete-profile-link" to="/profile/welcome">
+        {!loading && !authUser.username && (
+          <Link data-testid="complete-profile-btn-testid" className="complete-profile-link" to="register/">
             Complete Profile
           </Link>
         )}

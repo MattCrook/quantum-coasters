@@ -1,5 +1,11 @@
 /****** Card Content Section ******/
 
+#nav-container-profile {
+  display: flex;
+  justify-content: space-between;
+  
+}
+
 .credits-title {
   display: flex;
   justify-content: center;
@@ -130,8 +136,8 @@ span.edit-delete-credit {
 
 .edit-profile-button {
   color: white;
-  font-variant: small-caps;
-  font-style: oblique;
+  font-size: 16px;
+
 }
 .profile-back-btn {
   border: 2px solid black;
@@ -139,8 +145,9 @@ span.edit-delete-credit {
 
 .add-new-credit-btn {
   color: white;
-  font-variant: small-caps;
-  font-style: oblique;
+  font-size: 16px;
+  margin-right: 50px;
+
 }
 
 /******************* Add New Ride Form ********************/
@@ -162,10 +169,10 @@ span.edit-delete-credit {
 }
 
 .delete-profile-button {
-  color: white;
-  margin-right: 3rem;
-  font-variant: small-caps;
-  font-style: oblique;
+  color: rgb(228, 64, 64);
+  margin-right: 2rem;
+  font-size: 15px;
+
 }
 
 .edit-profile-title-container {

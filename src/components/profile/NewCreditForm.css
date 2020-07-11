@@ -5,6 +5,18 @@ h3.banner {
   background-color: #363636;
   color: white;
 }
+.banner-container {
+  display: flex;
+  justify-content: space-between;
+  justify-content: row;
+  background-color: #363636;
+  box-shadow: 1px 1px 3px #000;
+
+}
+
+/* .search-bar-container {
+  box-shadow: 1px 1px 3px #000;
+} */
 
 .ride-not-found-section {
   margin: 10px 0px 15px 0px;
@@ -38,7 +50,6 @@ h3.banner {
 }
 
 .add-new-ride-btn {
-
   transition: 0.25s;
   border: 2px solid black;
   padding-left: 10px;
@@ -57,7 +68,7 @@ h3.banner {
   }
   100% {
     background: #3e4247;
-    color: white
+    color: white;
   }
 }
 
