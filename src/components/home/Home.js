@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "bulma/css/bulma.css";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { Link } from "react-router-dom";
 import "./Home.css";
+import ApiManager from "../../modules/ApiManager";
 
 const Home = (props) => {
   const { loading, user, logout, clearStorage } = useAuth0();
-  console.log({ props })
   const { userProfile } = props;
   const { authUser } = props;
+  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
 
   return (
@@ -27,21 +28,19 @@ const Home = (props) => {
                   <img
                     data-testid="home-profile-pic-testid"
                     id="profile-pic"
-                    // src={userProfile.picUrl}
-                    // TODO: Change back to above after figure out API CAll to cloudinary
-                    src={userProfile.image.url}
+                    src={userProfile.image}
                     alt="My Avatar"
                   />
                 ) : (
                   <img
                     data-testid="home-profile-pic-testid"
                     id="profile-pic"
-                    src={user.picture}
+                    src={defaultProfilePicture}
                     alt="My Avatar"
                   />
                 )}
                 <button
-                  onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
+                  onClick={() => logout({ returnTo: window.location.origin })}
                   className="logout-navbar-item"
                   data-testid="logout-btn-testid"
                 >
@@ -62,7 +61,7 @@ const Home = (props) => {
         )}
       </div>
 
-      {!authUser.username && !loading && user && (
+      {!authUser.email && !loading && user && (
         <>
           <div className="banner-for-complete-profile">
             <h3 className="welcome-greeting" data-testid="welcome-greeting-testid">
@@ -73,7 +72,7 @@ const Home = (props) => {
         </>
       )}
       <div className="hero is-fullheight">
-        {!loading && !authUser.username && (
+        {!loading && !authUser.email && (
           <Link data-testid="complete-profile-btn-testid" className="complete-profile-link" to="register/">
             Complete Profile
           </Link>

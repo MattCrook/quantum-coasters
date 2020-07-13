@@ -97,7 +97,7 @@ const ApplicationViews = ({
         path="/users"
         render={(props) => {
           if (isAuthenticated === true && userProfile.id) {
-            return <ProfileList {...props} />;
+            return <ProfileList  userProfile={userProfile} authUser={authUser} {...props} />;
           } else {
             return <LandingPage />;
           }
@@ -109,7 +109,7 @@ const ApplicationViews = ({
         path="/users/new"
         render={(props) => {
           if (isAuthenticated === true && userProfile.id) {
-            return <AddNewCreditForm {...props} />;
+            return <AddNewCreditForm authUser={authUser} userProfile={userProfile}{...props} />;
           } else {
             return <LandingPage />;
           }

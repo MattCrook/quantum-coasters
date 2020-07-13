@@ -8,20 +8,27 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 
 
 const ProfileList = (props) => {
+  console.log(props)
   const { user } = useAuth0();
   const [userCredits, setUserCredits] = useState([]);
   const [userProfile, setUserProfile] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
+  // const { userProfile } = props;
+  const { authUser } = props;
+  // const credits = userProfile.credits
+  const userId = authUser.id
 
 
-  const getUserCreditsToFetch = async (user) => {
+
+  const getUserCreditsToFetch = async () => {
     try {
-      const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
+      const userProfileFromAPI = await ApiManager.getUserProfileEmbededAuthUser(userId);
       const creditsToFetch = await ApiManager.getCreditIdFromApi();
       const profile = userProfileFromAPI[0];
+      console.log(profile)
       const filterUsersCredits = creditsToFetch.filter(
-        (credit) => credit.userProfile === profile.userprofile.id
+        (credit) => credit.userProfile === profile.id
       );
       setUserProfile(profile);
       const creditsMap = filterUsersCredits.map((credit) => {
@@ -59,7 +66,7 @@ const ProfileList = (props) => {
                   (credit) => credit.rollerCoaster === creditId
                 );
                 ApiManager.deleteCredit(filteredCreditToDelete[0].id).then(() => {
-                  ApiManager.getUserProfile(user.email).then(response => {
+                  ApiManager.getUserProfileEmbededAuthUser(userId).then(response => {
                     setUserProfile(response[0])
                   })
                 });
@@ -79,8 +86,8 @@ const ProfileList = (props) => {
 
 
   useEffect(() => {
-    getUserCreditsToFetch(user);
-  }, [user, isLoading]);
+    getUserCreditsToFetch();
+  }, [userId]);
 
 
   return (
@@ -106,10 +113,10 @@ const ProfileList = (props) => {
           </button>
           <div className="name-container-profile-list">
             <p className="name-profile-list">
-              {userProfile.first_name} {userProfile.last_name}
+              {authUser.first_name} {authUser.last_name}
             </p>
-            {userProfile.picUrl ? (
-              <img id="profile-pic" src={userProfile.picUrl} alt="My Avatar" />
+            {userProfile.image ? (
+              <img id="profile-pic" src={userProfile.image} alt="My Avatar" />
             ) : (
               <img id="profile-pic" src={user.picture} alt="My Avatar" />
             )}
@@ -125,6 +132,7 @@ const ProfileList = (props) => {
           <ProfileCard
             key={rollerCoaster.id}
             userProfile={userProfile}
+            authUser={authUser}
             rollerCoaster={rollerCoaster}
             manufacturer={rollerCoaster.manufacturer}
             park={rollerCoaster.park}
