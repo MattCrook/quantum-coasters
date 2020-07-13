@@ -33,16 +33,13 @@ export const Auth0Provider = ({
   useEffect(() => {
     const initAuth0 = async () => {
       const auth0FromHook = await createAuth0Client(initOptions);
-      // console.log({auth0FromHook})
-      // console.log({ initOptions })
+      console.log({auth0FromHook})
+      console.log({ initOptions })
       // const transactions = auth0FromHook.transactionManager.transactions;
       // console.log(transactions)
       setAuth0(auth0FromHook);
 
-      if (
-        window.location.search.includes("code=") &&
-        window.location.search.includes("state=")
-      ) {
+      if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
         const { appState } = await auth0FromHook.handleRedirectCallback();
         onRedirectCallback(appState);
       }
@@ -87,45 +84,14 @@ export const Auth0Provider = ({
     setUser(user);
   };
 
-  const clearStorage = () => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("authCache");
-    localStorage.removeItem("user_sub_token_id");
-    sessionStorage.removeItem("credentials");
-  };
-
-  // const checkIfLoginOrRegister = (user) => {
-  //   if (user && !user.username) {
-
-  //     const newAuthUser = {
-  //       email: user.email,
-  //       password: user.sub,
-  //     };
-  //     ApiManager.register(newAuthUser)
-  //       .then((response) => {
-  //         console.log(response);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //   } else if (user && user.username) {
-  //     const userLogin = {
-  //       email: user.email,
-  //       password: user.sub,
-  //     };
-  //     ApiManager.login(userLogin)
-  //       .then((response) => {
-  //         console.log(response);
-  //       })
-  //       .catch((error) => {
-  //         console.log("Failed Login Attempt. Bad Credentials.", error);
-  //       });
-  //   }
+  // const clearStorage = () => {
+  //   localStorage.removeItem("accessToken");
+  //   localStorage.removeItem("authCache");
+  //   localStorage.removeItem("user_sub_token_id");
+  //   sessionStorage.removeItem("credentials");
   // };
 
-  // useEffect(() => {
-  //   checkIfLoginOrRegister(user);
-  // }, [user]);
+
 
   return (
     <Auth0Context.Provider
@@ -136,7 +102,7 @@ export const Auth0Provider = ({
         popupOpen,
         loginWithPopup,
         handleRedirectCallback,
-        clearStorage,
+        // clearStorage,
         getIdTokenClaims: (...p) => auth0Client.getIdTokenClaims(...p),
         loginWithRedirect: (...p) => auth0Client.loginWithRedirect(...p),
         getTokenSilently: (...p) => auth0Client.getTokenSilently(...p),

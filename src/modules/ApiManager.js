@@ -4,37 +4,42 @@ const remoteURL = "http://localhost:8000";
 const ApiManager = {
   /************* USERS ********************/
 
-  // async register(userToPost) {
-  //   const result = await fetch(`${remoteURL}/register/`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/x-www-form-urlencoded",
-  //       Accept: "application/json",
-  //     },
-  //     body: JSON.stringify(userToPost),
-  //   });
-  //   return await result.json();
-  // },
-
-  async register(newUser) {
-    // Note: Content-type cannot be set when uploading a file
-    const headers = {
-      Authorization: "JWT" + localStorage.getItem("accessToken"),
-    };
-    // If there is no image,
-    // then content-type and accept are needed in the fetch call
-    if (newUser.image === null) {
-      headers["Accept"] = "application/json";
-      headers["Content-Type"] = "application/json";
+  async register(userToPost) {
+    try {
+      const result = await fetch(`${remoteURL}/register/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(userToPost),
+      });
+      const res = await result.json()
+      return res;
+    } catch (err) {
+      console.log(err);
     }
-
-    const response = await fetch(`${remoteURL}/register/`, {
-      method: "POST",
-      headers: headers,
-      body: newUser,
-    });
-    return await response.json();
   },
+
+  // async register(newUser) {
+  //   // Note: Content-type cannot be set when uploading a file
+  //   const headers = {
+  //     Authorization: "JWT" + localStorage.getItem("accessToken"),
+  //   };
+  //   // If there is no image,
+  //   // then content-type and accept are needed in the fetch call
+  //   if (newUser.image === null) {
+  //     headers["Accept"] = "application/json";
+  //     headers["Content-Type"] = "application/json";
+  //   }
+
+  //   const response = await fetch(`${remoteURL}/register/`, {
+  //     method: "POST",
+  //     headers: headers,
+  //     body: newUser,
+  //   });
+  //   return await response.json();
+  // },
 
   async login(userToLogin) {
     const result = await fetch(`${remoteURL}/login/`, {
@@ -81,58 +86,7 @@ const ApiManager = {
     return await resp.json();
   },
 
-  // async postNewUserProfile(newUser) {
-  //   const data = await fetch(`${remoteURL}/userprofiles`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/x-www-form-urlencoded",
-  //       Authorization: "JWT" + localStorage.getItem("accessToken"),
-  //     },
-  //     body: JSON.stringify(newUser),
-  //   });
-  //   const result = await data.json();
-  //   return result;
-  // },
-
-  // async postNewAuthUser(newAuthUserObject) {
-  //   const data = await fetch(`${remoteURL}/users`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "JWT" + localStorage.getItem("accessToken"),
-  //     },
-  //     body: JSON.stringify(newAuthUserObject),
-  //   });
-  //   const result = await data.json();
-  //   return result;
-  // },
-
-  //   async postNewAuthUser(newAuthUserObject) {
-  //     console.log({newAuthUserObject})
-  //     const data = await fetch(`${remoteURL}/userprofiles?email=${newAuthUserObject.email}`, {
-  //       method: "PUT",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: "JWT" + localStorage.getItem("accessToken"),
-  //       },
-  //       body: JSON.stringify(newAuthUserObject),
-  //     })
-  //   },
-
-  // async postNewUserProfile(id, newUserObject) {
-  //   const data = await fetch(`${remoteURL}/userprofiles`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "JWT" + localStorage.getItem("accessToken"),
-  //     },
-  //     body: JSON.stringify(newUserObject),
-  //   });
-  //   const result = await data.json();
-  //   return result;
-  // },
-
-  async getProfileImage(imageId) {
+  async getAuthUserImage(imageId) {
     const resp = await fetch(`${remoteURL}/images/${imageId}`, {
       method: "GET",
       headers: {

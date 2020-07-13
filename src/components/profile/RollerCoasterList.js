@@ -5,11 +5,18 @@ import { useAuth0 } from "../../contexts/react-auth0-context";
 // list that user is taken to, to input new credit (new rollercoaster ridden)
 // need check to see if the roller coaster exists in DB, if not user is taken to NewRollerCoasterForm
 // to create the entry in DB, then back to their credit form to fill it out.
-const RollerCoasterList = (props) => {
+const RollerCoasterList = () => {
   const { user } = useAuth0();
   const [rollerCoasters, setRollerCoasters] = useState([]);
   const [userProfile, setUserProfile] = useState([]);
+  const [authUser, setAuthUser] = useState([]);
   const [credits, setCredits] = useState([]);
+
+  // const { authUser } = props;
+  // const { userProfile } = props;
+  // const creditsArray = userProfile.credits[0]
+  // setCredits(creditsArray)
+
 
   // function to populate entire list of rollerCoasters in database
   const rollerCoastersFromAPI = async () => {
@@ -18,13 +25,16 @@ const RollerCoasterList = (props) => {
   };
 
   // Grabbing the current user profile and drilling into credits [array] to determine how many/ what credits they have. Will determine on initial render if add button is shown.
-  const currentUserProfileCredits = (user) => {
-    ApiManager.getUserProfile(user.email).then((data) => {
-      const profile = data[0];
-      const creditsArray = profile.userprofile.rollerCoaster_id;
-      setUserProfile(profile);
-      setCredits(creditsArray);
-    });
+  const currentUserProfileCredits = async (user) => {
+    const getAuthUser = await ApiManager.getAuthUser(user.email);
+    setAuthUser(getAuthUser[0]);
+    const authUserId = getAuthUser[0].id;
+    const getProfile = await ApiManager.getUserProfileEmbededAuthUser(authUserId);
+    const profile = getProfile[0];
+    const creditsArray = profile.credits;
+    setUserProfile(profile);
+    setCredits(creditsArray);
+
   };
 
   // function to hide the "ADD" button from the user if they already have the rollerCoaster on their profile
@@ -41,23 +51,24 @@ const RollerCoasterList = (props) => {
   const handleAddCredit = (rollerCoasterId) => {
     const newCreditObj = {
       rollerCoaster_id: rollerCoasterId,
-      userProfile_id: userProfile.userprofile.id,
+      userProfile_id: userProfile.id,
     };
 
     ApiManager.addCredit(newCreditObj).then(() => {
-      ApiManager.getUserProfile(user.email).then((userData) => {
-        const profile = userData[0];
-        const creditsArray = profile.userprofile.rollerCoaster_id;
-        setUserProfile(profile);
-        setCredits(creditsArray);
-      });
+      // ApiManager.getUserProfile(user.email).then((userData) => {
+      //   const profile = userData[0];
+      //   const creditsArray = profile.userprofile.rollerCoaster_id;
+      //   setUserProfile(profile);
+      //   setCredits(creditsArray);
+      // });
+      currentUserProfileCredits(user);
     });
   };
 
   useEffect(() => {
     rollerCoastersFromAPI();
     currentUserProfileCredits(user);
-    return () => user;
+    return () => (user);
   }, [user]);
 
   return (

@@ -5,6 +5,9 @@ import CustomizedInputBase from "../search/CustomizedInputBase";
 
 // return RollerCoasterList component when user clicks the "add new credit button" on {ProfileList}...
 const AddNewCreditForm = (props) => {
+  const { authUser } = props;
+  const { userProfile } = props;
+
   return (
     <>
       <section className="ride-not-found-section">
@@ -36,7 +39,7 @@ const AddNewCreditForm = (props) => {
         </button>
       </div> */}
       <div className="rollerCoaster-list-to-add-credits">
-        <RollerCoasterList {...props} />
+        <RollerCoasterList authUser={authUser} userProfile={userProfile} {...props} />
       </div>
     </>
   );
