@@ -64,7 +64,7 @@ const ApiManager = {
     return await resp.json();
   },
 
-  async getUserProfileEmbededAuthUser(userId) {
+  async getUserProfileEmbeddedAuthUser(userId) {
     const resp = await fetch(`${remoteURL}/userprofiles?userId=${userId}`, {
       method: "GET",
       headers: {

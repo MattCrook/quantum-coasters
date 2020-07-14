@@ -8,7 +8,6 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 
 
 const ProfileList = (props) => {
-  console.log(props)
   const { user } = useAuth0();
   const [userCredits, setUserCredits] = useState([]);
   const [userProfile, setUserProfile] = useState({});
@@ -23,10 +22,9 @@ const ProfileList = (props) => {
 
   const getUserCreditsToFetch = async () => {
     try {
-      const userProfileFromAPI = await ApiManager.getUserProfileEmbededAuthUser(userId);
+      const userProfileFromAPI = await ApiManager.getUserProfileEmbeddedAuthUser(userId);
       const creditsToFetch = await ApiManager.getCreditIdFromApi();
       const profile = userProfileFromAPI[0];
-      console.log(profile)
       const filterUsersCredits = creditsToFetch.filter(
         (credit) => credit.userProfile === profile.id
       );
@@ -66,8 +64,11 @@ const ProfileList = (props) => {
                   (credit) => credit.rollerCoaster === creditId
                 );
                 ApiManager.deleteCredit(filteredCreditToDelete[0].id).then(() => {
-                  ApiManager.getUserProfileEmbededAuthUser(userId).then(response => {
-                    setUserProfile(response[0])
+                  ApiManager.getUserProfileEmbeddedAuthUser(userId).then(response => {
+                    const profile = response[0];
+                    const credits = profile.credits;
+                    setUserProfile(profile);
+                    setUserCredits(credits)
                   })
                 });
               });
@@ -87,7 +88,7 @@ const ProfileList = (props) => {
 
   useEffect(() => {
     getUserCreditsToFetch();
-  }, [userId]);
+  }, []);
 
 
   return (

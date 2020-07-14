@@ -25,7 +25,7 @@ const App = (props) => {
         const getAuthUser = await ApiManager.getAuthUser(userEmail);
         if (getAuthUser.length > 0) {
           const authUserId = getAuthUser[0].id;
-          const getProfile = await ApiManager.getUserProfileEmbededAuthUser(authUserId);
+          const getProfile = await ApiManager.getUserProfileEmbeddedAuthUser(authUserId);
           localStorage.setItem("accessToken", JSON.stringify(token));
           sessionStorage.setItem("credentials", JSON.stringify(userEmail));
           setAuthUser(getAuthUser[0]);
