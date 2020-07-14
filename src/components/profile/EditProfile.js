@@ -188,9 +188,7 @@ const EditProfile = (props) => {
               alt="My Avatar"
             />
         )}
-          {/* {!userProfile.picUrl ? (
-            <img id="edit-profile-pic" src={user.picture} alt="My Avatar" />
-          )} */}
+
           <div className="change-profile-pic">
             <label htmlFor="picUrl">Profile picture</label>
 
@@ -238,7 +236,7 @@ const EditProfile = (props) => {
             // autoFocus
             value={apiUser.last_name}
           />
-          <label htmlFor="inputUsername">Username</label>
+          <label htmlFor="username">Username</label>
           <input
             className="input"
             onChange={handleInputChangeUser}
@@ -248,7 +246,7 @@ const EditProfile = (props) => {
             // autoFocus
             value={apiUser.username}
           />
-          <label htmlFor="inputAddress">Address</label>
+          <label htmlFor="address">Address</label>
           <input
             className="input"
             onChange={handleInputChangeUserProfile}
