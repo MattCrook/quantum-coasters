@@ -11,6 +11,7 @@ const ApiManager = {
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
+          Authorization: "JWT" + localStorage.getItem("accessToken"),
         },
         body: JSON.stringify(userToPost),
       });
@@ -53,7 +54,7 @@ const ApiManager = {
   },
 
   async getAllUsers() {
-    const resp = await fetch(`${remoteURL}/users`, {
+    const resp = await fetch(`${remoteURL}/userprofiles`, {
       method: "GET",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",

@@ -6,7 +6,6 @@ import { confirmAlert } from "react-confirm-alert";
 import "./Profile.css";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
-
 const ProfileList = (props) => {
   const { user } = useAuth0();
   const [userCredits, setUserCredits] = useState([]);
@@ -16,18 +15,14 @@ const ProfileList = (props) => {
   // const { userProfile } = props;
   const { authUser } = props;
   // const credits = userProfile.credits
-  const userId = authUser.id
-
-
+  const userId = authUser.id;
 
   const getUserCreditsToFetch = async () => {
     try {
       const userProfileFromAPI = await ApiManager.getUserProfileEmbeddedAuthUser(userId);
       const creditsToFetch = await ApiManager.getCreditIdFromApi();
       const profile = userProfileFromAPI[0];
-      const filterUsersCredits = creditsToFetch.filter(
-        (credit) => credit.userProfile === profile.id
-      );
+      const filterUsersCredits = creditsToFetch.filter((credit) => credit.userProfile === profile.id);
       setUserProfile(profile);
       const creditsMap = filterUsersCredits.map((credit) => {
         const rollerCoasterId = credit.rollerCoaster;
@@ -35,19 +30,19 @@ const ProfileList = (props) => {
       });
       let promises = [];
       creditsMap.forEach((item) => {
-        promises.push(ApiManager.getRollerCoastersForUserProfile(item))
+        promises.push(ApiManager.getRollerCoastersForUserProfile(item));
       });
-      Promise.all(promises).then((data) => {
-        setUserCredits(data);
-      })
+      Promise.all(promises)
+        .then((data) => {
+          setUserCredits(data);
+        })
         .catch((error) => {
-        console.log(error)
-      })
+          console.log(error);
+        });
     } catch (err) {
       console.log(err);
     }
   };
-
 
   const deleteCredit = (creditId) => {
     try {
@@ -60,18 +55,24 @@ const ProfileList = (props) => {
             onClick: () => {
               setIsLoading(true);
               ApiManager.getCreditIdFromApi().then((credits) => {
-                const filteredCreditToDelete = credits.filter(
-                  (credit) => credit.rollerCoaster === creditId
-                );
-                ApiManager.deleteCredit(filteredCreditToDelete[0].id).then(() => {
-                  ApiManager.getUserProfileEmbeddedAuthUser(userId).then(response => {
-                    const profile = response[0];
-                    const credits = profile.credits;
-                    setUserProfile(profile);
-                    setUserCredits(credits)
-                  })
+                  const filteredCreditToDelete = credits.filter((credit) => credit.rollerCoaster === creditId);
+                  ApiManager.deleteCredit(filteredCreditToDelete[0].id).then(() => {
+                      ApiManager.getUserProfileEmbeddedAuthUser(userId).then((response) => {
+                          const profile = response[0];
+                          const credits = profile.credits;
+                          setUserProfile(profile);
+                          setUserCredits(credits);
+                        }
+                      );
+                    })
+                    .catch((error) => {
+                      console.log(error);
+                    });
+                })
+                .catch((error) => {
+                  console.log(error);
                 });
-              });
+              setIsLoading(false);
             },
           },
           {
@@ -85,11 +86,9 @@ const ProfileList = (props) => {
     }
   };
 
-
   useEffect(() => {
     getUserCreditsToFetch();
   }, []);
-
 
   return (
     <>
