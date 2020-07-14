@@ -12,68 +12,58 @@ const EditProfile = (props) => {
   const [userCredits, setUserCredits] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState([]);
-  const [apiUser, setApiUser] = useState({
-    first_name: "",
-    last_name: "",
-    username: "",
-    email: user.email,
-  });
-  const [userProfile, setUserProfile] = useState({
-    email: user.email,
-    address: "",
-    picUrl: "",
-    rollerCoaster_id: [],
-  });
-
-
+  const [apiUser, setApiUser] = useState([]);
+  const [userProfile, setUserProfile] = useState([]);
 
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
   const getProfileAndCredits = async (user) => {
     try {
-      const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
+      const authUserFromAPI = await ApiManager.getAuthUser(user.email);
       const creditsToFetch = await ApiManager.getCreditIdFromApi();
+      const authProfile = authUserFromAPI[0];
+      const userProfileFromAPI = await ApiManager.getUserProfileEmbeddedAuthUser(authProfile.id)
       const profile = userProfileFromAPI[0];
-      const userProfile = userProfileFromAPI[0].userprofile;
-      const filterUsersCredits = creditsToFetch.filter(
-        (credit) => credit.userProfile === profile.userprofile.id
-      );
+      console.log({ authProfile })
+      console.log({profile})
+      const filterUsersCredits = creditsToFetch.filter((credit) => credit.userProfile === profile.id);
+      setUserCredits(filterUsersCredits[0])
+      console.log({filterUsersCredits})
       const picture = user.picture;
-      const picUrl = profile.userprofile.picUrl;
+      const picUrl = profile.image;
 
 
       if (picUrl === null) {
         const userProfileObject = {
-          id: userProfile.id,
-          address: userProfile.address,
-          picUrl: defaultProfilePicture,
-          rollerCoaster_id: userProfile.rollerCoaster_id,
+          id: profile.id,
+          address: profile.address,
+          image: defaultProfilePicture,
+          credits: profile.credits[0],
         };
 
         const apiUserObject = {
-          id: profile.id,
-          first_name: profile.first_name,
-          last_name: profile.last_name,
-          username: profile.username,
+          id: authProfile.id,
+          first_name: authProfile.first_name,
+          last_name: authProfile.last_name,
+          username: authProfile.username,
           email: user.email,
 
-        }
-
+        };
         setUserProfile(userProfileObject);
         setApiUser(apiUserObject)
 
       } else if (!picUrl && picture) {
         const userProfileObj = {
-          id: userProfile.id,
-          address: userProfile.address,
-          picUrl: picture,
-          rollerCoaster_id: userProfile.rollerCoaster_id,
+          id: profile.id,
+          address: profile.address,
+          image: picture,
+          rollerCoaster_id: profile.credits[0],
         };
         const apiUserObject = {
-          id: profile.id,
-          first_name: profile.first_name,
-          last_name: profile.last_name,
-          username: profile.username,
+          id: authProfile.id,
+          first_name: authProfile.first_name,
+          last_name: authProfile.last_name,
+          username: authProfile.username,
           email: user.email,
 
         }
@@ -82,38 +72,23 @@ const EditProfile = (props) => {
 
       } else if (picUrl) {
         const userProfObj = {
-          id: userProfile.id,
-          address: userProfile.address,
-          picUrl: picUrl,
-          rollerCoaster_id: userProfile.rollerCoaster_id,
+          id: profile.id,
+          address: profile.address,
+          image: picUrl,
+          rollerCoaster_id: profile.credits[0],
         };
         const apiUserObject = {
-          id: profile.id,
-          first_name: profile.first_name,
-          last_name: profile.last_name,
-          username: profile.username,
+          id: authProfile.id,
+          first_name: authProfile.first_name,
+          last_name: authProfile.last_name,
+          username: authProfile.username,
           email: user.email,
 
-        }
+        };
         setUserProfile(userProfObj);
-        setApiUser(apiUserObject)
+        setApiUser(apiUserObject);
 
-      }
-  //     const creditsMap = filterUsersCredits.map((credit) => {
-  //       const rollerCoasterId = credit.rollerCoaster;
-  //       return rollerCoasterId;
-  //     });
-  //     let promises = [];
-  //     creditsMap.forEach((item) => {
-  //       promises.push(ApiManager.getRollerCoastersForUserProfile(item));
-  //     });
-  //     Promise.all(promises)
-  //       .then((data) => {
-  //         setUserCredits(data);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
+      };
     } catch (err) {
       console.log(err);
     }
@@ -139,9 +114,12 @@ const EditProfile = (props) => {
         setUserProfile(updatedUserProfile);
       })
       .catch((e) => console.log(e));
+
     ApiManager.putEditedAPIUser(apiUser).then((updatedApiUser) => {
+      console.log(updatedApiUser)
       setApiUser(updatedApiUser);
     });
+
       setIsLoading(false);
       window.alert("Profile has been updated!");
       props.history.push("/users");
@@ -197,7 +175,7 @@ const EditProfile = (props) => {
       </nav>
       <div className="profile-pic-container">
         <div className="profile-pic-flex-box">
-          {userProfile.picUrl === null && !user.picture ? (
+          {userProfile.image === null && !user.picture ? (
             <img
               id="edit-profile-pic"
               src={defaultProfilePicture}
@@ -245,8 +223,8 @@ const EditProfile = (props) => {
             onChange={handleInputChangeUser}
             type="text"
             id="first_name"
-            required=""
-            // autoFocus=""
+            required
+            // autoFocus
             value={apiUser.first_name}
           />
           <label htmlFor="last_name">Last Name</label>
@@ -256,8 +234,8 @@ const EditProfile = (props) => {
             onChange={handleInputChangeUser}
             type="text"
             id="last_name"
-            required=""
-            // autoFocus=""
+            required
+            // autoFocus
             value={apiUser.last_name}
           />
           <label htmlFor="inputUsername">Username</label>
@@ -266,8 +244,8 @@ const EditProfile = (props) => {
             onChange={handleInputChangeUser}
             type="text"
             id="username"
-            required=""
-            // autoFocus=""
+            required
+            // autoFocus
             value={apiUser.username}
           />
           <label htmlFor="inputAddress">Address</label>
@@ -276,8 +254,8 @@ const EditProfile = (props) => {
             onChange={handleInputChangeUserProfile}
             type="text"
             id="address"
-            required=""
-            // autoFocus=""
+            required
+            // autoFocus
             value={userProfile.address}
           />
           <button

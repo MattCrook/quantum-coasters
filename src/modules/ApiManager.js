@@ -6,7 +6,7 @@ const ApiManager = {
 
   async register(userToPost) {
     try {
-      const result = await fetch(`${remoteURL}/register/`, {
+      const result = await fetch(`${remoteURL}/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
