@@ -3,7 +3,7 @@ import ApiManager from "../../modules/ApiManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { confirmAlert } from "react-confirm-alert";
 // import keys from "../../keys/Keys";
-import ImageUploader from "react-images-upload";
+// import ImageUploader from "react-images-upload";
 import "./Profile.css";
 
 const EditProfile = (props) => {
@@ -28,8 +28,7 @@ const EditProfile = (props) => {
     credits: "",
   });
 
-  const defaultProfilePicture =
-    "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
+  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
   const getProfileAndCredits = async (user) => {
     try {
@@ -38,86 +37,18 @@ const EditProfile = (props) => {
       const authProfile = authUserFromAPI[0];
       setApiUser(authProfile);
 
-      const userProfileFromAPI = await ApiManager.getUserProfileEmbeddedAuthUser(
-        authProfile.id
-      );
+      const userProfileFromAPI = await ApiManager.getUserProfileEmbeddedAuthUser(authProfile.id);
       const profile = userProfileFromAPI[0];
       setUserProfile(profile);
-      console.log(profile);
-
-      const imageId = profile.image_id;
-      console.log("imageId", imageId);
+      const imageId = profile.image.id;
       if (imageId) {
         const getImage = await ApiManager.getAuthUserImage(imageId);
-        setImage(getImage[0]);
+        setImage(getImage);
       } else {
         setImage(defaultProfilePicture);
       }
-      const filterUsersCredits = creditsToFetch.filter(
-        (credit) => credit.userProfile === profile.id
-      );
+      const filterUsersCredits = creditsToFetch.filter((credit) => credit.userProfile === profile.id);
       setUserCredits(filterUsersCredits[0]);
-
-      const picture = user.picture;
-      const picUrl = profile.image;
-      console.log("picURL", picUrl);
-
-      // if (picUrl === null) {
-      //   const userProfileObject = {
-      //     id: profile.id,
-      //     address: profile.address,
-      //     image: defaultProfilePicture,
-      //     credits: profile.credits[0],
-      //   };
-
-      //   const apiUserObject = {
-      //     id: authProfile.id,
-      //     first_name: authProfile.first_name,
-      //     last_name: authProfile.last_name,
-      //     username: authProfile.username,
-      //     email: user.email,
-
-      //   };
-      //   setUserProfile(userProfileObject);
-      //   setApiUser(apiUserObject)
-
-      // } else if (!picUrl && picture) {
-      //   const userProfileObj = {
-      //     id: profile.id,
-      //     address: profile.address,
-      //     image: picture,
-      //     rollerCoaster_id: profile.credits[0],
-      //   };
-      //   const apiUserObject = {
-      //     id: authProfile.id,
-      //     first_name: authProfile.first_name,
-      //     last_name: authProfile.last_name,
-      //     username: authProfile.username,
-      //     email: user.email,
-
-      //   }
-      //   setUserProfile(userProfileObj);
-      //   setApiUser(apiUserObject)
-
-      // } else if (picUrl) {
-      //   const userProfObj = {
-      //     id: profile.id,
-      //     address: profile.address,
-      //     image: picUrl,
-      //     rollerCoaster_id: profile.credits[0],
-      //   };
-      //   const apiUserObject = {
-      //     id: authProfile.id,
-      //     first_name: authProfile.first_name,
-      //     last_name: authProfile.last_name,
-      //     username: authProfile.username,
-      //     email: user.email,
-
-      //   };
-      //   setUserProfile(userProfObj);
-      //   setApiUser(apiUserObject);
-
-      // };
     } catch (err) {
       console.log(err);
     }
@@ -137,11 +68,9 @@ const EditProfile = (props) => {
 
   const handleImageUpload = (event) => {
     const inputFile = event.target.files[0];
-
     // A hackey way of kicking the file out of the input
     // when validations fail
-    const clearInput = () => (document.getElementById("image_path").value = "");
-
+    const clearInput = () => (document.getElementById("image").value = "");
     // First check if the user actually ended up uploading a file
     if (inputFile) {
       // Then, check if it's an image
@@ -165,10 +94,34 @@ const EditProfile = (props) => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    const updateAuthUser = await ApiManager.putEditedAPIUser(apiUser);
-    const updateUserProfile = await ApiManager.putEditedUserProfile(
-      userProfile
-    );
+
+    const editedAuthUser = {
+      id: apiUser.id,
+      first_name: apiUser.first_name,
+      last_name: apiUser.last_name,
+      username: apiUser.username,
+      email: user.email,
+    };
+
+    if (userProfile.image_id) {
+      const editedUserProfile = {
+        id: userProfileId,
+        address: userProfile.address,
+        image_id: image.id,
+        credits: userProfile.credits,
+      };
+      const updateAuthUser = await ApiManager.putEditedAPIUser(editedAuthUser);
+      const updateUserProfile = await ApiManager.putEditedUserProfile(editedUserProfile);
+    } else {
+      const editedUserProfile = {
+        id: userProfileId,
+        address: userProfile.address,
+        image_id: null,
+        credits: userProfile.credits,
+      };
+      const updateAuthUser = await ApiManager.putEditedAPIUser(editedAuthUser);
+      const updateUserProfile = await ApiManager.putEditedUserProfile(editedUserProfile);
+    }
     setIsLoading(false);
     window.alert("Profile has been updated!");
     props.history.push("/users");
@@ -189,14 +142,14 @@ const EditProfile = (props) => {
     setIsLoading(true);
     const formData = gatherFormData();
     const postNewImage = await ApiManager.postNewImage(formData);
-    setImage(postNewImage[0]);
+    setImage(postNewImage);
     const image_id = postNewImage.id;
 
     const newUserProfileObject = {
       id: userProfileId,
-      address: "",
+      address: userProfile.address,
       image_id: image_id,
-      credits: "",
+      credits: userProfile.credits,
     };
     setUserProfile(newUserProfileObject);
     setIsLoading(false);
@@ -227,8 +180,9 @@ const EditProfile = (props) => {
 
   useEffect(() => {
     getProfileAndCredits(user);
-    setIsLoading(false);
+    // setIsLoading(false);
   }, [user]);
+
 
   return (
     <>
@@ -241,25 +195,19 @@ const EditProfile = (props) => {
             className="delete-profile-button"
             data-testid="delete_profile_btn_testid"
             onClick={() => deleteUserProfile(apiUser.id)}
-          >Delete Profile</button>
+          >
+            Delete Profile
+          </button>
         </div>
       </nav>
 
       <div className="profile-pic-container">
         <div className="profile-pic-flex-box">
-          {!userProfile.image_id ? (
-            <img
-              id="edit-profile-pic"
-              src={defaultProfilePicture}
-              alt="My default pic"
-            />
+          {userProfile && image.image ? (
+            <img id="edit-profile-pic" src={image.image} alt="My Avatar" />
           ) : (
-            <img
-              id="edit-profile-pic"
-              src={userProfile.image}
-              alt="My Avatar"
-            />
-          )}
+              <img id="edit-profile-pic" src={defaultProfilePicture} alt="My default pic"/>
+            )}
 
           <form className="uploadPicture" onSubmit={handleImageFromSubmit} encType="multipart/form-data">
             <div className="change-profile-pic">
@@ -271,13 +219,10 @@ const EditProfile = (props) => {
                 accept="image/*"
                 className="file-upload"
                 onChange={handleImageUpload}
+                value=""
               />
             </div>
-            <button
-              type="submit"
-              className="change_photo_btn"
-              disabled={isLoading}
-            >
+            <button type="submit" className="change_photo_btn" disabled={isLoading}>
               Change Photo
             </button>
           </form>
@@ -334,11 +279,7 @@ const EditProfile = (props) => {
             // autoFocus
             value={userProfile.address}
           />
-          <button
-            className="edit-create-btn"
-            type="submit"
-            disabled={isLoading}
-          >
+          <button className="edit-create-btn" type="submit" disabled={isLoading}>
             Confirm Changes
           </button>
         </div>

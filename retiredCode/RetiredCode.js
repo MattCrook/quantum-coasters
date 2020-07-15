@@ -228,3 +228,63 @@ const { Form } = require("semantic-ui-react")
     />
   </div>
 </div> */}
+
+/************************* *************************/
+
+// Edit profile - this was guards for different combinations of objects to go into database mainly different photo guards.
+      // if (picUrl === null) {
+      //   const userProfileObject = {
+      //     id: profile.id,
+      //     address: profile.address,
+      //     image: defaultProfilePicture,
+      //     credits: profile.credits[0],
+      //   };
+
+      //   const apiUserObject = {
+      //     id: authProfile.id,
+      //     first_name: authProfile.first_name,
+      //     last_name: authProfile.last_name,
+      //     username: authProfile.username,
+      //     email: user.email,
+
+      //   };
+      //   setUserProfile(userProfileObject);
+      //   setApiUser(apiUserObject)
+
+      // } else if (!picUrl && picture) {
+      //   const userProfileObj = {
+      //     id: profile.id,
+      //     address: profile.address,
+      //     image: picture,
+      //     rollerCoaster_id: profile.credits[0],
+      //   };
+      //   const apiUserObject = {
+      //     id: authProfile.id,
+      //     first_name: authProfile.first_name,
+      //     last_name: authProfile.last_name,
+      //     username: authProfile.username,
+      //     email: user.email,
+
+      //   }
+      //   setUserProfile(userProfileObj);
+      //   setApiUser(apiUserObject)
+
+      // } else if (picUrl) {
+      //   const userProfObj = {
+      //     id: profile.id,
+      //     address: profile.address,
+      //     image: picUrl,
+      //     rollerCoaster_id: profile.credits[0],
+      //   };
+      //   const apiUserObject = {
+      //     id: authProfile.id,
+      //     first_name: authProfile.first_name,
+      //     last_name: authProfile.last_name,
+      //     username: authProfile.username,
+      //     email: user.email,
+
+      //   };
+      //   setUserProfile(userProfObj);
+      //   setApiUser(apiUserObject);
+
+      // };
