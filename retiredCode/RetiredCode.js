@@ -205,3 +205,26 @@ const { Form } = require("semantic-ui-react")
 
 
   /************************ ******************************/
+
+// Edit Profile OnDrop Component
+
+
+  // const onDrop = (picture) => {
+  //   setImage({ ...image }, picture);
+
+
+  {/* <div className="change-profile-pic">
+    <label htmlFor="picUrl">Profile picture</label>
+
+    <ImageUploader
+      {...props}
+      withIcon={true}
+      withPreview={true}
+      onChange={onDrop}
+      imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+      maxFileSize={5242880}
+      className="file-upload"
+      id="picUrl"
+    />
+  </div>
+</div> */}
