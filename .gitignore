@@ -36,5 +36,5 @@ yarn-error.log*
 
 .now
 
-#retiredCode
-retiredCode/
+# retiredCode
+/retiredCode

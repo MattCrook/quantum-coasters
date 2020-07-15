@@ -15,8 +15,6 @@ const App = (props) => {
   const [userProfile, setUserProfile] = useState([]);
   const [authUser, setAuthUser] = useState([]);
 
-
-  // Fetch call to Users Table
   useEffect(() => {
     if (user) {
       const userEmail = user.email;
@@ -25,7 +23,7 @@ const App = (props) => {
         const getAuthUser = await ApiManager.getAuthUser(userEmail);
         if (getAuthUser.length > 0) {
           const authUserId = getAuthUser[0].id;
-          const getProfile = await ApiManager.getUserProfileEmbededAuthUser(authUserId);
+          const getProfile = await ApiManager.getUserProfileEmbeddedAuthUser(authUserId);
           localStorage.setItem("accessToken", JSON.stringify(token));
           sessionStorage.setItem("credentials", JSON.stringify(userEmail));
           setAuthUser(getAuthUser[0]);
@@ -38,7 +36,6 @@ const App = (props) => {
       guardForUserProfile(userEmail);
 
     }
-    // return () => userProfile;
   }, [user, getTokenSilently]);
 
   if (loading) {
@@ -68,6 +65,9 @@ const App = (props) => {
   );
 };
 export default App;
+
+
+
 
 // fetching the userProfile (when i was using json server) to check if there is one. Will determine conditional rendering
 // further down in app. If there is no user profile, the rest of the app is blocked or hidden so user has to fill out

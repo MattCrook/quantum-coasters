@@ -205,3 +205,86 @@ const { Form } = require("semantic-ui-react")
 
 
   /************************ ******************************/
+
+// Edit Profile OnDrop Component
+
+
+  // const onDrop = (picture) => {
+  //   setImage({ ...image }, picture);
+
+
+  {/* <div className="change-profile-pic">
+    <label htmlFor="picUrl">Profile picture</label>
+
+    <ImageUploader
+      {...props}
+      withIcon={true}
+      withPreview={true}
+      onChange={onDrop}
+      imgExtension={[".jpg", ".gif", ".png", ".gif"]}
+      maxFileSize={5242880}
+      className="file-upload"
+      id="picUrl"
+    />
+  </div>
+</div> */}
+
+/************************* *************************/
+
+// Edit profile - this was guards for different combinations of objects to go into database mainly different photo guards.
+      // if (picUrl === null) {
+      //   const userProfileObject = {
+      //     id: profile.id,
+      //     address: profile.address,
+      //     image: defaultProfilePicture,
+      //     credits: profile.credits[0],
+      //   };
+
+      //   const apiUserObject = {
+      //     id: authProfile.id,
+      //     first_name: authProfile.first_name,
+      //     last_name: authProfile.last_name,
+      //     username: authProfile.username,
+      //     email: user.email,
+
+      //   };
+      //   setUserProfile(userProfileObject);
+      //   setApiUser(apiUserObject)
+
+      // } else if (!picUrl && picture) {
+      //   const userProfileObj = {
+      //     id: profile.id,
+      //     address: profile.address,
+      //     image: picture,
+      //     rollerCoaster_id: profile.credits[0],
+      //   };
+      //   const apiUserObject = {
+      //     id: authProfile.id,
+      //     first_name: authProfile.first_name,
+      //     last_name: authProfile.last_name,
+      //     username: authProfile.username,
+      //     email: user.email,
+
+      //   }
+      //   setUserProfile(userProfileObj);
+      //   setApiUser(apiUserObject)
+
+      // } else if (picUrl) {
+      //   const userProfObj = {
+      //     id: profile.id,
+      //     address: profile.address,
+      //     image: picUrl,
+      //     rollerCoaster_id: profile.credits[0],
+      //   };
+      //   const apiUserObject = {
+      //     id: authProfile.id,
+      //     first_name: authProfile.first_name,
+      //     last_name: authProfile.last_name,
+      //     username: authProfile.username,
+      //     email: user.email,
+
+      //   };
+      //   setUserProfile(userProfObj);
+      //   setApiUser(apiUserObject);
+
+      // };

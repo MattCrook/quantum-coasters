@@ -51,8 +51,7 @@ const ProfileCard = (props) => {
             <button
               data-testid="delete-credit-btn"
               className="delete-btn"
-              onClick={() => props.deleteCredit(rollerCoaster.id)}
-            >
+              onClick={() => props.deleteCredit(rollerCoaster.id)}>
               <FontAwesomeIcon icon={faTrash} />
             </button>
           </span>

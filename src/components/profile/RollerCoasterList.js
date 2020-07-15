@@ -11,11 +11,8 @@ const RollerCoasterList = () => {
   const [userProfile, setUserProfile] = useState([]);
   const [authUser, setAuthUser] = useState([]);
   const [credits, setCredits] = useState([]);
+  console.log(userProfile)
 
-  // const { authUser } = props;
-  // const { userProfile } = props;
-  // const creditsArray = userProfile.credits[0]
-  // setCredits(creditsArray)
 
 
   // function to populate entire list of rollerCoasters in database
@@ -29,21 +26,33 @@ const RollerCoasterList = () => {
     const getAuthUser = await ApiManager.getAuthUser(user.email);
     setAuthUser(getAuthUser[0]);
     const authUserId = getAuthUser[0].id;
-    const getProfile = await ApiManager.getUserProfileEmbededAuthUser(authUserId);
+    const getProfile = await ApiManager.getUserProfileEmbeddedAuthUser(authUserId);
     const profile = getProfile[0];
     const creditsArray = profile.credits;
     setUserProfile(profile);
     setCredits(creditsArray);
-
   };
 
   // function to hide the "ADD" button from the user if they already have the rollerCoaster on their profile
   // Returns the credits(which are in State) which don't include the rollercoasterId
+  // if "credits" is an object, extract the credit object and push into an array, so we can map over it an return everything but the Ids that the user has. 
+  // Else, map over the credits normally.
+  let rcIdsArray = []
   const showButton = (rollercoasterId, credits) => {
-    const creditIds = credits.map((credit) => {
-      return credit;
-    });
-    return !creditIds.includes(rollercoasterId);
+    if (typeof (credits) === 'object') {
+      credits.forEach(credit => {
+        rcIdsArray.push(credit)
+      })
+      const creditIds = rcIdsArray.map(credit => {
+        return credit.rollerCoaster;
+      })
+      return !creditIds.includes(rollercoasterId);
+    } else {
+      const creditIds = credits.map((credit) => {
+        return credit.rollerCoaster;
+      });
+      return !creditIds.includes(rollercoasterId);
+    };
   };
 
   // handles user adding the credit. gets the email from State which was set above.
@@ -55,13 +64,16 @@ const RollerCoasterList = () => {
     };
 
     ApiManager.addCredit(newCreditObj).then(() => {
-      // ApiManager.getUserProfile(user.email).then((userData) => {
-      //   const profile = userData[0];
-      //   const creditsArray = profile.userprofile.rollerCoaster_id;
-      //   setUserProfile(profile);
-      //   setCredits(creditsArray);
-      // });
-      currentUserProfileCredits(user);
+      ApiManager.getAuthUser(user.email).then((userData) => {
+        const profile = userData[0];
+        const userId = profile.id;
+        ApiManager.getUserProfileEmbeddedAuthUser(userId).then(response => {
+          const userProf = response[0];
+          const creditsArray = userProf.credits;
+          setUserProfile(userProf);
+          setCredits(creditsArray);
+        })
+      });
     });
   };
 
@@ -70,6 +82,7 @@ const RollerCoasterList = () => {
     currentUserProfileCredits(user);
     return () => (user);
   }, [user]);
+
 
   return (
     <>

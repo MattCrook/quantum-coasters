@@ -5,12 +5,13 @@ const MessageCard = (props) => {
   let profilePic = "";
   let timestamp = "";
   const text = props.message.message;
-  const profile = props.userProfile.userprofile;
+  const authUser = props.authUser;
+  const profile = props.userProfile
   const messageUserProfileId = props.message.user_id;
 
   if (profile) {
-    props.userProfile.userprofile.picUrl !== null
-      ? (profilePic = props.userProfile.userprofile.picUrl)
+    props.userProfile.image !== null
+      ? (profilePic = props.userProfile.image)
       : (profilePic = props.defaultProfilePicture);
 
     props.message.timestamp !== null
@@ -33,7 +34,7 @@ const MessageCard = (props) => {
           )}
           <p>
             <strong className="message-name">
-              {props.userProfile.first_name}
+              {authUser.first_name}
             </strong>
             : {text}
           </p>
@@ -57,9 +58,8 @@ const MessageCard = (props) => {
 
 export default MessageCard;
 
-{
+
   /*
   If the active user id === the message's user id
   then output the edit button
 */
-}

@@ -3,117 +3,52 @@ import ApiManager from "../../modules/ApiManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { confirmAlert } from "react-confirm-alert";
 // import keys from "../../keys/Keys";
-import ImageUploader from "react-images-upload";
+// import ImageUploader from "react-images-upload";
 import "./Profile.css";
 
 const EditProfile = (props) => {
   const { user, logout } = useAuth0();
+  const { userProfileId } = props;
 
   const [userCredits, setUserCredits] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [image, setImage] = useState([]);
+  const [image, setImage] = useState({ id: "", image: "" });
   const [apiUser, setApiUser] = useState({
+    id: "",
     first_name: "",
     last_name: "",
     username: "",
     email: user.email,
   });
+
   const [userProfile, setUserProfile] = useState({
-    email: user.email,
+    id: userProfileId,
     address: "",
-    picUrl: "",
-    rollerCoaster_id: [],
+    image_id: "",
+    credits: "",
   });
-
-
 
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
   const getProfileAndCredits = async (user) => {
     try {
-      const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
+      const authUserFromAPI = await ApiManager.getAuthUser(user.email);
       const creditsToFetch = await ApiManager.getCreditIdFromApi();
+      const authProfile = authUserFromAPI[0];
+      setApiUser(authProfile);
+
+      const userProfileFromAPI = await ApiManager.getUserProfileEmbeddedAuthUser(authProfile.id);
       const profile = userProfileFromAPI[0];
-      const userProfile = userProfileFromAPI[0].userprofile;
-      const filterUsersCredits = creditsToFetch.filter(
-        (credit) => credit.userProfile === profile.userprofile.id
-      );
-      const picture = user.picture;
-      const picUrl = profile.userprofile.picUrl;
-
-
-      if (picUrl === null) {
-        const userProfileObject = {
-          id: userProfile.id,
-          address: userProfile.address,
-          picUrl: defaultProfilePicture,
-          rollerCoaster_id: userProfile.rollerCoaster_id,
-        };
-
-        const apiUserObject = {
-          id: profile.id,
-          first_name: profile.first_name,
-          last_name: profile.last_name,
-          username: profile.username,
-          email: user.email,
-
-        }
-
-        setUserProfile(userProfileObject);
-        setApiUser(apiUserObject)
-
-      } else if (!picUrl && picture) {
-        const userProfileObj = {
-          id: userProfile.id,
-          address: userProfile.address,
-          picUrl: picture,
-          rollerCoaster_id: userProfile.rollerCoaster_id,
-        };
-        const apiUserObject = {
-          id: profile.id,
-          first_name: profile.first_name,
-          last_name: profile.last_name,
-          username: profile.username,
-          email: user.email,
-
-        }
-        setUserProfile(userProfileObj);
-        setApiUser(apiUserObject)
-
-      } else if (picUrl) {
-        const userProfObj = {
-          id: userProfile.id,
-          address: userProfile.address,
-          picUrl: picUrl,
-          rollerCoaster_id: userProfile.rollerCoaster_id,
-        };
-        const apiUserObject = {
-          id: profile.id,
-          first_name: profile.first_name,
-          last_name: profile.last_name,
-          username: profile.username,
-          email: user.email,
-
-        }
-        setUserProfile(userProfObj);
-        setApiUser(apiUserObject)
-
+      setUserProfile(profile);
+      const imageId = profile.image.id;
+      if (imageId) {
+        const getImage = await ApiManager.getAuthUserImage(imageId);
+        setImage(getImage);
+      } else {
+        setImage(defaultProfilePicture);
       }
-  //     const creditsMap = filterUsersCredits.map((credit) => {
-  //       const rollerCoasterId = credit.rollerCoaster;
-  //       return rollerCoasterId;
-  //     });
-  //     let promises = [];
-  //     creditsMap.forEach((item) => {
-  //       promises.push(ApiManager.getRollerCoastersForUserProfile(item));
-  //     });
-  //     Promise.all(promises)
-  //       .then((data) => {
-  //         setUserCredits(data);
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
+      const filterUsersCredits = creditsToFetch.filter((credit) => credit.userProfile === profile.id);
+      setUserCredits(filterUsersCredits[0]);
     } catch (err) {
       console.log(err);
     }
@@ -131,24 +66,93 @@ const EditProfile = (props) => {
     setApiUser(stateToChange);
   };
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    ApiManager.putEditedUserProfile(userProfile)
-      .then((updatedUserProfile) => {
-        setUserProfile(updatedUserProfile);
-      })
-      .catch((e) => console.log(e));
-    ApiManager.putEditedAPIUser(apiUser).then((updatedApiUser) => {
-      setApiUser(updatedApiUser);
-    });
-      setIsLoading(false);
-      window.alert("Profile has been updated!");
-      props.history.push("/users");
+  const handleImageUpload = (event) => {
+    const inputFile = event.target.files[0];
+    // A hackey way of kicking the file out of the input
+    // when validations fail
+    const clearInput = () => (document.getElementById("image").value = "");
+    // First check if the user actually ended up uploading a file
+    if (inputFile) {
+      // Then, check if it's an image
+      if (!inputFile.type.startsWith("image/")) {
+        alert("Only image files are supported");
+        clearInput();
+        // Then check if it's smaller than 5MB
+      } else if (inputFile.size > 5000000) {
+        alert("File size cannot exceed 5MB");
+        clearInput();
+      } else {
+        // The image is only set in state
+        // if the above validations pass
+        const stateToChange = { ...image };
+        stateToChange[event.target.id] = inputFile;
+        setImage(stateToChange);
+      }
+    }
   };
 
-  const onDrop = (picture) => {
-    setImage({ ...image }, picture);
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const editedAuthUser = {
+      id: apiUser.id,
+      first_name: apiUser.first_name,
+      last_name: apiUser.last_name,
+      username: apiUser.username,
+      email: user.email,
+    };
+
+    if (userProfile.image_id) {
+      const editedUserProfile = {
+        id: userProfileId,
+        address: userProfile.address,
+        image_id: image.id,
+        credits: userProfile.credits,
+      };
+      const updateAuthUser = await ApiManager.putEditedAPIUser(editedAuthUser);
+      const updateUserProfile = await ApiManager.putEditedUserProfile(editedUserProfile);
+    } else {
+      const editedUserProfile = {
+        id: userProfileId,
+        address: userProfile.address,
+        image_id: null,
+        credits: userProfile.credits,
+      };
+      const updateAuthUser = await ApiManager.putEditedAPIUser(editedAuthUser);
+      const updateUserProfile = await ApiManager.putEditedUserProfile(editedUserProfile);
+    }
+    setIsLoading(false);
+    window.alert("Profile has been updated!");
+    props.history.push("/users");
+  };
+
+  const gatherFormData = () => {
+    const formdata = new FormData();
+    if (image.image === "") {
+      formdata.append("image", null);
+    } else {
+      formdata.append("image", image.image);
+    }
+    return formdata;
+  };
+
+  const handleImageFromSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    const formData = gatherFormData();
+    const postNewImage = await ApiManager.postNewImage(formData);
+    setImage(postNewImage);
+    const image_id = postNewImage.id;
+
+    const newUserProfileObject = {
+      id: userProfileId,
+      address: userProfile.address,
+      image_id: image_id,
+      credits: userProfile.credits,
+    };
+    setUserProfile(newUserProfileObject);
+    setIsLoading(false);
   };
 
   const deleteUserProfile = (id) => {
@@ -176,8 +180,9 @@ const EditProfile = (props) => {
 
   useEffect(() => {
     getProfileAndCredits(user);
-    setIsLoading(false);
+    // setIsLoading(false);
   }, [user]);
+
 
   return (
     <>
@@ -195,48 +200,42 @@ const EditProfile = (props) => {
           </button>
         </div>
       </nav>
+
       <div className="profile-pic-container">
         <div className="profile-pic-flex-box">
-          {userProfile.picUrl === null && !user.picture ? (
-            <img
-              id="edit-profile-pic"
-              src={defaultProfilePicture}
-              alt="My Avatar"
-            />
+          {userProfile && image.image ? (
+            <img id="edit-profile-pic" src={image.image} alt="My Avatar" />
           ) : (
-            <img
-              id="edit-profile-pic"
-              src={userProfile.picUrl}
-              alt="My Avatar"
-            />
-        )}
-          {/* {!userProfile.picUrl ? (
-            <img id="edit-profile-pic" src={user.picture} alt="My Avatar" />
-          )} */}
-          <div className="change-profile-pic">
-            <label htmlFor="picUrl">Profile picture</label>
+              <img id="edit-profile-pic" src={defaultProfilePicture} alt="My default pic"/>
+            )}
 
-            <ImageUploader
-              {...props}
-              withIcon={true}
-              withPreview={true}
-              onChange={onDrop}
-              imgExtension={[".jpg", ".gif", ".png", ".gif"]}
-              maxFileSize={5242880}
-              className="file-upload"
-              id="picUrl"
-            />
-          </div>
+          <form className="uploadPicture" onSubmit={handleImageFromSubmit} encType="multipart/form-data">
+            <div className="change-profile-pic">
+              <label htmlFor="image">Profile picture</label>
+              <input
+                name="image"
+                id="image"
+                type="file"
+                accept="image/*"
+                className="file-upload"
+                onChange={handleImageUpload}
+                value=""
+              />
+            </div>
+            <button type="submit" className="change_photo_btn" disabled={isLoading}>
+              Change Photo
+            </button>
+          </form>
+
         </div>
-
         <div className="profile-info-container">
           <div>First: {apiUser.first_name}</div>
           <div>Last: {apiUser.last_name}</div>
           <div>Username: {apiUser.username}</div>
           <div>Address: {userProfile.address}</div>
-
         </div>
       </div>
+
       <form className="edit-profile-form" onSubmit={handleFormSubmit}>
         <div className="profile-inputs">
           <label htmlFor="first_name">First Name</label>
@@ -245,8 +244,8 @@ const EditProfile = (props) => {
             onChange={handleInputChangeUser}
             type="text"
             id="first_name"
-            required=""
-            // autoFocus=""
+            required
+            // autoFocus
             value={apiUser.first_name}
           />
           <label htmlFor="last_name">Last Name</label>
@@ -256,36 +255,32 @@ const EditProfile = (props) => {
             onChange={handleInputChangeUser}
             type="text"
             id="last_name"
-            required=""
-            // autoFocus=""
+            required
+            // autoFocus
             value={apiUser.last_name}
           />
-          <label htmlFor="inputUsername">Username</label>
+          <label htmlFor="username">Username</label>
           <input
             className="input"
             onChange={handleInputChangeUser}
             type="text"
             id="username"
-            required=""
-            // autoFocus=""
+            required
+            // autoFocus
             value={apiUser.username}
           />
-          <label htmlFor="inputAddress">Address</label>
+          <label htmlFor="address">Address</label>
           <input
             className="input"
             onChange={handleInputChangeUserProfile}
             type="text"
             id="address"
-            required=""
-            // autoFocus=""
+            required
+            // autoFocus
             value={userProfile.address}
           />
-          <button
-            className="edit-create-btn"
-            type="submit"
-            disabled={isLoading}
-          >
-            Complete
+          <button className="edit-create-btn" type="submit" disabled={isLoading}>
+            Confirm Changes
           </button>
         </div>
       </form>

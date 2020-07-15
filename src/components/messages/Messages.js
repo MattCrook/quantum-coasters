@@ -7,7 +7,8 @@ import "./Messages.css";
 
 const MessageList = props => {
   const { user, loading, logout } = useAuth0();
-  const [userProfile, setUserProfile] = useState({});
+  const [userProfile, setUserProfile] = useState([]);
+  const [authUser, setAuthUser] = useState([]);
   const [messages, setMessages] = useState([]);
   const [userProfileId, setUserProfileId] = useState({})
   const [messageToEdit, setMessageToEdit] = useState({
@@ -25,9 +26,12 @@ const MessageList = props => {
 
   const getUserProfile = async user => {
     try {
-      const userProfileFromAPI = await ApiManager.getUserProfile(user.email);
-      setUserProfile(userProfileFromAPI[0]);
-      const profileId = userProfileFromAPI[0].userprofile.id;
+      const userFromAPI = await ApiManager.getAuthUser(user.email);
+      const userId = userFromAPI[0].id;
+      const profileFromAPI = await ApiManager.getUserProfileEmbeddedAuthUser(userId);
+      setAuthUser(userFromAPI[0]);
+      setUserProfile(profileFromAPI[0]);
+      const profileId = userFromAPI[0].id;
       setUserProfileId(profileId)
     } catch (error) {
       console.log(error);
@@ -54,11 +58,11 @@ const MessageList = props => {
               {!loading && user && (
                 <>
                   <div className="navbar-end">
-                    <button className="navbar-item-name">{userProfile.first_name} {userProfile.last_name}</button>
+                    <button className="navbar-item-name">{authUser.first_name} {authUser.last_name}</button>
                     {userProfile.picUrl ? (
                       <img
                         id="profile-pic"
-                        src={userProfile.picUrl}
+                        src={userProfile.image}
                         alt="My Avatar"
                       />
                     ) : (
@@ -100,8 +104,7 @@ const MessageList = props => {
           </div>
           <div className="chat-ScrollToBottom">
             <div className="message-container-cards">
-              {messages
-                .sort(function(a, b) {
+              {messages.sort(function(a, b) {
                   return new Date(a.timestamp) - new Date(b.timestamp);
                 })
                 .map(message => (
@@ -110,6 +113,7 @@ const MessageList = props => {
                     message={message}
                     setMessageToEdit={setMessageToEdit}
                     userProfile={userProfile}
+                    authUser={authUser}
                     defaultProfilePicture={defaultProfilePicture}
                     {...props}
                   />
