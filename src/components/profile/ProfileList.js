@@ -116,7 +116,7 @@ const ProfileList = (props) => {
               {authUser.first_name} {authUser.last_name}
             </p>
             {userProfile.image ? (
-              <img id="profile-pic" src={userProfile.image} alt="My Avatar" />
+              <img id="profile-pic" src={userProfile.image.image} alt="My Avatar" />
             ) : (
               <img id="profile-pic" src={user.picture} alt="My Avatar" />
             )}

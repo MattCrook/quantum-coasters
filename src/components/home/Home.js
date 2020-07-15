@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "bulma/css/bulma.css";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { Link } from "react-router-dom";
 import "./Home.css";
-import ApiManager from "../../modules/ApiManager";
+
 
 const Home = (props) => {
   const { loading, user, logout, clearStorage } = useAuth0();
@@ -28,7 +28,7 @@ const Home = (props) => {
                   <img
                     data-testid="home-profile-pic-testid"
                     id="profile-pic"
-                    src={userProfile.image}
+                    src={userProfile.image.image}
                     alt="My Avatar"
                   />
                 ) : (
@@ -40,7 +40,7 @@ const Home = (props) => {
                   />
                 )}
                 <button
-                  onClick={() => logout({ returnTo: window.location.origin })}
+                  onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
                   className="logout-navbar-item"
                   data-testid="logout-btn-testid"
                 >

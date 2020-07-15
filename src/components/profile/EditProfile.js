@@ -29,6 +29,7 @@ const EditProfile = (props) => {
   });
 
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
+  const defaultQPicture = "https://cdn.dribbble.com/users/2908839/screenshots/6292457/shot-cropped-1554473682961.png"
 
   const getProfileAndCredits = async (user) => {
     try {
@@ -40,8 +41,8 @@ const EditProfile = (props) => {
       const userProfileFromAPI = await ApiManager.getUserProfileEmbeddedAuthUser(authProfile.id);
       const profile = userProfileFromAPI[0];
       setUserProfile(profile);
-      const imageId = profile.image.id;
-      if (imageId) {
+      if (profile.image) {
+        const imageId = profile.image.id;
         const getImage = await ApiManager.getAuthUserImage(imageId);
         setImage(getImage);
       } else {
@@ -103,7 +104,7 @@ const EditProfile = (props) => {
       email: user.email,
     };
 
-    if (userProfile.image_id) {
+    if (userProfile.image) {
       const editedUserProfile = {
         id: userProfileId,
         address: userProfile.address,
@@ -184,6 +185,7 @@ const EditProfile = (props) => {
   }, [user]);
 
 
+
   return (
     <>
       <nav className="navbar-edit-profile">
@@ -206,7 +208,7 @@ const EditProfile = (props) => {
           {userProfile && image.image ? (
             <img id="edit-profile-pic" src={image.image} alt="My Avatar" />
           ) : (
-              <img id="edit-profile-pic" src={defaultProfilePicture} alt="My default pic"/>
+              <img id="edit-profile-pic" src={defaultQPicture} alt="My default pic"/>
             )}
 
           <form className="uploadPicture" onSubmit={handleImageFromSubmit} encType="multipart/form-data">

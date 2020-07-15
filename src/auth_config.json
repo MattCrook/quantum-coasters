@@ -4,10 +4,5 @@
   "client_secret": "moWYcL19X4PtwLFqtRx2QiB5l7KfzUqIM1LZ31rzXjuWNeJx_w1OJqoueYKP_4kx",
   "connection": "",
   "audience": "https://api.quantumcoasters.com",
-  "scope": "appointments%20contacts",
-  "response_type": "code",
-  "code_challenge": "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM",
-  "code_challenge_method": "S256",
-  "state": "xyzABC12"
+  "scope": "read:current_user update:current_user_metadata"
 }
-

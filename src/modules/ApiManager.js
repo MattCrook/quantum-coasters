@@ -4,23 +4,23 @@ const remoteURL = "http://localhost:8000";
 const ApiManager = {
   /************* USERS ********************/
 
-  async register(userToPost) {
-    try {
-      const result = await fetch(`${remoteURL}/users`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: "JWT" + localStorage.getItem("accessToken"),
-        },
-        body: JSON.stringify(userToPost),
-      });
-      const res = await result.json()
-      return res;
-    } catch (err) {
-      console.log(err);
-    }
-  },
+  // async register(userToPost) {
+  //   try {
+  //     const result = await fetch(`${remoteURL}/users`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Accept: "application/json",
+  //         Authorization: "JWT" + localStorage.getItem("accessToken"),
+  //       },
+  //       body: JSON.stringify(userToPost),
+  //     });
+  //     const res = await result.json()
+  //     return res;
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // },
 
   // async register(newUser) {
   //   // Note: Content-type cannot be set when uploading a file
@@ -42,16 +42,16 @@ const ApiManager = {
   //   return await response.json();
   // },
 
-  async login(userToLogin) {
-    const result = await fetch(`${remoteURL}/login/`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(userToLogin),
-    });
-    return await result.json();
-  },
+  // async login(userToLogin) {
+  //   const result = await fetch(`${remoteURL}/login/`, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(userToLogin),
+  //   });
+  //   return await result.json();
+  // },
 
   async getAllUsers() {
     const resp = await fetch(`${remoteURL}/userprofiles`, {
@@ -97,19 +97,6 @@ const ApiManager = {
     });
     return await resp.json();
   },
-
-  // async postNewImage(imageObject) {
-  //   const data = await fetch(`${remoteURL}/images`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "JWT" + localStorage.getItem("accessToken"),
-  //     },
-  //     body: JSON.stringify(imageObject),
-  //   });
-  //   const result = await data.json();
-  //   return result;
-  // },
 
   async postNewImage(imageObject) {
     // Note: Content-type cannot be set when uploading a file

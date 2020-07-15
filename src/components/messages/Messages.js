@@ -59,10 +59,10 @@ const MessageList = props => {
                 <>
                   <div className="navbar-end">
                     <button className="navbar-item-name">{authUser.first_name} {authUser.last_name}</button>
-                    {userProfile.picUrl ? (
+                    {userProfile.image ? (
                       <img
                         id="profile-pic"
-                        src={userProfile.image}
+                        src={userProfile.image.image}
                         alt="My Avatar"
                       />
                     ) : (

@@ -33,10 +33,10 @@ ReactDOM.render(
     client_id={config.client_id}
     redirect_uri={`${window.location.origin}/home`}
     onRedirectCallback={onRedirectCallback}
+    audience={config.audience}
+    scope={config.scope}
     // connection={config.connection}
-    // audience={config.audience}
-    id_token_hint={config.id_token_hint}
-    // scope={config.scope}
+    // id_token_hint={config.id_token_hint}
   >
     <App />
   </Auth0Provider>,
