@@ -42,12 +42,11 @@ const LeaderBoard = props => {
   return (
     <>
       <nav id="nav-container" className="navbar is-dark">
-        <button
-          className="navbar-item"
-          onClick={() => props.history.push("/home")}
-        >
-          Quantum
+
+        <button className="navbar-item" onClick={() => props.history.push("/home")}>
+          Quantum Coasters
         </button>
+
         <div className="leaderboard-name">
           <p className="leaderboard-first-and-last-name-in-nav">
           {userProfile.user.first_name} {userProfile.user.last_name}

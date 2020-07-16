@@ -7,7 +7,6 @@ const MessageCard = (props) => {
   const text = props.message.message;
   const authUser = props.authUser;
   const profile = props.userProfile;
-  console.log(profile);
   const messageUserProfileId = props.message.user_id;
 
   if (profile.image) {

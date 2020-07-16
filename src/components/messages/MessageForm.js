@@ -77,7 +77,7 @@ const MessageForm = (props) => {
         <form className="chat-form" onSubmit={handleSubmit}>
           <fieldset className="chat-fieldset">
             <div className="chat-input-inner-container">
-              <input
+              <textarea
                 className="chat-input"
                 name="message"
                 type="message"

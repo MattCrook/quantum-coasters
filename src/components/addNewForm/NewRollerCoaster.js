@@ -167,28 +167,22 @@ const AddNewRollerCoaster = (props) => {
 console.log(trackTypes)
   return (
     <>
-      {/* <button
-        className="new-ride-form-back-button"
-        id="back-arrow-detail"
-        onClick={() => props.history.push("/users/new")}
-      >
-        BACK
-      </button> */}
       <form className="main-form" onSubmit={constructNewRollerCoaster}>
         <h3 className="title">Input Ride Details</h3>
         <div className="create-form">
-          <label htmlFor="inputName">Roller Coaster Name</label>
+          <fieldset className="add_new_ride_container">
+          <label className="rollercoaster_name" htmlFor="inputName">Roller Coaster Name</label>
           <input
-            className="input"
+            className="form-control"
             onChange={handleRollerCoasterFieldChange}
             type="name"
             id="name"
             placeholder="Enter Roller Coaster Name"
             value={rollerCoaster.name}
           />
-          <label htmlFor="inputTrackType">Track Type</label>
+          <label className="add_new_rollercoaster_form_label" htmlFor="inputTrackType">Track Type</label>
           <select
-            className="input"
+            className="form-control"
             onChange={handleTrackTypeFieldChange}
             id="name"
             placeholder="Select The Track Type"
@@ -201,54 +195,54 @@ console.log(trackTypes)
             ))}
           </select>
 
-          <label htmlFor="inputMaxHeight">Max Height</label>
+          <label className="add_new_rollercoaster_form_label" htmlFor="inputMaxHeight">Max Height</label>
           <input
-            className="input"
+            className="form-control"
             onChange={handleRollerCoasterFieldChange}
             type="text"
             id="max_height"
             placeholder="Max Height"
             value={rollerCoaster.max_height}
           />
-          <label htmlFor="inputMaxSpeed">Max Speed</label>
+          <label className="add_new_rollercoaster_form_label" htmlFor="inputMaxSpeed">Max Speed</label>
           <input
-            className="input"
+            className="form-control"
             onChange={handleRollerCoasterFieldChange}
             type="text"
             id="max_speed"
             placeholder="Max Speed"
             value={rollerCoaster.max_speed}
           />
-          <label htmlFor="inputPark">Park Name</label>
+          <label className="add_new_rollercoaster_form_label" htmlFor="inputPark">Park Name</label>
           <input
-            className="input"
+            className="form-control"
             onChange={handleParkFieldChange}
             type="text"
             id="name"
             placeholder="Enter Park Name"
             value={park.name}
           />
-          <label htmlFor="inputParkLocation">Park State/ Location</label>
+          <label className="add_new_rollercoaster_form_label" htmlFor="inputParkLocation">Park State/ Location</label>
           <input
-            className="input"
+            className="form-control"
             onChange={handleParkFieldChange}
             type="text"
             id="parkLocation"
             placeholder="Enter State or Providence of Park is Located"
             value={park.parkLocation}
           />
-          <label htmlFor="inputParkCountry">Park Country</label>
+          <label className="add_new_rollercoaster_form_label" htmlFor="inputParkCountry">Park Country</label>
           <input
-            className="input"
+            className="form-control"
             onChange={handleParkFieldChange}
             type="text"
             id="parkCountry"
             placeholder="Enter Country Park is Located"
             value={park.parkCountry}
           />
-          <label htmlFor="inputManufacturer">Manufacturer</label>
+          <label className="add_new_rollercoaster_form_label" htmlFor="inputManufacturer">Manufacturer</label>
           <select
-            className="input"
+            className="form-control"
             onChange={handleManufacturerFieldChange}
             id="name"
             placeholder="Select Manufacturer Name"
@@ -291,10 +285,15 @@ console.log(trackTypes)
             type="submit"
             disabled={IsLoading}
           >
-            Submit
+              Submit
           </button>
+          </fieldset>
         </div>
       </form>
+      <div className="signature">
+                <p>Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a> <i className="far fa-copyright"></i>
+                </p>
+            </div>
     </>
   );
 };

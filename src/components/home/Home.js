@@ -17,7 +17,7 @@ const Home = (props) => {
       <nav className="navbar is-dark">
         <div className="navbar-menu is-active">
           {/* logo */}
-          <button className="home-logo">Quantum</button>
+          <button className="home-logo">Quantum Coasters</button>
           {/* menu items */}
           {/* if there is a user. show the logout button */}
           {!loading && user && (
@@ -53,13 +53,13 @@ const Home = (props) => {
         </div>
       </nav>
 
-      <div className="greeting">
+      {/* <div className="greeting">
         {!loading && user && (
           <>
             <p>Hello {user.nickname}!</p>
           </>
         )}
-      </div>
+      </div> */}
 
       {!authUser.email && !loading && user && (
         <>
@@ -77,7 +77,7 @@ const Home = (props) => {
             Complete Profile
           </Link>
         )}
-        <div className="hero-body bg-img"></div>
+        <div className="hero-body bg-img" style={{marginTop: "20px"}}></div>
       </div>
     </header>
   );

@@ -213,7 +213,7 @@ const EditProfile = (props) => {
 
           <form className="uploadPicture" onSubmit={handleImageFromSubmit} encType="multipart/form-data">
             <div className="change-profile-pic">
-              <label htmlFor="image">Profile picture</label>
+              <label className="label_upload_profile_pic" htmlFor="image">Profile picture</label>
               <input
                 name="image"
                 id="image"
@@ -231,16 +231,17 @@ const EditProfile = (props) => {
 
         </div>
         <div className="profile-info-container">
-          <div>First: {apiUser.first_name}</div>
-          <div>Last: {apiUser.last_name}</div>
-          <div>Username: {apiUser.username}</div>
-          <div>Address: {userProfile.address}</div>
+          <div className="user_info_title">Profile Info</div>
+          <div className="user_info"><strong>First Name: </strong>{apiUser.first_name}</div>
+          <div className="user_info"><strong>Last Name: </strong>{apiUser.last_name}</div>
+          <div className="user_info"><strong>Username: </strong>{apiUser.username}</div>
+          <div className="user_info"><strong>Address: </strong>{userProfile.address}</div>
         </div>
       </div>
 
       <form className="edit-profile-form" onSubmit={handleFormSubmit}>
         <div className="profile-inputs">
-          <label htmlFor="first_name">First Name</label>
+          <label className="first_name" htmlFor="first_name">First Name</label>
           <input
             className="input"
             onChange={handleInputChangeUser}
@@ -286,6 +287,10 @@ const EditProfile = (props) => {
           </button>
         </div>
       </form>
+      <div className="signature">
+                <p>Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a> <i className="far fa-copyright"></i>
+                </p>
+            </div>
     </>
   );
 };

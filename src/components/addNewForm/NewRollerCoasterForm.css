@@ -1,5 +1,5 @@
 
-.new-ride-form-back-button:hover,
+/* .new-ride-form-back-button:hover,
 .new-ride-form-back-button:focus {
   animation: pulse 1s;
   box-shadow: 0 0 0 2em rgba(rgb(5, 3, 3), 0);
@@ -14,15 +14,20 @@
   transition: 0.25s;
   border: 2px solid black;
 
-}
+} */
 
 .create-new-rollerCoaster-btn {
+  display: flex;
+  justify-content: center;
   border: 2px solid black;
   margin-top: 12px;
-  margin-right: 150px;
-  margin-left: 150px;
+  /* margin-right: 150px; */
+  margin-left: 23%;
   padding-bottom: 3px;
   padding-top: 3px;
+  width: 50%;
+  margin-bottom: 20px;
+  background-color: #949494;
 }
 
 .create-new-rollerCoaster-btn:hover {
@@ -44,24 +49,119 @@
 .create-form {
   display: flex;
   flex-direction: column;
-  padding: 10px;
+  /* padding: 10px; */
   border-radius: 15px;
   box-shadow: 3px 3px 1px solid;
-  margin-top: 0rem;
+  margin-top: 30px;
   margin-left: 400px;
   margin-right: 400px;
   margin-bottom: 20px;
 
 }
 .title{
-  margin-left: 20px;
+  margin-left: 200px;
+  margin-right: 200px;
   margin-top: 40px;
   display: flex;
   justify-content: center;
+  border-bottom: 1px solid black;
 }
 
 .create-form > label{
-  color: white;
+  color: rgb(12, 12, 12);
   margin-bottom: 1px;
   margin-top: 2px;
+}
+
+.form-control {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 0;
+  background: rgb(255, 255, 255);
+  box-shadow: 1px 1px 3px rgb(119, 119, 119);
+  color: rgb(7, 7, 7);
+  width: 97%;
+  margin-left: 12px;
+  margin-right: 12px;
+
+  justify-content: center;
+}
+
+.add_new_ride_container {
+  display: flex;
+  justify-content: center;
+  box-shadow: 1px 1px 3px rgb(119, 119, 119);
+  background-color: #dfdfdf;
+  border-radius: 2%;
+
+}
+
+.rollercoaster_name {
+  margin-top: 20px;
+  margin-left: 10px;
+  font-weight: 550;
+  font-variant: small-caps;
+}
+
+.add_new_rollercoaster_form_label {
+  margin-top: 10px;
+  margin-left: 10px;
+  font-weight: 550;
+  font-variant: small-caps;
+}
+
+/************ Signature *******************/
+
+.signature {
+  margin: 10px auto;
+  padding: 10px 0;
+  width: 100%;
+}
+
+.signature p {
+  text-align: center;
+  font-family: Helvetica, Arial, Sans-Serif;
+  font-size: 0.85em;
+  color: #aaaaaa;
+}
+
+.signature .much-heart {
+  display: inline-block;
+  position: relative;
+  margin: 0 4px;
+  height: 10px;
+  width: 10px;
+  background: #ac1d3f;
+  border-radius: 4px;
+  -ms-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.signature .much-heart::before,
+.signature .much-heart::after {
+  display: block;
+  content: "";
+  position: absolute;
+  margin: auto;
+  height: 10px;
+  width: 10px;
+  border-radius: 5px;
+  background: #ac1d3f;
+  top: -4px;
+}
+
+.signature .much-heart::after {
+  bottom: 0;
+  top: auto;
+  left: -4px;
+}
+
+.signature a {
+  color: #aaaaaa;
+  text-decoration: none;
+  font-weight: bold;
 }
