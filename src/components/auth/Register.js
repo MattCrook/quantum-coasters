@@ -16,7 +16,7 @@ const Register = (props) => {
     last_name: "",
     username: "",
     email: user.email,
-    password: "dummyPassword",
+    password: user.sub,
     address: "",
     image: ""
   });
@@ -60,7 +60,7 @@ const Register = (props) => {
                 last_name: authUser.last_name,
                 username: authUser.username,
                 email: user.email,
-                password: "dummyPassword",
+                password: user.sub,
                 address: authUser.address,
                 image: defaultProfilePicture
               };
@@ -137,7 +137,7 @@ const Register = (props) => {
             required
             autoFocus
           />
-          <label htmlFor="eventImage">Please upload a profile picture</label>
+          {/* <label htmlFor="eventImage">Please upload a profile picture</label> */}
           {/* <ImageUploader
             {...props}
             withIcon={true}

@@ -50,7 +50,7 @@ const MessageList = props => {
           <div className="navbar-menu is-active">
             {/* logo */}
             <div className="navbar-brand">
-              <button className="navbar-item">Quantum</button>
+              <button className="navbar-item">Quantum Coasters</button>
             </div>
             {/* menu items */}
             <div className="navbar-end">
@@ -59,10 +59,10 @@ const MessageList = props => {
                 <>
                   <div className="navbar-end">
                     <button className="navbar-item-name">{authUser.first_name} {authUser.last_name}</button>
-                    {userProfile.picUrl ? (
+                    {userProfile.image ? (
                       <img
                         id="profile-pic"
-                        src={userProfile.image}
+                        src={userProfile.image.image}
                         alt="My Avatar"
                       />
                     ) : (
@@ -88,13 +88,7 @@ const MessageList = props => {
           </div>
         </div>
       </nav>
-      {/* <div className="profile-pic-header"> */}
-        {/* {userProfile.picUrl ? (
-          <img id="profile-pic" src={userProfile.picUrl} alt="My Avatar" />
-        ) : (
-          <img id="google-profile-pic" src={user.picture} alt="My Avatar" />
-        )} */}
-      {/* </div> */}
+
       <div className="chat-wrapper">
         <div className="chat-fixed-height-container">
           <div id="chat-headerContainer">

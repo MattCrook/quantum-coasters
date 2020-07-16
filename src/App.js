@@ -11,7 +11,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 // import accessToken from "./utils/reducers/authReducers";
 
 const App = (props) => {
-  const { loading, user, getTokenSilently } = useAuth0();
+  const { loading, user, getIdTokenClaims } = useAuth0();
   const [userProfile, setUserProfile] = useState([]);
   const [authUser, setAuthUser] = useState([]);
 
@@ -19,12 +19,15 @@ const App = (props) => {
     if (user) {
       const userEmail = user.email;
       const guardForUserProfile = async (userEmail) => {
-        const token = await getTokenSilently(user);
+        const token = await getIdTokenClaims()
+        console.log({ token })
+        if (token) {
+          localStorage.setItem("accessToken", JSON.stringify(token.__raw));
+        }
         const getAuthUser = await ApiManager.getAuthUser(userEmail);
         if (getAuthUser.length > 0) {
           const authUserId = getAuthUser[0].id;
           const getProfile = await ApiManager.getUserProfileEmbeddedAuthUser(authUserId);
-          localStorage.setItem("accessToken", JSON.stringify(token));
           sessionStorage.setItem("credentials", JSON.stringify(userEmail));
           setAuthUser(getAuthUser[0]);
           setUserProfile(getProfile[0]);
@@ -36,7 +39,7 @@ const App = (props) => {
       guardForUserProfile(userEmail);
 
     }
-  }, [user, getTokenSilently]);
+  }, [user, getIdTokenClaims]);
 
   if (loading) {
     return <div className="loading_pop_up">Loading...</div>;

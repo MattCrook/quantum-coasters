@@ -1,10 +1,6 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEdit,
-  faTrash,
-  faExternalLinkSquareAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faExternalLinkSquareAlt } from "@fortawesome/free-solid-svg-icons";
 import "./Profile.css";
 
 const ProfileCard = (props) => {
@@ -19,7 +15,16 @@ const ProfileCard = (props) => {
     <div className="profile-card">
       <div className="profile-card-content">
         <div className="ride-name-container">
-          <h3 className="ride-name">{rollerCoaster.name}</h3>
+          <div className="ride-name">{rollerCoaster.name}
+            <span className="trash_icon_profile_card">
+              <button
+                data-testid="delete-credit-btn"
+                className="delete-btn"
+                onClick={() => props.deleteCredit(rollerCoaster.id)}>
+                <FontAwesomeIcon icon={faTrash} />
+              </button>
+            </span>
+          </div>
         </div>
         <div className="ride-details-section">
           <strong>Details</strong>
@@ -35,27 +40,7 @@ const ProfileCard = (props) => {
           <p>Max Height: {rollerCoaster.max_height} ft</p>
           <p>Track Type: {trackType.name}</p>
         </div>
-        <section className="card-btns">
-          <span>
-            <button
-              className="edit-btn"
-              onClick={() =>
-                props.history.push(`/users/${rollerCoaster.id}/edit`)
-              }
-            >
-              <FontAwesomeIcon icon={faEdit} />
-            </button>
-          </span>
 
-          <span>
-            <button
-              data-testid="delete-credit-btn"
-              className="delete-btn"
-              onClick={() => props.deleteCredit(rollerCoaster.id)}>
-              <FontAwesomeIcon icon={faTrash} />
-            </button>
-          </span>
-        </section>
       </div>
     </div>
   );

@@ -15,7 +15,7 @@ const LandingPage = () => {
           <div className="navbar-menu is-active">
             {/* logo */}
             <div className="navbar-brand">
-              <button className="navbar-item">Quantum</button>
+              <button className="navbar-item">Quantum Coasters</button>
             </div>
 
             {/* menu items */}
@@ -41,7 +41,7 @@ const LandingPage = () => {
         </div>
       </nav>
       <div className="hero is-fullheight">
-        <div className="hero-body bg-img">
+        <div className="hero-body bg-img" style={{marginTop: "20px"}}>
           <div className="container has-text-centered login-foo"></div>
         </div>
       </div>

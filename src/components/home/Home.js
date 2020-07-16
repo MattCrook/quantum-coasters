@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "bulma/css/bulma.css";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { Link } from "react-router-dom";
 import "./Home.css";
-import ApiManager from "../../modules/ApiManager";
+
 
 const Home = (props) => {
   const { loading, user, logout, clearStorage } = useAuth0();
@@ -17,7 +17,7 @@ const Home = (props) => {
       <nav className="navbar is-dark">
         <div className="navbar-menu is-active">
           {/* logo */}
-          <button className="home-logo">Quantum</button>
+          <button className="home-logo">Quantum Coasters</button>
           {/* menu items */}
           {/* if there is a user. show the logout button */}
           {!loading && user && (
@@ -28,7 +28,7 @@ const Home = (props) => {
                   <img
                     data-testid="home-profile-pic-testid"
                     id="profile-pic"
-                    src={userProfile.image}
+                    src={userProfile.image.image}
                     alt="My Avatar"
                   />
                 ) : (
@@ -40,7 +40,7 @@ const Home = (props) => {
                   />
                 )}
                 <button
-                  onClick={() => logout({ returnTo: window.location.origin })}
+                  onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
                   className="logout-navbar-item"
                   data-testid="logout-btn-testid"
                 >
@@ -53,13 +53,13 @@ const Home = (props) => {
         </div>
       </nav>
 
-      <div className="greeting">
+      {/* <div className="greeting">
         {!loading && user && (
           <>
             <p>Hello {user.nickname}!</p>
           </>
         )}
-      </div>
+      </div> */}
 
       {!authUser.email && !loading && user && (
         <>
@@ -77,7 +77,7 @@ const Home = (props) => {
             Complete Profile
           </Link>
         )}
-        <div className="hero-body bg-img"></div>
+        <div className="hero-body bg-img" style={{marginTop: "20px"}}></div>
       </div>
     </header>
   );

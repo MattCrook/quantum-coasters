@@ -42,7 +42,7 @@
   justify-content: space-between;
 }
 
-.form-control {
+/* .form-control {
     padding: 4px;
     margin: 10px;
     border-radius: 10px; 
@@ -51,7 +51,7 @@
     box-shadow: 1px 1px 3px #000;
     color: #fff;
     width: 80%; justify-content: space-between;
-}
+} */
 
 .edit-form-fields > div > label{
     color: #fff;

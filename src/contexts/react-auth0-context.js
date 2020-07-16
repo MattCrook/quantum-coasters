@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
 import createAuth0Client from "@auth0/auth0-spa-js";
-import ApiManager from "../modules/ApiManager";
-
 // import createContext from "react"
 
 const DEFAULT_REDIRECT_CALLBACK = () =>
@@ -25,21 +23,18 @@ export const Auth0Provider = ({
   const [auth0Client, setAuth0] = useState();
   const [loading, setLoading] = useState(true);
   const [popupOpen, setPopupOpen] = useState(false);
-  // const [authUser, setAuthUser] = useState({
-  //   email: "",
-  //   password: "",
-  // });
+
+
 
   useEffect(() => {
     const initAuth0 = async () => {
       const auth0FromHook = await createAuth0Client(initOptions);
-      console.log({auth0FromHook})
-      console.log({ initOptions })
-      // const transactions = auth0FromHook.transactionManager.transactions;
-      // console.log(transactions)
       setAuth0(auth0FromHook);
 
-      if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
+      if (
+        window.location.search.includes("code=") &&
+        window.location.search.includes("state=")
+      ) {
         const { appState } = await auth0FromHook.handleRedirectCallback();
         onRedirectCallback(appState);
       }
@@ -52,9 +47,9 @@ export const Auth0Provider = ({
         setUser(user);
       }
 
-      if (isAuthenticated) {
-        localStorage.setItem("auth0Cache", JSON.stringify(auth0FromHook));
-      }
+      // if (isAuthenticated) {
+      //   localStorage.setItem("auth0Cache", JSON.stringify(auth0FromHook));
+      // }
       setLoading(false);
     };
     initAuth0();
@@ -84,14 +79,12 @@ export const Auth0Provider = ({
     setUser(user);
   };
 
-  // const clearStorage = () => {
-  //   localStorage.removeItem("accessToken");
-  //   localStorage.removeItem("authCache");
-  //   localStorage.removeItem("user_sub_token_id");
-  //   sessionStorage.removeItem("credentials");
-  // };
-
-
+  const clearStorage = () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("authCache");
+    localStorage.removeItem("user_sub_token_id");
+    sessionStorage.removeItem("credentials");
+  };
 
   return (
     <Auth0Context.Provider
@@ -102,7 +95,7 @@ export const Auth0Provider = ({
         popupOpen,
         loginWithPopup,
         handleRedirectCallback,
-        // clearStorage,
+        clearStorage,
         getIdTokenClaims: (...p) => auth0Client.getIdTokenClaims(...p),
         loginWithRedirect: (...p) => auth0Client.loginWithRedirect(...p),
         getTokenSilently: (...p) => auth0Client.getTokenSilently(...p),

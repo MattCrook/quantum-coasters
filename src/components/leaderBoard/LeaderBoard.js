@@ -6,15 +6,17 @@ import "./LeaderBoard.css";
 
 const LeaderBoard = props => {
 
-  const { user } = useAuth0();
   const [profiles, setProfiles] = useState([]);
   const { userProfile } = props;
+  const defaultQPicture = "https://cdn.dribbble.com/users/2908839/screenshots/6292457/shot-cropped-1554473682961.png"
+  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
+
+
 
   const getAllUsers = async () => {
     try {
       const users = await ApiManager.getAllUsers();
       const profileWithCreditsArray = users.map(user => {
-        console.log(user)
         const profile = user.user;
         return {
           id: user.id,
@@ -35,23 +37,24 @@ const LeaderBoard = props => {
   useEffect(() => {
     getAllUsers();
   }, []);
+
+
   return (
     <>
       <nav id="nav-container" className="navbar is-dark">
-        <button
-          className="navbar-item"
-          onClick={() => props.history.push("/home")}
-        >
-          Quantum
+
+        <button className="navbar-item" onClick={() => props.history.push("/home")}>
+          Quantum Coasters
         </button>
+
         <div className="leaderboard-name">
           <p className="leaderboard-first-and-last-name-in-nav">
-          {userProfile.first_name} {userProfile.last_name}
+          {userProfile.user.first_name} {userProfile.user.last_name}
           </p>
-          {userProfile.picUrl ? (
-            <img id="profile-pic" src={userProfile.picUrl} alt="My Avatar" />
+          {userProfile.image ? (
+            <img id="profile-pic" src={userProfile.image.image} alt="My Avatar" />
           ) : (
-            <img id="google-profile-pic" src={user.picture} alt="My Avatar" />
+            <img id="google-profile-pic" src={defaultQPicture} alt="My Avatar" />
           )}
         </div>
       </nav>
@@ -62,10 +65,10 @@ const LeaderBoard = props => {
       <div className="leaderBoard-main-content">
         {profiles.map(profile => (
           <div className="profile-elements" key={profile.id}>
-            {profile.picUrl ? (
-              <img id="profile-pic" src={profile.picUrl} alt="My Avatar" />
+            {profile.image ? (
+              <img id="profile-pic" src={profile.image.image} alt="My Avatar" />
             ) : (
-              <img id="profile-pic" src={user.picture} alt="My Avatar" />
+              <img id="profile-pic" src={defaultProfilePicture} alt="My Avatar" />
             )}{" "}
             {profile.firstName}{" "}{profile.lastName}
             <p className="leaderboard-name">Credit Count: {profile.creditCount.length}</p>
