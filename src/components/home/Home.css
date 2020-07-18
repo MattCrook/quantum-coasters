@@ -1,8 +1,20 @@
+#home_navbar_container {
+  display: flex;
+  align-items: center;
+}
+
+.logout_btn_home_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
 button {
   background: transparent;
   outline: none;
   border: none;
-  font-size: 18px;
+  font-size: 17px;
   cursor: pointer;
 }
 
@@ -61,10 +73,14 @@ button {
 }
 
 .logout-navbar-item {
-  color: white;
+  color: rgb(194, 64, 64);
   margin-right: 30px;
   font-variant: small-caps;
 }
+.logout-navbar-item:hover {
+  border-bottom: 1px solid rgb(228, 91, 91);
+}
+
 
 .navbar-item-home-name {
   color: white;

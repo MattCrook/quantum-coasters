@@ -15,7 +15,7 @@ const LandingPage = () => {
           <div className="navbar-menu is-active">
             {/* logo */}
             <div className="navbar-brand">
-              <button className="navbar-item">Quantum Coasters</button>
+              <button id="quantum_logo" className="navbar-item">Quantum Coasters</button>
             </div>
 
             {/* menu items */}
@@ -29,12 +29,9 @@ const LandingPage = () => {
 
               {/* if for some reason user lands on this page and is logged in, show home and logout button */}
               {!loading && user && (
-                <button onClick={logout()} className="navbar-item">
+                <button onClick={logout} className="navbar-item">
                   Logout
                 </button>
-              //   <button onClick={logout} className="navbar-item">
-              //   Logout
-              // </button>
               )}
             </div>
           </div>

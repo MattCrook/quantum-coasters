@@ -4,7 +4,7 @@ import { isEditCheck, handleFieldChangeHelper } from "../../modules/Helpers";
 
 const MessageForm = (props) => {
 
-  const { userProfileId } = props;
+  const { userProfile } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ message: "" });
 
@@ -25,7 +25,7 @@ const MessageForm = (props) => {
     } else {
       setIsLoading(true);
       const messageToPost = {
-        user_id: userProfileId,
+        user_id: userProfile.id,
         message: message.message,
         timestamp: dateFormatter(new Date().toISOString()),
       };

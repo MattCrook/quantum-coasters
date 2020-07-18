@@ -5,26 +5,26 @@ import MessageForm from "./MessageForm";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import "./Messages.css";
 
-const MessageList = props => {
+const MessageList = (props) => {
   const { user, loading, logout } = useAuth0();
   const [userProfile, setUserProfile] = useState([]);
   const [authUser, setAuthUser] = useState([]);
   const [messages, setMessages] = useState([]);
-  const [userProfileId, setUserProfileId] = useState({})
+  const [userProfileId, setUserProfileId] = useState({});
   const [messageToEdit, setMessageToEdit] = useState({
     user_id: "",
     text: "",
-    timestamp: ""
+    timestamp: "",
   });
 
-  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png"
+  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
   const getMessages = async () => {
-    const value = await ApiManager.getAllMessages();
-    return setMessages(value);
+    const allMessages = await ApiManager.getAllMessages();
+    setMessages(allMessages);
   };
 
-  const getUserProfile = async user => {
+  const getUserProfile = async (user) => {
     try {
       const userFromAPI = await ApiManager.getAuthUser(user.email);
       const userId = userFromAPI[0].id;
@@ -32,60 +32,63 @@ const MessageList = props => {
       setAuthUser(userFromAPI[0]);
       setUserProfile(profileFromAPI[0]);
       const profileId = userFromAPI[0].id;
-      setUserProfileId(profileId)
+      setUserProfileId(profileId);
     } catch (error) {
       console.log(error);
     }
   };
+
+
   useEffect(() => {
     getMessages();
     getUserProfile(user);
     return () => user;
   }, [user]);
 
+
+
   return (
     <>
-      <nav className="navbar is-dark">
-        <div className="container">
-          <div className="navbar-menu is-active">
-            {/* logo */}
-            <div className="navbar-brand">
-              <button className="navbar-item">Quantum Coasters</button>
-            </div>
-            {/* menu items */}
-            <div className="navbar-end">
-              {/* if there is a user. show the login button */}
-              {!loading && user && (
-                <>
-                  <div className="navbar-end">
-                    <button className="navbar-item-name">{authUser.first_name} {authUser.last_name}</button>
-                    {userProfile.image ? (
-                      <img
-                        id="profile-pic"
-                        src={userProfile.image.image}
-                        alt="My Avatar"
-                      />
-                    ) : (
-                      <img
-                        id="profile-pic"
-                        src={defaultProfilePicture}
-                        alt="My Avatar"
-                      />
-                    )}
-                    <button
-                      onClick={() =>
-                        logout({ returnTo: window.location.origin })
-                      }
-                      className="navbar-item-logout-btn"
-                    >
-                      Logout
-                    </button>
-                    <hr />
-                  </div>
-                </>
-              )}
-            </div>
+      <nav id="nav_forum_container" className="navbar is-dark">
+        <div className="forum_container_1">
+          {/* logo */}
+          <div className="navbar-brand">
+            <button id="quantum_logo_forum" className="navbar-item">
+              Quantum Coasters
+            </button>
           </div>
+        </div>
+
+        {/* menu items */}
+        <div className="forum_container_2">
+          {/* if there is a user. show the login button */}
+          {!loading && user && (
+            <>
+              <button className="navbar-item-name">
+                {authUser.first_name} {authUser.last_name}
+              </button>
+              {userProfile.image ? (
+                <img
+                  id="profile-pic"
+                  src={userProfile.image.image}
+                  alt="My Avatar"
+                />
+              ) : (
+                <img
+                  id="profile-pic"
+                  src={defaultProfilePicture}
+                  alt="My Avatar"
+                />
+              )}
+              <button
+                onClick={() => logout({ returnTo: window.location.origin })}
+                className="navbar-item-logout-btn"
+              >
+                Logout
+              </button>
+              <hr />
+            </>
+          )}
         </div>
       </nav>
 
@@ -98,10 +101,11 @@ const MessageList = props => {
           </div>
           <div className="chat-ScrollToBottom">
             <div className="message-container-cards">
-              {messages.sort(function(a, b) {
+              {messages
+                .sort(function (a, b) {
                   return new Date(a.timestamp) - new Date(b.timestamp);
                 })
-                .map(message => (
+                .map((message) => (
                   <MessageCard
                     key={message.id}
                     message={message}

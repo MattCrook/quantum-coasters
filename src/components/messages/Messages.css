@@ -1,3 +1,24 @@
+#nav_forum_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.forum_container_1 {
+  display: flex;
+  justify-content: center;
+  margin-left: 15px;
+}
+
+
+.forum_container_2 {
+display: flex;
+justify-content: center;
+align-items: center;
+margin-right: 25px;
+
+}
+
 /*            CHAT ITSELF            */
 .message-card {
   height: 5%;
@@ -70,9 +91,14 @@
 }
 
 .navbar-item-logout-btn {
-  color: white;
+  color: rgb(199, 74, 74);
   font-variant: small-caps;
 }
+
+.navbar-item-logout-btn:hover {
+  border-bottom: 1px solid rgb(187, 71, 71);
+}
+
 
 /*           Chat Buttons           */
 
@@ -131,7 +157,7 @@
 }
 
 .navbar-item-name {
-margin-right: 5px;
+margin-right: 8px;
 font-size: 1rem;
 color: white;
 }

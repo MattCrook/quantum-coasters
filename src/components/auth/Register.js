@@ -65,14 +65,15 @@ const Register = (props) => {
                 image: defaultProfilePicture
               };
               ApiManager.register(newUser).then(resp => {
-                if ("QuantumToken" in resp) {
-                  setUserToken(resp);
-                };
-                props.history.push("/home");
+                console.log(resp);
+                // if ("QuantumToken" in resp) {
+                //   setUserToken(resp);
+                // };
               })
-                .catch(error => {
+              .catch(error => {
                 console.log(error)
               })
+              props.history.push("/home");
             },
           },
         ],
@@ -84,12 +85,6 @@ const Register = (props) => {
     }
   };
 
-
-  // const onDrop = picture => {
-  //   console.log({...image})
-  //   console.log(picture)
-  //   setImage({...image}, picture);
-  // };
 
   return (
     <form className="register-form" onSubmit={handleFormSubmit}>

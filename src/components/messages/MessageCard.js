@@ -1,22 +1,25 @@
 import React from "react";
 import "./Messages.css";
+import { useAuth0 } from "../../contexts/react-auth0-context";
 
 const MessageCard = (props) => {
+  const { loading } = useAuth0();
   let profilePic = "";
   let timestamp = "";
   const text = props.message.message;
-  const authUser = props.authUser;
-  const profile = props.userProfile;
   const messageUserProfileId = props.message.user_id;
+  const profile = props.userProfile;
+  const name = props.message.user.user.first_name;
 
-  if (profile.image) {
+  if (!loading && profile && profile.image) {
     profile.image
-      ? (profilePic = profile.image.image)
+      ? (profilePic = props.message.user.image.image)
       : (profilePic = props.defaultProfilePicture);
     props.message.timestamp !== null
       ? (timestamp = props.message.timestamp)
       : (timestamp = new Date().toLocaleString());
   }
+
 
   return (
     <>
@@ -31,11 +34,15 @@ const MessageCard = (props) => {
               alt="My Avatar"
             />
           )}
-          <p>
-            <strong className="message-name">{authUser.first_name}</strong>:{" "}
-            {text}
-          </p>
-          {profile ? (
+          {!loading && profile && profile.user && (
+              <p>
+              <strong className="message-name">{name}</strong>:{" "}
+                {text}
+              </p>
+            )}
+
+          {/* Render edit button if the profile id from API === profile ID from url meaning the currently logged in user */}
+          {!loading && profile ? (
             messageUserProfileId === profile.id ? (
               <button
                 data-testid="edit-testid"
