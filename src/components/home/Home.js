@@ -4,17 +4,16 @@ import { useAuth0 } from "../../contexts/react-auth0-context";
 import { Link } from "react-router-dom";
 import "./Home.css";
 
-
 const Home = (props) => {
   const { loading, user, logout, clearStorage } = useAuth0();
   const { userProfile } = props;
   const { authUser } = props;
-  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
-
+  const defaultProfilePicture =
+    "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
   return (
     <header>
-      <nav className="navbar is-dark">
+      <nav id="home_navbar_container" className="navbar is-dark">
         <div className="navbar-menu is-active">
           {/* logo */}
           <button className="home-logo">Quantum Coasters</button>
@@ -39,14 +38,20 @@ const Home = (props) => {
                     alt="My Avatar"
                   />
                 )}
-                <button
-                  onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
-                  className="logout-navbar-item"
-                  data-testid="logout-btn-testid"
-                >
-                  Logout
-                </button>
-                <hr />
+                <div className="logout_btn_home_container">
+                  <button
+                    onClick={() =>
+                      logout(
+                        { returnTo: window.location.origin },
+                        clearStorage()
+                      )
+                    }
+                    className="logout-navbar-item"
+                    data-testid="logout-btn-testid"
+                  >
+                    Logout
+                  </button>
+                </div>
               </div>
             </>
           )}
@@ -64,7 +69,10 @@ const Home = (props) => {
       {!authUser.email && !loading && user && (
         <>
           <div className="banner-for-complete-profile">
-            <h3 className="welcome-greeting" data-testid="welcome-greeting-testid">
+            <h3
+              className="welcome-greeting"
+              data-testid="welcome-greeting-testid"
+            >
               Welcome! Please click the button below and complete your profile
               to get started using Quantum.
             </h3>
@@ -73,11 +81,15 @@ const Home = (props) => {
       )}
       <div className="hero is-fullheight">
         {!loading && !authUser.email && (
-          <Link data-testid="complete-profile-btn-testid" className="complete-profile-link" to="register/">
+          <Link
+            data-testid="complete-profile-btn-testid"
+            className="complete-profile-link"
+            to="register/"
+          >
             Complete Profile
           </Link>
         )}
-        <div className="hero-body bg-img" style={{marginTop: "20px"}}></div>
+        <div className="hero-body bg-img" style={{ marginTop: "20px" }}></div>
       </div>
     </header>
   );

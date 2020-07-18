@@ -11,9 +11,11 @@ const ProfileList = (props) => {
   const [userCredits, setUserCredits] = useState([]);
   const [userProfile, setUserProfile] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-
   const { authUser } = props;
   const userId = authUser.id;
+  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
+
+
 
   const getUserCreditsToFetch = async (userId) => {
     try {
@@ -90,10 +92,10 @@ const ProfileList = (props) => {
 
   return (
     <>
-      <nav className="navbar is-dark">
-        <div className="container" id="nav-container-profile">
+      <nav id="nav_profile_list_container" className="navbar is-dark">
+
           <div className="navbar-brand">
-            <button className="navbar-item">Quantum Coasters</button>
+            <button id="quantum_logo" className="navbar-item">Quantum Coasters</button>
           </div>
 
           <button className="add-new-credit-btn inset" data-testid="add_new_credit_btn_testid" onClick={() => props.history.push("/users/new")}>
@@ -111,7 +113,7 @@ const ProfileList = (props) => {
             {userProfile.image ? (
               <img id="profile-pic" src={userProfile.image.image} alt="My Avatar" />
             ) : (
-              <img id="profile-pic" src={user.picture} alt="My Avatar" />
+              <img id="profile-pic" src={defaultProfilePicture} alt="My Avatar" />
               )}
               <button
                   onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
@@ -121,7 +123,7 @@ const ProfileList = (props) => {
                   Logout
                 </button>
               </div>
-        </div>
+
       </nav>
       <div className="credits-title">Credits</div>
       <div className="total_credits_profile_list">Total: {userCredits.length}</div>

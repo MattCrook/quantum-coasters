@@ -4,23 +4,23 @@ const remoteURL = "http://localhost:8000";
 const ApiManager = {
   /************* USERS ********************/
 
-  // async register(userToPost) {
-  //   try {
-  //     const result = await fetch(`${remoteURL}/users`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Accept: "application/json",
-  //         Authorization: "JWT" + localStorage.getItem("accessToken"),
-  //       },
-  //       body: JSON.stringify(userToPost),
-  //     });
-  //     const res = await result.json()
-  //     return res;
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // },
+  async register(userToPost) {
+    try {
+      const result = await fetch(`${remoteURL}/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: "JWT" + localStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify(userToPost),
+      });
+      const res = await result.json()
+      return res;
+    } catch (err) {
+      console.log(err);
+    }
+  },
 
   // async register(newUser) {
   //   // Note: Content-type cannot be set when uploading a file

@@ -11,7 +11,7 @@ const RollerCoasterList = () => {
   const [userProfile, setUserProfile] = useState([]);
   const [authUser, setAuthUser] = useState([]);
   const [credits, setCredits] = useState([]);
-  console.log(userProfile)
+
 
 
 

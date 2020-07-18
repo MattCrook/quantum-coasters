@@ -7,7 +7,7 @@ import { confirmAlert } from "react-confirm-alert";
 import "./Profile.css";
 
 const EditProfile = (props) => {
-  const { user, logout } = useAuth0();
+  const { user, logout, loading } = useAuth0();
   const { userProfileId } = props;
 
   const [userCredits, setUserCredits] = useState([]);
@@ -92,6 +92,7 @@ const EditProfile = (props) => {
     }
   };
 
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -104,7 +105,7 @@ const EditProfile = (props) => {
       email: user.email,
     };
 
-    if (userProfile.image) {
+    if (!loading && userProfile && userProfile.image) {
       const editedUserProfile = {
         id: userProfileId,
         address: userProfile.address,
@@ -117,7 +118,7 @@ const EditProfile = (props) => {
       const editedUserProfile = {
         id: userProfileId,
         address: userProfile.address,
-        image_id: null,
+        image_id: "",
         credits: userProfile.credits,
       };
       const updateAuthUser = await ApiManager.putEditedAPIUser(editedAuthUser);
@@ -181,7 +182,7 @@ const EditProfile = (props) => {
 
   useEffect(() => {
     getProfileAndCredits(user);
-    // setIsLoading(false);
+    setIsLoading(false);
   }, [user]);
 
 
@@ -205,7 +206,7 @@ const EditProfile = (props) => {
 
       <div className="profile-pic-container">
         <div className="profile-pic-flex-box">
-          {userProfile && image.image ? (
+          {!loading && userProfile && image.image ? (
             <img id="edit-profile-pic" src={image.image} alt="My Avatar" />
           ) : (
               <img id="edit-profile-pic" src={defaultQPicture} alt="My default pic"/>
@@ -236,6 +237,11 @@ const EditProfile = (props) => {
           <div className="user_info"><strong>Last Name: </strong>{apiUser.last_name}</div>
           <div className="user_info"><strong>Username: </strong>{apiUser.username}</div>
           <div className="user_info"><strong>Address: </strong>{userProfile.address}</div>
+          {!loading && userCredits ? (
+            <div className="user_info"><strong>Total Credits: </strong>{userCredits.length}</div>
+          ) : (
+            <div className="user_info"><strong>Total Credits: </strong>0</div>
+          )}
         </div>
       </div>
 

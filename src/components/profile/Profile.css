@@ -1,8 +1,13 @@
 /****** Card Content Section ******/
 
-#nav-container-profile {
+#nav_profile_list_container {
   display: flex;
   justify-content: space-between;
+
+}
+#quantum_logo {
+  margin-left: 15px;
+
 }
 
 .credits-title {
@@ -100,19 +105,15 @@ button.btn {
   text-align: center;
 }
 
-/* span.edit-delete-credit {
-  display: flex;
-  justify-content: space-evenly;
-} */
-
 .name-container-profile-list {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  margin-left: 50px;
 }
 
 .name-profile-list {
-  margin-right: 10px;
+  margin-right: 18px;
 }
 
 .total_credits_profile_list {
@@ -126,7 +127,9 @@ button.btn {
 .container {
   display: flex;
   justify-content: space-between;
+
 }
+
 
 .navbar-item {
   justify-content: flex-start;
@@ -154,6 +157,7 @@ button.btn {
   font-size: 16px;
   padding-left: 10px;
   padding-right: 10px;
+  margin-left: 20px;
 }
 .edit-profile-button.inset:hover {
   box-shadow: inset 0px 0px 0px 1px #fff;
@@ -174,6 +178,7 @@ button.btn {
   font-size: 16px;
   padding-left: 10px;
   padding-right: 10px;
+  margin-right: 20px;
 }
 .add-new-credit-btn.inset:hover {
   box-shadow: inset 0px 0px 0px 1px #fff;
