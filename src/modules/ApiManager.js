@@ -52,6 +52,17 @@ const ApiManager = {
   //   });
   //   return await result.json();
   // },
+  async getAuthUserById(id) {
+    const resp = await fetch(`${remoteURL}/users/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
+      },
+      Accept: "application/json",
+    });
+    return await resp.json();
+  },
 
   async getAllUsers() {
     const resp = await fetch(`${remoteURL}/userprofiles`, {

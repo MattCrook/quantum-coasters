@@ -17,21 +17,18 @@ const MessageList = (props) => {
     timestamp: "",
   });
 
-  const defaultProfilePicture =
-    "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
+  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
   const getMessages = async () => {
-    const value = await ApiManager.getAllMessages();
-    return setMessages(value);
+    const allMessages = await ApiManager.getAllMessages();
+    setMessages(allMessages);
   };
 
   const getUserProfile = async (user) => {
     try {
       const userFromAPI = await ApiManager.getAuthUser(user.email);
       const userId = userFromAPI[0].id;
-      const profileFromAPI = await ApiManager.getUserProfileEmbeddedAuthUser(
-        userId
-      );
+      const profileFromAPI = await ApiManager.getUserProfileEmbeddedAuthUser(userId);
       setAuthUser(userFromAPI[0]);
       setUserProfile(profileFromAPI[0]);
       const profileId = userFromAPI[0].id;
@@ -40,11 +37,15 @@ const MessageList = (props) => {
       console.log(error);
     }
   };
+
+
   useEffect(() => {
     getMessages();
     getUserProfile(user);
     return () => user;
   }, [user]);
+
+
 
   return (
     <>
