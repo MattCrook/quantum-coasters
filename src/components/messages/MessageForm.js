@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ApiManager from "../../modules/ApiManager";
+import messageManager from "../../modules/messages/messageManager";
 import { isEditCheck, handleFieldChangeHelper } from "../../modules/Helpers";
 
 const MessageForm = (props) => {
@@ -37,10 +37,10 @@ const MessageForm = (props) => {
     // If the object has an id, it is an edit
     // so we put/update
     if (message.hasOwnProperty("id")) {
-      return ApiManager.updateMessagesPut(message);
+      return messageManager.updateMessagesPut(message);
     } else {
       // Otherwise, it is new, so we post
-      return ApiManager.postMessage(message);
+      return messageManager.postMessage(message);
     }
   };
 

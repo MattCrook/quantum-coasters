@@ -29,15 +29,6 @@ const AddNewCreditForm = (props) => {
         </button>
       </section>
 
-      {/* <div className="back-btn-newCredit-container">
-        <button
-          className="newCredit-form-back-button"
-          id="back-arrow-detail"
-          onClick={() => props.history.push("/users")}
-        >
-          BACK
-        </button>
-      </div> */}
       <div className="rollerCoaster-list-to-add-credits">
         <RollerCoasterList authUser={authUser} userProfile={userProfile} {...props} />
       </div>

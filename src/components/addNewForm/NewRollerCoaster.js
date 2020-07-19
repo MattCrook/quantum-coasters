@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
-import ApiManager from "../../modules/ApiManager";
+import trackTypeManager from "../../modules/tracktypes/trackTypeManager";
+import parkManager from "../../modules/parks/parkManager";
+import manufacturerManager from "../../modules/manufacturers/manfacturerManager";
+import rollerCoasterManager from "../../modules/rollerCoasters/rollerCoasterManager"
 import { confirmAlert } from "react-confirm-alert";
 import { handleFieldChangeHelper } from "../../modules/Helpers";
 import { setResourceStateHelperFunction } from "../../modules/Helpers";
@@ -30,19 +33,10 @@ const AddNewRollerCoaster = (props) => {
   });
 
   // handle what user is typing in (helper function in helpers.js)
-  const handleRollerCoasterFieldChange = handleFieldChangeHelper(
-    rollerCoaster,
-    setRollerCoaster
-  );
+  const handleRollerCoasterFieldChange = handleFieldChangeHelper(rollerCoaster, setRollerCoaster);
   const handleParkFieldChange = handleFieldChangeHelper(park, setPark);
-  const handleTrackTypeFieldChange = handleFieldChangeHelper(
-    trackType,
-    setTrackType
-  );
-  const handleManufacturerFieldChange = handleFieldChangeHelper(
-    manufacturer,
-    setManufacturer
-  );
+  const handleTrackTypeFieldChange = handleFieldChangeHelper(trackType, setTrackType);
+  const handleManufacturerFieldChange = handleFieldChangeHelper(manufacturer, setManufacturer);
 
   // object to go into database
   const constructNewRollerCoaster = (e) => {
@@ -83,8 +77,8 @@ const AddNewRollerCoaster = (props) => {
     } else {
       setIsLoading(true);
       confirmAlert({
-        title: "Confirm Roller Coaster Data Submission",
-        message: "Confirm",
+        title: "Roller Coaster Data Submission",
+        message: "Click Yes To Confirm",
         buttons: [
           {
             label: "Yes",
@@ -93,41 +87,30 @@ const AddNewRollerCoaster = (props) => {
               // Function corrects problem of creating new resource when one already exists...
               // Checks database for unique name, or what user inputs to field,  if does not exist it creates new resource, if not will tie to existing resource.
               try {
-                const getTrackTypeName = await ApiManager.getTrackTypeByByName(
-                  trackType.name
-                );
-                const getParkName = await ApiManager.getParkByName(park.name);
-                const getManufacturerName = await ApiManager.getManufacturerByName(
-                  manufacturer.name
-                );
+                const getTrackTypeName = await trackTypeManager.getTrackTypeByByName(trackType.name);
+                const getParkName = await parkManager.getParkByName(park.name);
+                const getManufacturerName = await manufacturerManager.getManufacturerByName(manufacturer.name);
+                console.log(getManufacturerName)
 
-                var trackTypeId =
-                  getTrackTypeName.length > 0 ? getTrackTypeName[0].id : false;
+                var trackTypeId = getTrackTypeName.length > 0 ? getTrackTypeName[0].id : false;
                 var parkId = getParkName.length > 0 ? getParkName[0].id : false;
-                var manufacturerId =
-                  getManufacturerName.length > 0
-                    ? getManufacturerName[0].id
-                    : false;
+                var manufacturerId = getManufacturerName.length > 0 ? getManufacturerName[0].id : false;
               } catch (error) {
                 console.log({ error });
               }
 
               if (!trackTypeId) {
-                const trackType = await ApiManager.postNewTrackType(
-                  newTrackType
-                );
+                const trackType = await trackTypeManager.postNewTrackType(newTrackType);
                 trackTypeId = trackType.id;
               }
 
               if (!parkId) {
-                const park = await ApiManager.postNewPark(newPark);
+                const park = await parkManager.postNewPark(newPark);
                 parkId = park.id;
               }
 
               if (!manufacturerId) {
-                const manufacturer = await ApiManager.postNewManufacturer(
-                  newManufacturer
-                );
+                const manufacturer = await manufacturerManager.postNewManufacturer(newManufacturer);
                 manufacturerId = manufacturer.id;
               }
 
@@ -139,9 +122,8 @@ const AddNewRollerCoaster = (props) => {
                 parkId: parkId,
                 manufacturerId: manufacturerId,
               };
-              console.log(newRollerCoaster)
 
-              ApiManager.postNewRollerCoaster(newRollerCoaster).then(() => {
+              rollerCoasterManager.postNewRollerCoaster(newRollerCoaster).then(() => {
                 setIsLoading(false);
                 props.history.push("/users/new");
               });
@@ -164,7 +146,8 @@ const AddNewRollerCoaster = (props) => {
       setIsLoading
     );
   }, []);
-console.log(trackTypes)
+
+
   return (
     <>
       <form className="main-form" onSubmit={constructNewRollerCoaster}>

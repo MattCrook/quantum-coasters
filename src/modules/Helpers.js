@@ -1,4 +1,8 @@
-import ApiManager from "./ApiManager";
+import manufacturerManager from "./manufacturers/manfacturerManager";
+import parkManager from "./parks/parkManager";
+import trackTypeManager from "./tracktypes/trackTypeManager";
+
+
 
 // function to check If this is an edit, we need the id and the timestamp should be what it was.
 // userId doesn't need to change because users will not have a button to edit other users' messages
@@ -27,7 +31,6 @@ export function formatInput(target) {
 export function handleFieldChangeHelper(currentState, setCurrentState) {
   return e => {
     const stateToChange = { ...currentState };
-    console.log(stateToChange)
     stateToChange[e.target.id] = e.target.value;
     setCurrentState(stateToChange);
   };
@@ -38,9 +41,9 @@ export function handleFieldChangeHelper(currentState, setCurrentState) {
 // helper to be called inside { useEffect } to call async functions, handle the returned data
 // and set the current state of its parameters
 export function setResourceStateHelperFunction(setManufacturers, setTrackTypes, setParks, setIsLoading) {
-  ApiManager.getAllManufacturers().then(manufacturers => {
-    ApiManager.getTrackTypes().then(trackTypes => {
-      ApiManager.getParks().then(parks => {
+  manufacturerManager.getAllManufacturers().then(manufacturers => {
+    trackTypeManager.getTrackTypes().then(trackTypes => {
+      parkManager.getParks().then(parks => {
         setManufacturers(manufacturers);
         setTrackTypes(trackTypes);
         setParks(parks);

@@ -19,7 +19,7 @@ const Home = (props) => {
           <button className="home-logo">Quantum Coasters</button>
           {/* menu items */}
           {/* if there is a user. show the logout button */}
-          {!loading && user && (
+          {!loading && user && userProfile && (
             <>
               <div className="navbar-end">
                 <button className="navbar-item-home-name">{user.name}</button>
@@ -40,12 +40,7 @@ const Home = (props) => {
                 )}
                 <div className="logout_btn_home_container">
                   <button
-                    onClick={() =>
-                      logout(
-                        { returnTo: window.location.origin },
-                        clearStorage()
-                      )
-                    }
+                    onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
                     className="logout-navbar-item"
                     data-testid="logout-btn-testid"
                   >
@@ -57,14 +52,6 @@ const Home = (props) => {
           )}
         </div>
       </nav>
-
-      {/* <div className="greeting">
-        {!loading && user && (
-          <>
-            <p>Hello {user.nickname}!</p>
-          </>
-        )}
-      </div> */}
 
       {!authUser.email && !loading && user && (
         <>
