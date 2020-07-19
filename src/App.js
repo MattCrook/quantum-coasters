@@ -4,7 +4,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import NavBar from "./components/nav/NavBar";
 import ApplicationViews from "./components/ApplicationViews";
 import history from "./utils/history";
-import ApiManager from "./modules/ApiManager";
+import userManager from "./modules/users/userManager";
 import "./App.css";
 import "bulma/css/bulma.css";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -16,7 +16,7 @@ const App = (props) => {
   const [authUser, setAuthUser] = useState([]);
 
   useEffect(() => {
-    if (user) {
+    if (!loading && user) {
       const userEmail = user.email;
       const guardForUserProfile = async (userEmail) => {
         const token = await getIdTokenClaims()
@@ -24,10 +24,10 @@ const App = (props) => {
         if (token) {
           localStorage.setItem("accessToken", JSON.stringify(token.__raw));
         }
-        const getAuthUser = await ApiManager.getAuthUser(userEmail);
+        const getAuthUser = await userManager.getAuthUser(userEmail);
         if (getAuthUser.length > 0) {
           const authUserId = getAuthUser[0].id;
-          const getProfile = await ApiManager.getUserProfileEmbeddedAuthUser(authUserId);
+          const getProfile = await userManager.getUserProfileEmbeddedAuthUser(authUserId);
           sessionStorage.setItem("credentials", JSON.stringify(userEmail));
           setAuthUser(getAuthUser[0]);
           setUserProfile(getProfile[0]);

@@ -1,5 +1,4 @@
 import { useAuth0 } from "../../contexts/react-auth0-context";
-// import { userProfileContext } from "../../contexts/react-auth0-context";
 import React from "react";
 import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
@@ -12,7 +11,7 @@ import {
   faCommentDots
 } from "@fortawesome/free-solid-svg-icons";
 
-const NavBar = ({ userProfile, authUser }) => {
+const NavBar = ({ authUser }) => {
   const { isAuthenticated, loading } = useAuth0();
 
 

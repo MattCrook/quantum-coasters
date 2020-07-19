@@ -12,10 +12,8 @@ display: flex;
 
 .leaderboard-name {
   display: flex;
-  /* justify-content: space-between; */
   flex-direction: row;
   align-items: center;
-  /* margin: 0px 50px 0px 0px; */
 }
 
 .leaderboard_container_2 {
@@ -56,13 +54,14 @@ display: flex;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  box-shadow: 1px 3px 6px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 3px 6px 4px rgba(0, 0, 0, 0.2);
   margin-top: 4px;
-  margin-bottom: 2px;
+  margin-bottom: 5px;
   margin-left: 20%;
   /* margin-right: 200px; */
   background-color: rgb(245, 245, 245);
   width: 60%;
+  border-radius: 8px 8px 8px 8px;
 }
 
 .leaderBoard-back-btn {

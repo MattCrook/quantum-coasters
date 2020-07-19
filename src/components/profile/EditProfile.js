@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import ApiManager from "../../modules/ApiManager";
+import userManager from "../../modules/users/userManager";
+import imageManager from "../../modules/images/imageManager";
+import creditManager from "../../modules/credits/creditManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { confirmAlert } from "react-confirm-alert";
 // import keys from "../../keys/Keys";
@@ -31,19 +33,22 @@ const EditProfile = (props) => {
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
   const defaultQPicture = "https://cdn.dribbble.com/users/2908839/screenshots/6292457/shot-cropped-1554473682961.png"
 
+  // Function to first get the auth user from the email passed from auth0 context, then get the userProfile from the id of the auth user by the user_id FK on userProfile.
+  // Once have those, fetch image by image id on the userProfile.
+  // Then finally fetch all credits and filter them down to specific credits for the current logged in user.
   const getProfileAndCredits = async (user) => {
     try {
-      const authUserFromAPI = await ApiManager.getAuthUser(user.email);
-      const creditsToFetch = await ApiManager.getCreditIdFromApi();
+      const authUserFromAPI = await userManager.getAuthUser(user.email);
+      const creditsToFetch = await creditManager.getCreditIdFromApi();
       const authProfile = authUserFromAPI[0];
       setApiUser(authProfile);
 
-      const userProfileFromAPI = await ApiManager.getUserProfileEmbeddedAuthUser(authProfile.id);
+      const userProfileFromAPI = await userManager.getUserProfileEmbeddedAuthUser(authProfile.id);
       const profile = userProfileFromAPI[0];
       setUserProfile(profile);
       if (profile.image) {
         const imageId = profile.image.id;
-        const getImage = await ApiManager.getAuthUserImage(imageId);
+        const getImage = await imageManager.getAuthUserImage(imageId);
         setImage(getImage);
       } else {
         setImage(defaultProfilePicture);
@@ -92,7 +97,9 @@ const EditProfile = (props) => {
     }
   };
 
-
+  // Building objects to send to Api.
+  // If there is a new image, Post new image to images table, grab the ID, and send with new image_id,
+  // if there is an image already there, keep that and grab the ID send with that image_id, else send with no image(empty string).
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -105,15 +112,15 @@ const EditProfile = (props) => {
       email: user.email,
     };
 
-    if (!loading && userProfile && userProfile.image) {
+    if (!loading && userProfile && userProfile.image_id) {
       const editedUserProfile = {
         id: userProfileId,
         address: userProfile.address,
         image_id: image.id,
         credits: userProfile.credits,
       };
-      const updateAuthUser = await ApiManager.putEditedAPIUser(editedAuthUser);
-      const updateUserProfile = await ApiManager.putEditedUserProfile(editedUserProfile);
+      await userManager.putEditedAPIUser(editedAuthUser);
+      await userManager.putEditedUserProfile(editedUserProfile);
     } else {
       const editedUserProfile = {
         id: userProfileId,
@@ -121,14 +128,16 @@ const EditProfile = (props) => {
         image_id: "",
         credits: userProfile.credits,
       };
-      const updateAuthUser = await ApiManager.putEditedAPIUser(editedAuthUser);
-      const updateUserProfile = await ApiManager.putEditedUserProfile(editedUserProfile);
+      await userManager.putEditedAPIUser(editedAuthUser);
+      await userManager.putEditedUserProfile(editedUserProfile);
     }
     setIsLoading(false);
     window.alert("Profile has been updated!");
     props.history.push("/users");
   };
 
+  // Build form to send image (File) to API. Must be in this format to send a file.
+  // Files cannot be JSON stringified or parsed.
   const gatherFormData = () => {
     const formdata = new FormData();
     if (image.image === "") {
@@ -139,11 +148,13 @@ const EditProfile = (props) => {
     return formdata;
   };
 
+  // Handle posting new image, get form data from From above, send to API, and set the current user's image ID to the PK(ID) of new Image resource.
+  // Then attach that fk (image_id) to the userProfile object when user updates profile.
   const handleImageFromSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     const formData = gatherFormData();
-    const postNewImage = await ApiManager.postNewImage(formData);
+    const postNewImage = await imageManager.postNewImage(formData);
     setImage(postNewImage);
     const image_id = postNewImage.id;
 
@@ -157,6 +168,7 @@ const EditProfile = (props) => {
     setIsLoading(false);
   };
 
+
   const deleteUserProfile = (id) => {
     try {
       confirmAlert({
@@ -167,7 +179,7 @@ const EditProfile = (props) => {
           {
             label: "Yes",
             onClick: () =>
-              ApiManager.deleteUserProfile(id).then(() => logout()),
+              userManager.deleteUserProfile(id).then(() => logout()),
           },
           {
             label: "No",
@@ -207,7 +219,7 @@ const EditProfile = (props) => {
       <div className="profile-pic-container">
         <div className="profile-pic-flex-box">
           {!loading && userProfile && image.image ? (
-            <img id="edit-profile-pic" src={image.image} alt="My Avatar" />
+            <img id="edit-profile-pic" src={image.image} alt="Click Change Photo to confirm upload of new Image." />
           ) : (
               <img id="edit-profile-pic" src={defaultQPicture} alt="My default pic"/>
             )}
@@ -222,7 +234,6 @@ const EditProfile = (props) => {
                 accept="image/*"
                 className="file-upload"
                 onChange={handleImageUpload}
-                value=""
               />
             </div>
             <button type="submit" className="change_photo_btn" disabled={isLoading}>
@@ -254,7 +265,6 @@ const EditProfile = (props) => {
             type="text"
             id="first_name"
             required
-            // autoFocus
             value={apiUser.first_name}
           />
           <label htmlFor="last_name">Last Name</label>
@@ -265,7 +275,6 @@ const EditProfile = (props) => {
             type="text"
             id="last_name"
             required
-            // autoFocus
             value={apiUser.last_name}
           />
           <label htmlFor="username">Username</label>
@@ -275,7 +284,6 @@ const EditProfile = (props) => {
             type="text"
             id="username"
             required
-            // autoFocus
             value={apiUser.username}
           />
           <label htmlFor="address">Address</label>
@@ -285,7 +293,6 @@ const EditProfile = (props) => {
             type="text"
             id="address"
             required
-            // autoFocus
             value={userProfile.address}
           />
           <button className="edit-create-btn" type="submit" disabled={isLoading}>

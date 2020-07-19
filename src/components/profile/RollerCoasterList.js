@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
-import ApiManager from "../../modules/ApiManager";
+import rollerCoasterManager from "../../modules/rollerCoasters/rollerCoasterManager";
+import userManager from "../../modules/users/userManager";
+import creditManager from "../../modules/users/userManager"
 import { useAuth0 } from "../../contexts/react-auth0-context";
+
+
 
 // list that user is taken to, to input new credit (new rollercoaster ridden)
 // need check to see if the roller coaster exists in DB, if not user is taken to NewRollerCoasterForm
@@ -13,20 +17,18 @@ const RollerCoasterList = () => {
   const [credits, setCredits] = useState([]);
 
 
-
-
   // function to populate entire list of rollerCoasters in database
   const rollerCoastersFromAPI = async () => {
-    const rollerCoastersData = await ApiManager.getAllRollerCoastersWithAllExpanded();
+    const rollerCoastersData = await rollerCoasterManager.getAllRollerCoastersWithAllExpanded();
     setRollerCoasters(rollerCoastersData);
   };
 
   // Grabbing the current user profile and drilling into credits [array] to determine how many/ what credits they have. Will determine on initial render if add button is shown.
   const currentUserProfileCredits = async (user) => {
-    const getAuthUser = await ApiManager.getAuthUser(user.email);
+    const getAuthUser = await userManager.getAuthUser(user.email);
     setAuthUser(getAuthUser[0]);
     const authUserId = getAuthUser[0].id;
-    const getProfile = await ApiManager.getUserProfileEmbeddedAuthUser(authUserId);
+    const getProfile = await userManager.getUserProfileEmbeddedAuthUser(authUserId);
     const profile = getProfile[0];
     const creditsArray = profile.credits;
     setUserProfile(profile);
@@ -63,11 +65,11 @@ const RollerCoasterList = () => {
       userProfile_id: userProfile.id,
     };
 
-    ApiManager.addCredit(newCreditObj).then(() => {
-      ApiManager.getAuthUser(user.email).then((userData) => {
+    creditManager.addCredit(newCreditObj).then(() => {
+      userManager.getAuthUser(user.email).then((userData) => {
         const profile = userData[0];
         const userId = profile.id;
-        ApiManager.getUserProfileEmbeddedAuthUser(userId).then(response => {
+        userManager.getUserProfileEmbeddedAuthUser(userId).then(response => {
           const userProf = response[0];
           const creditsArray = userProf.credits;
           setUserProfile(userProf);

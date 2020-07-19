@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import ApiManager from "../../modules/ApiManager";
+import userManager from "../../modules/users/userManager";
+import messageManager from "../../modules/messages/messageManager";
 import MessageCard from "./MessageCard";
 import MessageForm from "./MessageForm";
 import { useAuth0 } from "../../contexts/react-auth0-context";
@@ -20,15 +21,15 @@ const MessageList = (props) => {
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
   const getMessages = async () => {
-    const allMessages = await ApiManager.getAllMessages();
+    const allMessages = await messageManager.getAllMessages();
     setMessages(allMessages);
   };
 
   const getUserProfile = async (user) => {
     try {
-      const userFromAPI = await ApiManager.getAuthUser(user.email);
+      const userFromAPI = await userManager.getAuthUser(user.email);
       const userId = userFromAPI[0].id;
-      const profileFromAPI = await ApiManager.getUserProfileEmbeddedAuthUser(userId);
+      const profileFromAPI = await userManager.getUserProfileEmbeddedAuthUser(userId);
       setAuthUser(userFromAPI[0]);
       setUserProfile(profileFromAPI[0]);
       const profileId = userFromAPI[0].id;

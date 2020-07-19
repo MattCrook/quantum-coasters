@@ -8,7 +8,7 @@ test("renders message card wth props, message, and edit button", () => {
   const history = createMemoryHistory();
   const props = {
     message: {
-      user: { first_name: "Matt", picUrl: "" },
+      user: { first_name: "Matt" },
       userId: 1,
       message: "testing the message card.",
       timestamp: "numbers for time"

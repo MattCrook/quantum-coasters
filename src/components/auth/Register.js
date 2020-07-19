@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { useAuth0 } from "../../contexts/react-auth0-context";
-import ApiManager from "../../modules/ApiManager";
-// import keys from "../../keys/Keys";
+import userManager from "../../modules/users/userManager";
 import "./Register.css";
 import { confirmAlert } from "react-confirm-alert";
+// import keys from "../../keys/Keys";
 // import ImageUploader from "react-images-upload";
 
 const Register = (props) => {
   const { user } = useAuth0();
-  const isAuthenticated = () => sessionStorage.getItem("token") !== null;
+  // const isAuthenticated = () => sessionStorage.getItem("token") !== null;
   const [isLoading, setIsLoading] = useState(false);
-  const [hasUser, setHasUser] = useState(isAuthenticated());
+  // const [hasUser, setHasUser] = useState(isAuthenticated());
   const [authUser, setAuthUser] = useState({
     first_name: "",
     last_name: "",
@@ -24,10 +24,10 @@ const Register = (props) => {
 
 
 
-  const setUserToken = (resp) => {
-    sessionStorage.setItem("Quantumtoken", resp.token);
-    setHasUser(isAuthenticated());
-  };
+  // const setUserToken = (resp) => {
+  //   sessionStorage.setItem("Quantumtoken", resp.token);
+  //   setHasUser(isAuthenticated());
+  // };
 
   const handleAuthUserInputChange = (e) => {
       const stateToChange = { ...authUser };
@@ -64,7 +64,7 @@ const Register = (props) => {
                 address: authUser.address,
                 image: defaultProfilePicture
               };
-              ApiManager.register(newUser).then(resp => {
+              userManager.register(newUser).then(resp => {
                 console.log(resp);
                 // if ("QuantumToken" in resp) {
                 //   setUserToken(resp);

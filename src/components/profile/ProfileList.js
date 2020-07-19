@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ProfileCard from "./ProfileCard";
-import ApiManager from "../../modules/ApiManager";
+import userManager from "../../modules/users/userManager";
+import creditManager from "../../modules/credits/creditManager";
+import rollerCoasterManager from "../../modules/rollerCoasters/rollerCoasterManager"
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { confirmAlert } from "react-confirm-alert";
 import "./Profile.css";
@@ -19,8 +21,8 @@ const ProfileList = (props) => {
 
   const getUserCreditsToFetch = async (userId) => {
     try {
-      const userProfileFromAPI = await ApiManager.getUserProfileEmbeddedAuthUser(userId);
-      const creditsToFetch = await ApiManager.getCreditIdFromApi();
+      const userProfileFromAPI = await userManager.getUserProfileEmbeddedAuthUser(userId);
+      const creditsToFetch = await creditManager.getCreditIdFromApi();
       const profile = userProfileFromAPI[0];
       const filterUsersCredits = creditsToFetch.filter((credit) => credit.userProfile === profile.id);
       setUserProfile(profile);
@@ -30,7 +32,7 @@ const ProfileList = (props) => {
       });
       let promises = [];
       creditsMap.forEach((item) => {
-        promises.push(ApiManager.getRollerCoastersForUserProfile(item));
+        promises.push(rollerCoasterManager.getRollerCoastersForUserProfile(item));
       });
       Promise.all(promises)
         .then((data) => {
@@ -54,10 +56,10 @@ const ProfileList = (props) => {
             label: "Yes",
             onClick: () => {
               setIsLoading(true);
-              ApiManager.getCreditIdFromApi().then((credits) => {
+              creditManager.getCreditIdFromApi().then((credits) => {
                   const filteredCreditToDelete = credits.filter((credit) => credit.rollerCoaster === creditId);
-                  ApiManager.deleteCredit(filteredCreditToDelete[0].id).then(() => {
-                      ApiManager.getUserProfileEmbeddedAuthUser(userId).then((response) => {
+                  creditManager.deleteCredit(filteredCreditToDelete[0].id).then(() => {
+                      userManager.getUserProfileEmbeddedAuthUser(userId).then((response) => {
                           const profile = response[0];
                           const credits = profile.credits;
                           setUserProfile(profile);
