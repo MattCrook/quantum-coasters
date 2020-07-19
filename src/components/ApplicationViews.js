@@ -11,6 +11,7 @@ import MessageList from "./messages/Messages";
 import EditProfile from "./profile/EditProfile";
 import LeaderBoard from "./leaderBoard/LeaderBoard";
 import Register from "./auth/Register";
+import SelectRollerCoaster from "./profile/SelectRollerCoaster"
 // import AuthRoute from "./AuthRoute";
 
 const ApplicationViews = ({
@@ -30,27 +31,6 @@ const ApplicationViews = ({
           return <LandingPage {...props} />;
         }}
       />
-      {/* <Route
-        exact
-        path="/profile/welcome"
-        // path="register/"
-        render={(props) => {
-          if (isAuthenticated === true) {
-            return (
-              <CreateAccount
-                userProfile={userProfile}
-                authUser={authUser}
-                setUserProfile={setUserProfile}
-                setAuthUser={setAuthUser}
-                {...props}
-              />
-            );
-          } else {
-            return <LandingPage />;
-          }
-        }}
-      /> */}
-
       <Route
         exact
         // path="/profile/welcome"
@@ -161,6 +141,24 @@ const ApplicationViews = ({
               <LeaderBoard
                 userProfile={userProfile}
                 authUser={authUser}
+                {...props}
+              />
+            );
+          } else {
+            return <LandingPage />;
+          }
+        }}
+      />
+      <Route
+        exact
+        path="/rollerCoasters/park/:parkId(\d+)"
+        render={(props) => {
+          if (isAuthenticated === true && userProfile.id) {
+            return (
+              <SelectRollerCoaster
+                userProfile={userProfile}
+                authUser={authUser}
+                parkId={parseInt(props.match.params.parkId)}
                 {...props}
               />
             );

@@ -29,6 +29,17 @@ const rollerCoasterManager = {
     return await data.json();
   },
 
+  async getRollerCoastersByParkId(parkId) {
+    const data = await fetch(`${remoteURL}/rollercoasters?park_id=${parkId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
+      },
+    });
+    return await data.json();
+  },
+
   async postNewRollerCoaster(resource) {
     const data = await fetch(`${remoteURL}/rollercoasters`, {
       method: "POST",

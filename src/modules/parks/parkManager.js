@@ -37,6 +37,18 @@ const parkManager = {
     });
     return await resp.json();
   },
+
+  async retrievePark(parkId) {
+    const resp = await fetch(`${remoteURL}/parks/${parkId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
+      },
+      Accept: "application/json",
+    });
+    return await resp.json();
+  },
 };
 
 export default parkManager;
