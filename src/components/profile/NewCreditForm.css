@@ -146,3 +146,94 @@ button.add-credit-button {
   display: flex;
   justify-content: flex-end;
 }
+
+
+/********** PARKS *****************/
+
+
+.parks_list_title {
+  display: flex;
+  justify-content: center;
+  font-size: 30px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid black;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+.park-list-items-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.park-list-elements {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: 0.3s;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  align-content: center;
+  padding: 7px 20px;
+  margin: 1px 30%;
+}
+
+.park_list_item_link {
+  text-decoration: none;
+  padding: 6px 22px;
+  margin: 8px 8px;
+  color: rgb(68, 66, 66);
+  font-family: sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 12px;
+  position: relative;
+  display: inline-block;
+}
+
+.park_list_item_link {
+  border: 1px solid transparent;
+  -webkit-transition: all 0.4s cubic-bezier(0.5, 0.24, 0, 1);
+  transition: all 0.4s cubic-bezier(0.5, 0.24, 0, 1);
+}
+
+.park_list_item_link::before {
+  content: "";
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 0%;
+  height: 1px;
+  background: #01318a;
+  box-shadow: inset 0px 0px 0px #1a49a1;
+  display: block;
+  -webkit-transition: all 0.4s cubic-bezier(0.5, 0.24, 0, 1);
+  transition: all 0.4s cubic-bezier(0.5, 0.24, 0, 1);
+}
+
+.park_list_item_link:hover::before {
+  width: 100%;
+}
+
+.park_list_item_link::after {
+  content: "";
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 0%;
+  height: 1px;
+  background: #103479;
+  -webkit-transition: all 0.4s cubic-bezier(0.5, 0.24, 0, 1);
+  transition: all 0.4s cubic-bezier(0.5, 0.24, 0, 1);
+}
+.park_list_item_link:hover::after {
+  width: 100%;
+}
+.park_list_item_link:hover {
+  text-decoration: none;
+  border-left: 1px solid #1e4386;
+  border-right: 1px solid #174bad;
+}
+
+.park_list_location_and_country {
+  font-size: 14px;
+}

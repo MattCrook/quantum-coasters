@@ -62,6 +62,7 @@ const EditProfile = (props) => {
 
   const handleInputChangeUserProfile = (e) => {
     const stateToChange = { ...userProfile };
+    console.log(stateToChange)
     stateToChange[e.target.id] = e.target.value;
     setUserProfile(stateToChange);
   };
@@ -97,6 +98,7 @@ const EditProfile = (props) => {
     }
   };
 
+
   // Building objects to send to Api.
   // If there is a new image, Post new image to images table, grab the ID, and send with new image_id,
   // if there is an image already there, keep that and grab the ID send with that image_id, else send with no image(empty string).
@@ -112,7 +114,7 @@ const EditProfile = (props) => {
       email: user.email,
     };
 
-    if (!loading && userProfile && userProfile.image_id) {
+    if (!loading && userProfile && image) {
       const editedUserProfile = {
         id: userProfileId,
         address: userProfile.address,
@@ -121,7 +123,8 @@ const EditProfile = (props) => {
       };
       await userManager.putEditedAPIUser(editedAuthUser);
       await userManager.putEditedUserProfile(editedUserProfile);
-    } else {
+
+    } else if (!loading && userProfile && !image) {
       const editedUserProfile = {
         id: userProfileId,
         address: userProfile.address,
@@ -234,6 +237,7 @@ const EditProfile = (props) => {
                 accept="image/*"
                 className="file-upload"
                 onChange={handleImageUpload}
+                required
               />
             </div>
             <button type="submit" className="change_photo_btn" disabled={isLoading}>
