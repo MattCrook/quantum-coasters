@@ -14,13 +14,14 @@ const App = (props) => {
   const { loading, user, getIdTokenClaims } = useAuth0();
   const [userProfile, setUserProfile] = useState([]);
   const [authUser, setAuthUser] = useState([]);
+  const [userCredits, setUserCredits] = useState([]);
 
   useEffect(() => {
     if (!loading && user) {
       const userEmail = user.email;
+      sessionStorage.setItem("credentials", JSON.stringify(userEmail));
       const guardForUserProfile = async (userEmail) => {
-        const token = await getIdTokenClaims()
-        console.log({ token })
+        const token = await getIdTokenClaims();
         if (token) {
           localStorage.setItem("accessToken", JSON.stringify(token.__raw));
         }
@@ -28,21 +29,26 @@ const App = (props) => {
         if (getAuthUser.length > 0) {
           const authUserId = getAuthUser[0].id;
           const getProfile = await userManager.getUserProfileEmbeddedAuthUser(authUserId);
-          sessionStorage.setItem("credentials", JSON.stringify(userEmail));
+          const creditsArray = getProfile[0].credits;
           setAuthUser(getAuthUser[0]);
           setUserProfile(getProfile[0]);
+          setUserCredits(creditsArray);
         } else {
           console.log("Please Complete your Profile. :) ");
           setUserProfile([]);
         }
       };
       guardForUserProfile(userEmail);
-
     }
-  }, [user, getIdTokenClaims]);
+  }, [user, getIdTokenClaims, loading]);
 
   if (loading) {
-    return <div className="loading_pop_up">Loading...</div>;
+    return (
+      <div className="loading_container">
+        <div className="loading_pop_up">Loading...</div>
+        <div className="spinner icon-spinner-2" aria-hidden="true"></div>
+      </div>
+    );
   }
 
   return (
@@ -61,6 +67,8 @@ const App = (props) => {
           authUser={authUser}
           setUserProfile={setUserProfile}
           setAuthUser={setAuthUser}
+          userCredits={userCredits}
+          setUserCredits={setUserCredits}
           {...props}
         />
       </Router>
@@ -68,9 +76,6 @@ const App = (props) => {
   );
 };
 export default App;
-
-
-
 
 // fetching the userProfile (when i was using json server) to check if there is one. Will determine conditional rendering
 // further down in app. If there is no user profile, the rest of the app is blocked or hidden so user has to fill out

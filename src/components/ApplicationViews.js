@@ -6,12 +6,11 @@ import LandingPage from "./auth/Login";
 import Home from "./home/Home";
 import NewRollerCoaster from "./addNewForm/NewRollerCoaster";
 import AddNewCreditForm from "./profile/NewCreditForm";
-// import CreateAccount from "./auth/Register";
 import MessageList from "./messages/Messages";
 import EditProfile from "./profile/EditProfile";
 import LeaderBoard from "./leaderBoard/LeaderBoard";
 import Register from "./auth/Register";
-import SelectRollerCoaster from "./profile/SelectRollerCoaster"
+import SelectRollerCoaster from "./profile/SelectRollerCoaster";
 // import AuthRoute from "./AuthRoute";
 
 const ApplicationViews = ({
@@ -19,6 +18,8 @@ const ApplicationViews = ({
   setUserProfile,
   authUser,
   setAuthUser,
+  userCredits,
+  setUserCredits
 }) => {
   const { isAuthenticated } = useAuth0();
 
@@ -33,7 +34,6 @@ const ApplicationViews = ({
       />
       <Route
         exact
-        // path="/profile/welcome"
         path="/register"
         render={(props) => {
           if (isAuthenticated === true) {
@@ -73,10 +73,16 @@ const ApplicationViews = ({
 
       <Route
         exact
-        path="/users"
+        path="/user/profile/credits"
         render={(props) => {
           if (isAuthenticated === true && userProfile.id) {
-            return <ProfileList  userProfile={userProfile} authUser={authUser} {...props} />;
+            return (
+              <ProfileList
+                userProfile={userProfile}
+                authUser={authUser}
+                {...props}
+              />
+            );
           } else {
             return <LandingPage />;
           }
@@ -85,10 +91,16 @@ const ApplicationViews = ({
 
       <Route
         exact
-        path="/users/new"
+        path="/user/parks/addcredit"
         render={(props) => {
           if (isAuthenticated === true && userProfile.id) {
-            return <AddNewCreditForm authUser={authUser} userProfile={userProfile}{...props} />;
+            return (
+              <AddNewCreditForm
+                authUser={authUser}
+                userProfile={userProfile}
+                {...props}
+              />
+            );
           } else {
             return <LandingPage />;
           }
@@ -141,6 +153,7 @@ const ApplicationViews = ({
               <LeaderBoard
                 userProfile={userProfile}
                 authUser={authUser}
+                setUserProfile={setUserProfile}
                 {...props}
               />
             );
@@ -158,6 +171,9 @@ const ApplicationViews = ({
               <SelectRollerCoaster
                 userProfile={userProfile}
                 authUser={authUser}
+                setUserProfile={setUserProfile}
+                userCredits={userCredits}
+                setUserCredits={setUserCredits}
                 parkId={parseInt(props.match.params.parkId)}
                 {...props}
               />

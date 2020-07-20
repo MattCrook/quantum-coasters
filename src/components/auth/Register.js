@@ -38,7 +38,6 @@ const Register = (props) => {
   const handleFormSubmit = (e) => {
     setIsLoading(true)
     e.preventDefault();
-    sessionStorage.setItem("userPicture from register", JSON.stringify(user.picture));
 
     if (
       authUser.first_name === "" ||

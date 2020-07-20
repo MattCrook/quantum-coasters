@@ -8,8 +8,7 @@ const Home = (props) => {
   const { loading, user, logout, clearStorage } = useAuth0();
   const { userProfile } = props;
   const { authUser } = props;
-  const defaultProfilePicture =
-    "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
+  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
   return (
     <header>
@@ -22,8 +21,8 @@ const Home = (props) => {
           {!loading && user && userProfile && (
             <>
               <div className="navbar-end">
-                <button className="navbar-item-home-name">{user.name}</button>
-                {userProfile.image ? (
+                <button className="navbar-item-home-name">{authUser.first_name} {authUser.last_name}</button>
+                {!loading && userProfile.image ? (
                   <img
                     data-testid="home-profile-pic-testid"
                     id="profile-pic"

@@ -1,9 +1,11 @@
-// This is a folder of most the old code which was removed during the Refactor from using Json server, to uing my own custom built API
+// This is a folder of most the old code which was removed during the Refactor from using Json server then later in wrapping app in Auth0 and massive rework/ refactor, to using my own custom built API
 
-const { Form } = require("semantic-ui-react")
+// const { Form } = require("semantic-ui-react")
 
 
 /******************** ***********************************/
+/************************ ******************************/
+
 
 // // From RollerCoasterList.js
 // //   handles user adding the credit. gets the email from State which was set above
@@ -25,6 +27,9 @@ const { Form } = require("semantic-ui-react")
 
 
 /******************** ***********************************/
+/************************ ******************************/
+
+
 // From API Manager
 // async getUserProfile(email) {
 //   const resp = await fetch(`${remoteURL}/users?email=${email}`, {
@@ -38,6 +43,8 @@ const { Form } = require("semantic-ui-react")
 // },
 
 /******************** ***************************************/
+/************************ ******************************/
+
 
 
 // From ProfileList.js - Initial api call to get user profile and drill down into the credits array.
@@ -142,6 +149,7 @@ const { Form } = require("semantic-ui-react")
 //       getCreditId();
 //     }, [user]);
 /******************** ***********************************/
+/************************ ******************************/
 
 // FROM EDITPROFILE COMPONENT. Not using this api call to get the user credits or the cloudinary function. 
 
@@ -186,6 +194,8 @@ const { Form } = require("semantic-ui-react")
   //   }
   // };
 /************************ ******************************/
+/************************ ******************************/
+
 // Get the Credits on the user Edit Form
   //     const creditsMap = filterUsersCredits.map((credit) => {
   //       const rollerCoasterId = credit.rollerCoaster;
@@ -204,7 +214,9 @@ const { Form } = require("semantic-ui-react")
   //       });
 
 
-  /************************ ******************************/
+/************************ ******************************/
+/************************ ******************************/
+
 
 // Edit Profile OnDrop Component
 
@@ -213,6 +225,7 @@ const { Form } = require("semantic-ui-react")
   //   setImage({ ...image }, picture);
 
 
+  // eslint-disable-next-line no-lone-blocks
   {/* <div className="change-profile-pic">
     <label htmlFor="picUrl">Profile picture</label>
 
@@ -230,6 +243,8 @@ const { Form } = require("semantic-ui-react")
 </div> */}
 
 /************************* *************************/
+/************************ ******************************/
+
 
 // Edit profile - this was guards for different combinations of objects to go into database mainly different photo guards.
       // if (picUrl === null) {
@@ -290,6 +305,8 @@ const { Form } = require("semantic-ui-react")
       // };
 
 /********************** EDIT CREDIT FORM *******************/
+/************************ ******************************/
+
 
 // import React, { useState, useEffect } from "react";
 // import { setResourceStateHelperFunction } from "../../modules/Helpers";
@@ -471,3 +488,103 @@ const { Form } = require("semantic-ui-react")
 // };
 
 // export default EditCreditForm;
+
+/******************************** RollerCoasterList ******************/
+/************************ ******************************/
+
+
+  // const { user } = useAuth0();
+  // const [rollerCoasters, setRollerCoasters] = useState([]);
+  // const [userProfile, setUserProfile] = useState([]);
+  // const [authUser, setAuthUser] = useState([]);
+  // const [credits, setCredits] = useState([]);
+
+  // function to populate entire list of rollerCoasters in database
+  // const rollerCoastersFromAPI = async () => {
+  //   const rollerCoastersData = await rollerCoasterManager.getAllRollerCoastersWithAllExpanded();
+  //   setRollerCoasters(rollerCoastersData);
+  // };
+
+
+  // Grabbing the current user profile and drilling into credits [array] to determine how many/ what credits they have. Will determine on initial render if add button is shown.
+  // const currentUserProfileCredits = async (user) => {
+  //   const getAuthUser = await userManager.getAuthUser(user.email);
+  //   setAuthUser(getAuthUser[0]);
+  //   const authUserId = getAuthUser[0].id;
+  //   const getProfile = await userManager.getUserProfileEmbeddedAuthUser(
+  //     authUserId
+  //   );
+  //   const profile = getProfile[0];
+  //   const creditsArray = profile.credits;
+  //   setUserProfile(profile);
+  //   setCredits(creditsArray);
+  // };
+
+  // function to hide the "ADD" button from the user if they already have the rollerCoaster on their profile
+  // Returns the credits(which are in State) which don't include the rollercoasterId
+  // if "credits" is an object, extract the credit object and push into an array, so we can map over it an return everything but the Ids that the user has.
+  // Else, map over the credits normally.
+  // let rcIdsArray = [];
+  // const showButton = (rollercoasterId, credits) => {
+  //   if (typeof credits === "object") {
+  //     credits.forEach((credit) => {
+  //       rcIdsArray.push(credit);
+  //     });
+  //     const creditIds = rcIdsArray.map((credit) => {
+  //       return credit.rollerCoaster;
+  //     });
+  //     return !creditIds.includes(rollercoasterId);
+  //   } else {
+  //     const creditIds = credits.map((credit) => {
+  //       return credit.rollerCoaster;
+  //     });
+  //     return !creditIds.includes(rollercoasterId);
+  //   }
+  // };
+
+  // // handles user adding the credit. gets the email from State which was set above.
+  // // Refactored from above function
+  // const handleAddCredit = (rollerCoasterId) => {
+  //   const newCreditObj = {
+  //     rollerCoaster_id: rollerCoasterId,
+  //     userProfile_id: userProfile.id,
+  //   };
+
+  //   creditManager.addCredit(newCreditObj).then(() => {
+  //     userManager.getAuthUser(user.email).then((userData) => {
+  //       const profile = userData[0];
+  //       const userId = profile.id;
+  //       userManager.getUserProfileEmbeddedAuthUser(userId).then((response) => {
+  //         const userProf = response[0];
+  //         const creditsArray = userProf.credits;
+  //         setUserProfile(userProf);
+  //         setCredits(creditsArray);
+  //       });
+  //     });
+  //   });
+  // };
+
+    // <>
+    //   <div className="roller-coaster-list-container">
+    //     <ul className="list-items-container">
+    //       {rollerCoasters &&
+    //         rollerCoasters.map((rollerCoaster) => (
+    //           <li className="list-elements" key={rollerCoaster.id}>
+    //             <strong>{rollerCoaster.name} </strong>
+    //             {rollerCoaster.park.name}, {rollerCoaster.park.parkCountry}{" "}
+    //             {showButton(rollerCoaster.id, credits) && (
+    //               <button
+    //                 className="add-credit-button"
+    //                 onClick={() => handleAddCredit(rollerCoaster.id)}
+    //               >
+    //                 Add
+    //               </button>
+    //             )}
+    //           </li>
+    //         ))}
+    //     </ul>
+    //   </div>
+    // </>
+
+/****************************** ***********************/
+/************************ ******************************/

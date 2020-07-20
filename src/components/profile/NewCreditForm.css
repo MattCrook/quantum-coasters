@@ -55,7 +55,7 @@ h3.banner {
   padding-left: 10px;
   margin-top: 10px;
   font-variant: small-caps;
-  margin-left: 12px;
+  margin-left: 14px;
   /* font-style: oblique; */
 }
 
@@ -147,6 +147,9 @@ button.add-credit-button {
   justify-content: flex-end;
 }
 
+.add-new-ride-btn i {
+  margin-left: 8px;
+}
 
 /********** PARKS *****************/
 

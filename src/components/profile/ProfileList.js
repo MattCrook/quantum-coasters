@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ProfileCard from "./ProfileCard";
 import userManager from "../../modules/users/userManager";
 import creditManager from "../../modules/credits/creditManager";
-import rollerCoasterManager from "../../modules/rollerCoasters/rollerCoasterManager"
+import rollerCoasterManager from "../../modules/rollerCoasters/rollerCoasterManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { confirmAlert } from "react-confirm-alert";
 import "./Profile.css";
@@ -17,8 +17,6 @@ const ProfileList = (props) => {
   const userId = authUser.id;
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
-
-
   const getUserCreditsToFetch = async (userId) => {
     try {
       const userProfileFromAPI = await userManager.getUserProfileEmbeddedAuthUser(userId);
@@ -32,7 +30,9 @@ const ProfileList = (props) => {
       });
       let promises = [];
       creditsMap.forEach((item) => {
-        promises.push(rollerCoasterManager.getRollerCoastersForUserProfile(item));
+        promises.push(
+          rollerCoasterManager.getRollerCoastersForUserProfile(item)
+        );
       });
       Promise.all(promises)
         .then((data) => {
@@ -58,14 +58,17 @@ const ProfileList = (props) => {
               setIsLoading(true);
               creditManager.getCreditIdFromApi().then((credits) => {
                   const filteredCreditToDelete = credits.filter((credit) => credit.rollerCoaster === creditId);
-                  creditManager.deleteCredit(filteredCreditToDelete[0].id).then(() => {
-                      userManager.getUserProfileEmbeddedAuthUser(userId).then((response) => {
+                  creditManager
+                    .deleteCredit(filteredCreditToDelete[0].id)
+                    .then(() => {
+                      userManager
+                        .getUserProfileEmbeddedAuthUser(userId)
+                        .then((response) => {
                           const profile = response[0];
                           const credits = profile.credits;
                           setUserProfile(profile);
                           setUserCredits(credits);
-                        }
-                      );
+                        });
                     })
                     .catch((error) => {
                       console.log(error);
@@ -95,41 +98,58 @@ const ProfileList = (props) => {
   return (
     <>
       <nav id="nav_profile_list_container" className="navbar is-dark">
-
-          <div className="navbar-brand">
-            <button id="quantum_logo" className="navbar-item">Quantum Coasters</button>
-          </div>
-
-          <button className="add-new-credit-btn inset" data-testid="add_new_credit_btn_testid" onClick={() => props.history.push("/users/new")}>
-            Add New Credit
+        <div className="navbar-brand">
+          <button id="quantum_logo" className="navbar-item">
+            Quantum Coasters
           </button>
+        </div>
 
-          <button className="edit-profile-button inset" data-testid="edit_profile_btn_testid" onClick={() => props.history.push(`/profile/${userProfile.id}`)}>
-            Edit Profile
+        <button
+          className="add-new-credit-btn inset"
+          data-testid="add_new_credit_btn_testid"
+          onClick={() => props.history.push("/user/parks/addcredit")}
+        >Add New Credit</button>
+
+        <button
+          className="edit-profile-button inset"
+          data-testid="edit_profile_btn_testid"
+          onClick={() => props.history.push(`/profile/${userProfile.id}`)}
+        >
+          Edit Profile
+        </button>
+
+        <div className="name-container-profile-list">
+          <p className="name-profile-list">
+            {authUser.first_name} {authUser.last_name}
+          </p>
+          {userProfile.image ? (
+            <img
+              id="profile-pic"
+              src={userProfile.image.image}
+              alt="My Avatar"
+            />
+          ) : (
+            <img id="profile-pic" src={defaultProfilePicture} alt="My Avatar" />
+          )}
+          <button
+            onClick={() =>
+              logout({ returnTo: window.location.origin }, clearStorage())
+            }
+            className="logout-navbar-item"
+            data-testid="logout-btn-testid"
+          >
+            Logout
           </button>
-
-          <div className="name-container-profile-list">
-            <p className="name-profile-list">
-              {authUser.first_name} {authUser.last_name}
-            </p>
-            {userProfile.image ? (
-              <img id="profile-pic" src={userProfile.image.image} alt="My Avatar" />
-            ) : (
-              <img id="profile-pic" src={defaultProfilePicture} alt="My Avatar" />
-              )}
-              <button
-                  onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
-                  className="logout-navbar-item"
-                  data-testid="logout-btn-testid"
-                >
-                  Logout
-                </button>
-              </div>
-
+        </div>
       </nav>
       <div className="credits-title">Credits</div>
-      <div className="total_credits_profile_list">Total: {userCredits.length}</div>
-      <div className="profile-container-card" data-testid="profile_card_container_testid">
+      <div className="total_credits_profile_list">
+        Total: {userCredits.length}
+      </div>
+      <div
+        className="profile-container-card"
+        data-testid="profile_card_container_testid"
+      >
         {userCredits.map((rollerCoaster) => (
           <ProfileCard
             key={rollerCoaster.id}

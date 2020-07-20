@@ -149,8 +149,6 @@ button.btn {
 .edit-profile-button {
   color: #fff;
   background-color: #363636;
-  color: #fff;
-  border: 5px solid #363636;
   border: 5px solid #363636;
   -webkit-transition: 0.2s;
   transition: 0.2s;
@@ -160,7 +158,7 @@ button.btn {
   margin-left: 20px;
 }
 .edit-profile-button.inset:hover {
-  box-shadow: inset 0px 0px 0px 1px #fff;
+  box-shadow: inset 0px -1px 0px 0px #fff;
 }
 
 .profile-back-btn {
@@ -170,8 +168,6 @@ button.btn {
 .add-new-credit-btn {
   color: #fff;
   background-color: #363636;
-  color: #fff;
-  border: 5px solid #363636;
   border: 5px solid #363636;
   -webkit-transition: 0.2s;
   transition: 0.2s;
@@ -181,8 +177,9 @@ button.btn {
   margin-right: 20px;
 }
 .add-new-credit-btn.inset:hover {
-  box-shadow: inset 0px 0px 0px 1px #fff;
+  box-shadow: inset 0px -1px 0px 0px #fff;
 }
+
 
 /******************* Add New Ride Form ********************/
 
@@ -206,6 +203,10 @@ button.btn {
   color: rgb(228, 64, 64);
   margin-right: 2rem;
   font-size: 15px;
+}
+
+.delete-profile-button i {
+  margin-right: 7px;
 }
 .delete-profile-button:hover {
   border-bottom: 1px solid rgb(228, 64, 64);

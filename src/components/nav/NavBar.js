@@ -22,7 +22,7 @@ const NavBar = ({ authUser }) => {
   return (
     <nav>
       <ul className="nav-link-btns">
-        {isAuthenticated && (
+        {!loading && isAuthenticated && (
           <li>
             <FontAwesomeIcon icon={faHome} />
             <Link
@@ -35,16 +35,16 @@ const NavBar = ({ authUser }) => {
             </Link>
           </li>
         )}
-        {isAuthenticated && authUser.username ? (
+        {!loading && isAuthenticated && authUser.username ? (
           <li>
             <FontAwesomeIcon icon={faUser} />
-            <Link className="nav-link" to="/users">
+            <Link className="nav-link" to="/user/profile/credits">
               {" "}
               Profile{" "}
             </Link>
           </li>
         ) : null}
-        {isAuthenticated && authUser.username ? (
+        {!loading && isAuthenticated && authUser.username ? (
           <li>
             <FontAwesomeIcon icon={faPollH} />
 
@@ -54,7 +54,7 @@ const NavBar = ({ authUser }) => {
             </Link>
           </li>
         ) : null}
-        {isAuthenticated && authUser.username ? (
+        {!loading && isAuthenticated && authUser.username ? (
           <li>
             <FontAwesomeIcon icon={faCommentDots} />
             <Link className="nav-link" to="/messages">

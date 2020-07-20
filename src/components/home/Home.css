@@ -1,6 +1,8 @@
 #home_navbar_container {
   display: flex;
   align-items: center;
+  padding-top: 2px;
+  padding-bottom: 2px;
 }
 
 .logout_btn_home_container {
@@ -84,6 +86,7 @@ button {
 
 .navbar-item-home-name {
   color: white;
+  margin-right: 7px;
 }
 
 .welcome-greeting {
