@@ -1,9 +1,9 @@
 import React from "react";
-import RollerCoasterList from "./RollerCoasterList";
+import ParkList from "./RollerCoasterList";
 import "./NewCreditForm.css";
 import CustomizedInputBase from "../search/CustomizedInputBase";
 
-// return RollerCoasterList component when user clicks the "add new credit button" on {ProfileList}...
+// return ParkList component when user clicks the "add new credit button" on {ProfileList}...
 const AddNewCreditForm = (props) => {
   const { authUser } = props;
   const { userProfile } = props;
@@ -16,7 +16,7 @@ const AddNewCreditForm = (props) => {
             Don't see the ride you are looking for? Click below and help us add
             to our repertoire!
           </h3>
-          <div className='search-bar-container'>
+          <div className="search-bar-container">
             <CustomizedInputBase />
           </div>
         </div>
@@ -24,13 +24,11 @@ const AddNewCreditForm = (props) => {
           type="button"
           className="add-new-ride-btn"
           onClick={() => props.history.push("/new/rollercoaster")}
-        >
-          Create New Roller Coaster
-        </button>
+        >Create New Roller Coaster<i className="fas fa-database"></i></button>
       </section>
 
       <div className="rollerCoaster-list-to-add-credits">
-        <RollerCoasterList authUser={authUser} userProfile={userProfile} {...props} />
+        <ParkList authUser={authUser} userProfile={userProfile} {...props} />
       </div>
     </>
   );

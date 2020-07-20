@@ -1,3 +1,24 @@
-#quantum_logo {
-    
+#landing_page_nav_bar_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 15px;
+}
+
+.landing_page_nav_container_1 {
+  margin-left: 3%;
+}
+
+.landing_page_nav_bar_container_2 {
+  margin-right: 4%;
+  display: flex;
+  align-items: center;
+}
+
+#landing_page_login_btn:hover {
+  border-bottom: 1px solid rgb(240, 239, 239);
+}
+
+.login_btn_container i {
+    margin-left: 9px;
 }

@@ -90,13 +90,15 @@ const MessageForm = (props) => {
                 className="chat-send-button"
                 type="submit"
                 disabled={isLoading}
-              >
-                Send
-              </button>
+              >Send<i className="fas fa-share"></i></button>
             </div>
           </fieldset>
         </form>
       </div>
+      <div className="signature">
+                <p>Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a> <i className="far fa-copyright"></i>
+                </p>
+            </div>
     </>
   );
 };

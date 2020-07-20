@@ -4,8 +4,6 @@ import imageManager from "../../modules/images/imageManager";
 import creditManager from "../../modules/credits/creditManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { confirmAlert } from "react-confirm-alert";
-// import keys from "../../keys/Keys";
-// import ImageUploader from "react-images-upload";
 import "./Profile.css";
 
 const EditProfile = (props) => {
@@ -33,6 +31,7 @@ const EditProfile = (props) => {
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
   const defaultQPicture = "https://cdn.dribbble.com/users/2908839/screenshots/6292457/shot-cropped-1554473682961.png"
 
+
   // Function to first get the auth user from the email passed from auth0 context, then get the userProfile from the id of the auth user by the user_id FK on userProfile.
   // Once have those, fetch image by image id on the userProfile.
   // Then finally fetch all credits and filter them down to specific credits for the current logged in user.
@@ -54,7 +53,7 @@ const EditProfile = (props) => {
         setImage(defaultProfilePicture);
       }
       const filterUsersCredits = creditsToFetch.filter((credit) => credit.userProfile === profile.id);
-      setUserCredits(filterUsersCredits[0]);
+      setUserCredits(filterUsersCredits);
     } catch (err) {
       console.log(err);
     }
@@ -62,7 +61,6 @@ const EditProfile = (props) => {
 
   const handleInputChangeUserProfile = (e) => {
     const stateToChange = { ...userProfile };
-    console.log(stateToChange)
     stateToChange[e.target.id] = e.target.value;
     setUserProfile(stateToChange);
   };
@@ -201,7 +199,6 @@ const EditProfile = (props) => {
   }, [user]);
 
 
-
   return (
     <>
       <nav className="navbar-edit-profile">
@@ -213,9 +210,7 @@ const EditProfile = (props) => {
             className="delete-profile-button"
             data-testid="delete_profile_btn_testid"
             onClick={() => deleteUserProfile(apiUser.id)}
-          >
-            Delete Profile
-          </button>
+          ><i className="fas fa-exclamation-triangle"></i>Delete Profile</button>
         </div>
       </nav>
 

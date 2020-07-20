@@ -25,21 +25,25 @@ const MessageCard = (props) => {
     <>
       <div className="message-card">
         <div className="card-content, message-container">
+          <div className="pic_and_name_and_txt_container">
           {profilePic ? (
             <img id="profile-pic" src={profilePic} alt="My Avatar" />
-          ) : (
-            <img
+            ) : (
+              <img
               id="google-profile-pic"
               src={props.defaultProfilePicture}
               alt="My Avatar"
-            />
-          )}
+              />
+              )}
           {!loading && profile && profile.user && (
-              <p>
-              <strong className="message-name">{name}</strong>:{" "}
+            <div className="name_and_txt_container">
+                <div className="message_name">{name}</div>:
+                <div className="message_text">
                 {text}
-              </p>
+                </div>
+              </div>
             )}
+            </div>
 
           {/* Render edit button if the profile id from API === profile ID from url meaning the currently logged in user */}
           {!loading && profile ? (
@@ -48,9 +52,7 @@ const MessageCard = (props) => {
                 data-testid="edit-testid"
                 className="edit-outline-icon"
                 onClick={() => props.setMessageToEdit(props.message)}
-              >
-                Edit
-              </button>
+              >Edit<i className="far fa-edit"></i></button>
             ) : null
           ) : null}
           <span className="message-time-right">{timestamp}</span>

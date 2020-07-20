@@ -7,7 +7,7 @@ import { useAuth0 } from "../../contexts/react-auth0-context";
 import "./Messages.css";
 
 const MessageList = (props) => {
-  const { user, loading, logout } = useAuth0();
+  const { user, loading, logout, clearStorage } = useAuth0();
   const [userProfile, setUserProfile] = useState([]);
   const [authUser, setAuthUser] = useState([]);
   const [messages, setMessages] = useState([]);
@@ -82,7 +82,7 @@ const MessageList = (props) => {
                 />
               )}
               <button
-                onClick={() => logout({ returnTo: window.location.origin })}
+                onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
                 className="navbar-item-logout-btn"
               >
                 Logout

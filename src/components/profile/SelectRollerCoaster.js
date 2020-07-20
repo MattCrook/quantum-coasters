@@ -4,27 +4,21 @@ import userManager from "../../modules/users/userManager";
 import creditManager from "../../modules/credits/creditManager";
 import parkManager from "../../modules/parks/parkManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
-import "./SelectRollerCoaster.css"
+import "./SelectRollerCoaster.css";
 
 const SelectRollerCoaster = (props) => {
-  console.log(props);
 
   const { loading, user } = useAuth0();
   const parkId = props.parkId;
-  const userCredits = props.userProfile.credits;
-  //   const userProf = props.userProfile;
+  const { userCredits } = props;
+  const { setUserCredits } = props;
+  const { setUserProfile } = props;
   const [rollerCoasters, setRollerCoasters] = useState([]);
   const [park, setPark] = useState([]);
-  // const [credits, setCredits] = useState([]);
-  // const [userProfile, setUserProfile] = useState([])
-  // setCredits(userCredits[0]);
-  // setUserProfile(userProf);
+
 
   const getRollerCoastersInPark = async () => {
-    const rollerCoastersFromApi = await rollerCoasterManager.getRollerCoastersByParkId(
-      parkId
-    );
-    console.log(rollerCoastersFromApi);
+    const rollerCoastersFromApi = await rollerCoasterManager.getRollerCoastersByParkId(parkId);
     setRollerCoasters(rollerCoastersFromApi);
   };
 
@@ -66,9 +60,9 @@ const SelectRollerCoaster = (props) => {
         const userId = profile.id;
         userManager.getUserProfileEmbeddedAuthUser(userId).then((response) => {
           const userProf = response[0];
-          //   const creditsArray = userProf.credits;
-          //   setUserProfile(userProf);
-          //   setCredits(creditsArray);
+          const creditsArray = userProf.credits;
+          setUserProfile(userProf);
+          setUserCredits(creditsArray);
         });
       });
     });
@@ -83,15 +77,24 @@ const SelectRollerCoaster = (props) => {
 
   return (
     <>
+      <div className="nav_banner_rollercoaster_select">
+        <div className="navbar_brand_logo">
+          <div id="quantum_logo">Quantum Coasters</div>
+        </div>
+
+        <div className="back_btn_container_select_rollercoaster">
+          <button
+            className="go_back_to_ridelist_btn"
+            onClick={() => props.history.push("/user/parks/addcredit")}
+          >
+            <i className="fas fa-step-backward"></i>Back
+          </button>
+        </div>
+      </div>
+
       <div className="select_ride_header_container">
         <div className="roller_coaster_select_header">
           Select A Ride in {park.name}
-        </div>
-        <div className="back_btn">
-          <button
-            className="go_back_to_ridelist_btn"
-            onClick={() => props.history.push("/users/new")}
-          >Back</button>
         </div>
       </div>
       <div className="roller-coaster-list-container">
@@ -99,15 +102,21 @@ const SelectRollerCoaster = (props) => {
           {rollerCoasters &&
             rollerCoasters.map((rollerCoaster) => (
               <li className="ride_list_elements" key={rollerCoaster.id}>
-                <div className="ride_name_select_ride">{rollerCoaster.name} </div>
-                {/* {rollerCoaster.park.name}, {rollerCoaster.park.parkCountry}{" "} */}
-                {showButton(rollerCoaster.id, userCredits) && (
+                <div className="ride_name_select_ride">
+                  {rollerCoaster.name}
+                </div>
+                {showButton(rollerCoaster.id, userCredits) ? (
                   <button
                     className="add_credit_button"
                     onClick={() => handleAddCredit(rollerCoaster.id)}
-                  >
-                    Add
-                  </button>
+                  >Add</button>
+                ) : (
+                    <div className="check_mark_ride_list">
+                      {/* <i className="far fa-check-circle"></i> */}
+                      <i className="fas fa-check"></i>
+                      {/* <i className="fas fa-user-check"></i> */}
+
+                    </div>
                 )}
               </li>
             ))}
