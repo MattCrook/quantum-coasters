@@ -42,6 +42,12 @@ Navigating to the profile page, the user will see a list of credits for which th
 
 ![ProfileView](public/ReadMePhotos/ProfileCredits.png)
 
+Once the user selects the park in which the ride is located, they are brought to a list of roller coasters in that park where they can add/ record it is a credit.
+
+![ParkList](public/ReadMePhotos/ParksList.png)
+
+![RideList](public/ReadMePhotos/RollerCoasterList.png)
+
 ### 5) Add New RollerCoaster
 One key feature of this app is that the data provided is constantly being updated with new rides, as Quantum Coasters allows users to add to the repertoire if they cannot find the rollercoaster they are looking to record. This ensures the database is constantly being updated to include more rides from around the world.
 * Once the user completes the form and it is validated, the roller coaster will then be available to select as an added credit.
