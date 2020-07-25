@@ -134,7 +134,7 @@ const EditProfile = (props) => {
     }
     setIsLoading(false);
     window.alert("Profile has been updated!");
-    props.history.push("/users");
+    props.history.push("/user/profile/credits");
   };
 
   // Build form to send image (File) to API. Must be in this format to send a file.

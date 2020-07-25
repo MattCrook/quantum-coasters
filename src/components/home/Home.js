@@ -1,14 +1,23 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "bulma/css/bulma.css";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { Link } from "react-router-dom";
 import "./Home.css";
 
 const Home = (props) => {
-  const { loading, user, logout, clearStorage } = useAuth0();
+  const { loading, user, logout, clearStorage, isAuthenticated } = useAuth0();
   const { userProfile } = props;
   const { authUser } = props;
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
+  // if (authUser) {
+  //   var isAuthUser = authUser.id
+  // }
+  // console.log({ userProfile })
+  // console.log({ authUser })
+  // console.log(isAuthUser)
+  const key = sessionStorage.getItem('key');
+
+  useEffect(() => {}, [key])
 
   return (
     <header>
@@ -18,7 +27,7 @@ const Home = (props) => {
           <button className="home-logo">Quantum Coasters</button>
           {/* menu items */}
           {/* if there is a user. show the logout button */}
-          {!loading && user && userProfile && (
+          {!loading && user && userProfile && isAuthenticated && (
             <>
               <div className="navbar-end">
                 <button className="navbar-item-home-name">{authUser.first_name} {authUser.last_name}</button>
@@ -52,7 +61,7 @@ const Home = (props) => {
         </div>
       </nav>
 
-      {!authUser.email && !loading && user && (
+      {!authUser.email && !loading && user && isAuthenticated && (
         <>
           <div className="banner-for-complete-profile">
             <h3

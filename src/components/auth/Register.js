@@ -8,42 +8,45 @@ import { confirmAlert } from "react-confirm-alert";
 
 const Register = (props) => {
   const { user } = useAuth0();
-  // const isAuthenticated = () => sessionStorage.getItem("token") !== null;
+  const isAuthenticated = () => sessionStorage.getItem("token") !== null;
   const [isLoading, setIsLoading] = useState(false);
-  // const [hasUser, setHasUser] = useState(isAuthenticated());
-  const [authUser, setAuthUser] = useState({
+  const [hasUser, setHasUser] = useState(isAuthenticated());
+  const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
     username: "",
     email: user.email,
-    password: user.sub,
+    password: user.sub.split("|")[1],
     address: "",
-    image: ""
+    auth0_identifier: user.sub.replace("|", ".")
   });
-  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
+
+  // const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
 
 
-  // const setUserToken = (resp) => {
-  //   sessionStorage.setItem("Quantumtoken", resp.token);
-  //   setHasUser(isAuthenticated());
-  // };
+  const setUserToken = (resp) => {
+    sessionStorage.setItem("QuantumToken", resp.QuantumToken);
+    setHasUser(isAuthenticated());
+  };
 
   const handleAuthUserInputChange = (e) => {
-      const stateToChange = { ...authUser };
+      const stateToChange = { ...formData };
       stateToChange[e.target.id] = e.target.value;
-      setAuthUser(stateToChange);
+      setFormData(stateToChange);
   };
+
+
 
   const handleFormSubmit = (e) => {
     setIsLoading(true)
     e.preventDefault();
 
     if (
-      authUser.first_name === "" ||
-      authUser.last_name === "" ||
-      authUser.username === "" ||
-      authUser.address === ""
+      formData.first_name === "" ||
+      formData.last_name === "" ||
+      formData.username === "" ||
+      formData.address === ""
     ) {
       window.alert("Please fill out all form fields.");
     } else {
@@ -54,27 +57,33 @@ const Register = (props) => {
           {
             label: "Ok",
             onClick: async () => {
-              const newUser = {
-                first_name: authUser.first_name,
-                last_name: authUser.last_name,
-                username: authUser.username,
-                email: user.email,
-                password: user.sub,
-                address: authUser.address,
-                image: defaultProfilePicture
+
+              const newUserObject = {
+                first_name: formData.first_name.trim(),
+                last_name: formData.last_name.trim(),
+                username: formData.username.trim(),
+                email: formData.email.trim(),
+                password: user.sub.split("|")[1],
+                address: formData.address.trim(),
+                auth0_identifier: user.sub.replace("|", ".")
               };
-              userManager.register(newUser).then(resp => {
-                console.log(resp);
-                // if ("QuantumToken" in resp) {
-                //   setUserToken(resp);
-                // };
+
+              userManager.register(newUserObject).then(resp => {
+                console.log({resp});
+                if ("DjangoUser" in resp) {
+                  setUserToken(resp.DjangoUser);
+                  props.history.push("/home");
+                };
               })
-              .catch(error => {
-                console.log(error)
-              })
-              props.history.push("/home");
-            },
+                .catch(error => {
+                  console.log(error)
+                })
+              }
           },
+          {
+            label: "Cancel",
+            onClick: () => {},
+          }
         ],
         closeOnClickOutside: true,
         onClickOutside: () => {},
@@ -90,6 +99,7 @@ const Register = (props) => {
       <fieldset className="fs-register-form">
         <h3 className="register-title">Complete Your Profile</h3>
         <div className="profile-create-form">
+
           <label htmlFor="first_name">First Name</label>
           <input
             className="input"
@@ -100,8 +110,8 @@ const Register = (props) => {
             required
             autoFocus
           />
-          <label htmlFor="last_name">Last Name</label>
 
+          <label htmlFor="last_name">Last Name</label>
           <input
             className="input"
             onChange={handleAuthUserInputChange}
@@ -111,7 +121,8 @@ const Register = (props) => {
             required
             autoFocus
           />
-          <label htmlFor="inputUsername">Username</label>
+
+          <label htmlFor="username">Username</label>
           <input
             className="input"
             onChange={handleAuthUserInputChange}
@@ -121,7 +132,8 @@ const Register = (props) => {
             required
             autoFocus
           />
-          <label htmlFor="inputAddress">Address</label>
+
+          <label htmlFor="address">Address</label>
           <input
             className="input"
             onChange={handleAuthUserInputChange}
@@ -131,39 +143,7 @@ const Register = (props) => {
             required
             autoFocus
           />
-          {/* <label htmlFor="eventImage">Please upload a profile picture</label> */}
-          {/* <ImageUploader
-            {...props}
-            withIcon={true}
-            withPreview={true}
-            onChange={onDrop}
-            imgExtension={[".jpg", ".gif", ".png", ".gif"]}
-            maxFileSize={5242880}
-            className="file-upload"
-            id="picUrl"
-            accept="image/*"
-          /> */}
-          {/* <input
-            name="file"
-            id="image"
-            type="file"
-            accept="image/*"
-            className="file-upload"
-            placeholder="Upload an Image"
-            onChange={handleAuthUserInputChange}
-            // ref={imageUploader}
-            data-form-data="{ 'transformation': {'crop':'limit','tags':'samples','width':3000,'height':2000}}"
-            required
-          />
-          <div className="newPhoto">
-            {isLoading ? (
-              <h3> Loading...</h3>
-            ) : (
-              <>
-                  <img src={{ ...authUser.image.url }} style={{ width: "300px" }} alt="" />
-              </>
-            )}
-          </div> */}
+
           <button
             className="register-create-btn"
             type="submit"
@@ -171,6 +151,7 @@ const Register = (props) => {
           >
             Finish
           </button>
+
         </div>
       </fieldset>
     </form>
