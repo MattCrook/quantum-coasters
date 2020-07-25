@@ -3,29 +3,25 @@ const remoteURL = "http://localhost:8000";
 
 const userManager = {
   async register(userToPost) {
-    try {
-      const result = await fetch(`${remoteURL}/users`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: "JWT" + localStorage.getItem("accessToken"),
-        },
-        body: JSON.stringify(userToPost),
-      });
-      const res = await result.json();
-      return res;
-    } catch (err) {
-      console.log(err);
-    }
+    const data = await fetch(`${remoteURL}/rest-auth/registration/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // Authorization: "JWT " + localStorage.getItem("accessToken"),
+      },
+      Accept: "application/json",
+      body: JSON.stringify(userToPost),
+    });
+    return await data.json();
   },
+
 
   async getAuthUserById(id) {
     const resp = await fetch(`${remoteURL}/users/${id}`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "JWT" + localStorage.getItem("accessToken"),
+        "Content-Type": "application/json",
+        Authorization: "JWT " + localStorage.getItem("accessToken"),
       },
       Accept: "application/json",
     });
@@ -37,7 +33,7 @@ const userManager = {
       method: "GET",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "JWT" + localStorage.getItem("accessToken"),
+        Authorization: "JWT " + localStorage.getItem("accessToken"),
       },
       Accept: "application/json",
     });
@@ -49,7 +45,7 @@ const userManager = {
       method: "GET",
       headers: {
         "Content-Type": "application/json", // can change back to 'application/x-www-form-urlencoded'
-        Authorization: "JWT" + localStorage.getItem("accessToken"),
+        Authorization: "JWT " + localStorage.getItem("accessToken"),
       },
     });
     return await resp.json();
@@ -60,7 +56,7 @@ const userManager = {
       method: "GET",
       headers: {
         "Content-Type": "application/json", // can change back to 'application/x-www-form-urlencoded'
-        Authorization: "JWT" + localStorage.getItem("accessToken"),
+        Authorization: "JWT " + localStorage.getItem("accessToken"),
       },
     });
     return await resp.json();
@@ -79,7 +75,7 @@ const userManager = {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "JWT" + localStorage.getItem("accessToken"),
+        Authorization: "JWT " + localStorage.getItem("accessToken"),
       },
       body: JSON.stringify(editedObject),
     });
@@ -90,7 +86,7 @@ const userManager = {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "JWT" + localStorage.getItem("accessToken"),
+        Authorization: "JWT " + localStorage.getItem("accessToken"),
       },
       body: JSON.stringify(editedObject),
     });

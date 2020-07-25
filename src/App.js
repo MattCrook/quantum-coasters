@@ -11,28 +11,35 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 // import accessToken from "./utils/reducers/authReducers";
 
 const App = (props) => {
-  const { loading, user, getIdTokenClaims } = useAuth0();
+  const { loading, user, getIdTokenClaims, getTokenSilently, isAuthenticated } = useAuth0();
   const [userProfile, setUserProfile] = useState([]);
   const [authUser, setAuthUser] = useState([]);
   const [userCredits, setUserCredits] = useState([]);
 
   useEffect(() => {
-    if (!loading && user) {
+    if (!loading && user && isAuthenticated) {
       const userEmail = user.email;
       sessionStorage.setItem("credentials", JSON.stringify(userEmail));
       const guardForUserProfile = async (userEmail) => {
-        const token = await getIdTokenClaims();
-        if (token) {
-          localStorage.setItem("accessToken", JSON.stringify(token.__raw));
+        const tokenId = await getIdTokenClaims();
+        const accessToken = await getTokenSilently()
+
+        if (tokenId && accessToken) {
+          localStorage.setItem("IdToken", JSON.stringify(tokenId));
+          localStorage.setItem("accessToken", accessToken);
+
         }
         const getAuthUser = await userManager.getAuthUser(userEmail);
+
         if (getAuthUser.length > 0) {
           const authUserId = getAuthUser[0].id;
           const getProfile = await userManager.getUserProfileEmbeddedAuthUser(authUserId);
           const creditsArray = getProfile[0].credits;
+
           setAuthUser(getAuthUser[0]);
           setUserProfile(getProfile[0]);
           setUserCredits(creditsArray);
+
         } else {
           console.log("Please Complete your Profile. :) ");
           setUserProfile([]);
@@ -40,7 +47,7 @@ const App = (props) => {
       };
       guardForUserProfile(userEmail);
     }
-  }, [user, getIdTokenClaims, loading]);
+  }, [user, getIdTokenClaims, loading, getTokenSilently]);
 
   if (loading) {
     return (
