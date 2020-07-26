@@ -11,18 +11,13 @@ import {
   faCommentDots
 } from "@fortawesome/free-solid-svg-icons";
 
-const NavBar = ({ authUser }) => {
+const NavBar = ({ authUser, authToken }) => {
   const { isAuthenticated, loading } = useAuth0();
-
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <nav>
       <ul className="nav-link-btns">
-        {!loading && isAuthenticated && (
+        {!loading && isAuthenticated && authToken && (
           <li>
             <FontAwesomeIcon icon={faHome} />
             <Link
@@ -35,7 +30,7 @@ const NavBar = ({ authUser }) => {
             </Link>
           </li>
         )}
-        {!loading && isAuthenticated && authUser.username ? (
+        {!loading && isAuthenticated && authUser.username && authToken ? (
           <li>
             <FontAwesomeIcon icon={faUser} />
             <Link className="nav-link" to="/user/profile/credits">
@@ -44,7 +39,7 @@ const NavBar = ({ authUser }) => {
             </Link>
           </li>
         ) : null}
-        {!loading && isAuthenticated && authUser.username ? (
+        {!loading && isAuthenticated && authUser.username && authToken ? (
           <li>
             <FontAwesomeIcon icon={faPollH} />
 
@@ -54,7 +49,7 @@ const NavBar = ({ authUser }) => {
             </Link>
           </li>
         ) : null}
-        {!loading && isAuthenticated && authUser.username ? (
+        {!loading && isAuthenticated && authUser.username && authToken ? (
           <li>
             <FontAwesomeIcon icon={faCommentDots} />
             <Link className="nav-link" to="/messages">

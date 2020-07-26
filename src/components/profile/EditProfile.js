@@ -19,6 +19,7 @@ const EditProfile = (props) => {
     last_name: "",
     username: "",
     email: user.email,
+    password: user.sub.split("|")[1]
   });
 
   const [userProfile, setUserProfile] = useState({
@@ -110,6 +111,7 @@ const EditProfile = (props) => {
       last_name: apiUser.last_name,
       username: apiUser.username,
       email: user.email,
+      password: user.sub.split("|")[1]
     };
 
     if (!loading && userProfile && image) {

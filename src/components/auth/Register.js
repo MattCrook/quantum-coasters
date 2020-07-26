@@ -8,9 +8,7 @@ import { confirmAlert } from "react-confirm-alert";
 
 const Register = (props) => {
   const { user } = useAuth0();
-  const isAuthenticated = () => sessionStorage.getItem("token") !== null;
   const [isLoading, setIsLoading] = useState(false);
-  const [hasUser, setHasUser] = useState(isAuthenticated());
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -25,17 +23,11 @@ const Register = (props) => {
 
 
 
-  const setUserToken = (resp) => {
-    sessionStorage.setItem("QuantumToken", resp.QuantumToken);
-    setHasUser(isAuthenticated());
-  };
-
   const handleAuthUserInputChange = (e) => {
       const stateToChange = { ...formData };
       stateToChange[e.target.id] = e.target.value;
       setFormData(stateToChange);
   };
-
 
 
   const handleFormSubmit = (e) => {
@@ -69,9 +61,8 @@ const Register = (props) => {
               };
 
               userManager.register(newUserObject).then(resp => {
-                console.log({resp});
                 if ("DjangoUser" in resp) {
-                  setUserToken(resp.DjangoUser);
+                  props.setDjangoToken(resp.DjangoUser);
                   props.history.push("/home");
                 };
               })

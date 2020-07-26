@@ -5,7 +5,7 @@ import "../auth/Login.css";
 import "bulma/css/bulma.css";
 
 const LandingPage = () => {
-  const { loading, user, loginWithRedirect, clearStorage } = useAuth0();
+  const { loading, user, loginWithRedirect, clearStorage, isAuthenticated } = useAuth0();
 
   return (
     <header>
@@ -24,7 +24,7 @@ const LandingPage = () => {
         {/* if there is no user. show the login button */}
         <div className="landing_page_nav_bar_container_2">
           <div className="login_btn_container">
-            {!loading && !user && (
+            {!loading && !user && !isAuthenticated && (
               <button
                 onClick={loginWithRedirect}
                 id="landing_page_login_btn"
