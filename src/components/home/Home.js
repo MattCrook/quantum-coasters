@@ -1,9 +1,25 @@
-import React, {useEffect} from "react";
+import React from "react";
 import "bulma/css/bulma.css";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { Link } from "react-router-dom";
 import "./Home.css";
 import Authenticate from "../auth/Authenticate"
+import MicroModal from 'micromodal'; 
+import "../auth/Authenticate.css"
+
+
+MicroModal.init({
+  onShow: modal => console.info(`${modal.id} is open.`),
+  openTrigger: "data-micromodal-trigger",
+  closeTrigger: "data-micromodal-close",
+  openClass: "is-open",
+  disableScroll: true,
+  disableFocus: false,
+  awaitOpenAnimation: true,
+  awaitCloseAnimation: false,
+  debugMode: true,
+});
+
 
 const Home = (props) => {
   const { loading, user, logout, clearStorage, isAuthenticated } = useAuth0();
@@ -11,7 +27,9 @@ const Home = (props) => {
   const { authUser } = props;
   const { authToken } = props;
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
-  console.log("home", authToken)
+  console.log({authToken})
+
+
 
 
 
@@ -57,6 +75,17 @@ const Home = (props) => {
         </div>
       </nav>
 
+
+      <div className="modal_btn_toggle_home">
+        {!loading && user && userProfile && isAuthenticated && !authToken[0] ? (
+          <>
+            <button onClick={() => MicroModal.init()} data-micromodal-trigger="modal-1" >Button</button>
+            <Authenticate {...props} />
+            </>
+          ) : null}
+          </div>
+
+
       {!authUser.email && !loading && user && isAuthenticated && (
         <>
           <div className="banner-for-complete-profile">
@@ -82,13 +111,10 @@ const Home = (props) => {
         )}
         <div className="hero-body bg-img" style={{ marginTop: "20px" }}></div>
       </div>
-    <div href="#modal-1" data-micromodal-trigger="modal-1" >
-      {!loading && user && userProfile && isAuthenticated && !authToken[0] ? (
-          <Authenticate {...props}/>
-      ): null}
 
-    </div>
+
     </header>
+    
   );
 };
 export default Home;

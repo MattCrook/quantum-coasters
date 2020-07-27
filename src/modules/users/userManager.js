@@ -7,13 +7,23 @@ const userManager = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        // Authorization: "JWT " + localStorage.getItem("accessToken"),
       },
       Accept: "application/json",
       body: JSON.stringify(userToPost),
     });
     return await data.json();
   },
+
+  async login(userCredentials) {
+  const result = await fetch(`${remoteURL}/rest-auth/login/`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(userCredentials),
+  });
+  return await result.json();
+},
 
 
   async getAuthUserById(id) {

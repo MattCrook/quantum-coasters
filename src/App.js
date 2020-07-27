@@ -42,9 +42,8 @@ const App = (props) => {
           setUserProfile(getProfile[0]);
           setUserCredits(creditsArray);
 
-          // const djangoAuthToken = sessionStorage.getItem('QuantumToken');
-          // console.log("token", djangoAuthToken)
-          //   setAuthToken(djangoAuthToken);
+          const djangoAuthToken = sessionStorage.getItem('QuantumToken');
+            setAuthToken(djangoAuthToken);
         } else {
           console.log("Please Complete your Profile. :) ");
           // setUserProfile([]);

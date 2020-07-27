@@ -32,9 +32,7 @@ const ApplicationViews = ({
     setHasLoggedIn(isLoggedIn());
   };
 
-  console.log(isLoggedIn());
-  console.log(authUser);
-  console.log(userProfile);
+
 
   return (
     <React.Fragment>
@@ -79,9 +77,8 @@ const ApplicationViews = ({
                 setUserProfile={setUserProfile}
                 setAuthUser={setAuthUser}
                 authToken={authToken}
-                hasLoggedIn={hasLoggedIn}
-                setHasLoggedIn={setAuthToken}
                 setAuthToken={setAuthToken}
+                setDjangoToken={setDjangoToken}
                 {...props}
               />
             );
@@ -117,7 +114,10 @@ const ApplicationViews = ({
             return (
               <AddNewCreditForm
                 authUser={authUser}
+                setAuthUser={setAuthUser}
                 userProfile={userProfile}
+                setUserProfile={setUserProfile}
+                setUserCredits={setUserCredits}
                 {...props}
               />
             );
@@ -156,6 +156,10 @@ const ApplicationViews = ({
             return (
               <EditProfile
                 userProfileId={parseInt(props.match.params.userProfileId)}
+                authUser={authUser}
+                setAuthUser={setAuthUser}
+                userProfile={userProfile}
+                setUserProfile={setUserProfile}
                 {...props}
               />
             );

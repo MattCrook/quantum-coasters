@@ -13,7 +13,6 @@ import {
 
 const NavBar = ({ authUser, authToken }) => {
   const { isAuthenticated, loading } = useAuth0();
-  console.log(authToken)
 
   return (
     <nav>

@@ -13,25 +13,24 @@ const EditProfile = (props) => {
   const [userCredits, setUserCredits] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [image, setImage] = useState({ id: "", image: "" });
-  const [apiUser, setApiUser] = useState({
+  const [authUser, setAuthUser] = useState({
     id: "",
     first_name: "",
     last_name: "",
     username: "",
     email: user.email,
-    password: user.sub.split("|")[1]
+    password: user.sub.split("|")[1],
   });
 
   const [userProfile, setUserProfile] = useState({
     id: userProfileId,
     address: "",
-    image_id: "",
+    image: "",
     credits: "",
   });
 
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
-  const defaultQPicture = "https://cdn.dribbble.com/users/2908839/screenshots/6292457/shot-cropped-1554473682961.png"
-
+  const defaultQPicture = "https://cdn.dribbble.com/users/2908839/screenshots/6292457/shot-cropped-1554473682961.png";
 
   // Function to first get the auth user from the email passed from auth0 context, then get the userProfile from the id of the auth user by the user_id FK on userProfile.
   // Once have those, fetch image by image id on the userProfile.
@@ -41,11 +40,12 @@ const EditProfile = (props) => {
       const authUserFromAPI = await userManager.getAuthUser(user.email);
       const creditsToFetch = await creditManager.getCreditIdFromApi();
       const authProfile = authUserFromAPI[0];
-      setApiUser(authProfile);
+      setAuthUser(authProfile);
 
       const userProfileFromAPI = await userManager.getUserProfileEmbeddedAuthUser(authProfile.id);
       const profile = userProfileFromAPI[0];
       setUserProfile(profile);
+
       if (profile.image) {
         const imageId = profile.image.id;
         const getImage = await imageManager.getAuthUserImage(imageId);
@@ -53,7 +53,7 @@ const EditProfile = (props) => {
       } else {
         setImage(defaultProfilePicture);
       }
-      const filterUsersCredits = creditsToFetch.filter((credit) => credit.userProfile === profile.id);
+      const filterUsersCredits = creditsToFetch.filter((credit) => credit.profile === profile.id);
       setUserCredits(filterUsersCredits);
     } catch (err) {
       console.log(err);
@@ -67,9 +67,9 @@ const EditProfile = (props) => {
   };
 
   const handleInputChangeUser = (e) => {
-    const stateToChange = { ...apiUser };
+    const stateToChange = { ...authUser };
     stateToChange[e.target.id] = e.target.value;
-    setApiUser(stateToChange);
+    setAuthUser(stateToChange);
   };
 
   const handleImageUpload = (event) => {
@@ -97,7 +97,6 @@ const EditProfile = (props) => {
     }
   };
 
-
   // Building objects to send to Api.
   // If there is a new image, Post new image to images table, grab the ID, and send with new image_id,
   // if there is an image already there, keep that and grab the ID send with that image_id, else send with no image(empty string).
@@ -106,29 +105,33 @@ const EditProfile = (props) => {
     setIsLoading(true);
 
     const editedAuthUser = {
-      id: apiUser.id,
-      first_name: apiUser.first_name,
-      last_name: apiUser.last_name,
-      username: apiUser.username,
+      id: authUser.id,
+      first_name: authUser.first_name,
+      last_name: authUser.last_name,
+      username: authUser.username,
       email: user.email,
-      password: user.sub.split("|")[1]
+      password: user.sub.split("|")[1],
     };
 
-    if (!loading && userProfile && image) {
+    if (!loading && userProfile && image.id) {
+
       const editedUserProfile = {
         id: userProfileId,
         address: userProfile.address,
-        image_id: image.id,
+        image: image,
         credits: userProfile.credits,
       };
       await userManager.putEditedAPIUser(editedAuthUser);
       await userManager.putEditedUserProfile(editedUserProfile);
+      props.setAuthUser(editedAuthUser);
+      props.setUserProfile(editedUserProfile);
 
     } else if (!loading && userProfile && !image) {
+
       const editedUserProfile = {
         id: userProfileId,
         address: userProfile.address,
-        image_id: "",
+        image: "",
         credits: userProfile.credits,
       };
       await userManager.putEditedAPIUser(editedAuthUser);
@@ -171,7 +174,6 @@ const EditProfile = (props) => {
     setIsLoading(false);
   };
 
-
   const deleteUserProfile = (id) => {
     try {
       confirmAlert({
@@ -200,7 +202,6 @@ const EditProfile = (props) => {
     setIsLoading(false);
   }, [user]);
 
-
   return (
     <>
       <nav className="navbar-edit-profile">
@@ -211,22 +212,38 @@ const EditProfile = (props) => {
           <button
             className="delete-profile-button"
             data-testid="delete_profile_btn_testid"
-            onClick={() => deleteUserProfile(apiUser.id)}
-          ><i className="fas fa-exclamation-triangle"></i>Delete Profile</button>
+            onClick={() => deleteUserProfile(authUser.id)}
+          >
+            <i className="fas fa-exclamation-triangle"></i>Delete Profile
+          </button>
         </div>
       </nav>
 
       <div className="profile-pic-container">
         <div className="profile-pic-flex-box">
           {!loading && userProfile && image.image ? (
-            <img id="edit-profile-pic" src={image.image} alt="Click Change Photo to confirm upload of new Image." />
+            <img
+              id="edit-profile-pic"
+              src={image.image}
+              alt="Click Change Photo to confirm upload of new Image."
+            />
           ) : (
-              <img id="edit-profile-pic" src={defaultQPicture} alt="My default pic"/>
-            )}
+            <img
+              id="edit-profile-pic"
+              src={defaultQPicture}
+              alt="My default pic"
+            />
+          )}
 
-          <form className="uploadPicture" onSubmit={handleImageFromSubmit} encType="multipart/form-data">
+          <form
+            className="uploadPicture"
+            onSubmit={handleImageFromSubmit}
+            encType="multipart/form-data"
+          >
             <div className="change-profile-pic">
-              <label className="label_upload_profile_pic" htmlFor="image">Profile picture</label>
+              <label className="label_upload_profile_pic" htmlFor="image">
+                Profile picture
+              </label>
               <input
                 name="image"
                 id="image"
@@ -237,36 +254,58 @@ const EditProfile = (props) => {
                 required
               />
             </div>
-            <button type="submit" className="change_photo_btn" disabled={isLoading}>
+            <button
+              type="submit"
+              className="change_photo_btn"
+              disabled={isLoading}
+            >
               Change Photo
             </button>
           </form>
-
         </div>
         <div className="profile-info-container">
           <div className="user_info_title">Profile Info</div>
-          <div className="user_info"><strong>First Name: </strong>{apiUser.first_name}</div>
-          <div className="user_info"><strong>Last Name: </strong>{apiUser.last_name}</div>
-          <div className="user_info"><strong>Username: </strong>{apiUser.username}</div>
-          <div className="user_info"><strong>Address: </strong>{userProfile.address}</div>
+          <div className="user_info">
+            <strong>First Name: </strong>
+            {authUser.first_name}
+          </div>
+          <div className="user_info">
+            <strong>Last Name: </strong>
+            {authUser.last_name}
+          </div>
+          <div className="user_info">
+            <strong>Username: </strong>
+            {authUser.username}
+          </div>
+          <div className="user_info">
+            <strong>Address: </strong>
+            {userProfile.address}
+          </div>
           {!loading && userCredits ? (
-            <div className="user_info"><strong>Total Credits: </strong>{userCredits.length}</div>
+            <div className="user_info">
+              <strong>Total Credits: </strong>
+              {userCredits.length}
+            </div>
           ) : (
-            <div className="user_info"><strong>Total Credits: </strong>0</div>
+            <div className="user_info">
+              <strong>Total Credits: </strong>0
+            </div>
           )}
         </div>
       </div>
 
       <form className="edit-profile-form" onSubmit={handleFormSubmit}>
         <div className="profile-inputs">
-          <label className="first_name" htmlFor="first_name">First Name</label>
+          <label className="first_name" htmlFor="first_name">
+            First Name
+          </label>
           <input
             className="input"
             onChange={handleInputChangeUser}
             type="text"
             id="first_name"
             required
-            value={apiUser.first_name}
+            value={authUser.first_name}
           />
           <label htmlFor="last_name">Last Name</label>
 
@@ -276,7 +315,7 @@ const EditProfile = (props) => {
             type="text"
             id="last_name"
             required
-            value={apiUser.last_name}
+            value={authUser.last_name}
           />
           <label htmlFor="username">Username</label>
           <input
@@ -285,7 +324,7 @@ const EditProfile = (props) => {
             type="text"
             id="username"
             required
-            value={apiUser.username}
+            value={authUser.username}
           />
           <label htmlFor="address">Address</label>
           <input
@@ -296,15 +335,21 @@ const EditProfile = (props) => {
             required
             value={userProfile.address}
           />
-          <button className="edit-create-btn" type="submit" disabled={isLoading}>
+          <button
+            className="edit-create-btn"
+            type="submit"
+            disabled={isLoading}
+          >
             Confirm Changes
           </button>
         </div>
       </form>
       <div className="signature">
-                <p>Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a> <i className="far fa-copyright"></i>
-                </p>
-            </div>
+        <p>
+          Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a>{" "}
+          <i className="far fa-copyright"></i>
+        </p>
+      </div>
     </>
   );
 };
