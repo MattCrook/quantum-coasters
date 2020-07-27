@@ -15,9 +15,11 @@ const App = (props) => {
   const [userProfile, setUserProfile] = useState([]);
   const [authUser, setAuthUser] = useState([]);
   const [userCredits, setUserCredits] = useState([]);
+  const [authToken, setAuthToken] = useState([]);
+
 
   useEffect(() => {
-    if (!loading && user && isAuthenticated) {
+    if (user && isAuthenticated) {
       const userEmail = user.email;
       sessionStorage.setItem("credentials", JSON.stringify(userEmail));
       const guardForUserProfile = async (userEmail) => {
@@ -40,14 +42,16 @@ const App = (props) => {
           setUserProfile(getProfile[0]);
           setUserCredits(creditsArray);
 
+          const djangoAuthToken = sessionStorage.getItem('QuantumToken');
+            setAuthToken(djangoAuthToken);
         } else {
           console.log("Please Complete your Profile. :) ");
-          setUserProfile([]);
+          // setUserProfile([]);
         }
       };
       guardForUserProfile(userEmail);
     }
-  }, [user, getIdTokenClaims, loading, getTokenSilently]);
+  }, [user, getIdTokenClaims, getTokenSilently, isAuthenticated]);
 
   if (loading) {
     return (
@@ -57,7 +61,6 @@ const App = (props) => {
       </div>
     );
   }
-
   return (
     <>
       <CssBaseline />
@@ -67,6 +70,7 @@ const App = (props) => {
           authUser={authUser}
           setUserProfile={setUserProfile}
           setAuthUser={setAuthUser}
+          authToken={authToken}
           {...props}
         />
         <ApplicationViews
@@ -76,6 +80,8 @@ const App = (props) => {
           setAuthUser={setAuthUser}
           userCredits={userCredits}
           setUserCredits={setUserCredits}
+          authToken={authToken}
+          setAuthToken={setAuthToken}
           {...props}
         />
       </Router>

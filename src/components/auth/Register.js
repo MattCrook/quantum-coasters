@@ -7,10 +7,9 @@ import { confirmAlert } from "react-confirm-alert";
 // import ImageUploader from "react-images-upload";
 
 const Register = (props) => {
+
   const { user } = useAuth0();
-  const isAuthenticated = () => sessionStorage.getItem("token") !== null;
   const [isLoading, setIsLoading] = useState(false);
-  const [hasUser, setHasUser] = useState(isAuthenticated());
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -18,28 +17,19 @@ const Register = (props) => {
     email: user.email,
     password: user.sub.split("|")[1],
     address: "",
-    auth0_identifier: user.sub.replace("|", ".")
+    auth0_identifier: user.sub.replace("|", "."),
   });
 
   // const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
-
-
-  const setUserToken = (resp) => {
-    sessionStorage.setItem("QuantumToken", resp.QuantumToken);
-    setHasUser(isAuthenticated());
-  };
-
   const handleAuthUserInputChange = (e) => {
-      const stateToChange = { ...formData };
-      stateToChange[e.target.id] = e.target.value;
-      setFormData(stateToChange);
+    const stateToChange = { ...formData };
+    stateToChange[e.target.id] = e.target.value;
+    setFormData(stateToChange);
   };
-
-
 
   const handleFormSubmit = (e) => {
-    setIsLoading(true)
+    setIsLoading(true);
     e.preventDefault();
 
     if (
@@ -57,7 +47,6 @@ const Register = (props) => {
           {
             label: "Ok",
             onClick: async () => {
-
               const newUserObject = {
                 first_name: formData.first_name.trim(),
                 last_name: formData.last_name.trim(),
@@ -65,25 +54,27 @@ const Register = (props) => {
                 email: formData.email.trim(),
                 password: user.sub.split("|")[1],
                 address: formData.address.trim(),
-                auth0_identifier: user.sub.replace("|", ".")
+                auth0_identifier: user.sub.replace("|", "."),
               };
-
-              userManager.register(newUserObject).then(resp => {
-                console.log({resp});
-                if ("DjangoUser" in resp) {
-                  setUserToken(resp.DjangoUser);
+              try {
+                const registerUser = await userManager.register(newUserObject);
+                // Django User is object I specified to come back from API iin register.py
+                if ("DjangoUser" in registerUser) {
+                  props.setDjangoToken(registerUser.DjangoUser);
+                  props.setAuthToken(registerUser.DjangoUser.QuantumToken)
+                  // Setting AuthUser from props passed from App to Application Views to Register. Setting the user high up in app to then filter back down.
+                  props.setAuthUser(registerUser.DjangoUser);
                   props.history.push("/home");
-                };
-              })
-                .catch(error => {
-                  console.log(error)
-                })
+                }
+              } catch (err) {
+                console.log(err);
               }
+            },
           },
           {
             label: "Cancel",
             onClick: () => {},
-          }
+          },
         ],
         closeOnClickOutside: true,
         onClickOutside: () => {},
@@ -93,13 +84,11 @@ const Register = (props) => {
     }
   };
 
-
   return (
     <form className="register-form" onSubmit={handleFormSubmit}>
       <fieldset className="fs-register-form">
         <h3 className="register-title">Complete Your Profile</h3>
         <div className="profile-create-form">
-
           <label htmlFor="first_name">First Name</label>
           <input
             className="input"
@@ -151,7 +140,6 @@ const Register = (props) => {
           >
             Finish
           </button>
-
         </div>
       </fieldset>
     </form>

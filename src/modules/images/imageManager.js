@@ -26,8 +26,8 @@ const imageManager = {
     return await response.json();
   },
 
-  async updateUserProfileImage(image_id, imageObject) {
-    const data = await fetch(`${remoteURL}/images/${image_id}`, {
+  async updateUserProfileImage(imageObject) {
+    const data = await fetch(`${remoteURL}/images/${imageObject.id}`, {
       method: "PUT",
       headers: {
         Authorization: "JWT" + localStorage.getItem("accessToken"),
