@@ -7,6 +7,7 @@ const LeaderBoard = (props) => {
   const [profiles, setProfiles] = useState([]);
   const { logout, loading, clearStorage } = useAuth0();
   const { userProfile } = props;
+  const { authUser } = props;
   const defaultQPicture = "https://cdn.dribbble.com/users/2908839/screenshots/6292457/shot-cropped-1554473682961.png";
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
@@ -57,7 +58,7 @@ const LeaderBoard = (props) => {
         <div className="leaderboard_container_2">
           <div className="leaderboard-name">
             <p className="leaderboard-first-and-last-name-in-nav">
-              {userProfile.user.first_name} {userProfile.user.last_name}
+              {authUser.first_name} {authUser.last_name}
             </p>
             {!loading && userProfile.image ? (
               <img

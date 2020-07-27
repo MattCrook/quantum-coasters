@@ -20,18 +20,21 @@ const ApplicationViews = ({
   setAuthUser,
   userCredits,
   setUserCredits,
-  authToken
+  authToken,
+  setAuthToken,
 }) => {
   const { isAuthenticated } = useAuth0();
-  const isLoggedIn = () => authToken !== null;
+  const isLoggedIn = () => sessionStorage.getItem("QuantumToken") !== null;
   const [hasLoggedIn, setHasLoggedIn] = useState(isLoggedIn());
-
 
   const setDjangoToken = (resp) => {
     sessionStorage.setItem("QuantumToken", resp.QuantumToken);
     setHasLoggedIn(isLoggedIn());
   };
 
+  console.log(isLoggedIn());
+  console.log(authUser);
+  console.log(userProfile);
 
   return (
     <React.Fragment>
@@ -46,7 +49,7 @@ const ApplicationViews = ({
         exact
         path="/register"
         render={(props) => {
-          if (isAuthenticated === true) {
+          if (isAuthenticated) {
             return (
               <Register
                 userProfile={userProfile}
@@ -55,6 +58,7 @@ const ApplicationViews = ({
                 setAuthUser={setAuthUser}
                 setHasLoggedIn={setHasLoggedIn}
                 setDjangoToken={setDjangoToken}
+                setAuthToken={setAuthToken}
                 {...props}
               />
             );
@@ -67,13 +71,17 @@ const ApplicationViews = ({
         exact
         path="/home"
         render={(props) => {
-          if (isAuthenticated && hasLoggedIn) {
+          if (isAuthenticated) {
             return (
               <Home
                 userProfile={userProfile}
                 authUser={authUser}
                 setUserProfile={setUserProfile}
                 setAuthUser={setAuthUser}
+                authToken={authToken}
+                hasLoggedIn={hasLoggedIn}
+                setHasLoggedIn={setAuthToken}
+                setAuthToken={setAuthToken}
                 {...props}
               />
             );
@@ -87,7 +95,7 @@ const ApplicationViews = ({
         exact
         path="/user/profile/credits"
         render={(props) => {
-          if (isAuthenticated && userProfile.id && hasLoggedIn) {
+          if (isAuthenticated && authUser.id && hasLoggedIn) {
             return (
               <ProfileList
                 userProfile={userProfile}
@@ -105,7 +113,7 @@ const ApplicationViews = ({
         exact
         path="/user/parks/addcredit"
         render={(props) => {
-          if (isAuthenticated && userProfile.id && hasLoggedIn) {
+          if (isAuthenticated && authUser.id && hasLoggedIn) {
             return (
               <AddNewCreditForm
                 authUser={authUser}
@@ -122,7 +130,7 @@ const ApplicationViews = ({
         exact
         path="/new/rollercoaster"
         render={(props) => {
-          if (isAuthenticated && userProfile.id && hasLoggedIn) {
+          if (isAuthenticated && authUser.id && hasLoggedIn) {
             return <NewRollerCoaster {...props} />;
           } else {
             return <LandingPage />;
@@ -133,7 +141,7 @@ const ApplicationViews = ({
         exact
         path="/messages"
         render={(props) => {
-          if (isAuthenticated && userProfile.id && hasLoggedIn) {
+          if (isAuthenticated && authUser.id && hasLoggedIn) {
             return <MessageList {...props} />;
           } else {
             return <LandingPage />;
@@ -144,7 +152,7 @@ const ApplicationViews = ({
         exact
         path="/profile/:userProfileId(\d+)"
         render={(props) => {
-          if (isAuthenticated && userProfile.id && hasLoggedIn) {
+          if (isAuthenticated && authUser.id && hasLoggedIn) {
             return (
               <EditProfile
                 userProfileId={parseInt(props.match.params.userProfileId)}
@@ -160,7 +168,7 @@ const ApplicationViews = ({
         exact
         path="/leaderBoard"
         render={(props) => {
-          if (isAuthenticated && userProfile.id && hasLoggedIn) {
+          if (isAuthenticated && authUser.id && hasLoggedIn) {
             return (
               <LeaderBoard
                 userProfile={userProfile}
@@ -178,7 +186,7 @@ const ApplicationViews = ({
         exact
         path="/rollerCoasters/park/:parkId(\d+)"
         render={(props) => {
-          if (isAuthenticated && userProfile.id && hasLoggedIn) {
+          if (isAuthenticated && authUser.id && hasLoggedIn) {
             return (
               <SelectRollerCoaster
                 userProfile={userProfile}

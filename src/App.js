@@ -19,7 +19,7 @@ const App = (props) => {
 
 
   useEffect(() => {
-    if (!loading && user && isAuthenticated) {
+    if (user && isAuthenticated) {
       const userEmail = user.email;
       sessionStorage.setItem("credentials", JSON.stringify(userEmail));
       const guardForUserProfile = async (userEmail) => {
@@ -42,18 +42,17 @@ const App = (props) => {
           setUserProfile(getProfile[0]);
           setUserCredits(creditsArray);
 
-          const djangoAuthToken = sessionStorage.getItem('QuantumToken');
-          console.log("token", djangoAuthToken)
-          setAuthToken(djangoAuthToken);
-
+          // const djangoAuthToken = sessionStorage.getItem('QuantumToken');
+          // console.log("token", djangoAuthToken)
+          //   setAuthToken(djangoAuthToken);
         } else {
           console.log("Please Complete your Profile. :) ");
-          setUserProfile([]);
+          // setUserProfile([]);
         }
       };
       guardForUserProfile(userEmail);
     }
-  }, [user, getIdTokenClaims, loading, getTokenSilently, isAuthenticated]);
+  }, [user, getIdTokenClaims, getTokenSilently, isAuthenticated]);
 
   if (loading) {
     return (
@@ -63,7 +62,6 @@ const App = (props) => {
       </div>
     );
   }
-console.log(authToken)
   return (
     <>
       <CssBaseline />
@@ -84,6 +82,7 @@ console.log(authToken)
           userCredits={userCredits}
           setUserCredits={setUserCredits}
           authToken={authToken}
+          setAuthToken={setAuthToken}
           {...props}
         />
       </Router>

@@ -83,8 +83,8 @@ export const Auth0Provider = ({
   const clearStorage = (logout) => {
     auth0Client.logout();
     localStorage.removeItem("accessToken");
-    localStorage.removeItem("authCache");
-    localStorage.removeItem("user_sub_token_id");
+    localStorage.removeItem("IdToken");
+    sessionStorage.removeItem("QuantumToken");
     sessionStorage.removeItem("credentials");
   };
 

@@ -18,6 +18,7 @@
     "cloudinary": "^1.20.0",
     "dotenv": "^8.2.0",
     "json-server": "^0.16.1",
+    "micromodal": "^0.4.6",
     "react": "^16.13.0",
     "react-confirm-alert": "^2.6.1",
     "react-dom": "^16.13.0",

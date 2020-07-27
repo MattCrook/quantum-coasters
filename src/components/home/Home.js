@@ -3,21 +3,17 @@ import "bulma/css/bulma.css";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { Link } from "react-router-dom";
 import "./Home.css";
+import Authenticate from "../auth/Authenticate"
 
 const Home = (props) => {
   const { loading, user, logout, clearStorage, isAuthenticated } = useAuth0();
   const { userProfile } = props;
   const { authUser } = props;
+  const { authToken } = props;
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
-  // if (authUser) {
-  //   var isAuthUser = authUser.id
-  // }
-  // console.log({ userProfile })
-  // console.log({ authUser })
-  // console.log(isAuthUser)
-  const key = sessionStorage.getItem('key');
+  console.log("home", authToken)
 
-  useEffect(() => {}, [key])
+
 
   return (
     <header>
@@ -86,6 +82,12 @@ const Home = (props) => {
         )}
         <div className="hero-body bg-img" style={{ marginTop: "20px" }}></div>
       </div>
+    <div href="#modal-1" data-micromodal-trigger="modal-1" >
+      {!loading && user && userProfile && isAuthenticated && !authToken[0] ? (
+          <Authenticate {...props}/>
+      ): null}
+
+    </div>
     </header>
   );
 };
