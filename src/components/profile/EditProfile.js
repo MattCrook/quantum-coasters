@@ -19,7 +19,7 @@ const EditProfile = (props) => {
     last_name: "",
     username: "",
     email: user.email,
-    password: user.sub.split("|")[1],
+    password: "",
   });
 
   const [userProfile, setUserProfile] = useState({
@@ -68,6 +68,7 @@ const EditProfile = (props) => {
 
   const handleInputChangeUser = (e) => {
     const stateToChange = { ...authUser };
+    console.log(stateToChange)
     stateToChange[e.target.id] = e.target.value;
     setAuthUser(stateToChange);
   };
@@ -110,7 +111,7 @@ const EditProfile = (props) => {
       last_name: authUser.last_name,
       username: authUser.username,
       email: user.email,
-      password: user.sub.split("|")[1],
+      password: authUser.password,
     };
 
     if (!loading && userProfile && image.id) {
@@ -121,7 +122,7 @@ const EditProfile = (props) => {
         image: image,
         credits: userProfile.credits,
       };
-      await userManager.putEditedAPIUser(editedAuthUser);
+      await userManager.putEditedAuthUser(editedAuthUser);
       await userManager.putEditedUserProfile(editedUserProfile);
       props.setAuthUser(editedAuthUser);
       props.setUserProfile(editedUserProfile);
@@ -131,11 +132,29 @@ const EditProfile = (props) => {
       const editedUserProfile = {
         id: userProfileId,
         address: userProfile.address,
-        image: "",
+        image: null,
         credits: userProfile.credits,
       };
-      await userManager.putEditedAPIUser(editedAuthUser);
+      await userManager.putEditedAuthUser(editedAuthUser);
       await userManager.putEditedUserProfile(editedUserProfile);
+      props.setAuthUser(editedAuthUser);
+      props.setUserProfile(editedUserProfile);
+
+    } else {
+      // 'Else' for edge case if image === null, It takes the default image above which was set in state. But the user didn't pick.
+      // So Thinks the user picked an image, but UserProfile.image === null, but image (in state) is the defaultProfilePic.
+      // Leave image blank to not create a blank resource in DB.
+
+      const editedUserProfile = {
+        id: userProfileId,
+        address: userProfile.address,
+        image: null,
+        credits: userProfile.credits,
+      };
+      await userManager.putEditedAuthUser(editedAuthUser);
+      await userManager.putEditedUserProfile(editedUserProfile);
+      props.setAuthUser(editedAuthUser);
+      props.setUserProfile(editedUserProfile);
     }
     setIsLoading(false);
     window.alert("Profile has been updated!");
@@ -258,9 +277,7 @@ const EditProfile = (props) => {
               type="submit"
               className="change_photo_btn"
               disabled={isLoading}
-            >
-              Change Photo
-            </button>
+            >Change Photo</button>
           </form>
         </div>
         <div className="profile-info-container">
@@ -287,9 +304,7 @@ const EditProfile = (props) => {
               {userCredits.length}
             </div>
           ) : (
-            <div className="user_info">
-              <strong>Total Credits: </strong>0
-            </div>
+            <div className="user_info"><strong>Total Credits: </strong>0</div>
           )}
         </div>
       </div>

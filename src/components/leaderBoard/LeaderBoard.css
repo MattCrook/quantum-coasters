@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  padding: 0 30px 0 30px;
+  padding: 0 2px 0 12px;
   height: 10px;
   align-items: center;
 }
@@ -19,7 +19,7 @@ display: flex;
 .leaderboard_container_2 {
   display: flex;
   justify-content: center;
-  padding-left: 20px;
+  padding-left: 30px;
 }
 
 .leaderboard-first-and-last-name-in-nav {

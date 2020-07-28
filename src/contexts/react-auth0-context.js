@@ -88,6 +88,26 @@ export const Auth0Provider = ({
     sessionStorage.removeItem("credentials");
   };
 
+  const djangoRestAuthLogout = async (logout, clearStorage, userToLogout) => {
+    try {
+      const response = await fetch('http://localhost:8000/rest-auth/logout/', {
+        method: 'POST',
+        headers: {
+          'Content-Type':'application/json',
+        },
+        body: JSON.stringify(userToLogout),
+      })
+      if (response.ok) {
+        const jsonResponse = await response.json();
+        console.log(jsonResponse)
+        clearStorage(logout)
+      }
+      throw new Error('Request Failed')
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   return (
     <Auth0Context.Provider
       value={{
@@ -98,6 +118,7 @@ export const Auth0Provider = ({
         loginWithPopup,
         handleRedirectCallback,
         clearStorage,
+        djangoRestAuthLogout,
         getIdTokenClaims: (...p) => auth0Client.getIdTokenClaims(...p),
         loginWithRedirect: (...p) => auth0Client.loginWithRedirect(...p),
         getTokenSilently: (...p) => auth0Client.getTokenSilently(...p),

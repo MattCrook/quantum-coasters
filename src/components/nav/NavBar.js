@@ -13,6 +13,13 @@ import {
 
 const NavBar = ({ authUser, authToken }) => {
   const { isAuthenticated, loading } = useAuth0();
+  let token;
+
+  if (authToken) {
+    authToken.length > 0
+    ? (token = authToken[0])
+    : (token = null)
+  };
 
   return (
     <nav>
@@ -30,7 +37,7 @@ const NavBar = ({ authUser, authToken }) => {
             </Link>
           </li>
         )}
-        {!loading && isAuthenticated && authUser.username && authToken[0] ? (
+        {!loading && isAuthenticated && authUser.username && token ? (
           <li>
             <FontAwesomeIcon icon={faUser} />
             <Link className="nav-link" to="/user/profile/credits">
@@ -39,7 +46,7 @@ const NavBar = ({ authUser, authToken }) => {
             </Link>
           </li>
         ) : null}
-        {!loading && isAuthenticated && authUser.username && authToken[0] ? (
+        {!loading && isAuthenticated && authUser.username && token ? (
           <li>
             <FontAwesomeIcon icon={faPollH} />
 
@@ -49,7 +56,7 @@ const NavBar = ({ authUser, authToken }) => {
             </Link>
           </li>
         ) : null}
-        {!loading && isAuthenticated && authUser.username && authToken[0] ? (
+        {!loading && isAuthenticated && authUser.username && token ? (
           <li>
             <FontAwesomeIcon icon={faCommentDots} />
             <Link className="nav-link" to="/messages">

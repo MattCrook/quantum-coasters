@@ -38,6 +38,7 @@ const LeaderBoard = (props) => {
   useEffect(() => {
     getAllUsers();
   }, []);
+
 console.log("leaderboardUserprofile", userProfile)
 
   return (

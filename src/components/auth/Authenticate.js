@@ -27,11 +27,9 @@ export default function Authenticate(props) {
                 props.history.push("/home")
             })
             .catch(() => alert("Invalid email"))
-    }
-
+    };
 
     return (
-
         <div className="modal micromodal-slide" id="modal-1" aria-hidden="true">
             <div className="modal__overlay" tabIndex="-1" data-micromodal-close>
                 <div className="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
@@ -51,12 +49,12 @@ export default function Authenticate(props) {
                             </div>
                             <footer className="modal__footer">
                                     <button id="modal__btn-primary" type="submit" style={{ marginRight: "8px" }}>Confirm</button>
-                                <button className="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button> 
+                                {/* <button className="modal__btn" data-micromodal-close aria-label="Close this dialog window">Close</button>  */}
                             </footer>
                         </form>
 
                         <div className="signature">
-                            <p>Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a> <i className="fas fa-copyright"></i></p>
+                            <p>Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a> <i className="fas fa-trademark"></i></p>
                         </div>
 
                     </main>

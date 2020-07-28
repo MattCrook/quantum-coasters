@@ -91,7 +91,7 @@ const userManager = {
     });
   },
 
-  async putEditedAPIUser(editedObject) {
+  async putEditedAuthUser(editedObject) {
     const data = await fetch(`${remoteURL}/users/${editedObject.id}`, {
       method: "PUT",
       headers: {
