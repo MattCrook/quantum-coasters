@@ -11,7 +11,6 @@
   align-items: center;
 }
 
-
 button {
   background: transparent;
   outline: none;
@@ -29,7 +28,7 @@ button {
 
 .home-logo {
   color: white;
-  margin-left: 70px;
+  margin-left: 50px;
   font-variant: small-caps;
 }
 
@@ -71,7 +70,6 @@ button {
   font-size: 15px;
   display: flex;
   justify-content: center;
-
 }
 
 .logout-navbar-item {
@@ -83,7 +81,6 @@ button {
   border-bottom: 1px solid rgb(228, 91, 91);
 }
 
-
 .navbar-item-home-name {
   color: white;
   margin-right: 7px;
@@ -91,4 +88,70 @@ button {
 
 .welcome-greeting {
   margin-top: 10px;
+}
+
+/************** Modal *********************/
+
+.modal_btn_toggle_home {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.modal_sign_in_btn_home i {
+  margin-right: 10px;
+}
+
+.modal_sign_in_btn_home {
+  padding: 11px 42px;
+  color: rgb(43, 9, 9);
+  font-family: sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 15px;
+  position: relative;
+  text-decoration: none;
+}
+
+.modal_sign_in_btn_home {
+  border: 1px solid transparent;
+  -webkit-transition: all 0.4s cubic-bezier(0.5, 0.24, 0, 1);
+  transition: all 0.4s cubic-bezier(0.5, 0.24, 0, 1);
+}
+
+.modal_sign_in_btn_home::before {
+  content: "";
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 0%;
+  height: 1px;
+  background: #200606;
+  box-shadow: inset 0px 0px 0px #270707;
+  display: block;
+  -webkit-transition: all 0.4s cubic-bezier(0.5, 0.24, 0, 1);
+  transition: all 0.4s cubic-bezier(0.5, 0.24, 0, 1);
+}
+
+.modal_sign_in_btn_home:hover::before {
+  width: 100%;
+}
+
+.modal_sign_in_btn_home::after {
+  content: "";
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 0%;
+  height: 1px;
+  background: #3b0909;
+  -webkit-transition: all 0.4s cubic-bezier(0.5, 0.24, 0, 1);
+  transition: all 0.4s cubic-bezier(0.5, 0.24, 0, 1);
+}
+.modal_sign_in_btn_home:hover::after {
+  width: 100%;
+}
+.modal_sign_in_btn_home:hover {
+  border-left: 1px solid #420909;
+  border-right: 1px solid #300808;
 }

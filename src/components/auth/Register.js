@@ -5,6 +5,7 @@ import "./Register.css";
 import { confirmAlert } from "react-confirm-alert";
 // import keys from "../../keys/Keys";
 // import ImageUploader from "react-images-upload";
+const remoteUrl = process.env.REACT_APP_BASE_URL;
 
 const Register = (props) => {
 
@@ -64,6 +65,30 @@ const Register = (props) => {
                   props.setAuthToken(registerUser.DjangoUser.QuantumToken)
                   // Setting AuthUser from props passed from App to Application Views to Register. Setting the user high up in app to then filter back down.
                   props.setAuthUser(registerUser.DjangoUser);
+
+                  const verifyEmail = async (key) => {
+                    try {
+                      const response = await fetch(`${remoteUrl}/rest-auth/registration/verify-email/`, {
+                      // const response = await fetch(`${remoteUrl}/accounts-rest/registration/account-confirm-email/${key}/`, {
+                      // const response = await fetch(`${remoteUrl}/registration/verify-email/${key}/`, {
+                        method: 'POST',
+                        headers: {
+                          "Content-Type": "application/json",
+                          Authorization: `Bearer ${key}`
+                        },
+                        body: key,
+                      })
+                      if (response.ok) {
+                        const jsonResponse = await response.json();
+                        console.log({ jsonResponse })
+                      }
+                      throw new Error('Verify Email Request Failed')
+                    } catch (err) {
+                      console.info(err);
+                    }
+
+                  };
+                  // verifyEmail(registerUser.DjangoUser.QuantumToken);
                   props.history.push("/home");
                 }
               } catch (err) {
