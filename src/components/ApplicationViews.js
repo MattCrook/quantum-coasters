@@ -22,6 +22,8 @@ const ApplicationViews = ({
   setUserCredits,
   authToken,
   setAuthToken,
+  userRollerCoasters,
+  setUserRollerCoasters,
 }) => {
   const { isAuthenticated } = useAuth0();
   const isLoggedIn = () => sessionStorage.getItem("QuantumToken") !== null;
@@ -96,7 +98,13 @@ const ApplicationViews = ({
             return (
               <ProfileList
                 userProfile={userProfile}
+                setUserProfile={setUserProfile}
                 authUser={authUser}
+                setAuthUser={setAuthUser}
+                setUserCredits={setUserCredits}
+                userCredits={userCredits}
+                userRollerCoasters={userRollerCoasters}
+                setUserRollerCoasters={setUserRollerCoasters}
                 {...props}
               />
             );

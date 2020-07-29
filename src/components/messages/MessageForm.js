@@ -96,7 +96,7 @@ const MessageForm = (props) => {
         </form>
       </div>
       <div className="signature">
-                <p>Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a> <i className="far fa-copyright"></i>
+                <p>Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a> <i className="fas fa-trademark"></i>
                 </p>
             </div>
     </>

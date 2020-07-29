@@ -10,8 +10,8 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 
 const ProfileList = (props) => {
   const { user, clearStorage, logout } = useAuth0();
-  const [userCredits, setUserCredits] = useState([]);
-  const [userProfile, setUserProfile] = useState({});
+  // const [userCredits, setUserCredits] = useState([]);
+  // const [userProfile, setUserProfile] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const { authUser } = props;
   const userId = authUser.id;
@@ -23,20 +23,20 @@ const ProfileList = (props) => {
       const creditsToFetch = await creditManager.getCreditIdFromApi();
       const profile = userProfileFromAPI[0];
       const filterUsersCredits = creditsToFetch.filter((credit) => credit.userProfile === profile.id);
-      setUserProfile(profile);
+      props.setUserProfile(profile);
+      props.setUserCredits(profile.credits);
+
       const creditsMap = filterUsersCredits.map((credit) => {
         const rollerCoasterId = credit.rollerCoaster;
         return rollerCoasterId;
       });
       let promises = [];
       creditsMap.forEach((item) => {
-        promises.push(
-          rollerCoasterManager.getRollerCoastersForUserProfile(item)
-        );
+        promises.push(rollerCoasterManager.getRollerCoastersForUserProfile(item));
       });
       Promise.all(promises)
         .then((data) => {
-          setUserCredits(data);
+          props.setUserRollerCoasters(data);
         })
         .catch((error) => {
           console.log(error);
@@ -45,6 +45,7 @@ const ProfileList = (props) => {
       console.log(err);
     }
   };
+
 
   const deleteCredit = (creditId) => {
     try {
@@ -63,11 +64,13 @@ const ProfileList = (props) => {
                     .then(() => {
                       userManager
                         .getUserProfileEmbeddedAuthUser(userId)
-                        .then((response) => {
-                          const profile = response[0];
-                          const credits = profile.credits;
-                          setUserProfile(profile);
-                          setUserCredits(credits);
+                        .then(() => {
+                          getUserCreditsToFetch(userId)
+                          // const profile = response[0];
+                          // const credits = profile.credits;
+                          // props.setUserProfile(profile);
+                          // props.setUserCredits(credits);
+                          // props.setUserRollerCoasters()
                         });
                     })
                     .catch((error) => {
@@ -92,7 +95,9 @@ const ProfileList = (props) => {
   };
 
   useEffect(() => {
-    getUserCreditsToFetch(userId);
+    if (props) {
+      getUserCreditsToFetch(userId);
+    }
   }, [user, props.authUser, userId]);
 
   return (
@@ -113,7 +118,7 @@ const ProfileList = (props) => {
         <button
           className="edit-profile-button inset"
           data-testid="edit_profile_btn_testid"
-          onClick={() => props.history.push(`/profile/${userProfile.id}`)}
+          onClick={() => props.history.push(`/profile/${props.userProfile.id}`)}
         >
           Edit Profile
         </button>
@@ -122,10 +127,10 @@ const ProfileList = (props) => {
           <p className="name-profile-list">
             {authUser.first_name} {authUser.last_name}
           </p>
-          {userProfile.image ? (
+          {props.userProfile.image ? (
             <img
               id="profile-pic"
-              src={userProfile.image.image}
+              src={props.userProfile.image.image}
               alt="My Avatar"
             />
           ) : (
@@ -144,16 +149,16 @@ const ProfileList = (props) => {
       </nav>
       <div className="credits-title">Credits</div>
       <div className="total_credits_profile_list">
-        Total: {userCredits.length}
+        Total: {props.userCredits.length}
       </div>
       <div
         className="profile-container-card"
         data-testid="profile_card_container_testid"
       >
-        {userCredits.map((rollerCoaster) => (
+        {props.userRollerCoasters.map((rollerCoaster) => (
           <ProfileCard
             key={rollerCoaster.id}
-            userProfile={userProfile}
+            userProfile={props.userProfile}
             authUser={authUser}
             rollerCoaster={rollerCoaster}
             manufacturer={rollerCoaster.manufacturer}

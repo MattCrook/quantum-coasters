@@ -66,11 +66,10 @@ const Register = (props) => {
                   // Setting AuthUser from props passed from App to Application Views to Register. Setting the user high up in app to then filter back down.
                   props.setAuthUser(registerUser.DjangoUser);
 
+                  // Function to POST to rest-auth verify email endpoint with the key returned from register.
                   const verifyEmail = async (key) => {
                     try {
                       const response = await fetch(`${remoteUrl}/rest-auth/registration/verify-email/`, {
-                      // const response = await fetch(`${remoteUrl}/accounts-rest/registration/account-confirm-email/${key}/`, {
-                      // const response = await fetch(`${remoteUrl}/registration/verify-email/${key}/`, {
                         method: 'POST',
                         headers: {
                           "Content-Type": "application/json",
@@ -110,13 +109,14 @@ const Register = (props) => {
   };
 
   return (
+    <>
     <form className="register-form" onSubmit={handleFormSubmit}>
       <fieldset className="fs-register-form">
         <h3 className="register-title">Complete Your Profile</h3>
         <div className="profile-create-form">
           <label htmlFor="first_name">First Name</label>
           <input
-            className="input"
+            className="input_register"
             onChange={handleAuthUserInputChange}
             type="text"
             id="first_name"
@@ -127,35 +127,35 @@ const Register = (props) => {
 
           <label htmlFor="last_name">Last Name</label>
           <input
-            className="input"
+            className="input_register"
             onChange={handleAuthUserInputChange}
             type="text"
             id="last_name"
             placeholder="Last Name"
             required
-            autoFocus
+
           />
 
           <label htmlFor="username">Username</label>
           <input
-            className="input"
+            className="input_register"
             onChange={handleAuthUserInputChange}
             type="text"
             id="username"
             placeholder="Enter Username"
             required
-            autoFocus
+
           />
 
           <label htmlFor="address">Address</label>
           <input
-            className="input"
+            className="input_register"
             onChange={handleAuthUserInputChange}
             type="text"
             id="address"
             placeholder="Enter Address"
             required
-            autoFocus
+
           />
 
           <button
@@ -168,6 +168,11 @@ const Register = (props) => {
         </div>
       </fieldset>
     </form>
+          <div className="signature">
+          <p>Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a> <i className="fas fa-trademark"></i>
+          </p>
+      </div>
+      </>
   );
 };
 

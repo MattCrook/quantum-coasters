@@ -17,6 +17,9 @@
   font-weight: 900;
   font-variant: small-caps;
   margin-top: 10px;
+  border-bottom: 1px solid black;
+  margin-left: 18%;
+  margin-right: 18%;
 }
 
 .profile-card {
@@ -99,7 +102,7 @@
   flex-wrap: wrap;
   padding: 2%;
   margin-top: 40px;
-  background-color: rgba(204, 201, 201, 0.918);
+  background-color: rgba(216, 215, 215, 0.918);
 }
 button.btn {
   text-align: center;
@@ -120,6 +123,8 @@ button.btn {
   display: flex;
   justify-content: center;
   font-weight: 600;
+  margin-top: 8px;
+  font-variant: small-caps;
 }
 
 /*************** Profile List *************/
@@ -260,11 +265,12 @@ button.btn {
 }
 
 #edit-profile-pic {
-  width: 280px;
-  height: 280px;
+  width: 290px;
+  height: 290px;
   border-radius: 50%;
   margin-bottom: 1rem;
   margin-top: 10px;
+  object-fit: cover;
 }
 
 .uploadPicture {

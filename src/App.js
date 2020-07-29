@@ -16,6 +16,7 @@ const App = (props) => {
   const [authUser, setAuthUser] = useState([]);
   const [userCredits, setUserCredits] = useState([]);
   const [authToken, setAuthToken] = useState([]);
+  const [userRollerCoasters, setUserRollerCoasters] = useState([]);
 
 
   useEffect(() => {
@@ -46,7 +47,7 @@ const App = (props) => {
             setAuthToken(djangoAuthToken);
         } else {
           console.log("Please Complete your Profile. :) ");
-          // setUserProfile([]);
+          setUserProfile([]);
         }
       };
       guardForUserProfile(userEmail);
@@ -82,6 +83,8 @@ const App = (props) => {
           setUserCredits={setUserCredits}
           authToken={authToken}
           setAuthToken={setAuthToken}
+          userRollerCoasters={userRollerCoasters}
+          setUserRollerCoasters={setUserRollerCoasters}
           {...props}
         />
       </Router>

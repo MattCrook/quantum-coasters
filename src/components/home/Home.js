@@ -26,6 +26,7 @@ const Home = (props) => {
   const { authToken } = props;
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
   let token;
+  console.log(user)
 
   if (authToken) {
     authToken.length > 0
@@ -45,12 +46,16 @@ const Home = (props) => {
             {!loading && user && isAuthenticated && (
               <>
                 <div className="navbar-end">
-                  <button className="navbar-item-home-name">{authUser.first_name} {authUser.last_name}</button>
+                  {authUser ? (
+                    <button className="navbar-item-home-name">{authUser.first_name} {authUser.last_name}</button>
+                  ) : (
+                      <button className="navbar-item-home-name">hello{user.email}</button>
+                    )}
                   {!loading && userProfile.image ? (
                     <img
                       data-testid="home-profile-pic-testid"
                       id="profile-pic"
-                      src={userProfile.image.image}
+                      src={userProfile.image.image}s
                       alt="My Avatar"
                     />
                   ) : (
