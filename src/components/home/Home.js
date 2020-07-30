@@ -8,7 +8,6 @@ import MicroModal from "micromodal";
 import "../auth/Authenticate.css";
 
 MicroModal.init({
-  onShow: (modal) => console.info(`${modal.id} is open.`),
   openTrigger: "data-micromodal-trigger",
   closeTrigger: "data-micromodal-close",
   openClass: "is-open",
@@ -45,7 +44,11 @@ const Home = (props) => {
             {!loading && user && isAuthenticated && (
               <>
                 <div className="navbar-end">
-                  <button className="navbar-item-home-name">{authUser.first_name} {authUser.last_name}</button>
+                  {authUser.email ? (
+                    <button className="navbar-item-home-name">{authUser.first_name} {authUser.last_name}</button>
+                  ) : (
+                      <div className="navbar_item_home_user_name">{user.email}</div>
+                    )}
                   {!loading && userProfile.image ? (
                     <img
                       data-testid="home-profile-pic-testid"

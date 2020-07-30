@@ -16,7 +16,7 @@ export default function Authenticate(props) {
     const loginSubmit = (e) => {
         e.preventDefault();
         const userCredentials = {
-            username: email,
+            email: email,
             password: password
         };
         userManager.login(userCredentials)

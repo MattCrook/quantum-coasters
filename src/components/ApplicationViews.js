@@ -11,6 +11,7 @@ import EditProfile from "./profile/EditProfile";
 import LeaderBoard from "./leaderBoard/LeaderBoard";
 import Register from "./auth/Register";
 import SelectRollerCoaster from "./profile/SelectRollerCoaster";
+import AddPark from "./addNewForm/AddPark";
 // import AuthRoute from "./AuthRoute";
 
 const ApplicationViews = ({
@@ -22,6 +23,8 @@ const ApplicationViews = ({
   setUserCredits,
   authToken,
   setAuthToken,
+  userRollerCoasters,
+  setUserRollerCoasters,
 }) => {
   const { isAuthenticated } = useAuth0();
   const isLoggedIn = () => sessionStorage.getItem("QuantumToken") !== null;
@@ -96,7 +99,13 @@ const ApplicationViews = ({
             return (
               <ProfileList
                 userProfile={userProfile}
+                setUserProfile={setUserProfile}
                 authUser={authUser}
+                setAuthUser={setAuthUser}
+                setUserCredits={setUserCredits}
+                userCredits={userCredits}
+                userRollerCoasters={userRollerCoasters}
+                setUserRollerCoasters={setUserRollerCoasters}
                 {...props}
               />
             );
@@ -199,6 +208,27 @@ const ApplicationViews = ({
                 userCredits={userCredits}
                 setUserCredits={setUserCredits}
                 parkId={parseInt(props.match.params.parkId)}
+                {...props}
+              />
+            );
+          } else {
+            return <LandingPage />;
+          }
+        }}
+      />
+      <Route
+        exact
+        path="/new/rollercoaster/parks/create"
+        render={(props) => {
+          if (isAuthenticated && authUser.id && hasLoggedIn) {
+            return (
+              <AddPark
+                userProfile={userProfile}
+                authUser={authUser}
+                setUserProfile={setUserProfile}
+                userCredits={userCredits}
+                setUserCredits={setUserCredits}
+
                 {...props}
               />
             );

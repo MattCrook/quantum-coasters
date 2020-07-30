@@ -65,17 +65,9 @@ const AddNewRollerCoaster = (props) => {
       rollerCoaster.name === "" ||
       rollerCoaster.max_height === "" ||
       rollerCoaster.max_speed === ""
-      // trackType.name === "" ||
-      // park.name === "" ||
-      // park.parkLocation === "" ||
-      // park.parkCountry === "" ||
-      // manufacturer.name === ""
-      // manufacturer.origin_country === "" ||
-      // manufacturer.manufacture_url === ""
     ) {
       alert("Please fill out all fields in form");
     } else {
-      setIsLoading(true);
       confirmAlert({
         title: "Roller Coaster Data Submission",
         message: "Click Yes To Confirm",
@@ -125,7 +117,7 @@ const AddNewRollerCoaster = (props) => {
 
               rollerCoasterManager.postNewRollerCoaster(newRollerCoaster).then(() => {
                 setIsLoading(false);
-                props.history.push("/users/new");
+                props.history.push("/user/parks/addcredit");
               });
             },
           },
@@ -160,7 +152,6 @@ const AddNewRollerCoaster = (props) => {
             onChange={handleRollerCoasterFieldChange}
             type="name"
             id="name"
-            placeholder="Enter Roller Coaster Name"
             value={rollerCoaster.name}
           />
           <label className="add_new_rollercoaster_form_label" htmlFor="inputTrackType">Track Type</label>
@@ -168,7 +159,6 @@ const AddNewRollerCoaster = (props) => {
             className="form-control"
             onChange={handleTrackTypeFieldChange}
             id="name"
-            placeholder="Select The Track Type"
             value={trackType.name}
           >
             {trackTypes.map((track, i) => (
@@ -184,7 +174,6 @@ const AddNewRollerCoaster = (props) => {
             onChange={handleRollerCoasterFieldChange}
             type="text"
             id="max_height"
-            placeholder="Max Height"
             value={rollerCoaster.max_height}
           />
           <label className="add_new_rollercoaster_form_label" htmlFor="inputMaxSpeed">Max Speed</label>
@@ -193,42 +182,33 @@ const AddNewRollerCoaster = (props) => {
             onChange={handleRollerCoasterFieldChange}
             type="text"
             id="max_speed"
-            placeholder="Max Speed"
             value={rollerCoaster.max_speed}
           />
+
+
           <label className="add_new_rollercoaster_form_label" htmlFor="inputPark">Park Name</label>
-          <input
+          <select
             className="form-control"
             onChange={handleParkFieldChange}
             type="text"
             id="name"
-            placeholder="Enter Park Name"
             value={park.name}
-          />
-          <label className="add_new_rollercoaster_form_label" htmlFor="inputParkLocation">Park State/ Location</label>
-          <input
-            className="form-control"
-            onChange={handleParkFieldChange}
-            type="text"
-            id="parkLocation"
-            placeholder="Enter State or Providence of Park is Located"
-            value={park.parkLocation}
-          />
-          <label className="add_new_rollercoaster_form_label" htmlFor="inputParkCountry">Park Country</label>
-          <input
-            className="form-control"
-            onChange={handleParkFieldChange}
-            type="text"
-            id="parkCountry"
-            placeholder="Enter Country Park is Located"
-            value={park.parkCountry}
-          />
+            >
+              {parks.map(park => (
+                <option key={park.id} value={park.name}>{park.name}</option>
+              ))}
+            </select>
+
+            <div className="add_new_park_btn_container">
+              <div className="add_park_description">*Don't see the park in the dropdown? Click the link and add the park to help us expand our repertoire!</div>
+              <button className="link_to_add_park_form" onClick={() => props.history.push('/new/rollercoaster/parks/create')}>Add New Park</button>
+            </div>
+
           <label className="add_new_rollercoaster_form_label" htmlFor="inputManufacturer">Manufacturer</label>
           <select
             className="form-control"
             onChange={handleManufacturerFieldChange}
             id="name"
-            placeholder="Select Manufacturer Name"
             value={manufacturer.name}
           >
             {manufacturers.map((manufacturer, i) => (
@@ -237,32 +217,6 @@ const AddNewRollerCoaster = (props) => {
               </option>
             ))}
           </select>
-          {/* <label htmlFor="inputManufacturer">
-            Manufacturer Country Of Operations
-          </label>
-          <input
-            className="input"
-            onChange={handleManufacturerFieldChange}
-            type="text"
-            id="origin_country"
-            placeholder="Country"
-            required=""
-            autoFocus=""
-            value={manufacturer.origin_country}
-          />
-          <label htmlFor="inputManufacturer">
-            Manufacturer Company Website
-          </label>
-          <input
-            className="input"
-            onChange={handleManufacturerFieldChange}
-            type="text"
-            id="manufacture_url"
-            placeholder="Please Provide a Link to the Company Website"
-            required=""
-            autoFocus=""
-            value={manufacturer.manufacture_url}
-          /> */}
           <button
             className="create-new-rollerCoaster-btn"
             type="submit"
@@ -274,7 +228,7 @@ const AddNewRollerCoaster = (props) => {
         </div>
       </form>
       <div className="signature">
-                <p>Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a> <i className="far fa-copyright"></i>
+                <p>Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a> <i className="fas fa-trademark"></i>
                 </p>
             </div>
     </>

@@ -1,0 +1,79 @@
+#create_park_btn {
+  background: rgb(175, 175, 175);
+  font: inherit;
+  line-height: 1;
+  padding: 1em 2em;
+  border: none;
+  width: 12%;
+  border-radius: 3px 3px 3px 3px;
+  text-transform: uppercase;
+  font-size: 12px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+#create_park_btn:hover,
+#create_park_btn:focus {
+  box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+  -webkit-transform: translateY(-0.25em);
+  transform: translateY(-0.25em);
+}
+
+#create_park_btn {
+  --color: #08068a83;
+  --hover: #02103b;
+}
+
+/*********************** Form Styles ********************/
+
+.add_new_park_form_title {
+  display: flex;
+  justify-content: center;
+  font: 50 1.4em helvetica neue, open sans, sans-serif;
+  font-variant: small-caps;
+  border-bottom: 1px solid rgb(105, 105, 105);
+  padding-top: 10px;
+  margin-bottom: 10px;
+}
+#form_container {
+  margin-top: 8%;
+  margin-bottom: 5%;
+  margin-left: 34%;
+  margin-right: 33%;
+  background-color: rgb(190, 190, 190);
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 2px 2px 2px 2px rgb(204, 202, 202);
+}
+
+#park_name_label {
+  padding-top: 8%;
+}
+
+.fieldset_container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#create_park_btn {
+  margin-top: 10px;
+  margin-bottom: 12px;
+  width: 50%;
+  margin-left: 24%;
+  background-color: rgb(27, 27, 27);
+  color: rgb(211, 211, 210);
+}
+label.new_form {
+  font: 150 1em helvetica neue, open sans, sans-serif;
+}
+.new_form input {
+  height: 35px;
+  width: 98%;
+  border: none;
+  margin-top: 8px;
+}
+
+fieldset.new_form {
+  margin-left: 10px;
+}

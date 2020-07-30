@@ -1,33 +1,19 @@
 
-/* .new-ride-form-back-button:hover,
-.new-ride-form-back-button:focus {
-  animation: pulse 1s;
-  box-shadow: 0 0 0 2em rgba(rgb(5, 3, 3), 0);
-  border-color: var(--hover);
-}
-
-.new-ride-form-back-button {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: flex-end;
-  transition: 0.25s;
-  border: 2px solid black;
-
-} */
 
 .create-new-rollerCoaster-btn {
   display: flex;
   justify-content: center;
-  border: 2px solid black;
-  margin-top: 12px;
-  /* margin-right: 150px; */
+  border: 1px solid black;
+  margin-top: 14px;
   margin-left: 23%;
-  padding-bottom: 3px;
-  padding-top: 3px;
+  padding-bottom: 4px;
+  padding-top: 4px;
   width: 50%;
   margin-bottom: 20px;
   background-color: #949494;
+  font: 150 1em helvetica neue, open sans, sans-serif;
+  border-radius: 5px 5px 5px 5px;
+
 }
 
 .create-new-rollerCoaster-btn:hover {
@@ -49,16 +35,14 @@
 .create-form {
   display: flex;
   flex-direction: column;
-  /* padding: 10px; */
   border-radius: 15px;
   box-shadow: 3px 3px 1px solid;
   margin-top: 30px;
   margin-left: 400px;
   margin-right: 400px;
   margin-bottom: 20px;
-
 }
-.title{
+.title {
   margin-left: 200px;
   margin-right: 200px;
   margin-top: 40px;
@@ -67,7 +51,7 @@
   border-bottom: 1px solid black;
 }
 
-.create-form > label{
+.create-form > label {
   color: rgb(12, 12, 12);
   margin-bottom: 1px;
   margin-top: 2px;
@@ -86,7 +70,6 @@
   width: 97%;
   margin-left: 12px;
   margin-right: 12px;
-
   justify-content: center;
 }
 
@@ -96,21 +79,22 @@
   box-shadow: 1px 1px 3px rgb(119, 119, 119);
   background-color: #dfdfdf;
   border-radius: 2%;
-
 }
 
 .rollercoaster_name {
   margin-top: 20px;
-  margin-left: 10px;
+  margin-left: 13px;
   font-weight: 550;
-  font-variant: small-caps;
+  /* font-variant: small-caps; */
+  font: 150 1em helvetica neue, open sans, sans-serif;
 }
 
 .add_new_rollercoaster_form_label {
   margin-top: 10px;
   margin-left: 10px;
   font-weight: 550;
-  font-variant: small-caps;
+  /* font-variant: small-caps; */
+  font: 150 1em helvetica neue, open sans, sans-serif;
 }
 
 /************ Signature *******************/
@@ -164,4 +148,143 @@
   color: #aaaaaa;
   text-decoration: none;
   font-weight: bold;
+}
+
+/*****************************************************/
+
+.add_new_park_btn_container {
+  display: flex;
+  flex-direction: column;
+}
+
+.add_park_description {
+  font: 150 0.8em helvetica neue, open sans, sans-serif;
+  color: rgb(27, 27, 82);
+  margin-left: 35%;
+}
+
+/* .link_to_add_park_form {
+  text-decoration: none;
+  padding: 6px 22px;
+  margin: 8px 8px;
+  color: rgb(68, 66, 66);
+  font-family: sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 12px;
+  position: relative;
+  display: inline-block;
+}
+
+
+.link_to_add_park_form {
+  border: 1px solid transparent;
+  -webkit-transition: all 0.4s cubic-bezier(0.5, 0.24, 0, 1);
+  transition: all 0.4s cubic-bezier(0.5, 0.24, 0, 1);
+}
+
+.link_to_add_park_form::before {
+  content: "";
+  position: relative;
+  left: 0px;
+  bottom: 0px;
+  width: 0%;
+  height: 1px;
+  background: #01318a;
+  box-shadow: inset 0px 0px 0px #1a49a1;
+  display: block;
+  -webkit-transition: all 0.4s cubic-bezier(0.5, 0.24, 0, 1);
+  transition: all 0.4s cubic-bezier(0.5, 0.24, 0, 1);
+}
+
+.link_to_add_park_form:hover::before {
+  width: 100%;
+}
+
+.link_to_add_park_form::after {
+  content: "";
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  width: 0%;
+  height: 1px;
+  background: #103479;
+  -webkit-transition: all 0.4s cubic-bezier(0.5, 0.24, 0, 1);
+  transition: all 0.4s cubic-bezier(0.5, 0.24, 0, 1);
+}
+
+.link_to_add_park_form:hover::after {
+  width: 20%;
+}
+
+.link_to_add_park_form:hover {
+  text-decoration: none;
+  border-left: 1px solid #1e4386;
+  border-right: 1px solid #174bad;
+} */
+
+
+
+
+
+.link_to_add_park_form {
+  -webkit-box-flex: 1;
+  flex-grow: 1;
+  text-align: center;
+  display: inline-block;
+  color: rgba(19, 18, 18, 0.7);
+  text-decoration: none;
+  font-family: Lato;
+  font: 150 0.8em helvetica neue, open sans, sans-serif;
+  margin-left: 80%;
+  margin-top: 12px;
+  border-radius: 6px 6px 6px 6px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  font-size: 15px;
+  font-weight: 300;
+  border: 1px dotted transparent;
+  width: 15%;
+  box-shadow: 1px 1px 1px 1px rgb(161, 159, 159);
+  -webkit-transition: background-position 2s cubic-bezier(0, 1, 0, 1),
+    border-color 500ms, background-color 500ms;
+  transition: background-position 2s cubic-bezier(0, 1, 0, 1),
+    border-color 500ms, background-color 500ms;
+  position: relative;
+  background-attachment: fixed, scroll;
+  background-size: 100vw 100vh, cover;
+  background-position: center center, 0 0;
+  background-image: repeating-linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0) 8%,
+      rgba(255, 255, 255, 0.075) 10%,
+      rgba(255, 255, 255, 0.075) 14%,
+      rgba(255, 255, 255, 0.15) 14%,
+      rgba(255, 255, 255, 0.15) 15%,
+      rgba(255, 255, 255, 0.075) 17%,
+      rgba(255, 255, 255, 0) 30%,
+      rgba(255, 255, 255, 0) 36%,
+      rgba(255, 255, 255, 0.075) 40%,
+      rgba(255, 255, 255, 0.15) 42%,
+      rgba(255, 255, 255, 0) 43%,
+      rgba(255, 255, 255, 0) 55%,
+      rgba(255, 255, 255, 0.075) 60%,
+      rgba(255, 255, 255, 0.075) 66%,
+      rgba(255, 255, 255, 0.15) 66%,
+      rgba(255, 255, 255, 0.075) 70%,
+      rgba(255, 255, 255, 0) 75%,
+      rgba(255, 255, 255, 0) 100%
+    ),
+    radial-gradient(
+      ellipse farthest-corner,
+      transparent,
+      rgba(0, 0, 0, 0.2) 110%
+    );
+}
+.link_to_add_park_form:hover {
+  background-position: -100vw 0, 0 0;
+}
+.link_to_add_park_form:active {
+  background-position: -75vw 0, 0 0;
+  border-style: solid;
 }

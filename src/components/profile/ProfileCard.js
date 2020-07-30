@@ -10,7 +10,6 @@ const ProfileCard = (props) => {
   const { trackType } = props;
 
 
-
   return (
     <div className="profile-card">
       <div className="profile-card-content">
