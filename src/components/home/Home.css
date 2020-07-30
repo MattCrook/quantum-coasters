@@ -85,10 +85,13 @@ button {
 .navbar-item-home-name {
   color: white;
   margin-right: 7px;
+  font: 150 1em helvetica neue,open sans,sans-serif;
 }
 
 .welcome-greeting {
   margin-top: 5px;
+  font: 50 1em helvetica neue,open sans,sans-serif;
+
 }
 
 /************** Modal *********************/
@@ -155,4 +158,12 @@ button {
 .modal_sign_in_btn_home:hover {
   border-left: 1px solid #420909;
   border-right: 1px solid #300808;
+}
+/****************************************************/
+
+.navbar_item_home_user_name {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  font: 120 1.1em helvetica neue,open sans,sans-serif;
 }

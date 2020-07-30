@@ -4,14 +4,14 @@
   display: flex;
   justify-content: center;
   border-bottom: 1px solid rgb(104, 102, 102);
+  font: 50 1.1em helvetica neue, open sans, sans-serif;
 }
-
 
 .fs-register-form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 30%;
+  width: 35%;
   background-color: #ececec;
   border-radius: 8px 8px 8px 8px;
   box-shadow: 2px 2px 2px 2px rgb(216, 216, 216);
@@ -23,6 +23,11 @@
   padding-bottom: 100px;
   margin-top: 30px;
 }
+
+.register_form_label {
+  font: 150 1em helvetica neue, open sans, sans-serif;
+}
+
 .profile-create-form {
   display: flex;
   flex-direction: column;
@@ -58,12 +63,15 @@
 }
 
 .input_register {
-  max-width: 100%;
   width: 96%;
   height: 36px;
   border: none;
   padding-left: 10px;
   padding-right: 10px;
   margin-top: 5px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.register_form_label {
+  margin-right: 80%;
 }

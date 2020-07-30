@@ -11,6 +11,7 @@ import EditProfile from "./profile/EditProfile";
 import LeaderBoard from "./leaderBoard/LeaderBoard";
 import Register from "./auth/Register";
 import SelectRollerCoaster from "./profile/SelectRollerCoaster";
+import AddPark from "./addNewForm/AddPark";
 // import AuthRoute from "./AuthRoute";
 
 const ApplicationViews = ({
@@ -207,6 +208,27 @@ const ApplicationViews = ({
                 userCredits={userCredits}
                 setUserCredits={setUserCredits}
                 parkId={parseInt(props.match.params.parkId)}
+                {...props}
+              />
+            );
+          } else {
+            return <LandingPage />;
+          }
+        }}
+      />
+      <Route
+        exact
+        path="/new/rollercoaster/parks/create"
+        render={(props) => {
+          if (isAuthenticated && authUser.id && hasLoggedIn) {
+            return (
+              <AddPark
+                userProfile={userProfile}
+                authUser={authUser}
+                setUserProfile={setUserProfile}
+                userCredits={userCredits}
+                setUserCredits={setUserCredits}
+
                 {...props}
               />
             );

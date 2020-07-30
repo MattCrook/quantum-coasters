@@ -8,7 +8,6 @@ import MicroModal from "micromodal";
 import "../auth/Authenticate.css";
 
 MicroModal.init({
-  onShow: (modal) => console.info(`${modal.id} is open.`),
   openTrigger: "data-micromodal-trigger",
   closeTrigger: "data-micromodal-close",
   openClass: "is-open",
@@ -26,7 +25,6 @@ const Home = (props) => {
   const { authToken } = props;
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
   let token;
-  console.log(user)
 
   if (authToken) {
     authToken.length > 0
@@ -46,16 +44,16 @@ const Home = (props) => {
             {!loading && user && isAuthenticated && (
               <>
                 <div className="navbar-end">
-                  {authUser ? (
+                  {authUser.email ? (
                     <button className="navbar-item-home-name">{authUser.first_name} {authUser.last_name}</button>
                   ) : (
-                      <button className="navbar-item-home-name">hello{user.email}</button>
+                      <div className="navbar_item_home_user_name">{user.email}</div>
                     )}
                   {!loading && userProfile.image ? (
                     <img
                       data-testid="home-profile-pic-testid"
                       id="profile-pic"
-                      src={userProfile.image.image}s
+                      src={userProfile.image.image}
                       alt="My Avatar"
                     />
                   ) : (

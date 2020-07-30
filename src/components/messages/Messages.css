@@ -105,7 +105,9 @@
 
 .message-time-right {
   float: right;
-  color: rgb(212, 211, 211);
+  color: rgb(235, 235, 235);
+  font: 150 1em helvetica neue,open sans,sans-serif;
+
 }
 
 .navbar-item-logout-btn {
@@ -181,6 +183,7 @@
   margin-right: 8px;
   font-size: 1rem;
   color: white;
+  font: 150 1em helvetica neue,open sans,sans-serif;
 }
 
 /*            CHAT ITSELF            */

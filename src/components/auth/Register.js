@@ -114,48 +114,45 @@ const Register = (props) => {
       <fieldset className="fs-register-form">
         <h3 className="register-title">Complete Your Profile</h3>
         <div className="profile-create-form">
-          <label htmlFor="first_name">First Name</label>
+          <label className="register_form_label" htmlFor="first_name">First Name</label>
           <input
             className="input_register"
             onChange={handleAuthUserInputChange}
             type="text"
             id="first_name"
-            placeholder="First Name"
+            // placeholder="First Name"
             required
             autoFocus
           />
 
-          <label htmlFor="last_name">Last Name</label>
+          <label className="register_form_label" htmlFor="last_name">Last Name</label>
           <input
             className="input_register"
             onChange={handleAuthUserInputChange}
             type="text"
             id="last_name"
-            placeholder="Last Name"
+            // placeholder="Last Name"
             required
-
           />
 
-          <label htmlFor="username">Username</label>
+          <label className="register_form_label" htmlFor="username">Username</label>
           <input
             className="input_register"
             onChange={handleAuthUserInputChange}
             type="text"
             id="username"
-            placeholder="Enter Username"
+            // placeholder="Enter Username"
             required
-
           />
 
-          <label htmlFor="address">Address</label>
+          <label className="register_form_label" htmlFor="address">Address</label>
           <input
             className="input_register"
             onChange={handleAuthUserInputChange}
             type="text"
             id="address"
-            placeholder="Enter Address"
+            // placeholder="Enter Address"
             required
-
           />
 
           <button

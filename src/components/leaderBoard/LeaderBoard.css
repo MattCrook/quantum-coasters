@@ -24,6 +24,7 @@ display: flex;
 
 .leaderboard-first-and-last-name-in-nav {
   margin-right: 20px;
+  font: 150 1em helvetica neue,open sans,sans-serif;
 }
 
 .leaderBoard-header {
