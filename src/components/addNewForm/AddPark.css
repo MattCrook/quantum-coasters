@@ -14,7 +14,7 @@
 
 #create_park_btn:hover,
 #create_park_btn:focus {
-  box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+  box-shadow: 0 0.5em 0.5em -0.1em var(--hover);
   -webkit-transform: translateY(-0.25em);
   transform: translateY(-0.25em);
 }
@@ -42,7 +42,7 @@
   margin-right: 33%;
   background-color: rgb(190, 190, 190);
   border-radius: 5px 5px 5px 5px;
-  box-shadow: 2px 2px 2px 2px rgb(204, 202, 202);
+  box-shadow: 3px 3px 3px 3px rgb(182, 181, 181);
 }
 
 #park_name_label {
@@ -59,7 +59,7 @@
 #create_park_btn {
   margin-top: 10px;
   margin-bottom: 12px;
-  width: 50%;
+  width: 52%;
   margin-left: 24%;
   background-color: rgb(27, 27, 27);
   color: rgb(211, 211, 210);
@@ -72,6 +72,10 @@ label.new_form {
   width: 98%;
   border: none;
   margin-top: 8px;
+}
+
+.new_form input:focus::placeholder {
+  color: transparent;
 }
 
 fieldset.new_form {

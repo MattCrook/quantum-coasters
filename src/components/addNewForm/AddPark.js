@@ -77,7 +77,8 @@ const AddPark = (props) => {
                 type="text"
                 name="name"
                 onChange={(e) => setName(e.target.value)}
-                autoFocus
+                placeholder="Ex) Six Flags Magic Mountain, Cedar Point, Europa Park, etc..."
+
               />
             </fieldset>
           </div>
@@ -98,6 +99,7 @@ const AddPark = (props) => {
                 type="text"
                 name="parkLocation"
                 onChange={(e) => setParkLocation(e.target.value)}
+                placeholder="Ex) Ohio, California, etc..."
               />
             </fieldset>
           </div>
@@ -114,6 +116,8 @@ const AddPark = (props) => {
                 type="text"
                 name="country"
                 onChange={(e) => setParkCountry(e.target.value)}
+                placeholder="Ex) USA, Germany, UK, etc..."
+
               />
             </fieldset>
           </div>
