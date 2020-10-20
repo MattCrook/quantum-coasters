@@ -31,6 +31,14 @@ Quantum Coasters uses [Auth0](https://auth0.com/) for its authentication and aut
 
 ![Auth0Login](public/ReadMePhotos/Auth0Login.png)
 
+#### Added Security
+
+![ConfirmEmailButton](public/ReadMePhotos/ConfirmEmailButton.png)
+
+![EmailConfirmation](public/ReadMePhotos/EmailConfirmation.png)
+For a returning user, they are asked to confirm their email they logged in with. This checks against Auth0, and also checks against Django Rest Auth to confirm the email entered and used to login, matches between the two auth services and matches the email attached to the session token used by Django as a unique identifier for the user.
+* This step is critical for the app and added security, as it accepts the JWT token from Auth0, authenticates the user, then matches the user in the Django API side of the app so that Django is aware of the authenticsted user and can act and give permissions appropriatly.
+
 
 ### 3) Home
 Once the user successfully authenticates, Auth0 will rediect them back to the home page of Quantum Coasters, where they will now have access to the many options to navigate to, including recording their credits!
@@ -47,6 +55,19 @@ Once the user selects the park in which the ride is located, they are brought to
 ![ParkList](public/ReadMePhotos/ParksList.png)
 
 ![RideList](public/ReadMePhotos/RollerCoasterList.png)
+
+#### Delete Profile
+User has ability, if they wish, to delete their account with Quantum Coasters. Doing so will delete any and all information the user has saved within the Quantum Coasters system. 
+
+![DeleteProfile](public/ReadMePhotos/DeleteProfile.png)
+
+#### Edit Profile
+User can edit profile info, see a total of credits to which they have, and upload a profile picture to display in other various places throughout the application.
+
+![EditProfile](public/ReadMePhotos/EditProfile.png)
+
+
+
 
 ### 5) Add New RollerCoaster
 One key feature of this app is that the data provided is constantly being updated with new rides, as Quantum Coasters allows users to add to the repertoire if they cannot find the rollercoaster they are looking to record. This ensures the database is constantly being updated to include more rides from around the world.
