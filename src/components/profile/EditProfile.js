@@ -32,12 +32,14 @@ const EditProfile = (props) => {
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
   const defaultQPicture = "https://cdn.dribbble.com/users/2908839/screenshots/6292457/shot-cropped-1554473682961.png";
 
+
   // Function to first get the auth user from the email passed from auth0 context, then get the userProfile from the id of the auth user by the user_id FK on userProfile.
   // Once have those, fetch image by image id on the userProfile.
   // Then finally fetch all credits and filter them down to specific credits for the current logged in user.
   const getProfileAndCredits = async (user) => {
     try {
       const authUserFromAPI = await userManager.getAuthUser(user.email);
+      // Fetches all credits...ToDo: filter on backend to retrieve only the user's credits.
       const creditsToFetch = await creditManager.getCreditIdFromApi();
       const authProfile = authUserFromAPI[0];
       setAuthUser(authProfile);
@@ -53,7 +55,7 @@ const EditProfile = (props) => {
       } else {
         setImage(defaultProfilePicture);
       }
-      const filterUsersCredits = creditsToFetch.filter((credit) => credit.profile === profile.id);
+      const filterUsersCredits = creditsToFetch.filter((credit) => credit.userProfile === profile.id);
       setUserCredits(filterUsersCredits);
     } catch (err) {
       console.log(err);
@@ -68,7 +70,6 @@ const EditProfile = (props) => {
 
   const handleInputChangeUser = (e) => {
     const stateToChange = { ...authUser };
-    console.log(stateToChange)
     stateToChange[e.target.id] = e.target.value;
     setAuthUser(stateToChange);
   };

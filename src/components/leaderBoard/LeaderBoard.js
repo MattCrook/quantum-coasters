@@ -39,7 +39,6 @@ const LeaderBoard = (props) => {
     getAllUsers();
   }, []);
 
-console.log("leaderboardUserprofile", userProfile)
 
   return (
     <>
@@ -72,7 +71,7 @@ console.log("leaderboardUserprofile", userProfile)
                 alt="My Avatar"
               />
             )}
-          {/* <div className="leaderboard_logout_btn"> */}
+
             <button
               onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
               className="logout-navbar-item"
@@ -80,7 +79,7 @@ console.log("leaderboardUserprofile", userProfile)
             >
               Logout
             </button>
-          {/* </div> */}
+
           </div>
         </div>
       </nav>
