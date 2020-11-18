@@ -1,5 +1,4 @@
-const remoteURL = "http://localhost:8000";
-// const remoteURL = process.env.REACT_APP_BASE_URL;
+const remoteURL = process.env.REACT_APP_BASE_URL;
 
 const userManager = {
   async register(userToPost) {
@@ -104,34 +103,3 @@ const userManager = {
 };
 
 export default userManager;
-
-// async register(newUser) {
-//   // Note: Content-type cannot be set when uploading a file
-//   const headers = {
-//     Authorization: "JWT" + localStorage.getItem("accessToken"),
-//   };
-//   // If there is no image,
-//   // then content-type and accept are needed in the fetch call
-//   if (newUser.image === null) {
-//     headers["Accept"] = "application/json";
-//     headers["Content-Type"] = "application/json";
-//   }
-
-//   const response = await fetch(`${remoteURL}/register/`, {
-//     method: "POST",
-//     headers: headers,
-//     body: newUser,
-//   });
-//   return await response.json();
-// },
-
-// async login(userToLogin) {
-//   const result = await fetch(`${remoteURL}/login/`, {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify(userToLogin),
-//   });
-//   return await result.json();
-// },

@@ -1,5 +1,4 @@
-const remoteURL = "http://localhost:8000";
-// const remoteURL = process.env.REACT_APP_BASE_URL;
+const remoteURL = process.env.REACT_APP_BASE_URL;
 
 const parkManager = {
   async postNewPark(resource) {
