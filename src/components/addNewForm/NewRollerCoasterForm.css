@@ -74,19 +74,22 @@
 }
 
 .add_new_ride_container {
-  display: flex;
-  justify-content: center;
+  /* display: flex;
+  justify-content: center; */
   box-shadow: 1px 1px 3px rgb(119, 119, 119);
   background-color: #dfdfdf;
   border-radius: 2%;
+  margin-top: 4%;
 }
 
 .rollercoaster_name {
-  margin-top: 20px;
+  display: flex;
+  margin-top: 3%;
   margin-left: 13px;
   font-weight: 550;
   /* font-variant: small-caps; */
   font: 150 1em helvetica neue, open sans, sans-serif;
+
 }
 
 .add_new_rollercoaster_form_label {

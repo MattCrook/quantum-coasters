@@ -29,7 +29,7 @@ display: flex;
 
 .leaderBoard-header {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   margin-top: 20px;
   margin-bottom: 10px;
 }
@@ -37,7 +37,17 @@ display: flex;
   font-size: 20px;
   font-weight: 900;
   font-variant: small-caps;
+  margin-left: 45%;
 }
+
+.leaderboard_sub_header {
+  font: 150 0.8em helvetica neue,open sans,sans-serif;
+  margin-top: 4px;
+  margin-left: 32%;
+  color: rgb(27, 27, 82);
+}
+
+
 .navbar-item {
   /* margin-left: 50px; */
   color: white;

@@ -145,7 +145,7 @@ const Register = (props) => {
             required
           />
 
-          <label className="register_form_label" htmlFor="address">Address</label>
+          <label id="register_form_address_label" className="register_form_label" htmlFor="address">Address</label>
           <input
             className="input_register"
             onChange={handleAuthUserInputChange}

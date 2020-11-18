@@ -26,12 +26,14 @@
 
 .register_form_label {
   font: 150 1em helvetica neue, open sans, sans-serif;
+  margin-right: 83%;
 }
 
 .profile-create-form {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 95%;
 }
 .register-create-buttons {
   display: flex;
@@ -72,6 +74,6 @@
   margin-bottom: 12px;
 }
 
-.register_form_label {
-  margin-right: 80%;
+#register_form_address_label {
+  margin-right: 85%;
 }

@@ -4,14 +4,18 @@ import userManager from "../../modules/users/userManager";
 import creditManager from "../../modules/credits/creditManager";
 import rollerCoasterManager from "../../modules/rollerCoasters/rollerCoasterManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
+import UserCreditsByPark from "./CreditsListByPark";
+import UserCreditsByRide from "./UserCreditsByRide";
 import { confirmAlert } from "react-confirm-alert";
 import "./Profile.css";
 import "react-confirm-alert/src/react-confirm-alert.css";
+// import { Send } from "@material-ui/icons";
 
 const ProfileList = (props) => {
   const { user, clearStorage, logout } = useAuth0();
-  // const [userCredits, setUserCredits] = useState([]);
-  // const [userProfile, setUserProfile] = useState({});
+  const [isSideNaveToggle, setIsSideNavToggle] = useState(false);
+  const [visitedParks, setVisitedParks] = useState([]);
+  const [whichTab, setWhichTab] = useState({ tab: "All Credits" });
   const [isLoading, setIsLoading] = useState(false);
   const { authUser } = props;
   const userId = authUser.id;
@@ -37,6 +41,12 @@ const ProfileList = (props) => {
       Promise.all(promises)
         .then((data) => {
           props.setUserRollerCoasters(data);
+          let parks = new Set();
+          data.forEach((ride) => {
+            const park = ride.park;
+            parks.add(park.name);
+          });
+          setVisitedParks([...parks]);
         })
         .catch((error) => {
           console.log(error);
@@ -45,7 +55,6 @@ const ProfileList = (props) => {
       console.log(err);
     }
   };
-
 
   const deleteCredit = (creditId) => {
     try {
@@ -57,21 +66,16 @@ const ProfileList = (props) => {
             label: "Yes",
             onClick: () => {
               setIsLoading(true);
-              creditManager.getCreditIdFromApi().then((credits) => {
+              creditManager
+                .getCreditIdFromApi()
+                .then((credits) => {
                   const filteredCreditToDelete = credits.filter((credit) => credit.rollerCoaster === creditId);
                   creditManager
                     .deleteCredit(filteredCreditToDelete[0].id)
                     .then(() => {
-                      userManager
-                        .getUserProfileEmbeddedAuthUser(userId)
-                        .then(() => {
-                          getUserCreditsToFetch(userId)
-                          // const profile = response[0];
-                          // const credits = profile.credits;
-                          // props.setUserProfile(profile);
-                          // props.setUserCredits(credits);
-                          // props.setUserRollerCoasters()
-                        });
+                      userManager.getUserProfileEmbeddedAuthUser(userId).then(() => {
+                        getUserCreditsToFetch(userId);
+                      });
                     })
                     .catch((error) => {
                       console.log(error);
@@ -94,11 +98,31 @@ const ProfileList = (props) => {
     }
   };
 
+  const handleToggle = (e) => {
+    setIsLoading(true)
+    const allCredits = document.getElementById("settings--allCredits");
+    const creditsByRide = document.getElementById("settings--rollercoaster");
+    const creditsByPark = document.getElementById("last_btn_link_settings");
+    allCredits.classList.remove("active");
+    creditsByRide.classList.remove("active");
+    creditsByPark.classList.remove("active");
+
+    const toggle = { ...isSideNaveToggle };
+    toggle[e.target.id] = e.target.classList.add("active");
+    setIsSideNavToggle(true);
+    setWhichTab(e.target.id);
+    setIsLoading(false);
+  };
+
+
   useEffect(() => {
+    setIsLoading(true);
     if (props) {
       getUserCreditsToFetch(userId);
     }
+    setIsLoading(false);
   }, [user, props.authUser, userId]);
+
 
   return (
     <>
@@ -113,7 +137,9 @@ const ProfileList = (props) => {
           className="add-new-credit-btn inset"
           data-testid="add_new_credit_btn_testid"
           onClick={() => props.history.push("/user/parks/addcredit")}
-        >Add New Credit</button>
+        >
+          Add New Credit
+        </button>
 
         <button
           className="edit-profile-button inset"
@@ -128,18 +154,12 @@ const ProfileList = (props) => {
             {authUser.first_name} {authUser.last_name}
           </p>
           {props.userProfile.image ? (
-            <img
-              id="profile-pic"
-              src={props.userProfile.image.image}
-              alt="My Avatar"
-            />
+            <img id="profile-pic" src={props.userProfile.image.image} alt="My Avatar" />
           ) : (
             <img id="profile-pic" src={defaultProfilePicture} alt="My Avatar" />
           )}
           <button
-            onClick={() =>
-              logout({ returnTo: window.location.origin }, clearStorage())
-            }
+            onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
             className="logout-navbar-item"
             data-testid="logout-btn-testid"
           >
@@ -147,28 +167,56 @@ const ProfileList = (props) => {
           </button>
         </div>
       </nav>
+
+      <div className="setting_side_nav">
+        <div className="settings_links_containers">
+          <a id="settings--allCredits" className="settings_link_button" onClick={(e) => handleToggle(e)}>
+            All Credits
+          </a>
+          <a id="settings--rollercoaster" className="settings_link_button" onClick={(e) => handleToggle(e)}>
+            Credits by Rollercoaster
+          </a>
+          <a className="settings_link_button" id="last_btn_link_settings" onClick={(e) => handleToggle(e)}>
+            Credits By Park
+          </a>
+        </div>
+      </div>
       <div className="credits-title">Credits</div>
-      <div className="total_credits_profile_list">
-        Total: {props.userCredits.length}
-      </div>
-      <div
-        className="profile-container-card"
-        data-testid="profile_card_container_testid"
-      >
-        {props.userRollerCoasters.map((rollerCoaster) => (
-          <ProfileCard
-            key={rollerCoaster.id}
-            userProfile={props.userProfile}
-            authUser={authUser}
-            rollerCoaster={rollerCoaster}
-            manufacturer={rollerCoaster.manufacturer}
-            park={rollerCoaster.park}
-            trackType={rollerCoaster.tracktype}
-            deleteCredit={deleteCredit}
-            {...props}
+      <div className="total_credits_profile_list">Total Credits: {props.userCredits.length}</div>
+      <div className="total_credits_profile_list">Total Parks Visited: {visitedParks.length}</div>
+
+      {whichTab === "settings--allCredits" && (
+        <div className="profile-container-card" data-testid="profile_card_container_testid">
+          {props.userRollerCoasters.map((rollerCoaster) => (
+            <ProfileCard
+              key={rollerCoaster.id}
+              userProfile={props.userProfile}
+              authUser={authUser}
+              rollerCoaster={rollerCoaster}
+              manufacturer={rollerCoaster.manufacturer}
+              park={rollerCoaster.park}
+              trackType={rollerCoaster.tracktype}
+              deleteCredit={deleteCredit}
+              {...props}
+            />
+          ))}
+        </div>
+      )}
+      {whichTab === "settings--rollercoaster" &&
+        <div className="profile-container-card" data-testid="profile_card_container_testid">
+        <UserCreditsByRide
+          userRollerCoasters={props.userRollerCoasters}
+          deleteCredit={deleteCredit}
+          {...props}
           />
-        ))}
-      </div>
+          </div>
+          }
+         
+      {whichTab === "last_btn_link_settings" && (
+        <div className="profile-container-credits-by-park" data-testid="profile_card_container_testid">
+          <UserCreditsByPark userRollerCoasters={props.userRollerCoasters} {...props} />
+        </div>
+      )}
     </>
   );
 };

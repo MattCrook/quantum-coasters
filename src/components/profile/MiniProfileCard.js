@@ -3,17 +3,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faExternalLinkSquareAlt } from "@fortawesome/free-solid-svg-icons";
 import "./Profile.css";
 
-const ProfileCard = (props) => {
+const MiniProfileCard = (props) => {
   const { rollerCoaster } = props;
   const { manufacturer } = props;
   const { park } = props;
   const { trackType } = props;
-  console.log(props)
 
 
   return (
-    <div className="profile-card">
-      <div className="profile-card-content">
+    <div className="mini-profile-card">
+      <div className="mini-profile-card-content">
         <div className="ride-name-container">
           <div className="ride-name">{rollerCoaster.name}
             <span className="trash_icon_profile_card">
@@ -45,4 +44,4 @@ const ProfileCard = (props) => {
     </div>
   );
 };
-export default ProfileCard;
+export default MiniProfileCard;

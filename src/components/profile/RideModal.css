@@ -1,9 +1,9 @@
-.modal {
-  font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir,
-    helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial, sans-serif;
+.ride_modal {
+  font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, ubuntu, roboto, noto,
+    segoe ui, arial, sans-serif;
 }
 
-.modal__overlay {
+.ride_modal__overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -15,7 +15,7 @@
   align-items: center;
 }
 
-.modal__container {
+.ride_modal__container {
   background-color: rgb(37, 36, 36);
   padding: 30px;
   width: 500px;
@@ -25,14 +25,14 @@
   box-sizing: border-box;
 }
 
-.modal__header {
+.ride_modal__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid rgb(134, 134, 134);
 }
 
-.modal__title {
+.ride_modal__title {
   margin-top: 0;
   margin-bottom: 0;
   font-weight: 600;
@@ -42,24 +42,23 @@
   box-sizing: border-box;
 }
 
-.modal__close {
+.ride_modal__close {
   background: transparent;
   border: 0;
   color: #f06d6d;
 }
 
-.modal__header .modal__close:before {
+.ride_modal__header .ride_modal__close:before {
   content: "\2715";
 }
 
-.modal__content {
+.ride_modal__content {
   margin-top: 2rem;
-  margin-bottom: 2rem;
   line-height: 1.5;
   color: rgba(0, 0, 0, 0.8);
 }
 
-.modal__btn {
+.ride_modal__btn {
   font-size: 0.875rem;
   font-variant: small-caps;
   padding-left: 1rem;
@@ -88,7 +87,7 @@
   transition: transform 0.25s ease-out, -webkit-transform 0.25s ease-out;
 }
 
-#modal__btn-primary {
+#ride_modal__btn-primary {
   font-size: 0.875rem;
   padding-left: 1rem;
   padding-right: 1rem;
@@ -118,27 +117,33 @@
   transition: transform 0.25s ease-out, -webkit-transform 0.25s ease-out;
 }
 
-.modal__btn:focus,
-.modal__btn:hover {
+.ride_modal__btn:focus,
+.ride_modal__btn:hover {
   -webkit-transform: scale(1.05);
   transform: scale(1.05);
 }
 
-#modal__btn-primary {
-  background-color: #032249;
+#ride_modal__btn-primary {
+  background-color: #490803;
   color: #fff;
   font-variant: small-caps;
 }
 
-#modal__btn:focus,
-#modal__btn:hover {
+#ride_modal__btn:focus,
+#ride_modal__btn:hover {
   -webkit-transform: scale(1.05);
   transform: scale(1.05);
 }
 
+#ride_modal_close_btn {
+    margin-left: 5%;
+    width: 28%;
+    margin-bottom: 1%;
+}
+
 /**************************\
-      Demo Animation Style
-    \**************************/
+        Demo Animation Style
+      \**************************/
 @keyframes mmfadeIn {
   from {
     opacity: 0;
@@ -183,45 +188,35 @@
   display: block;
 }
 
-.micromodal-slide[aria-hidden="false"] .modal__overlay {
+.micromodal-slide[aria-hidden="false"] .ride_modal__overlay {
   animation: mmfadeIn 0.3s cubic-bezier(0, 0, 0.2, 1);
 }
 
-.micromodal-slide[aria-hidden="false"] .modal__container {
+.micromodal-slide[aria-hidden="false"] .ride_modal__container {
   animation: mmslideIn 0.3s cubic-bezier(0, 0, 0.2, 1);
 }
 
-.micromodal-slide[aria-hidden="true"] .modal__overlay {
+.micromodal-slide[aria-hidden="true"] .ride_modal__overlay {
   animation: mmfadeOut 0.3s cubic-bezier(0, 0, 0.2, 1);
 }
 
-.micromodal-slide[aria-hidden="true"] .modal__container {
+.micromodal-slide[aria-hidden="true"] .ride_modal__container {
   animation: mmslideOut 0.3s cubic-bezier(0, 0, 0.2, 1);
 }
 
-.micromodal-slide .modal__container,
-.micromodal-slide .modal__overlay {
+.micromodal-slide .ride_modal__container,
+.micromodal-slide .ride_modal__overlay {
   will-change: transform;
 }
 
-.modal__footer {
+.ride_modal__footer {
   display: flex;
 }
-#modal {
+#ride_modal {
   background: rgb(201, 201, 201);
   border-radius: 3px 3px 3px 3px;
 }
 
-form#modal.new_form {
-  box-shadow: 1px 3px 3px 2px rgb(182, 181, 181);
-}
-
-.new_form_modal {
-  max-width: 720px;
-  padding: 5px 20px 5px 5px;
-  margin: 0 auto;
-  border-radius: 8px;
-}
 
 .type_modal_label {
   margin-left: 6%;
@@ -234,13 +229,16 @@ form#modal.new_form {
   margin-top: 2px;
 }
 
-.new_form {
-  margin-bottom: 10px;
-  border-radius: 5px 5px 5px 5px;
-  box-shadow: none;
+.modal-ride-details-section {
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 14px;
+  margin-left: 5%;
+  margin-bottom: 4%;
+  margin-top: 3%;
 }
 
-input#email {
-  width: 85%;
-  height: 30px;
+.details_title {
+  margin-top: 2%;
 }
