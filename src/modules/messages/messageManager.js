@@ -1,4 +1,4 @@
-const remoteURL = process.env.REACT_APP_BASE_URL;
+const remoteURL = process.env.REACT_APP_REMOTE_API_URL;
 
 const messageManager = {
   async getAllMessages() {

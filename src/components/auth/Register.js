@@ -5,7 +5,7 @@ import "./Register.css";
 import { confirmAlert } from "react-confirm-alert";
 // import keys from "../../keys/Keys";
 // import ImageUploader from "react-images-upload";
-const remoteUrl = process.env.REACT_APP_BASE_URL;
+const remoteUrl = process.env.REACT_APP_REMOTE_API_URL;
 
 const Register = (props) => {
 

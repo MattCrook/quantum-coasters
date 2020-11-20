@@ -3,7 +3,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import "./AddPark.css";
 
 
-const remoteUrl = process.env.REACT_APP_BASE_URL;
+const remoteUrl = process.env.REACT_APP_REMOTE_API_URL;
 
 const AddPark = (props) => {
   const [name, setName] = useState();

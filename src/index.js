@@ -6,7 +6,6 @@ import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 import Auth0ProviderWithHistory from "./components/auth/auht0ProviderWithHistory";
 // import { Auth0Provider } from "./contexts/react-auth0-context";
-
 // import config from "./auth_config.json";
 // import history from "./utils/history";
 
@@ -37,6 +36,9 @@ import Auth0ProviderWithHistory from "./components/auth/auht0ProviderWithHistory
 //   </BrowserRouter>,
 //   document.getElementById("root")
 // );
+
+// The Context from React Router must be present in the component tree at a higher level
+// for Auth0ProviderWithHistory to access the useHistory() hook from React Router.
 
 ReactDOM.render(
   <Router>

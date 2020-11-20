@@ -132,26 +132,6 @@ export const Auth0Provider = ({
     }
   };
 
-  // const putInitAppOptions = async (extraData) => {
-  //   try {
-  //     const response = await fetch("http://localhost:8000/auth0data", {
-  //       method: "PATCH",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: "Bearer" + sessionStorage.getItem("accessToken"),
-  //       },
-  //       body: JSON.stringify({}),
-  //     });
-  //     if (response.ok) {
-  //       const resp = response.json();
-  //       setAppInitOptions(resp)
-  //       return resp;
-  //     }
-  //     throw new Error("Request Failed");
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
 
   return (
     <Auth0Context.Provider
