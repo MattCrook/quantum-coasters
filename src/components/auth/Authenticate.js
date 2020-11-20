@@ -23,7 +23,13 @@ export default function Authenticate(props) {
         setAuthUser(resp);
         setAuthToken(resp.QuantumToken);
         setDjangoToken(resp);
-        props.history.push("/home");
+        userManager
+          .loginSocialAuth("auth0")
+            .then((resp) => {
+              console.log(resp)
+            props.history.push("/home");
+          })
+          .catch((err) => console.log({ "Social Auth Error": err }));
       })
       .catch(() => alert("Invalid email"));
   };

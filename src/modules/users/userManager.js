@@ -22,7 +22,19 @@ const userManager = {
     body: JSON.stringify(userCredentials),
   });
   return await result.json();
-},
+  },
+
+  async loginSocialAuth(provider) {
+    const result = await fetch(`${remoteURL}/social-auth/login/${provider}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      Accept: "application/json",
+    });
+    return await result.json();
+    },
+
 
 
   async getAuthUserById(id) {
@@ -99,6 +111,42 @@ const userManager = {
       },
       body: JSON.stringify(editedObject),
     });
+  },
+  async postInitAppOptions(initOptionsData) {
+    try {
+      const response = await fetch(`${remoteURL}/auth0data`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "JWT " + sessionStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify(initOptionsData),
+      });
+      if (response.ok) {
+        return await response.json();
+      }
+      throw new Error("Request Failed");
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  async postCredentialsData(extraData) {
+    try {
+      const response = await fetch(`${remoteURL}/credentials`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "JWT " + sessionStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify(extraData),
+      });
+      if (response.ok) {
+        return await response.json();
+      }
+      throw new Error("Request Failed");
+    } catch (err) {
+      console.log(err);
+    }
   },
 };
 

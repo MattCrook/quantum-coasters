@@ -10,8 +10,6 @@ import history from "./utils/history";
 // import createHistory from 'history/createBrowserHistory'
 // import { ConnectedRouter } from 'react-router-redux'
 // import { Provider } from 'react-redux
-
-
 // const history = createHistory()
 // const store = configureStore(history)
 
@@ -35,8 +33,6 @@ ReactDOM.render(
     onRedirectCallback={onRedirectCallback}
     audience={config.audience}
     scope={config.scope}
-    // connection={config.connection}
-    // id_token_hint={config.id_token_hint}
   >
     <App />
   </Auth0Provider>,

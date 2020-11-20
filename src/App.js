@@ -11,13 +11,25 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 // import accessToken from "./utils/reducers/authReducers";
 
 const App = (props) => {
-  const { loading, user, getIdTokenClaims, getTokenSilently, isAuthenticated } = useAuth0();
+  const { loading, user, getIdTokenClaims, getTokenSilently, isAuthenticated, appInitOptions } = useAuth0();
   const [userProfile, setUserProfile] = useState([]);
   const [authUser, setAuthUser] = useState([]);
   const [userCredits, setUserCredits] = useState([]);
   const [authToken, setAuthToken] = useState([]);
+  // const [credentialsData, setCredentialsData] = useState([]);
   const [userRollerCoasters, setUserRollerCoasters] = useState([]);
+  const [initOptions, setInitOptions] = useState([]);
 
+  const updateInitOptions = async (initAuth0Options) => {
+    if (initAuth0Options.length > 0) {
+      userManager
+        .postInitAppOptions(initAuth0Options[0])
+        .then((resp) => {
+          setInitOptions(resp);
+        })
+        .catch((err) => console.log({ err }));
+    }
+  };
 
   useEffect(() => {
     if (user && isAuthenticated) {
@@ -25,12 +37,11 @@ const App = (props) => {
       sessionStorage.setItem("credentials", JSON.stringify(userEmail));
       const guardForUserProfile = async (userEmail) => {
         const tokenId = await getIdTokenClaims();
-        const accessToken = await getTokenSilently()
+        const accessToken = await getTokenSilently();
 
         if (tokenId && accessToken) {
-          localStorage.setItem("IdToken", JSON.stringify(tokenId));
-          localStorage.setItem("accessToken", accessToken);
-
+          sessionStorage.setItem("IdToken", JSON.stringify(tokenId));
+          sessionStorage.setItem("accessToken", accessToken);
         }
         const getAuthUser = await userManager.getAuthUser(userEmail);
 
@@ -43,8 +54,10 @@ const App = (props) => {
           setUserProfile(getProfile[0]);
           setUserCredits(creditsArray);
 
-          const djangoAuthToken = sessionStorage.getItem('QuantumToken');
-            setAuthToken(djangoAuthToken);
+          const djangoAuthToken = sessionStorage.getItem("QuantumToken");
+          setAuthToken(djangoAuthToken);
+
+          updateInitOptions(appInitOptions);
         } else {
           console.log("Please Complete your Profile. :) ");
           setUserProfile([]);
@@ -85,6 +98,8 @@ const App = (props) => {
           setAuthToken={setAuthToken}
           userRollerCoasters={userRollerCoasters}
           setUserRollerCoasters={setUserRollerCoasters}
+          // credentialsData={credentialsData}
+          initOptions={initOptions}
           {...props}
         />
       </Router>
