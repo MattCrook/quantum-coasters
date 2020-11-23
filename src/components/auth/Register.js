@@ -59,7 +59,7 @@ const Register = (props) => {
               };
               try {
                 const registerUser = await userManager.register(newUserObject);
-                // Django User is object I specified to come back from API iin register.py
+                // Django User is object I specified to come back from API in register.py
                 if ("DjangoUser" in registerUser) {
                   props.setDjangoToken(registerUser.DjangoUser);
                   props.setAuthToken(registerUser.DjangoUser.QuantumToken)

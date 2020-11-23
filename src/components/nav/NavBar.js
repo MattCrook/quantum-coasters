@@ -8,7 +8,9 @@ import {
   faUser,
   faHome,
   faPollH,
-  faCommentDots
+  faCommentDots,
+  faNewspaper,
+  faCalendarAlt
 } from "@fortawesome/free-solid-svg-icons";
 
 const NavBar = ({ authUser, authToken }) => {
@@ -62,6 +64,24 @@ const NavBar = ({ authUser, authToken }) => {
             <Link className="nav-link" to="/messages">
               {" "}
               Forum{" "}
+            </Link>
+          </li>
+        ) : null}
+        {!loading && isAuthenticated && authUser.username && token ? (
+          <li>
+            <FontAwesomeIcon icon={faNewspaper} />
+            <Link className="nav-link" to="/news">
+              {" "}
+              News{" "}
+            </Link>
+          </li>
+        ) : null}
+        {!loading && isAuthenticated && authUser.username && token ? (
+          <li>
+            <FontAwesomeIcon icon={faCalendarAlt} />
+            <Link className="nav-link" to="/plan">
+              {" "}
+              Plan{" "}
             </Link>
           </li>
         ) : null}

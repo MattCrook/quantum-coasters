@@ -1,0 +1,119 @@
+.news_title_header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font: 150 2em helvetica neue, open sans, sans-serif;
+  margin-top: 1%;
+}
+
+#news_container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  margin-right: 5%;
+  margin-left: 5%;
+  margin-top: 2%;
+}
+
+.sort_by_dropdown_container {
+  width: 7%;
+}
+
+.sort_by_dropdown_box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  background-color: rgb(226, 226, 226);
+  padding-top: 6px;
+  padding-bottom: 6px;
+  padding-left: 10px;
+  border-radius: 3px 3px 3px 3px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.dropdown_options_container {
+  box-shadow: 3px 3px 3px 3px rgb(216, 216, 216);
+  position: absolute;
+  top: 38%;
+  width: 7%;
+  z-index: 1;
+  background-color: rgb(226, 226, 226);
+  border-radius: 3px 3px 3px 3px;
+}
+
+.most_recent {
+  font-size: 14px;
+  margin-top: 8%;
+  margin-left: 6%;
+  margin-bottom: 5%;
+  cursor: pointer;
+}
+
+.oldest {
+  font-size: 14px;
+  margin-top: 5%;
+  margin-left: 6%;
+  margin-bottom: 8%;
+  cursor: pointer;
+}
+
+.most_recent:hover {
+  color: rgb(153, 152, 152);
+}
+
+.oldest:hover {
+  color: rgb(153, 152, 152);
+}
+
+.news_subHeader {
+  cursor: pointer;
+}
+
+.news_subHeader:hover {
+  color: rgb(182, 182, 182);
+}
+
+
+.article_card_container {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 40%;
+    margin-top: 2%;
+    box-shadow: 4px 4px 4px 4px rgb(240, 240, 240);
+}
+
+.news_card_title {
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    font-variant: small-caps;
+    font-weight: 600;
+}
+
+.news_card_date {
+    display: flex;
+    margin-left: 88%;
+    font-size: 14px;
+    font-weight: 600;
+
+}
+.news_card_header {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    border-bottom: 1px solid rgb(100, 100, 100);
+    background-color: rgb(255, 255, 255);
+}
+
+.news_card_img {
+    object-fit: contain;
+}
+
+.article_card_container:hover {
+    box-shadow: 5px 5px 5px 5px rgb(195, 198, 204);
+}

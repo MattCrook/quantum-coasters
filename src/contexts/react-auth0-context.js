@@ -33,7 +33,10 @@ export const Auth0Provider = ({
     transactions: "",
     nonce: "",
     access_token: "",
+    django_token: "",
+    quantum_session: "",
     updated_at: "",
+    user_id: "",
   });
 
   useEffect(() => {
@@ -70,6 +73,8 @@ export const Auth0Provider = ({
             transactions: transactions,
             nonce: tokenId.nonce,
             access_token: tokenId.__raw,
+            django_token: sessionStorage.getItem("QuantumToken"),
+            quantum_session: "",
             updated_at: tokenId.updated_at,
           };
           setAppInitOptions([initObject]);
@@ -106,8 +111,8 @@ export const Auth0Provider = ({
 
   const clearStorage = () => {
     auth0Client.logout();
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("IdToken");
+    sessionStorage.removeItem("accessToken");
+    sessionStorage.removeItem("IdToken");
     sessionStorage.removeItem("QuantumToken");
     sessionStorage.removeItem("credentials");
   };
@@ -131,7 +136,6 @@ export const Auth0Provider = ({
       console.log(err);
     }
   };
-
 
   return (
     <Auth0Context.Provider

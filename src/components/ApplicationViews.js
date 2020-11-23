@@ -12,7 +12,8 @@ import LeaderBoard from "./leaderBoard/LeaderBoard";
 import Register from "./auth/Register";
 import SelectRollerCoaster from "./profile/SelectRollerCoaster";
 import AddPark from "./addNewForm/AddPark";
-import userManager from "../modules/users/userManager";
+import News from "./news/News";
+// import userManager from "../modules/users/userManager";
 // import AuthRoute from "./AuthRoute";
 
 const ApplicationViews = ({
@@ -26,41 +27,16 @@ const ApplicationViews = ({
   setAuthToken,
   userRollerCoasters,
   setUserRollerCoasters,
-  initOptions,
 }) => {
-  const { isAuthenticated, user } = useAuth0();
+  const { isAuthenticated } = useAuth0();
   const isLoggedIn = () => sessionStorage.getItem("QuantumToken") !== null;
   const [hasLoggedIn, setHasLoggedIn] = useState(isLoggedIn());
-  const [appCredentials, setAppCredentials] = useState([]);
 
   const setDjangoToken = (resp) => {
     sessionStorage.setItem("QuantumToken", resp.QuantumToken);
     setHasLoggedIn(isLoggedIn());
   };
 
-  const updateCredentials = (extraData) => {
-    console.log(extraData);
-    if (extraData.length > 0) {
-      userManager
-        .postCredentialsData(extraData[0])
-        .then((resp) => {
-          setAppCredentials(resp);
-        })
-        .catch((err) => console.log({ err }));
-    }
-  };
-
-  useEffect(() => {
-    if (initOptions && user && isAuthenticated) {
-      const extraData = {
-        user_id: authUser.id,
-        django_token: authToken,
-        django_session: "",
-        auth0data_id: initOptions.id,
-      };
-      updateCredentials([extraData]);
-    }
-  }, [initOptions]);
 
   return (
     <React.Fragment>
@@ -243,6 +219,26 @@ const ApplicationViews = ({
           if (isAuthenticated && authUser.id && hasLoggedIn) {
             return (
               <AddPark
+                userProfile={userProfile}
+                authUser={authUser}
+                setUserProfile={setUserProfile}
+                userCredits={userCredits}
+                setUserCredits={setUserCredits}
+                {...props}
+              />
+            );
+          } else {
+            return <LandingPage />;
+          }
+        }}
+      />
+      <Route
+        exact
+        path="/news"
+        render={(props) => {
+          if (isAuthenticated && authUser.id && hasLoggedIn) {
+            return (
+              <News
                 userProfile={userProfile}
                 authUser={authUser}
                 setUserProfile={setUserProfile}

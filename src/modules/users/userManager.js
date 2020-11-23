@@ -14,14 +14,14 @@ const userManager = {
   },
 
   async login(userCredentials) {
-  const result = await fetch(`${remoteURL}/rest-auth/login/`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(userCredentials),
-  });
-  return await result.json();
+    const result = await fetch(`${remoteURL}/rest-auth/login/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userCredentials),
+    });
+    return await result.json();
   },
 
   async loginSocialAuth(provider) {
@@ -33,9 +33,7 @@ const userManager = {
       Accept: "application/json",
     });
     return await result.json();
-    },
-
-
+  },
 
   async getAuthUserById(id) {
     const resp = await fetch(`${remoteURL}/users/${id}`, {
@@ -112,9 +110,19 @@ const userManager = {
       body: JSON.stringify(editedObject),
     });
   },
+  async getInitAppOptions(authUserId) {
+    const resp = await fetch(`${remoteURL}/credentials?user_id=${authUserId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "JWT " + localStorage.getItem("accessToken"),
+      },
+    });
+    return await resp.json();
+  },
   async postInitAppOptions(initOptionsData) {
     try {
-      const response = await fetch(`${remoteURL}/auth0data`, {
+      const response = await fetch(`${remoteURL}/credentials`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -130,20 +138,16 @@ const userManager = {
       console.log(err);
     }
   },
-  async postCredentialsData(extraData) {
+  async patchQuantumTokenOnLogin(data) {
     try {
-      const response = await fetch(`${remoteURL}/credentials`, {
-        method: "POST",
+      const response = await fetch(`${remoteURL}/credentials/${data.id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: "JWT " + sessionStorage.getItem("accessToken"),
         },
-        body: JSON.stringify(extraData),
+        body: JSON.stringify(data),
       });
-      if (response.ok) {
-        return await response.json();
-      }
-      throw new Error("Request Failed");
     } catch (err) {
       console.log(err);
     }

@@ -17,11 +17,11 @@ const App = (props) => {
   const [authUser, setAuthUser] = useState([]);
   const [userCredits, setUserCredits] = useState([]);
   const [authToken, setAuthToken] = useState([]);
-  // const [credentialsData, setCredentialsData] = useState([]);
   const [userRollerCoasters, setUserRollerCoasters] = useState([]);
   const [initOptions, setInitOptions] = useState([]);
 
   const updateInitOptions = async (initAuth0Options) => {
+    console.log("POSTINIT", initAuth0Options)
     if (initAuth0Options.length > 0) {
       userManager
         .postInitAppOptions(initAuth0Options[0])
@@ -57,6 +57,7 @@ const App = (props) => {
 
           const djangoAuthToken = sessionStorage.getItem("QuantumToken");
           setAuthToken(djangoAuthToken);
+          console.log("APPINITOPTIONS", appInitOptions)
 
           updateInitOptions(appInitOptions);
         } else {
@@ -66,7 +67,7 @@ const App = (props) => {
       };
       guardForUserProfile(userEmail);
     }
-  }, [user, getIdTokenClaims, getTokenSilently, isAuthenticated]);
+  }, [user, getIdTokenClaims, getTokenSilently, isAuthenticated, appInitOptions]);
 
   if (loading) {
     return (
@@ -99,7 +100,6 @@ const App = (props) => {
           setAuthToken={setAuthToken}
           userRollerCoasters={userRollerCoasters}
           setUserRollerCoasters={setUserRollerCoasters}
-          // credentialsData={credentialsData}
           initOptions={initOptions}
           {...props}
         />

@@ -1,7 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import MenuIcon from "@material-ui/icons/Menu";
+// import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
+import LaunchIcon from "@material-ui/icons/Launch";
+
 // import DirectionsIcon from "@material-ui/icons/Directions";
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
@@ -13,19 +15,21 @@ const useStyles = makeStyles((theme) => ({
     padding: "1px 2px",
     display: "flex",
     alignItems: "center",
-    width: 300,
-    backgroundColor: "#363636",
+    width: 240,
+    backgroundColor: "rgb(226, 226, 226)",
+    marginTop: "1%",
+    marginBottom: "1%",
+    boxShadow: "none",
   },
   input: {
     marginLeft: theme.spacing(1),
-    // flex: 1,
     display: "flex",
     alignItems: "center",
-    color: 'white',
+    color: "black",
   },
   iconButton: {
     padding: 10,
-    color: 'white',
+    color: "black",
   },
   divider: {
     height: 28,
@@ -33,40 +37,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomizedInputBase() {
+export default function CustomizedInputBaseLight() {
   const classes = useStyles();
 
   return (
     <Paper component="form" className={classes.root}>
-      <IconButton className={classes.iconButton} aria-label="menu">
-        <MenuIcon />
-      </IconButton>
-      <InputBase
-        className={classes.input}
-        placeholder="Search"
-        inputProps={{ "aria-label": "search google maps" }}
-      />
-      <IconButton
-        type="submit"
-        className={classes.iconButton}
-        aria-label="search"
-      >
+      <IconButton className={classes.iconButton} aria-label="menu"></IconButton>
+      <InputBase className={classes.input} placeholder="Search" inputProps={{ "aria-label": "search google maps" }} />
+      <IconButton type="submit" className={classes.iconButton} aria-label="search">
         <SearchIcon />
       </IconButton>
       <Divider className={classes.divider} orientation="vertical" />
-      <IconButton
-        color="primary"
-        className={classes.iconButton}
-        aria-label="directions"
-      >
-        {/* <DirectionsIcon /> */}
-      </IconButton>
+      <LaunchIcon />
     </Paper>
   );
 }
-
-
-
-// const SearchBar = () => {};
-
-// return <div>Hello</div>;
