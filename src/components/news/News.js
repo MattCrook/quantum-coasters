@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import CustomizedInputBaseLight from "../search/CustomizedSearchLight";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
@@ -15,6 +15,8 @@ const News = (props) => {
   const [section, setSection] = useState([]);
   const [sectionContent, setSectionContent] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [searchInput, setSearchInput] = useState();
+  const [initialState, setInitialState] = useState([]);
 
   const handleSortByDropdown = (e) => {
     if (isOpen === false) {
@@ -37,26 +39,58 @@ const News = (props) => {
     setIsLoading(false);
   };
 
-    const searchNewsHandler = (e) => {
-        e.preventDefault();
-    // Declare variables
-    var input, filter, ul, li, a, i, txtValue;
-    input = e.target.id;
-    filter = input.value.toUpperCase();
-    ul = document.querySelector(".news_card_title");
-    li = ul.getElementsByTagName("div");
-
-    // Loop through all list items, and hide those who don't match the search query
-    for (i = 0; i < li.length; i++) {
-      a = li[i].getElementsByTagName("div")[0];
-      txtValue = a.textContent || a.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        li[i].style.display = "";
-      } else {
-        li[i].style.display = "none";
-      }
-    }
+  const sortArticleDate = (content) => {
+    const sortedContent = content.sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateA - dateB;
+    });
+    return sortedContent;
   };
+
+  const searchNewsHandler = (e) => {
+    let inputStateToChange = { ...searchInput };
+    inputStateToChange = e.target.value;
+    setSearchInput(inputStateToChange);
+    filterSearchList(inputStateToChange);
+  };
+
+  function filterSearchList(inputValue) {
+    const filteredResults = sectionContent.filter((article) => {
+      return article.title.toLowerCase().includes(inputValue.toLowerCase());
+    });
+    setSectionContent(filteredResults);
+    return filteredResults;
+  }
+
+  const handleSortByMostRecent = async (e, sortKeyWord, section) => {
+    setIsLoading(true);
+    if (sortKeyWord === "recent") {
+      const newsContent = await newsManager.getSectionContent(section);
+      setSectionContent(newsContent);
+      sortArticleDate(newsContent);
+    } else if (sortKeyWord === "oldest") {
+      const newsContent = await newsManager.getSectionContent(section);
+      setSectionContent(newsContent);
+      const sortedContent = sortArticleDate(newsContent);
+      sortedContent.reverse();
+    } else if (sortKeyWord === "none") {
+      handleShowSectionContent("all");
+    }
+    setIsLoading(false);
+    setIsOpen(false);
+  };
+
+  useEffect(() => {
+    isLoading(true);
+    async function getUserArticlesForInitialState() {
+      const userArticles = await newsManager.fetchAllUserArticles();
+      setInitialState(userArticles);
+      setSectionContent(userArticles);
+      };
+      getUserArticlesForInitialState();
+      setIsLoading(false);
+  }, [isLoading]);
 
   return (
     <>
@@ -92,7 +126,7 @@ const News = (props) => {
       <div className="news_title_header">Quantum Coasters News</div>
       <div id="news_container">
         <div className="sort_by_dropdown_container">
-          <div className="sort_by_dropdown_box">
+          <div className="sort_by_dropdown_box" onClick={handleSortByDropdown}>
             <div className="dropdown_title" onClick={handleSortByDropdown}>
               Sort By
             </div>
@@ -100,8 +134,15 @@ const News = (props) => {
           </div>
           {isOpen ? (
             <div className="dropdown_options_container">
-              <div className="most_recent">Most Recent</div>
-              <div className="oldest">Oldest</div>
+              <div className="most_recent" onClick={(e) => handleSortByMostRecent(e, "none", "all")}>
+                None
+              </div>
+              <div className="most_recent" onClick={(e) => handleSortByMostRecent(e, "recent", "all")}>
+                Most Recent
+              </div>
+              <div className="oldest" onClick={(e) => handleSortByMostRecent(e, "oldest", "all")}>
+                Oldest
+              </div>
             </div>
           ) : null}
         </div>
@@ -120,13 +161,11 @@ const News = (props) => {
         <div id="user_articles" className="news_subHeader" onClick={handleShowSection}>
           User Written Articles
         </div>
-        <CustomizedInputBaseLight onKeyUp={searchNewsHandler} />
+        <CustomizedInputBaseLight searchNewsHandler={searchNewsHandler} {...props} />
       </div>
       <div id="news_content_container">
         {sectionContent.map((article) => (
-          // <div className="content_card_container">
           <NewsCard key={article.id} article={article} section={section} {...props} />
-          // </div>
         ))}
       </div>
     </>

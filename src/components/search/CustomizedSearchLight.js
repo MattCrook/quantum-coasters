@@ -37,13 +37,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomizedInputBaseLight() {
-  const classes = useStyles();
+export default function CustomizedInputBaseLight(props) {
+    const classes = useStyles();
+
+    const submitSearch = (e) => {
+        e.preventDefault();
+    }
 
   return (
-    <Paper component="form" className={classes.root}>
+    <Paper component="form" className={classes.root} onSubmit={submitSearch}>
       <IconButton className={classes.iconButton} aria-label="menu"></IconButton>
-      <InputBase className={classes.input} placeholder="Search" inputProps={{ "aria-label": "search google maps" }} />
+          <InputBase id="search" className={classes.input} placeholder="Search" onChange={props.searchNewsHandler}/>
       <IconButton type="submit" className={classes.iconButton} aria-label="search">
         <SearchIcon />
       </IconButton>

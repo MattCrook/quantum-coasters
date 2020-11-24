@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth0 } from "./contexts/react-auth0-context";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import NavBar from "./components/nav/NavBar";
 import ApplicationViews from "./components/ApplicationViews";
 // import history from "./utils/history";
@@ -20,8 +20,8 @@ const App = (props) => {
   const [userRollerCoasters, setUserRollerCoasters] = useState([]);
   const [initOptions, setInitOptions] = useState([]);
 
+  // This function will fire upon login and sets/ posts the init options and credentials for the user at /credentials endpoint.
   const updateInitOptions = async (initAuth0Options) => {
-    console.log("POSTINIT", initAuth0Options)
     if (initAuth0Options.length > 0) {
       userManager
         .postInitAppOptions(initAuth0Options[0])
@@ -57,8 +57,6 @@ const App = (props) => {
 
           const djangoAuthToken = sessionStorage.getItem("QuantumToken");
           setAuthToken(djangoAuthToken);
-          console.log("APPINITOPTIONS", appInitOptions)
-
           updateInitOptions(appInitOptions);
         } else {
           console.log("Please Complete your Profile. :) ");
@@ -77,10 +75,12 @@ const App = (props) => {
       </div>
     );
   }
+
+  
   return (
     <>
       <CssBaseline />
-      <Router history={history}>
+      <BrowserRouter>
         <NavBar
           userProfile={userProfile}
           authUser={authUser}
@@ -103,7 +103,7 @@ const App = (props) => {
           initOptions={initOptions}
           {...props}
         />
-      </Router>
+      </BrowserRouter>
     </>
   );
 };

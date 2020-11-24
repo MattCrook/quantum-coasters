@@ -12,6 +12,17 @@ const newsManager = {
     });
     return await resp.json();
   },
+  async fetchAllUserArticles() {
+    const resp = await fetch(`${remoteURL}/news?content=user_articles`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
+      },
+      Accept: "application/json",
+    });
+    return await resp.json();
+  },
 };
 
 export default newsManager;
