@@ -18,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
   },
   input: {
     marginLeft: theme.spacing(1),
-    // flex: 1,
     display: "flex",
     alignItems: "center",
     color: 'white',
@@ -33,18 +32,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CustomizedInputBase() {
+export default function CustomizedInputBase(props) {
   const classes = useStyles();
 
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+  }
+
   return (
-    <Paper component="form" className={classes.root}>
+    <Paper component="form" className={classes.root} onSubmit={handleSearchSubmit}>
       <IconButton className={classes.iconButton} aria-label="menu">
-        <MenuIcon />
       </IconButton>
       <InputBase
         className={classes.input}
         placeholder="Search"
         inputProps={{ "aria-label": "search google maps" }}
+        onChange={props.handleSearchInput}
       />
       <IconButton
         type="submit"
@@ -59,7 +62,6 @@ export default function CustomizedInputBase() {
         className={classes.iconButton}
         aria-label="directions"
       >
-        {/* <DirectionsIcon /> */}
       </IconButton>
     </Paper>
   );

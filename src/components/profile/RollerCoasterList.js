@@ -1,20 +1,11 @@
-import React, { useState, useEffect } from "react";
-import parkManager from "../../modules/parks/parkManager";
+import React from "react";
 import { Link } from "react-router-dom";
 
 // list that user is taken to, to input new credit (new rollercoaster ridden)
 // need check to see if the roller coaster exists in DB, if not user is taken to NewRollerCoasterForm
 // to create the entry in DB, then back to their credit form to fill it out.
-const ParkList = () => {
-  const [parks, setParks] = useState([]);
-
-  useEffect(() => {
-    const parksFromAPI = async () => {
-      const getAllParks = await parkManager.getParks();
-      setParks(getAllParks);
-    };
-    parksFromAPI();
-  }, []);
+const ParkList = (props) => {
+  const { parks } = props;
 
   return (
     <>

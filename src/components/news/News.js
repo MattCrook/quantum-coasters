@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import CustomizedInputBaseLight from "../search/CustomizedSearchLight";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
@@ -17,7 +17,6 @@ const News = (props) => {
   const [sectionContent, setSectionContent] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchInput, setSearchInput] = useState();
-  //   const [initialState, setInitialState] = useState([]);
   const [isSection, setIsSection] = useState(false);
   const [filterSection, setFilterSection] = useState();
   const [active, setActive] = useState(false);
@@ -92,17 +91,6 @@ const News = (props) => {
     setIsLoading(false);
     setIsOpen(false);
   };
-
-  //   useEffect(() => {
-  //     setIsLoading(true);
-  //     async function getUserArticlesForInitialState() {
-  //       const userArticles = await newsManager.fetchAllUserArticles();
-  //       setInitialState(userArticles);
-  //       setSectionContent(userArticles);
-  //     }
-  //     getUserArticlesForInitialState();
-  //     setIsLoading(false);
-  //   }, [isLoading]);
 
   return (
     <>
@@ -241,14 +229,22 @@ const News = (props) => {
         {isSection ? (
           sectionContent.map((article) => <NewsCard key={article.id} article={article} section={section} {...props} />)
         ) : (
-          <div className="news_initial_container">
-            {/* <img src={quantum} alt="Quantum" className="quantum_logo_pic"/> */}
-            <div className="news_description">Catch up on all the latest news from around the country and world.</div>
-            <div className="news_description">Or apply to become one of our blog contributors!</div>
-            <div className="news_apply_user_article_btn_container">
-              <button className="news_apply_user_article_btn">Apply</button>
+          <>
+            <div className="news_initial_container">
+              {/* <img src={quantum} alt="Quantum" className="quantum_logo_pic"/> */}
+              <div className="news_description">Catch up on all the latest news from around the country and world.</div>
+              <div className="news_description">Or apply to become one of our blog contributors!</div>
+              <div className="news_apply_user_article_btn_container">
+                <button className="news_apply_user_article_btn" onClick={() => props.history.push("/news/contributor/apply")}>Apply</button>
+              </div>
             </div>
-          </div>
+            <div className="signature">
+              <p>
+                Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a>{" "}
+                <i className="fas fa-trademark"></i>
+              </p>
+            </div>
+          </>
         )}
       </div>
     </>

@@ -1,5 +1,5 @@
 import { Route } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useAuth0 } from "../contexts/react-auth0-context";
 import ProfileList from "./profile/ProfileList";
 import LandingPage from "./auth/Login";
@@ -13,7 +13,8 @@ import Register from "./auth/Register";
 import SelectRollerCoaster from "./profile/SelectRollerCoaster";
 import AddPark from "./addNewForm/AddPark";
 import News from "./news/News";
-// import userManager from "../modules/users/userManager";
+import BlogContributorForm from "./news/BlogContributorForm";
+
 // import AuthRoute from "./AuthRoute";
 
 const ApplicationViews = ({
@@ -241,9 +242,23 @@ const ApplicationViews = ({
               <News
                 userProfile={userProfile}
                 authUser={authUser}
-                setUserProfile={setUserProfile}
-                userCredits={userCredits}
-                setUserCredits={setUserCredits}
+                {...props}
+              />
+            );
+          } else {
+            return <LandingPage />;
+          }
+        }}
+      />
+      <Route
+        exact
+        path="/news/contributor/apply"
+        render={(props) => {
+          if (isAuthenticated && authUser.id && hasLoggedIn) {
+            return (
+              <BlogContributorForm
+                userProfile={userProfile}
+                authUser={authUser}
                 {...props}
               />
             );

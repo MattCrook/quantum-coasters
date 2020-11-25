@@ -51,11 +51,14 @@ h3.banner {
 
 .add-new-ride-btn {
   transition: 0.25s;
-  border: 2px solid black;
-  padding-left: 10px;
-  margin-top: 10px;
-  font-variant: small-caps;
-  margin-left: 14px;
+  margin-top: 6%;
+  margin-left: 1%;
+  margin-bottom: 7%;
+  font-size: 15px;
+  border-radius: 8px 8px 8px 8px;
+  /* border: 2px solid black; */
+  /* padding-left: 10px; */
+  /* font-variant: small-caps; */
   /* font-style: oblique; */
 }
 
@@ -78,17 +81,6 @@ h3.banner {
   justify-content: space-between;
 }
 
-/* .form-control {
-  padding: 4px;
-  margin: 10px;
-  border-radius: 10px;
-  border: 0;
-  background: #222;
-  box-shadow: 1px 1px 3px #000;
-  color: #fff;
-  width: 80%;
-  justify-content: space-between;
-} */
 
 .newCredit-form-fields > div > label {
   color: #fff;
@@ -238,5 +230,16 @@ button.add-credit-button {
 }
 
 .park_list_location_and_country {
+  font-size: 14px;
+}
+
+.create_new_rc_side_nav {
+  display: flex;
+  justify-items: center;
+  flex-direction: column;
+  box-shadow: 4px 4px 4px 4px rgb(224, 224, 224);
+  /* border: 1px solid black; */
+  transition: 0.5s all ease;
+  width: 17%;
   font-size: 14px;
 }

@@ -23,6 +23,17 @@ const newsManager = {
     });
     return await resp.json();
   },
+  async postUserBlogApplication(data) {
+    const response = await fetch(`${remoteURL}/contributor_applications`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "JWT" + localStorage.getItem("accessToken"),
+      },
+      body: JSON.stringify(data),
+    });
+    return await response.json();
+  },
 };
 
 export default newsManager;
