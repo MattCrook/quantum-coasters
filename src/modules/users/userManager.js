@@ -1,4 +1,4 @@
-const remoteURL = process.env.REACT_APP_BASE_URL;
+const remoteURL = process.env.REACT_APP_REMOTE_API_URL;
 
 const userManager = {
   async register(userToPost) {
@@ -14,16 +14,26 @@ const userManager = {
   },
 
   async login(userCredentials) {
-  const result = await fetch(`${remoteURL}/rest-auth/login/`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(userCredentials),
-  });
-  return await result.json();
-},
+    const result = await fetch(`${remoteURL}/rest-auth/login/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userCredentials),
+    });
+    return await result.json();
+  },
 
+  async loginSocialAuth(provider) {
+    const result = await fetch(`${remoteURL}/social-auth/login/${provider}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      Accept: "application/json",
+    });
+    return await result.json();
+  },
 
   async getAuthUserById(id) {
     const resp = await fetch(`${remoteURL}/users/${id}`, {
@@ -99,6 +109,48 @@ const userManager = {
       },
       body: JSON.stringify(editedObject),
     });
+  },
+  async getInitAppOptions(authUserId) {
+    const resp = await fetch(`${remoteURL}/credentials?user_id=${authUserId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "JWT " + localStorage.getItem("accessToken"),
+      },
+    });
+    return await resp.json();
+  },
+  async postInitAppOptions(initOptionsData) {
+    try {
+      const response = await fetch(`${remoteURL}/credentials`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "JWT " + sessionStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify(initOptionsData),
+      });
+      if (response.ok) {
+        return await response.json();
+      }
+      throw new Error("Request Failed");
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  async patchQuantumTokenOnLogin(data) {
+    try {
+      const response = await fetch(`${remoteURL}/credentials/${data.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "JWT " + sessionStorage.getItem("accessToken"),
+        },
+        body: JSON.stringify(data),
+      });
+    } catch (err) {
+      console.log(err);
+    }
   },
 };
 

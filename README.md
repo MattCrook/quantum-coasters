@@ -86,6 +86,13 @@ Users can also engage with other users of the app and coaster enthusiasts alike,
 ![Forum](public/ReadMePhotos/Forum.png)
 
 
+### 8) News
+Custom Web Scraper pulls in the latest news from around the country and world so you as a user are always up to date on what is going on in the roller coaster world. 
+* The user may also apply to write blog posts and have them published exclusively here on Quantum Coasters, for the community of coaster loving fans to read and interact with. This is done so with the purpose of creating a truly unique, rewarding, and educational experience reserved only for those using the Quantum Coasters app.
+
+![News](public/ReadMePhotos/News.png)
+
+
 
 ## Technologies Used
 This project utilizes the following:
@@ -95,13 +102,16 @@ This project utilizes the following:
 * React Router
 * React Confirm Alert
 * Auth0
+* JWT for Authentication
 * React Testing Library
 * Jest
 * Deployed with Zeit/Now/Vercel
 * Github Actions
 * Material UI
+* Semantic UI
 * Webpack
 * DbDiagram
+* Vercel
 
 
 ## Skills Utilized

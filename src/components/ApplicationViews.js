@@ -12,6 +12,9 @@ import LeaderBoard from "./leaderBoard/LeaderBoard";
 import Register from "./auth/Register";
 import SelectRollerCoaster from "./profile/SelectRollerCoaster";
 import AddPark from "./addNewForm/AddPark";
+import News from "./news/News";
+import BlogContributorForm from "./news/BlogContributorForm";
+
 // import AuthRoute from "./AuthRoute";
 
 const ApplicationViews = ({
@@ -34,7 +37,6 @@ const ApplicationViews = ({
     sessionStorage.setItem("QuantumToken", resp.QuantumToken);
     setHasLoggedIn(isLoggedIn());
   };
-
 
 
   return (
@@ -183,12 +185,7 @@ const ApplicationViews = ({
         render={(props) => {
           if (isAuthenticated && authUser.id && hasLoggedIn) {
             return (
-              <LeaderBoard
-                userProfile={userProfile}
-                authUser={authUser}
-                setUserProfile={setUserProfile}
-                {...props}
-              />
+              <LeaderBoard userProfile={userProfile} authUser={authUser} setUserProfile={setUserProfile} {...props} />
             );
           } else {
             return <LandingPage />;
@@ -228,7 +225,40 @@ const ApplicationViews = ({
                 setUserProfile={setUserProfile}
                 userCredits={userCredits}
                 setUserCredits={setUserCredits}
-
+                {...props}
+              />
+            );
+          } else {
+            return <LandingPage />;
+          }
+        }}
+      />
+      <Route
+        exact
+        path="/news"
+        render={(props) => {
+          if (isAuthenticated && authUser.id && hasLoggedIn) {
+            return (
+              <News
+                userProfile={userProfile}
+                authUser={authUser}
+                {...props}
+              />
+            );
+          } else {
+            return <LandingPage />;
+          }
+        }}
+      />
+      <Route
+        exact
+        path="/news/contributor/apply"
+        render={(props) => {
+          if (isAuthenticated && authUser.id && hasLoggedIn) {
+            return (
+              <BlogContributorForm
+                userProfile={userProfile}
+                authUser={authUser}
                 {...props}
               />
             );

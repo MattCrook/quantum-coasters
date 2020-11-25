@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useAuth0 } from "./contexts/react-auth0-context";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import NavBar from "./components/nav/NavBar";
 import ApplicationViews from "./components/ApplicationViews";
-import history from "./utils/history";
+// import history from "./utils/history";
+import history from "./components/auth/auht0ProviderWithHistory";
 import userManager from "./modules/users/userManager";
 import "./App.css";
 import "bulma/css/bulma.css";
@@ -11,13 +12,25 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 // import accessToken from "./utils/reducers/authReducers";
 
 const App = (props) => {
-  const { loading, user, getIdTokenClaims, getTokenSilently, isAuthenticated } = useAuth0();
+  const { loading, user, getIdTokenClaims, getTokenSilently, isAuthenticated, appInitOptions } = useAuth0();
   const [userProfile, setUserProfile] = useState([]);
   const [authUser, setAuthUser] = useState([]);
   const [userCredits, setUserCredits] = useState([]);
   const [authToken, setAuthToken] = useState([]);
   const [userRollerCoasters, setUserRollerCoasters] = useState([]);
+  const [initOptions, setInitOptions] = useState([]);
 
+  // This function will fire upon login and sets/ posts the init options and credentials for the user at /credentials endpoint.
+  const updateInitOptions = async (initAuth0Options) => {
+    if (initAuth0Options.length > 0) {
+      userManager
+        .postInitAppOptions(initAuth0Options[0])
+        .then((resp) => {
+          setInitOptions(resp);
+        })
+        .catch((err) => console.log({ err }));
+    }
+  };
 
   useEffect(() => {
     if (user && isAuthenticated) {
@@ -25,12 +38,11 @@ const App = (props) => {
       sessionStorage.setItem("credentials", JSON.stringify(userEmail));
       const guardForUserProfile = async (userEmail) => {
         const tokenId = await getIdTokenClaims();
-        const accessToken = await getTokenSilently()
+        const accessToken = await getTokenSilently();
 
         if (tokenId && accessToken) {
-          localStorage.setItem("IdToken", JSON.stringify(tokenId));
-          localStorage.setItem("accessToken", accessToken);
-
+          sessionStorage.setItem("IdToken", JSON.stringify(tokenId));
+          sessionStorage.setItem("accessToken", accessToken);
         }
         const getAuthUser = await userManager.getAuthUser(userEmail);
 
@@ -43,8 +55,9 @@ const App = (props) => {
           setUserProfile(getProfile[0]);
           setUserCredits(creditsArray);
 
-          const djangoAuthToken = sessionStorage.getItem('QuantumToken');
-            setAuthToken(djangoAuthToken);
+          const djangoAuthToken = sessionStorage.getItem("QuantumToken");
+          setAuthToken(djangoAuthToken);
+          updateInitOptions(appInitOptions);
         } else {
           console.log("Please Complete your Profile. :) ");
           setUserProfile([]);
@@ -52,7 +65,7 @@ const App = (props) => {
       };
       guardForUserProfile(userEmail);
     }
-  }, [user, getIdTokenClaims, getTokenSilently, isAuthenticated]);
+  }, [user, getIdTokenClaims, getTokenSilently, isAuthenticated, appInitOptions]);
 
   if (loading) {
     return (
@@ -62,10 +75,12 @@ const App = (props) => {
       </div>
     );
   }
+
+  
   return (
     <>
       <CssBaseline />
-      <Router history={history}>
+      <BrowserRouter>
         <NavBar
           userProfile={userProfile}
           authUser={authUser}
@@ -85,9 +100,10 @@ const App = (props) => {
           setAuthToken={setAuthToken}
           userRollerCoasters={userRollerCoasters}
           setUserRollerCoasters={setUserRollerCoasters}
+          initOptions={initOptions}
           {...props}
         />
-      </Router>
+      </BrowserRouter>
     </>
   );
 };

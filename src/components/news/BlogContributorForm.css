@@ -1,0 +1,97 @@
+.blog_apply_form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 100px;
+  margin-top: 5%;
+}
+
+.fs-apply-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 35%;
+  background-color: #ececec;
+  border-radius: 8px 8px 8px 8px;
+  box-shadow: 2px 2px 2px 2px rgb(216, 216, 216);
+}
+
+.apply-title {
+  margin-top: 20px;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid rgb(104, 102, 102);
+  font: 50 1.1em helvetica neue, open sans, sans-serif;
+}
+
+.apply_form_label {
+  font: 150 1em helvetica neue, open sans, sans-serif;
+  margin-right: 83%;
+}
+
+.apply-for-blog-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 95%;
+}
+
+.register-create-buttons {
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.apply-create-btn {
+  align-self: center;
+  display: inline-block;
+  cursor: pointer;
+  border: none;
+  padding: 12px 20px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  margin-left: 5px;
+  margin-right: 5px;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #020202;
+  color: #fff;
+  border-radius: 5px;
+  text-align: center;
+  width: 20%;
+}
+
+.apply-create-btn:hover {
+    box-shadow: 4px 4px 4px 4px rgb(192, 192, 192);
+}
+
+.input_apply {
+  width: 96%;
+  height: 36px;
+  border: none;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 5px;
+  margin-bottom: 12px;
+}
+
+#apply_form_final_words_label {
+  margin-right: 81%;
+}
+
+#apply_email_label {
+  margin-right: 88%;
+}
+
+#apply_website_label {
+  margin-right: 67%;
+}
+
+#register_form_social_label {
+  margin-right: 80%;
+}

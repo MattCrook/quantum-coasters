@@ -82,7 +82,6 @@ const AddNewRollerCoaster = (props) => {
                 const getTrackTypeName = await trackTypeManager.getTrackTypeByByName(trackType.name);
                 const getParkName = await parkManager.getParkByName(park.name);
                 const getManufacturerName = await manufacturerManager.getManufacturerByName(manufacturer.name);
-                console.log(getManufacturerName)
 
                 var trackTypeId = getTrackTypeName.length > 0 ? getTrackTypeName[0].id : false;
                 var parkId = getParkName.length > 0 ? getParkName[0].id : false;

@@ -17,15 +17,35 @@ export default function Authenticate(props) {
       email: email,
       password: password,
     };
+
     userManager
       .login(userCredentials)
       .then((resp) => {
         setAuthUser(resp);
         setAuthToken(resp.QuantumToken);
         setDjangoToken(resp);
-        props.history.push("/home");
+        userManager.getInitAppOptions(resp.id).then((initOptionsFromApi) => {
+          const options = initOptionsFromApi[0];
+          var data = {
+            id: options.id,
+            django_token: resp.QuantumToken,
+          };
+          userManager
+            .patchQuantumTokenOnLogin(data)
+            .then((resp) => {
+              console.log("Response from token", { resp });
+            })
+            .catch((err) => console.log({ "Quantum Token Error": err }));
+          });
+          userManager
+          .loginSocialAuth("auth0")
+          .then((resp) => {
+            console.log("Response from Social Login", resp);
+            props.history.push("/home");
       })
-      .catch(() => alert("Invalid email"));
+      .catch((err) => console.log({ "Social Auth Error": err }));
+    })
+    .catch(() => alert("Invalid email"));
   };
 
   return (

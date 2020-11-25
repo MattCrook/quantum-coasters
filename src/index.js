@@ -1,45 +1,20 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
-import { Auth0Provider } from "./contexts/react-auth0-context";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
-import config from "./auth_config.json";
-import history from "./utils/history";
-// import configureStore from './store'
-// import createHistory from 'history/createBrowserHistory'
-// import { ConnectedRouter } from 'react-router-redux'
-// import { Provider } from 'react-redux
+import Auth0ProviderWithHistory from "./components/auth/auht0ProviderWithHistory";
 
-
-// const history = createHistory()
-// const store = configureStore(history)
-
-
-
-// A function that routes the user to the right place after login
-const onRedirectCallback = appState => {
-  history.push(
-    appState && appState.targetUrl
-    ? appState.targetUrl
-    : window.location.pathname
-    );
-};
-
+// The Context from React Router must be present in the component tree at a higher level
+// for Auth0ProviderWithHistory to access the useHistory() hook from React Router.
 
 ReactDOM.render(
-  <Auth0Provider
-    domain={config.domain}
-    client_id={config.client_id}
-    redirect_uri={`${window.location.origin}/home`}
-    onRedirectCallback={onRedirectCallback}
-    audience={config.audience}
-    scope={config.scope}
-    // connection={config.connection}
-    // id_token_hint={config.id_token_hint}
-  >
-    <App />
-  </Auth0Provider>,
+  <Router>
+    <Auth0ProviderWithHistory>
+      <App />
+    </Auth0ProviderWithHistory>
+  </Router>,
   document.getElementById("root")
 );
 

@@ -5,7 +5,7 @@ import "./Register.css";
 import { confirmAlert } from "react-confirm-alert";
 // import keys from "../../keys/Keys";
 // import ImageUploader from "react-images-upload";
-const remoteUrl = process.env.REACT_APP_BASE_URL;
+const remoteUrl = process.env.REACT_APP_REMOTE_API_URL;
 
 const Register = (props) => {
 
@@ -59,7 +59,7 @@ const Register = (props) => {
               };
               try {
                 const registerUser = await userManager.register(newUserObject);
-                // Django User is object I specified to come back from API iin register.py
+                // Django User is object I specified to come back from API in register.py
                 if ("DjangoUser" in registerUser) {
                   props.setDjangoToken(registerUser.DjangoUser);
                   props.setAuthToken(registerUser.DjangoUser.QuantumToken)
