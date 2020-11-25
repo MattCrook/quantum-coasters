@@ -45,6 +45,7 @@ export const Auth0Provider = ({
       setAuth0(auth0FromHook);
 
       const transactions = auth0FromHook.transactionManager;
+      console.log(transactions)
 
       if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
         const { appState } = await auth0FromHook.handleRedirectCallback();

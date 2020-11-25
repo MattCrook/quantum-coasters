@@ -8,45 +8,41 @@ export default function Authenticate(props) {
   const [email, setEmail] = useState(user.email);
   const { setAuthUser } = props;
   const { setAuthToken } = props;
-  const { setDjangoToken } = props;
   const password = user.sub.split("|")[1];
 
-  const loginSubmit = (e) => {
-    e.preventDefault();
-    const userCredentials = {
-      email: email,
-      password: password,
-    };
+  const loginSubmit = async (e) => {
+    // try {
+      e.preventDefault();
+      const userCredentials = {
+        email: email,
+        password: password,
+      };
 
-    userManager
-      .login(userCredentials)
-      .then((resp) => {
-        setAuthUser(resp);
-        setAuthToken(resp.QuantumToken);
-        setDjangoToken(resp);
-        userManager.getInitAppOptions(resp.id).then((initOptionsFromApi) => {
-          const options = initOptionsFromApi[0];
-          var data = {
-            id: options.id,
-            django_token: resp.QuantumToken,
-          };
-          userManager
-            .patchQuantumTokenOnLogin(data)
-            .then((resp) => {
-              console.log("Response from token", { resp });
-            })
-            .catch((err) => console.log({ "Quantum Token Error": err }));
-          });
-          userManager
-          .loginSocialAuth("auth0")
-          .then((resp) => {
-            console.log("Response from Social Login", resp);
-            props.history.push("/home");
-      })
-      .catch((err) => console.log({ "Social Auth Error": err }));
-    })
-    .catch(() => alert("Invalid email"));
+      const login = await userManager.login(userCredentials);
+      console.log(login);
+      if (login.valid === true) {
+        setAuthUser(login);
+        setAuthToken(login.QuantumToken);
+        props.setDjangoToken(login);
+        const getInitOptions = await userManager.getInitAppOptions(login.id);
+        console.log({getInitOptions})
+        const options = getInitOptions[0];
+        const data = {
+          id: options.id,
+          django_token: login.QuantumToken,
+        };
+        await userManager.patchQuantumTokenOnLogin(data);
+        props.history.push("/home");
+      } else {
+        alert("Invalid email");
+      }
+    // } catch (err) {
+    //   console.log("Authenticate Error:", { e });
+    //   alert("Error logging in.");
+    // }
   };
+
+
 
   return (
     <div className="modal micromodal-slide" id="modal-1" aria-hidden="true">

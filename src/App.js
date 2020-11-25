@@ -3,12 +3,13 @@ import { useAuth0 } from "./contexts/react-auth0-context";
 import { BrowserRouter } from "react-router-dom";
 import NavBar from "./components/nav/NavBar";
 import ApplicationViews from "./components/ApplicationViews";
-// import history from "./utils/history";
-import history from "./components/auth/auht0ProviderWithHistory";
 import userManager from "./modules/users/userManager";
 import "./App.css";
 import "bulma/css/bulma.css";
 import CssBaseline from "@material-ui/core/CssBaseline";
+
+// import history from "./utils/history";
+// import history from "./components/auth/auht0ProviderWithHistory";
 // import accessToken from "./utils/reducers/authReducers";
 
 const App = (props) => {
@@ -56,8 +57,23 @@ const App = (props) => {
           setUserCredits(creditsArray);
 
           const djangoAuthToken = sessionStorage.getItem("QuantumToken");
+          console.log("token APP.js", djangoAuthToken);
           setAuthToken(djangoAuthToken);
-          updateInitOptions(appInitOptions);
+          if (appInitOptions.length > 0) {
+            const sessionId = getCookie("sessionid");
+            const session = getCookie("session");
+            const csrf = getCookie("csrftoken");
+            const cookies = document.cookie;
+            console.log(cookies)
+            console.log("csrf", csrf);
+            console.log("SessionID", sessionId);
+            console.log("Session", session);
+            let authInitOptions = appInitOptions[0];
+            authInitOptions["csrf_token"] = csrf;
+            authInitOptions["session_id"] = sessionId;
+            authInitOptions["session"] = session;
+            updateInitOptions([authInitOptions]);
+          }
         } else {
           console.log("Please Complete your Profile. :) ");
           setUserProfile([]);
@@ -66,6 +82,8 @@ const App = (props) => {
       guardForUserProfile(userEmail);
     }
   }, [user, getIdTokenClaims, getTokenSilently, isAuthenticated, appInitOptions]);
+
+
 
   if (loading) {
     return (
@@ -76,7 +94,30 @@ const App = (props) => {
     );
   }
 
-  
+
+
+  function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    console.log("decodedCookie", decodedCookie);
+    let cookieArray = decodedCookie.split(";");
+    console.log("cookieArray", cookieArray);
+
+    for (let i = 0; i < cookieArray.length; i++) {
+      let cookie = cookieArray[i];
+      while (cookie.charAt(0) === " ") {
+        cookie = cookie.substring(1);
+        console.log("c", cookie);
+      }
+      if (cookie.indexOf(name) === 0) {
+        return cookie.substring(name.length, cookie.length);
+      }
+    }
+    return "";
+  }
+
+
+
   return (
     <>
       <CssBaseline />
