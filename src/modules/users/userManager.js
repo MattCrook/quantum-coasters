@@ -2,8 +2,7 @@ const remoteURL = process.env.REACT_APP_REMOTE_API_URL;
 
 const userManager = {
   async register(userToPost) {
-    // const data = await fetch(`${remoteURL}/rest-auth/registration/`, {
-      const data = await fetch(`${remoteURL}/register/`, {
+    const data = await fetch(`${remoteURL}/rest-auth/registration/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -15,9 +14,7 @@ const userManager = {
   },
 
   async login(userCredentials) {
-    // const result = await fetch(`${remoteURL}/rest-auth/login/`, {
-      const result = await fetch(`${remoteURL}/accounts/login/`, {
-
+    const result = await fetch(`${remoteURL}/rest-auth/login/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -153,7 +150,7 @@ const userManager = {
         body: JSON.stringify(data),
       });
     } catch (err) {
-      console.log({err});
+      console.log({ err });
     }
   },
 };

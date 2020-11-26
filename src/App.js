@@ -23,6 +23,7 @@ const App = (props) => {
 
   // This function will fire upon login and sets/ posts the init options and credentials for the user at /credentials endpoint.
   const updateInitOptions = async (initAuth0Options) => {
+    console.log(initAuth0Options)
     if (initAuth0Options.length > 0) {
       userManager
         .postInitAppOptions(initAuth0Options[0])
@@ -62,14 +63,11 @@ const App = (props) => {
           if (appInitOptions.length > 0) {
             const sessionId = getCookie("sessionid");
             const session = getCookie("session");
-            const csrf = getCookie("csrftoken");
-            const cookies = document.cookie;
-            console.log(cookies)
-            console.log("csrf", csrf);
-            console.log("SessionID", sessionId);
-            console.log("Session", session);
+            // const csrf = getCookie("csrftoken");
+
             let authInitOptions = appInitOptions[0];
-            authInitOptions["csrf_token"] = csrf;
+            console.log("AUTHINITOPTIONS", authInitOptions)
+            // authInitOptions["csrf_token"] = csrf;
             authInitOptions["session_id"] = sessionId;
             authInitOptions["session"] = session;
             updateInitOptions([authInitOptions]);

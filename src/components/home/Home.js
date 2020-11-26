@@ -102,7 +102,7 @@ const Home = (props) => {
               >
                 <i className="fas fa-user-lock"></i>Confirm Email
               </button>
-              <Authenticate {...props} />
+              <Authenticate authUser={authUser} {...props} />
             </>
           ) : null}
         </div>

@@ -17,21 +17,18 @@ export default function Authenticate(props) {
         email: email,
         password: password,
       };
-
       const login = await userManager.login(userCredentials);
-      console.log(login);
       if (login.valid === true) {
         setAuthUser(login);
         setAuthToken(login.QuantumToken);
         props.setDjangoToken(login);
-        const getInitOptions = await userManager.getInitAppOptions(login.id);
-        console.log({getInitOptions})
-        const options = getInitOptions[0];
-        const data = {
-          id: options.id,
-          django_token: login.QuantumToken,
-        };
-        await userManager.patchQuantumTokenOnLogin(data);
+        // const getInitOptions = await userManager.getInitAppOptions(login.id);
+        // const options = getInitOptions[0];
+        // const data = {
+        //   id: options.id,
+        //   django_token: login.QuantumToken,
+        // };
+        // await userManager.patchQuantumTokenOnLogin(data);
         props.history.push("/home");
       } else {
         alert("Invalid email");

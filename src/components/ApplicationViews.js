@@ -80,10 +80,13 @@ const ApplicationViews = ({
               <Home
                 userProfile={userProfile}
                 authUser={authUser}
+                setAuthUser={setAuthUser}
                 authToken={authToken}
+                setAuthToken={setAuthToken}
                 isLoggedIn={isLoggedIn}
                 setIsLoggedIn={setIsLoggedIn}
                 hasLoggedIn={hasLoggedIn}
+                setDjangoToken={setDjangoToken}
                 {...props}
               />
             );
