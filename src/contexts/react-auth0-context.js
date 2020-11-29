@@ -96,12 +96,12 @@ export const Auth0Provider = ({
     sessionStorage.removeItem("IdToken");
     sessionStorage.removeItem("QuantumToken");
     sessionStorage.removeItem("credentials");
+    sessionStorage.removeItem("sessionId");
   };
 
   const djangoRestAuthLogout = async (logout, clearStorage, userToLogout) => {
     try {
       const response = await fetch("http://localhost:8000/rest-auth/logout/", {
-        // const response = await fetch("http://localhost:8000/logout/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
