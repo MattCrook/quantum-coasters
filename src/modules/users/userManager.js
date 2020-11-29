@@ -18,7 +18,9 @@ const userManager = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
+      Accept: "application/json",
       body: JSON.stringify(userCredentials),
     });
     return await result.json();
@@ -40,7 +42,7 @@ const userManager = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "JWT " + sessionStorage.getItem("accessToken"),
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
       Accept: "application/json",
     });
@@ -52,7 +54,7 @@ const userManager = {
       method: "GET",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "JWT " + sessionStorage.getItem("accessToken"),
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
       Accept: "application/json",
     });
@@ -64,7 +66,7 @@ const userManager = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "JWT " + sessionStorage.getItem("accessToken"),
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
     });
     return await resp.json();
@@ -75,7 +77,7 @@ const userManager = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + sessionStorage.getItem("QuantumToken"),
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
     });
     return await resp.json();
@@ -94,7 +96,7 @@ const userManager = {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "JWT " + sessionStorage.getItem("accessToken"),
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
       body: JSON.stringify(editedObject),
     });
@@ -105,7 +107,7 @@ const userManager = {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "JWT " + sessionStorage.getItem("accessToken"),
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
       body: JSON.stringify(editedObject),
     });
@@ -115,7 +117,7 @@ const userManager = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "JWT " + sessionStorage.getItem("accessToken"),
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
     });
     return await resp.json();
@@ -126,7 +128,7 @@ const userManager = {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "JWT " + sessionStorage.getItem("accessToken"),
+          Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
         },
         body: JSON.stringify(initOptionsData),
       });
@@ -144,13 +146,32 @@ const userManager = {
         method: "PUT",
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: "Bearer " + sessionStorage.getItem("QuantumToken"),
+          Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
         },
         Accept: "application/json",
         body: JSON.stringify(data),
       });
     } catch (err) {
       console.log({ err });
+    }
+  },
+  async verifyEmail(key) {
+    try {
+      const response = await fetch(`${remoteURL}/rest-auth/registration/verify-email/`, {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${key}`
+        },
+        body: key,
+      })
+      if (response.ok) {
+        const jsonResponse = await response.json();
+        console.log({ jsonResponse })
+      }
+      throw new Error('Verify Email Request Failed')
+    } catch (err) {
+      console.info(err);
     }
   },
 };

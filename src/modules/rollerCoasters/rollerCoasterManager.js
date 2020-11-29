@@ -6,7 +6,7 @@ const rollerCoasterManager = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "JWT" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer" + localStorage.getItem("accessToken"),
       },
     });
     return await resp.json();
@@ -22,7 +22,7 @@ const rollerCoasterManager = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "JWT" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer" + localStorage.getItem("accessToken"),
       },
     });
     return await data.json();
@@ -33,7 +33,7 @@ const rollerCoasterManager = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "JWT" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer" + localStorage.getItem("accessToken"),
       },
     });
     return await data.json();

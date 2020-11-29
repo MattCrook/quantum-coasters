@@ -73,9 +73,11 @@ const News = (props) => {
     setIsLoading(true);
     let target = e.target.id;
     setActive(target);
+    console.log(sortKeyWord)
     if (sortKeyWord === "recent") {
       const newsContent = await newsManager.getSectionContent(section);
       const sortedContent = sortArticleDate(newsContent);
+      console.log(sortedContent)
       sortedContent.reverse();
       setSectionContent(newsContent);
       setFilterSection("Recent");
@@ -85,7 +87,7 @@ const News = (props) => {
       setSectionContent(newsContent);
       setFilterSection("Oldest");
     } else if (sortKeyWord === "none") {
-      handleShowSectionContent("all");
+      handleShowSectionContent(section);
       setFilterSection("Sort By");
     }
     setIsLoading(false);
@@ -141,11 +143,11 @@ const News = (props) => {
           {isOpen ? (
             <div className="dropdown_options_container">
               {active === "none" ? (
-                <div id="none" className="most_recent_active" onClick={(e) => handleSortByMostRecent(e, "none", "all")}>
+                <div id="none" className="most_recent_active" onClick={(e) => handleSortByMostRecent(e, "none", section)}>
                   None
                 </div>
               ) : (
-                <div id="none" className="most_recent" onClick={(e) => handleSortByMostRecent(e, "none", "all")}>
+                <div id="none" className="most_recent" onClick={(e) => handleSortByMostRecent(e, "none", section)}>
                   None
                 </div>
               )}
@@ -153,7 +155,7 @@ const News = (props) => {
                 <div
                   id="most_recent"
                   className="most_recent_active"
-                  onClick={(e) => handleSortByMostRecent(e, "recent", "all")}
+                  onClick={(e) => handleSortByMostRecent(e, "recent", section)}
                 >
                   Most Recent
                 </div>
@@ -161,17 +163,17 @@ const News = (props) => {
                 <div
                   id="most_recent"
                   className="most_recent"
-                  onClick={(e) => handleSortByMostRecent(e, "recent", "all")}
+                  onClick={(e) => handleSortByMostRecent(e, "recent", section)}
                 >
                   Most Recent
                 </div>
               )}
               {active === "oldest" ? (
-                <div id="oldest" className="oldest_active" onClick={(e) => handleSortByMostRecent(e, "oldest", "all")}>
+                <div id="oldest" className="oldest_active" onClick={(e) => handleSortByMostRecent(e, "oldest", section)}>
                   Oldest
                 </div>
               ) : (
-                <div id="oldest" className="oldest" onClick={(e) => handleSortByMostRecent(e, "oldest", "all")}>
+                <div id="oldest" className="oldest" onClick={(e) => handleSortByMostRecent(e, "oldest", section)}>
                   Oldest
                 </div>
               )}

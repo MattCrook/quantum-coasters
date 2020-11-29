@@ -29,8 +29,8 @@
 .add_new_park_form_title {
   display: flex;
   justify-content: center;
-  font: 50 1.4em helvetica neue, open sans, sans-serif;
-  font-variant: small-caps;
+  font: 150 1.4em helvetica neue, open sans, sans-serif;
+  text-transform: uppercase;
   border-bottom: 1px solid rgb(105, 105, 105);
   padding-top: 10px;
   margin-bottom: 10px;
@@ -40,7 +40,7 @@
   margin-bottom: 5%;
   margin-left: 34%;
   margin-right: 33%;
-  background-color: rgb(190, 190, 190);
+  background-color: #dfdfdf;
   border-radius: 5px 5px 5px 5px;
   box-shadow: 3px 3px 3px 3px rgb(182, 181, 181);
 }

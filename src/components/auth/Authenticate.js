@@ -11,7 +11,6 @@ export default function Authenticate(props) {
   const password = user.sub.split("|")[1];
 
   const loginSubmit = async (e) => {
-    // try {
       e.preventDefault();
       const userCredentials = {
         email: email,
@@ -22,22 +21,43 @@ export default function Authenticate(props) {
         setAuthUser(login);
         setAuthToken(login.QuantumToken);
         props.setDjangoToken(login);
-        // const getInitOptions = await userManager.getInitAppOptions(login.id);
-        // const options = getInitOptions[0];
-        // const data = {
-        //   id: options.id,
-        //   django_token: login.QuantumToken,
-        // };
-        // await userManager.patchQuantumTokenOnLogin(data);
         props.history.push("/home");
       } else {
         alert("Invalid email");
       }
-    // } catch (err) {
-    //   console.log("Authenticate Error:", { e });
-    //   alert("Error logging in.");
-    // }
   };
+
+
+
+
+//   const loginSubmit = async (e) => {
+//     e.preventDefault();
+//     const userCredentials = {
+//       email: email,
+//       password: password,
+//       user_sub: user.sub,
+//     };
+//     const login = await userManager.login(userCredentials);
+//     if (login.valid === true) {
+//       setAuthUser(login);
+//       setAuthToken(login.QuantumToken);
+//       props.setDjangoToken(login);
+//       const getInitOptions = await userManager.getInitAppOptions(login.id);
+//       const options = getInitOptions[0];
+//       const data = {
+//         id: options.id,
+//         django_token: login.QuantumToken,
+//       };
+//       await userManager.patchQuantumTokenOnLogin(data);
+//       props.history.push("/home");
+//     } else {
+//       alert("Invalid email");
+//     }
+//   } catch (err) {
+//     console.log("Authenticate Error:", { e });
+//     alert("Error logging in.");
+//   }
+// };
 
 
 

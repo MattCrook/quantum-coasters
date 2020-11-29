@@ -6,7 +6,7 @@ const creditManager = {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "JWT" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer" + localStorage.getItem("accessToken"),
       },
     });
   },
@@ -15,10 +15,10 @@ const creditManager = {
     const data = await fetch(`${remoteURL}/credits`, {
       method: "POST",
       headers: {
-        Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: "JWT" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer" + localStorage.getItem("accessToken"),
       },
+      Accept: "application/json",
       body: JSON.stringify(creditObj),
     });
     return await data.json();
@@ -39,7 +39,7 @@ const creditManager = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "JWT" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer" + localStorage.getItem("accessToken"),
       },
     });
     return await data.json();

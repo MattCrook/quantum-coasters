@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "bulma/css/bulma.css";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { Link } from "react-router-dom";
@@ -27,30 +27,21 @@ const Home = (props) => {
   const { hasLoggedIn } = props;
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
-
-
   useEffect(() => {
     if (isAuthenticated && isLoggedIn && props.authToken) {
-      const quantumToken = props.authToken;
-      console.log("QToken", quantumToken);
-      console.log("Authtoekn", props.authToken);
       setIsLoggedIn(hasLoggedIn());
     } else {
-      console.log("else");
+      console.log("Home.js: Not Logged In");
       setIsLoggedIn(hasLoggedIn());
     }
   }, [props, hasLoggedIn, isLoggedIn, isAuthenticated, setIsLoggedIn]);
-
 
   return (
     <>
       <header>
         <nav id="home_navbar_container" className="navbar is-dark">
           <div className="navbar-menu is-active">
-            {/* logo */}
             <button className="home-logo">Quantum Coasters</button>
-            {/* menu items */}
-            {/* if there is a user. show the logout button */}
             {!loading && user && isAuthenticated && (
               <>
                 <div className="navbar-end">
@@ -122,6 +113,18 @@ const Home = (props) => {
               Complete Profile
             </Link>
           )}
+          {!loading && !authUser.email && !userProfile.id && isAuthenticated && isLoggedIn ? (
+            <>
+              <div className="edge_case_btns">
+                <button data-testid="complete-profile-btn-testid" className="login_alt_edge_case_link" onClick={() => djangoRestAuthLogout(logout, clearStorage, authUser)}>
+                  Login
+                </button>
+                <Link data-testid="complete-profile-btn-testid" className="register_alt_edge_case_link" to="register/">
+                  Register
+                </Link>
+              </div>
+            </>
+          ) : null}
           <div className="hero-body bg-img" style={{ marginTop: "20px" }}></div>
         </div>
       </header>
