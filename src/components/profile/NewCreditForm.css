@@ -3,7 +3,7 @@ h3.banner {
   padding-top: 10px;
   padding-bottom: 10px;
   background-color: #363636;
-  color: white;
+  color: rgb(233, 233, 233);
 }
 .banner-container {
   display: flex;
@@ -51,30 +51,16 @@ h3.banner {
 
 .add-new-ride-btn {
   transition: 0.25s;
-  margin-top: 6%;
-  margin-left: 1%;
+  margin-top: 7%;
   margin-bottom: 7%;
   font-size: 15px;
-  border-radius: 8px 8px 8px 8px;
-  /* border: 2px solid black; */
-  /* padding-left: 10px; */
-  /* font-variant: small-caps; */
-  /* font-style: oblique; */
+  width: 82%;
 }
 
 .add-new-ride-btn:hover {
-  animation: fade 1s both;
+ color: rgb(170, 170, 170);
 }
 
-@keyframes fade {
-  0% {
-    background: white;
-  }
-  100% {
-    background: #3e4247;
-    color: white;
-  }
-}
 
 .newCredit-form-fields {
   flex-direction: row;

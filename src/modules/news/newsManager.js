@@ -6,7 +6,7 @@ const newsManager = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "JWT" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer" + localStorage.getItem("accessToken"),
       },
       Accept: "application/json",
     });
@@ -17,7 +17,7 @@ const newsManager = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "JWT" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer" + localStorage.getItem("accessToken"),
       },
       Accept: "application/json",
     });
@@ -28,7 +28,7 @@ const newsManager = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "JWT" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer" + localStorage.getItem("accessToken"),
       },
       body: JSON.stringify(data),
     });

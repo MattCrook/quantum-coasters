@@ -48,7 +48,8 @@ const AddNewCreditForm = (props) => {
         </div>
         <div className="create_new_rc_side_nav">
         <button type="button" className="add-new-ride-btn" onClick={() => props.history.push("/new/rollercoaster")}>
-          Create New Roller Coaster<i className="fas fa-database"></i>
+            Create New Roller Coaster
+          {/* <i className="fas fa-database"></i> */}
         </button>
         </div>
       </section>

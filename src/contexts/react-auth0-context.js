@@ -7,10 +7,6 @@ const DEFAULT_REDIRECT_CALLBACK = () => window.history.replaceState({}, document
 export const Auth0Context = React.createContext();
 export const useAuth0 = () => useContext(Auth0Context);
 
-/* ToDo: create custom context for userProfile in addition to Auth0 context for better state management */
-// export const UserProfileContext = React.createContext();
-// export const currentUserProfile = useContext(UserProfileContext);
-
 export const Auth0Provider = ({
   children,
   onRedirectCallback = DEFAULT_REDIRECT_CALLBACK,
@@ -22,22 +18,7 @@ export const Auth0Provider = ({
   const [auth0Client, setAuth0] = useState();
   const [loading, setLoading] = useState(true);
   const [popupOpen, setPopupOpen] = useState(false);
-  const [idToken, setIdToken] = useState();
-  const [appInitOptions, setAppInitOptions] = useState({
-    user_sub: "",
-    domain: "",
-    client_id: "",
-    redirect_uri: "",
-    audience: "",
-    scope: "",
-    transactions: "",
-    nonce: "",
-    access_token: "",
-    django_token: "",
-    quantum_session: "",
-    updated_at: "",
-    user_id: "",
-  });
+  const [appInitOptions, setAppInitOptions] = useState([]);
 
   useEffect(() => {
     const initAuth0 = async () => {
@@ -45,6 +26,7 @@ export const Auth0Provider = ({
       setAuth0(auth0FromHook);
 
       const transactions = auth0FromHook.transactionManager;
+      console.log(transactions);
 
       if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
         const { appState } = await auth0FromHook.handleRedirectCallback();
@@ -55,7 +37,6 @@ export const Auth0Provider = ({
       setIsAuthenticated(isAuthenticated);
 
       const tokenId = await auth0FromHook.getIdTokenClaims();
-      setIdToken(tokenId);
 
       if (isAuthenticated) {
         const user = await auth0FromHook.getUser();
@@ -74,7 +55,7 @@ export const Auth0Provider = ({
             nonce: tokenId.nonce,
             access_token: tokenId.__raw,
             django_token: sessionStorage.getItem("QuantumToken"),
-            quantum_session: "",
+            session_id: sessionStorage.getItem("sessionId"),
             updated_at: tokenId.updated_at,
           };
           setAppInitOptions([initObject]);
@@ -120,6 +101,7 @@ export const Auth0Provider = ({
   const djangoRestAuthLogout = async (logout, clearStorage, userToLogout) => {
     try {
       const response = await fetch("http://localhost:8000/rest-auth/logout/", {
+        // const response = await fetch("http://localhost:8000/logout/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -127,9 +109,8 @@ export const Auth0Provider = ({
         body: JSON.stringify(userToLogout),
       });
       if (response.ok) {
-        const jsonResponse = await response.json();
-        console.log(jsonResponse);
         clearStorage(logout);
+        return await response.json();
       }
       throw new Error("Request Failed");
     } catch (err) {

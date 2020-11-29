@@ -6,7 +6,7 @@ const messageManager = {
       method: "GET",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "JWT" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer" + localStorage.getItem("accessToken"),
       },
       Accept: "application/json",
     });
@@ -14,15 +14,14 @@ const messageManager = {
   },
 
   async updateMessagesPut(editedObject) {
-    const data = await fetch(`${remoteURL}/messages/${editedObject.id}`, {
+    await fetch(`${remoteURL}/messages/${editedObject.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "JWT" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer" + localStorage.getItem("accessToken"),
       },
       body: JSON.stringify(editedObject),
     });
-    // return await data.json();
   },
 
   async postMessage(newObject) {
@@ -30,7 +29,7 @@ const messageManager = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "JWT" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer" + localStorage.getItem("accessToken"),
       },
       body: JSON.stringify(newObject),
     });

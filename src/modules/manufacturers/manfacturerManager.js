@@ -6,7 +6,7 @@ const manufacturerManager = {
       method: "GET",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "JWT" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer" + localStorage.getItem("accessToken"),
       },
       Accept: "application/json",
     });
@@ -18,7 +18,7 @@ const manufacturerManager = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "JWT" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer" + localStorage.getItem("accessToken"),
       },
       body: JSON.stringify(resource),
     });
@@ -31,7 +31,7 @@ const manufacturerManager = {
       method: "GET",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "JWT" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer" + localStorage.getItem("accessToken"),
       },
       Accept: "application/json",
     });

@@ -3,13 +3,11 @@ import { useAuth0 } from "./contexts/react-auth0-context";
 import { BrowserRouter } from "react-router-dom";
 import NavBar from "./components/nav/NavBar";
 import ApplicationViews from "./components/ApplicationViews";
-// import history from "./utils/history";
-import history from "./components/auth/auht0ProviderWithHistory";
 import userManager from "./modules/users/userManager";
 import "./App.css";
 import "bulma/css/bulma.css";
 import CssBaseline from "@material-ui/core/CssBaseline";
-// import accessToken from "./utils/reducers/authReducers";
+
 
 const App = (props) => {
   const { loading, user, getIdTokenClaims, getTokenSilently, isAuthenticated, appInitOptions } = useAuth0();
@@ -20,8 +18,10 @@ const App = (props) => {
   const [userRollerCoasters, setUserRollerCoasters] = useState([]);
   const [initOptions, setInitOptions] = useState([]);
 
+
   // This function will fire upon login and sets/ posts the init options and credentials for the user at /credentials endpoint.
-  const updateInitOptions = async (initAuth0Options) => {
+  const updateInitOptions = (initAuth0Options) => {
+    console.log(appInitOptions)
     if (initAuth0Options.length > 0) {
       userManager
         .postInitAppOptions(initAuth0Options[0])
@@ -57,7 +57,20 @@ const App = (props) => {
 
           const djangoAuthToken = sessionStorage.getItem("QuantumToken");
           setAuthToken(djangoAuthToken);
-          updateInitOptions(appInitOptions);
+
+          if (appInitOptions.length > 0) {
+            const sessionId = sessionStorage.getItem("sessionId");
+            const csrf = getCookie("csrftoken");
+            let authInitOptions = appInitOptions[0];
+
+            if (csrf) {
+              authInitOptions["csrf_token"] = csrf
+            }
+            if (sessionId) {
+              authInitOptions["session_id"] = sessionId;
+            }
+            updateInitOptions([authInitOptions]);
+          }
         } else {
           console.log("Please Complete your Profile. :) ");
           setUserProfile([]);
@@ -66,6 +79,8 @@ const App = (props) => {
       guardForUserProfile(userEmail);
     }
   }, [user, getIdTokenClaims, getTokenSilently, isAuthenticated, appInitOptions]);
+
+
 
   if (loading) {
     return (
@@ -76,7 +91,27 @@ const App = (props) => {
     );
   }
 
-  
+
+
+  function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let cookieArray = decodedCookie.split(";");
+    for (let i = 0; i < cookieArray.length; i++) {
+      let cookie = cookieArray[i];
+      while (cookie.charAt(0) === " ") {
+        cookie = cookie.substring(1);
+        console.log("c", cookie);
+      }
+      if (cookie.indexOf(name) === 0) {
+        return cookie.substring(name.length, cookie.length);
+      }
+    }
+    return "";
+  }
+
+
+
   return (
     <>
       <CssBaseline />
@@ -108,18 +143,3 @@ const App = (props) => {
   );
 };
 export default App;
-
-// fetching the userProfile (when i was using json server) to check if there is one. Will determine conditional rendering
-// further down in app. If there is no user profile, the rest of the app is blocked or hidden so user has to fill out
-// complete profile form.
-
-// user is auth0 user
-// userEmail is auth0 user email
-// getting token for auth0 user coming back from auth0
-// getUSerProfile takes email from auth0, searches my database for that email
-// sets the access token from auth0 in local storage for that user and user profile
-// userProfile is an array
-// if there is a profile (length > 0) means they have completed the profile form and have a profile in my databse
-// if not, means they have to complete profile, should see banner for form
-// thier token (password), email should follow them and they complete thier profile
-// thus making a POST to my database tying the user, userProfile, and Auth0 user together.

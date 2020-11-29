@@ -30,14 +30,15 @@ const ApplicationViews = ({
   setUserRollerCoasters,
 }) => {
   const { isAuthenticated } = useAuth0();
-  const isLoggedIn = () => sessionStorage.getItem("QuantumToken") !== null;
-  const [hasLoggedIn, setHasLoggedIn] = useState(isLoggedIn());
+  const hasLoggedIn = () => sessionStorage.getItem("QuantumToken") !== null;
+  // const hasLoggedIn = () => sessionStorage.getItem("QuantumToken") !== null && sessionStorage.getItem("QuantumToken") === typeof !undefined;
+
+  const [isLoggedIn, setIsLoggedIn] = useState(hasLoggedIn());
 
   const setDjangoToken = (resp) => {
     sessionStorage.setItem("QuantumToken", resp.QuantumToken);
-    setHasLoggedIn(isLoggedIn());
+    setIsLoggedIn(hasLoggedIn());
   };
-
 
   return (
     <React.Fragment>
@@ -45,7 +46,7 @@ const ApplicationViews = ({
         exact
         path="/"
         render={(props) => {
-          return <LandingPage {...props} />;
+          return <LandingPage isLoggedIn={isLoggedIn} {...props} />;
         }}
       />
       <Route
@@ -59,7 +60,7 @@ const ApplicationViews = ({
                 authUser={authUser}
                 setUserProfile={setUserProfile}
                 setAuthUser={setAuthUser}
-                setHasLoggedIn={setHasLoggedIn}
+                setIsLoggedIn={setIsLoggedIn}
                 setDjangoToken={setDjangoToken}
                 setAuthToken={setAuthToken}
                 {...props}
@@ -79,10 +80,12 @@ const ApplicationViews = ({
               <Home
                 userProfile={userProfile}
                 authUser={authUser}
-                setUserProfile={setUserProfile}
                 setAuthUser={setAuthUser}
                 authToken={authToken}
                 setAuthToken={setAuthToken}
+                isLoggedIn={isLoggedIn}
+                setIsLoggedIn={setIsLoggedIn}
+                hasLoggedIn={hasLoggedIn}
                 setDjangoToken={setDjangoToken}
                 {...props}
               />
@@ -97,7 +100,7 @@ const ApplicationViews = ({
         exact
         path="/user/profile/credits"
         render={(props) => {
-          if (isAuthenticated && authUser.id && hasLoggedIn) {
+          if (isAuthenticated && authUser.id && isLoggedIn) {
             return (
               <ProfileList
                 userProfile={userProfile}
@@ -121,7 +124,7 @@ const ApplicationViews = ({
         exact
         path="/user/parks/addcredit"
         render={(props) => {
-          if (isAuthenticated && authUser.id && hasLoggedIn) {
+          if (isAuthenticated && authUser.id && isLoggedIn) {
             return (
               <AddNewCreditForm
                 authUser={authUser}
@@ -141,7 +144,7 @@ const ApplicationViews = ({
         exact
         path="/new/rollercoaster"
         render={(props) => {
-          if (isAuthenticated && authUser.id && hasLoggedIn) {
+          if (isAuthenticated && authUser.id && isLoggedIn) {
             return <NewRollerCoaster {...props} />;
           } else {
             return <LandingPage />;
@@ -152,7 +155,7 @@ const ApplicationViews = ({
         exact
         path="/messages"
         render={(props) => {
-          if (isAuthenticated && authUser.id && hasLoggedIn) {
+          if (isAuthenticated && authUser.id && isLoggedIn) {
             return <MessageList {...props} />;
           } else {
             return <LandingPage />;
@@ -163,7 +166,7 @@ const ApplicationViews = ({
         exact
         path="/profile/:userProfileId(\d+)"
         render={(props) => {
-          if (isAuthenticated && authUser.id && hasLoggedIn) {
+          if (isAuthenticated && authUser.id && isLoggedIn) {
             return (
               <EditProfile
                 userProfileId={parseInt(props.match.params.userProfileId)}
@@ -183,7 +186,7 @@ const ApplicationViews = ({
         exact
         path="/leaderBoard"
         render={(props) => {
-          if (isAuthenticated && authUser.id && hasLoggedIn) {
+          if (isAuthenticated && authUser.id && isLoggedIn) {
             return (
               <LeaderBoard userProfile={userProfile} authUser={authUser} setUserProfile={setUserProfile} {...props} />
             );
@@ -196,7 +199,7 @@ const ApplicationViews = ({
         exact
         path="/rollerCoasters/park/:parkId(\d+)"
         render={(props) => {
-          if (isAuthenticated && authUser.id && hasLoggedIn) {
+          if (isAuthenticated && authUser.id && isLoggedIn) {
             return (
               <SelectRollerCoaster
                 userProfile={userProfile}
@@ -217,7 +220,7 @@ const ApplicationViews = ({
         exact
         path="/new/rollercoaster/parks/create"
         render={(props) => {
-          if (isAuthenticated && authUser.id && hasLoggedIn) {
+          if (isAuthenticated && authUser.id && isLoggedIn) {
             return (
               <AddPark
                 userProfile={userProfile}
@@ -237,14 +240,8 @@ const ApplicationViews = ({
         exact
         path="/news"
         render={(props) => {
-          if (isAuthenticated && authUser.id && hasLoggedIn) {
-            return (
-              <News
-                userProfile={userProfile}
-                authUser={authUser}
-                {...props}
-              />
-            );
+          if (isAuthenticated && authUser.id && isLoggedIn) {
+            return <News userProfile={userProfile} authUser={authUser} {...props} />;
           } else {
             return <LandingPage />;
           }
@@ -254,14 +251,8 @@ const ApplicationViews = ({
         exact
         path="/news/contributor/apply"
         render={(props) => {
-          if (isAuthenticated && authUser.id && hasLoggedIn) {
-            return (
-              <BlogContributorForm
-                userProfile={userProfile}
-                authUser={authUser}
-                {...props}
-              />
-            );
+          if (isAuthenticated && authUser.id && isLoggedIn) {
+            return <BlogContributorForm userProfile={userProfile} authUser={authUser} {...props} />;
           } else {
             return <LandingPage />;
           }

@@ -5,10 +5,8 @@ import "./Register.css";
 import { confirmAlert } from "react-confirm-alert";
 // import keys from "../../keys/Keys";
 // import ImageUploader from "react-images-upload";
-const remoteUrl = process.env.REACT_APP_REMOTE_API_URL;
 
 const Register = (props) => {
-
   const { user } = useAuth0();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -62,32 +60,13 @@ const Register = (props) => {
                 // Django User is object I specified to come back from API in register.py
                 if ("DjangoUser" in registerUser) {
                   props.setDjangoToken(registerUser.DjangoUser);
-                  props.setAuthToken(registerUser.DjangoUser.QuantumToken)
+                  props.setAuthToken(registerUser.DjangoUser.QuantumToken);
                   // Setting AuthUser from props passed from App to Application Views to Register. Setting the user high up in app to then filter back down.
                   props.setAuthUser(registerUser.DjangoUser);
+                  sessionStorage.setItem("sessionId", registerUser.DjangoUser.session);
 
                   // Function to POST to rest-auth verify email endpoint with the key returned from register.
-                  const verifyEmail = async (key) => {
-                    try {
-                      const response = await fetch(`${remoteUrl}/rest-auth/registration/verify-email/`, {
-                        method: 'POST',
-                        headers: {
-                          "Content-Type": "application/json",
-                          Authorization: `Bearer ${key}`
-                        },
-                        body: key,
-                      })
-                      if (response.ok) {
-                        const jsonResponse = await response.json();
-                        console.log({ jsonResponse })
-                      }
-                      throw new Error('Verify Email Request Failed')
-                    } catch (err) {
-                      console.info(err);
-                    }
-
-                  };
-                  // verifyEmail(registerUser.DjangoUser.QuantumToken);
+                  // const sendEmailVerification = await userManager.verifyEmail(registerUser.DjangoUser.QuantumToken);
                   props.history.push("/home");
                 }
               } catch (err) {
@@ -110,66 +89,55 @@ const Register = (props) => {
 
   return (
     <>
-    <form className="register-form" onSubmit={handleFormSubmit}>
-      <fieldset className="fs-register-form">
-        <h3 className="register-title">Complete Your Profile</h3>
-        <div className="profile-create-form">
-          <label className="register_form_label" htmlFor="first_name">First Name</label>
-          <input
-            className="input_register"
-            onChange={handleAuthUserInputChange}
-            type="text"
-            id="first_name"
-            // placeholder="First Name"
-            required
-            autoFocus
-          />
+      <form className="register-form" onSubmit={handleFormSubmit}>
+        <fieldset className="fs-register-form">
+          <h3 className="register-title">Complete Your Profile</h3>
+          <div className="profile-create-form">
+            <label className="register_form_label" htmlFor="first_name">
+              First Name
+            </label>
+            <input
+              className="input_register"
+              onChange={handleAuthUserInputChange}
+              type="text"
+              id="first_name"
+              required
+              autoFocus
+            />
 
-          <label className="register_form_label" htmlFor="last_name">Last Name</label>
-          <input
-            className="input_register"
-            onChange={handleAuthUserInputChange}
-            type="text"
-            id="last_name"
-            // placeholder="Last Name"
-            required
-          />
+            <label className="register_form_label" htmlFor="last_name">
+              Last Name
+            </label>
+            <input
+              className="input_register"
+              onChange={handleAuthUserInputChange}
+              type="text"
+              id="last_name"
+              required
+            />
 
-          <label className="register_form_label" htmlFor="username">Username</label>
-          <input
-            className="input_register"
-            onChange={handleAuthUserInputChange}
-            type="text"
-            id="username"
-            // placeholder="Enter Username"
-            required
-          />
+            <label className="register_form_label" htmlFor="username">
+              Username
+            </label>
+            <input className="input_register" onChange={handleAuthUserInputChange} type="text" id="username" required />
 
-          <label id="register_form_address_label" className="register_form_label" htmlFor="address">Address</label>
-          <input
-            className="input_register"
-            onChange={handleAuthUserInputChange}
-            type="text"
-            id="address"
-            // placeholder="Enter Address"
-            required
-          />
+            <label id="register_form_address_label" className="register_form_label" htmlFor="address">
+              Address
+            </label>
+            <input className="input_register" onChange={handleAuthUserInputChange} type="text" id="address" required />
 
-          <button
-            className="register-create-btn"
-            type="submit"
-            disabled={isLoading}
-          >
-            Finish
-          </button>
-        </div>
-      </fieldset>
-    </form>
-          <div className="signature">
-          <p>Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a> <i className="fas fa-trademark"></i>
-          </p>
+            <button className="register-create-btn" type="submit" disabled={isLoading}>
+              Finish
+            </button>
+          </div>
+        </fieldset>
+      </form>
+      <div className="signature">
+        <p>
+          Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a> <i className="fas fa-trademark"></i>
+        </p>
       </div>
-      </>
+    </>
   );
 };
 

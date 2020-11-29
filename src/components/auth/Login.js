@@ -4,7 +4,7 @@ import "../home/Home.css";
 import "../auth/Login.css";
 import "bulma/css/bulma.css";
 
-const LandingPage = () => {
+const LandingPage = (props) => {
   const {
     loading,
     user,
@@ -12,6 +12,7 @@ const LandingPage = () => {
     clearStorage,
     isAuthenticated,
   } = useAuth0();
+  const { isLoggedIn } = props;
 
   return (
     <>
@@ -30,7 +31,7 @@ const LandingPage = () => {
           {/* if there is no user. show the login button */}
           <div className="landing_page_nav_bar_container_2">
             <div className="login_btn_container">
-              {!loading && !user && !isAuthenticated && (
+              {!loading && !user && !isAuthenticated && !isLoggedIn && (
                 <button
                   onClick={loginWithRedirect}
                   id="landing_page_login_btn"
@@ -42,7 +43,7 @@ const LandingPage = () => {
             </div>
             {/* if for some reason user lands on this page and is logged in, show home and logout button */}
             <div className="logout_landing_page_btn">
-              {!loading && user && isAuthenticated && (
+              {!loading && user && isAuthenticated && isLoggedIn && (
                 <button onClick={clearStorage} className="navbar-item">
                   Logout
                 </button>

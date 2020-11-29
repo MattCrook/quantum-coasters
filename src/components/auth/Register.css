@@ -64,6 +64,10 @@
   width: 20%;
 }
 
+.register-create-btn:hover {
+ box-shadow: 2px 4px 6px 2px rgb(163, 162, 162);
+}
+
 .input_register {
   width: 96%;
   height: 36px;
