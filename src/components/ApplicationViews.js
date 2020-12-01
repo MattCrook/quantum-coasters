@@ -44,10 +44,12 @@ const ApplicationViews = ({
     setIsLoggedIn(hasLoggedIn());
   };
 
-
   const sendLoginInfo = async (data) => {
-    const loginInfo = await postLoginInfo(data);
-    console.log({loginInfo});
+    try {
+      await postLoginInfo(data);
+    } catch (err) {
+      console.log({ "Error sending Login Info": err });
+    }
   };
 
   return (
@@ -73,6 +75,11 @@ const ApplicationViews = ({
                 setIsLoggedIn={setIsLoggedIn}
                 setDjangoToken={setDjangoToken}
                 setAuthToken={setAuthToken}
+                sendLoginInfo={sendLoginInfo}
+                browserData={browserData}
+                userAgentData={userAgentData}
+                platformOS={platformOS}
+                appCodeNameData={appCodeNameData}
                 {...props}
               />
             );

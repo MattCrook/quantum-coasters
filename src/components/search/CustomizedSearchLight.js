@@ -39,6 +39,10 @@ export default function CustomizedInputBaseLight(props) {
 
   const submitSearch = (e) => {
     e.preventDefault();
+    let state = e.target.value;
+    if (state === "") {
+      props.setSectionContent(props.defaultSectionContent);
+    }
   };
 
   return (
@@ -46,7 +50,7 @@ export default function CustomizedInputBaseLight(props) {
       <IconButton className={classes.iconButton} aria-label="menu"></IconButton>
       <InputBase id="search" className={classes.input} placeholder="Search" onChange={props.searchNewsHandler} />
       <Divider className={classes.divider} orientation="vertical" />
-      <IconButton type="submit" className={classes.iconButton} aria-label="search">
+      <IconButton type="submit" className={classes.iconButton} aria-label="search" onClick={submitSearch}>
         <SearchIcon />
       </IconButton>
     </Paper>
