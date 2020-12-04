@@ -1,8 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
-// import DirectionsIcon from "@material-ui/icons/Directions";
 import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
 import Divider from "@material-ui/core/Divider";
@@ -20,11 +18,11 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
     display: "flex",
     alignItems: "center",
-    color: 'white',
+    color: "white",
   },
   iconButton: {
     padding: 10,
-    color: 'white',
+    color: "white",
   },
   divider: {
     height: 28,
@@ -37,38 +35,26 @@ export default function CustomizedInputBase(props) {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-  }
+    let state = e.target.value;
+    if (state === "") {
+      props.setParks(props.allParks);
+    }
+  };
 
   return (
-    <Paper component="form" className={classes.root} onSubmit={handleSearchSubmit}>
-      <IconButton className={classes.iconButton} aria-label="menu">
-      </IconButton>
+    <Paper component="form" className={classes.root}>
+      <IconButton className={classes.iconButton} aria-label="menu"></IconButton>
       <InputBase
         className={classes.input}
         placeholder="Search"
         inputProps={{ "aria-label": "search google maps" }}
         onChange={props.handleSearchInput}
       />
-      <IconButton
-        type="submit"
-        className={classes.iconButton}
-        aria-label="search"
-      >
+      <IconButton type="submit" className={classes.iconButton} aria-label="search" onClick={handleSearchSubmit}>
         <SearchIcon />
       </IconButton>
       <Divider className={classes.divider} orientation="vertical" />
-      <IconButton
-        color="primary"
-        className={classes.iconButton}
-        aria-label="directions"
-      >
-      </IconButton>
+      <IconButton color="primary" className={classes.iconButton} aria-label="directions"></IconButton>
     </Paper>
   );
 }
-
-
-
-// const SearchBar = () => {};
-
-// return <div>Hello</div>;

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import "bulma/css/bulma.css";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { Link } from "react-router-dom";
@@ -6,6 +6,7 @@ import "./Home.css";
 import Authenticate from "../auth/Authenticate";
 import MicroModal from "micromodal";
 import "../auth/Authenticate.css";
+
 
 MicroModal.init({
   openTrigger: "data-micromodal-trigger",
@@ -26,6 +27,8 @@ const Home = (props) => {
   const { setIsLoggedIn } = props;
   const { hasLoggedIn } = props;
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
+  // navigator.geolocation.getCurrentPosition(resp => console.log(resp))
+
 
   useEffect(() => {
     if (isAuthenticated && isLoggedIn && props.authToken) {
@@ -93,7 +96,14 @@ const Home = (props) => {
               >
                 <i className="fas fa-user-lock"></i>Confirm Email
               </button>
-              <Authenticate authUser={authUser} {...props} />
+              <Authenticate
+                authUser={authUser}
+                sendLoginInfo={props.sendLoginInfo}
+                browserData={props.browserData}
+                userAgentData={props.userAgentData}
+                platformOS={props.platformOS}
+                appCodeNameData={props.appCodeNameData}
+                {...props} />
             </>
           ) : null}
         </div>
@@ -116,7 +126,11 @@ const Home = (props) => {
           {!loading && !authUser.email && !userProfile.id && isAuthenticated && isLoggedIn ? (
             <>
               <div className="edge_case_btns">
-                <button data-testid="complete-profile-btn-testid" className="login_alt_edge_case_link" onClick={() => djangoRestAuthLogout(logout, clearStorage, authUser)}>
+                <button
+                  data-testid="complete-profile-btn-testid"
+                  className="login_alt_edge_case_link"
+                  onClick={() => djangoRestAuthLogout(logout, clearStorage, authUser)}
+                >
                   Login
                 </button>
                 <Link data-testid="complete-profile-btn-testid" className="register_alt_edge_case_link" to="register/">

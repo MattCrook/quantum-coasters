@@ -15,6 +15,7 @@ const News = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [section, setSection] = useState([]);
   const [sectionContent, setSectionContent] = useState([]);
+  const [defaultSectionContent, setDefaultSectionContent] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchInput, setSearchInput] = useState();
   const [isSection, setIsSection] = useState(false);
@@ -42,6 +43,7 @@ const News = (props) => {
     setActiveSection(section);
     const newsContent = await newsManager.getSectionContent(section);
     setSectionContent(newsContent);
+    setDefaultSectionContent(newsContent);
     setIsLoading(false);
   };
 
@@ -73,11 +75,11 @@ const News = (props) => {
     setIsLoading(true);
     let target = e.target.id;
     setActive(target);
-    console.log(sortKeyWord)
+    console.log(sortKeyWord);
     if (sortKeyWord === "recent") {
       const newsContent = await newsManager.getSectionContent(section);
       const sortedContent = sortArticleDate(newsContent);
-      console.log(sortedContent)
+      console.log(sortedContent);
       sortedContent.reverse();
       setSectionContent(newsContent);
       setFilterSection("Recent");
@@ -143,7 +145,11 @@ const News = (props) => {
           {isOpen ? (
             <div className="dropdown_options_container">
               {active === "none" ? (
-                <div id="none" className="most_recent_active" onClick={(e) => handleSortByMostRecent(e, "none", section)}>
+                <div
+                  id="none"
+                  className="most_recent_active"
+                  onClick={(e) => handleSortByMostRecent(e, "none", section)}
+                >
                   None
                 </div>
               ) : (
@@ -169,7 +175,11 @@ const News = (props) => {
                 </div>
               )}
               {active === "oldest" ? (
-                <div id="oldest" className="oldest_active" onClick={(e) => handleSortByMostRecent(e, "oldest", section)}>
+                <div
+                  id="oldest"
+                  className="oldest_active"
+                  onClick={(e) => handleSortByMostRecent(e, "oldest", section)}
+                >
                   Oldest
                 </div>
               ) : (
@@ -225,7 +235,12 @@ const News = (props) => {
             User Written Articles
           </div>
         )}
-        <CustomizedInputBaseLight searchNewsHandler={searchNewsHandler} {...props} />
+        <CustomizedInputBaseLight
+          searchNewsHandler={searchNewsHandler}
+          defaultSectionContent={defaultSectionContent}
+          setSectionContent={setSectionContent}
+          {...props}
+        />
       </div>
       <div id="news_content_container">
         {isSection ? (
@@ -237,7 +252,12 @@ const News = (props) => {
               <div className="news_description">Catch up on all the latest news from around the country and world.</div>
               <div className="news_description">Or apply to become one of our blog contributors!</div>
               <div className="news_apply_user_article_btn_container">
-                <button className="news_apply_user_article_btn" onClick={() => props.history.push("/news/contributor/apply")}>Apply</button>
+                <button
+                  className="news_apply_user_article_btn"
+                  onClick={() => props.history.push("/news/contributor/apply")}
+                >
+                  Apply
+                </button>
               </div>
             </div>
             <div className="signature">

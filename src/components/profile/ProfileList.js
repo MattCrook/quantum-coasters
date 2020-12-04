@@ -9,10 +9,12 @@ import UserCreditsByRide from "./UserCreditsByRide";
 import { confirmAlert } from "react-confirm-alert";
 import "./Profile.css";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import { useActivityLog } from "../../contexts/ActivityLogContext";
 // import { Send } from "@material-ui/icons";
 
 const ProfileList = (props) => {
   const { user, clearStorage, logout } = useAuth0();
+  const { getCurrentUserActivity, postActivityLogAddCredit, postActivityLogEditProfile} = useActivityLog();
   const [isSideNaveToggle, setIsSideNavToggle] = useState(false);
   const [visitedParks, setVisitedParks] = useState([]);
   const [whichTab, setWhichTab] = useState({ tab: "All Credits" });
@@ -99,7 +101,7 @@ const ProfileList = (props) => {
   };
 
   const handleToggle = (e) => {
-    setIsLoading(true)
+    setIsLoading(true);
     const allCredits = document.getElementById("settings--allCredits");
     const creditsByRide = document.getElementById("settings--rollercoaster");
     const creditsByPark = document.getElementById("last_btn_link_settings");
@@ -115,13 +117,18 @@ const ProfileList = (props) => {
   };
 
 
+
+
+
   useEffect(() => {
     setIsLoading(true);
     if (props) {
       getUserCreditsToFetch(userId);
+      getCurrentUserActivity(userId);
     }
     setIsLoading(false);
   }, [user, props.authUser, userId]);
+
 
 
   return (
@@ -134,17 +141,22 @@ const ProfileList = (props) => {
         </div>
 
         <button
+          id="add-new-credit-btn "
           className="add-new-credit-btn inset"
           data-testid="add_new_credit_btn_testid"
-          onClick={() => props.history.push("/user/parks/addcredit")}
+          onClick={(e) => postActivityLogAddCredit(e, props, authUser.id, "/user/parks/addcredit")}
+          // onClick={() => props.history.push("/user/parks/addcredit")}
         >
           Add New Credit
         </button>
 
         <button
+          id="edit-profile-button"
           className="edit-profile-button inset"
           data-testid="edit_profile_btn_testid"
-          onClick={() => props.history.push(`/profile/${props.userProfile.id}`)}
+          onClick={(e) => postActivityLogEditProfile(e, props, authUser.id, `/profile/${props.userProfile.id}`)}
+          // onClick={(e) => props.history.push(`/profile/${props.userProfile.id}`)}
+
         >
           Edit Profile
         </button>
@@ -202,16 +214,12 @@ const ProfileList = (props) => {
           ))}
         </div>
       )}
-      {whichTab === "settings--rollercoaster" &&
+      {whichTab === "settings--rollercoaster" && (
         <div className="profile-container-card" data-testid="profile_card_container_testid">
-        <UserCreditsByRide
-          userRollerCoasters={props.userRollerCoasters}
-          deleteCredit={deleteCredit}
-          {...props}
-          />
-          </div>
-          }
-         
+          <UserCreditsByRide userRollerCoasters={props.userRollerCoasters} deleteCredit={deleteCredit} {...props} />
+        </div>
+      )}
+
       {whichTab === "last_btn_link_settings" && (
         <div className="profile-container-credits-by-park" data-testid="profile_card_container_testid">
           <UserCreditsByPark userRollerCoasters={props.userRollerCoasters} {...props} />

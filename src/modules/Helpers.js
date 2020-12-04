@@ -52,3 +52,33 @@ export function setResourceStateHelperFunction(setManufacturers, setTrackTypes, 
     });
   });
 };
+
+export function parseUserAgent(userAgent, setBrowserData, setUserAgentData) {
+  if (userAgent.includes("Firefox/")) {
+    // console.log("FireFox");
+    // console.log(`Firefox v${userAgent.split("Firefox/")[1]}`);
+    const agentData = `Firefox v${userAgent.split("Firefox/")[1]}`;
+    setBrowserData("FireFox");
+    setUserAgentData(agentData);
+  } else if (userAgent.includes("Edg/")) {
+    // console.log("Edge (Chromium)");
+    // console.log(`Edge v${userAgent.split("Edg/")[1]}`);
+    const agentData = `Edge v${userAgent.split("Edg/")[1]}`;
+    setBrowserData("Edge (Chromium)");
+    setUserAgentData(agentData);
+  } else if (userAgent.includes("Chrome/")) {
+    // console.log("Chrome");
+    // console.log(`Chrome v${userAgent.split("Chrome/")[1]}`);
+    const agentData = `Chrome v${userAgent.split("Chrome/")[1]}`;
+    setBrowserData("Chrome");
+    setUserAgentData(agentData);
+  } else if (userAgent.includes("Safari/")) {
+    // console.log("Safari");
+    // console.log(`Safari v${userAgent.split("Safari/")[1]}`);
+    const agentData = `Safari v${userAgent.split("Safari/")[1]}`;
+    setBrowserData("Safari");
+    setUserAgentData(agentData);
+  } else {
+    console.log("Not Able to Parse UserAgent");
+  }
+};

@@ -4,10 +4,10 @@ import { BrowserRouter } from "react-router-dom";
 import NavBar from "./components/nav/NavBar";
 import ApplicationViews from "./components/ApplicationViews";
 import userManager from "./modules/users/userManager";
+import { parseUserAgent } from "./modules/Helpers";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import "./App.css";
 import "bulma/css/bulma.css";
-import CssBaseline from "@material-ui/core/CssBaseline";
-
 
 const App = (props) => {
   const { loading, user, getIdTokenClaims, getTokenSilently, isAuthenticated, appInitOptions } = useAuth0();
@@ -17,20 +17,18 @@ const App = (props) => {
   const [authToken, setAuthToken] = useState([]);
   const [userRollerCoasters, setUserRollerCoasters] = useState([]);
   const [initOptions, setInitOptions] = useState([]);
+  const [browserData, setBrowserData] = useState({});
+  const [userAgentData, setUserAgentData] = useState({});
+  const [platformOS, setPlatformOS] = useState({});
+  const [appCodeNameData, setAppCodeNameData] = useState({});
+  const { userAgent } = navigator;
+  const appCodeName = navigator.appCodeName;
+  const platformOperatingSystem = navigator.platform;
 
-
-  // This function will fire upon login and sets/ posts the init options and credentials for the user at /credentials endpoint.
-  const updateInitOptions = (initAuth0Options) => {
-    console.log(appInitOptions)
-    if (initAuth0Options.length > 0) {
-      userManager
-        .postInitAppOptions(initAuth0Options[0])
-        .then((resp) => {
-          setInitOptions(resp);
-        })
-        .catch((err) => console.log({ err }));
-    }
+  const parseUserAgentDataHelper = (userAgent, setBrowserData, setUserAgentData) => {
+    parseUserAgent(userAgent, setBrowserData, setUserAgentData);
   };
+
 
   useEffect(() => {
     if (user && isAuthenticated) {
@@ -64,12 +62,17 @@ const App = (props) => {
             let authInitOptions = appInitOptions[0];
 
             if (csrf) {
-              authInitOptions["csrf_token"] = csrf
+              authInitOptions["csrf_token"] = csrf;
             }
             if (sessionId) {
               authInitOptions["session_id"] = sessionId;
             }
-            updateInitOptions([authInitOptions]);
+
+            const updateAuthInitCredentials = await userManager.postInitAppOptions(authInitOptions);
+            setInitOptions(updateAuthInitCredentials);
+            parseUserAgentDataHelper(userAgent, setBrowserData, setUserAgentData);
+            setPlatformOS(platformOperatingSystem);
+            setAppCodeNameData(appCodeName);
           }
         } else {
           console.log("Please Complete your Profile. :) ");
@@ -80,8 +83,6 @@ const App = (props) => {
     }
   }, [user, getIdTokenClaims, getTokenSilently, isAuthenticated, appInitOptions]);
 
-
-
   if (loading) {
     return (
       <div className="loading_container">
@@ -90,8 +91,6 @@ const App = (props) => {
       </div>
     );
   }
-
-
 
   function getCookie(cname) {
     let name = cname + "=";
@@ -109,8 +108,6 @@ const App = (props) => {
     }
     return "";
   }
-
-
 
   return (
     <>
@@ -136,6 +133,10 @@ const App = (props) => {
           userRollerCoasters={userRollerCoasters}
           setUserRollerCoasters={setUserRollerCoasters}
           initOptions={initOptions}
+          browserData={browserData}
+          userAgentData={userAgentData}
+          platformOS={platformOS}
+          appCodeNameData={appCodeNameData}
           {...props}
         />
       </BrowserRouter>

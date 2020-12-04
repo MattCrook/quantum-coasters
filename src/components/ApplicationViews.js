@@ -1,5 +1,5 @@
 import { Route } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth0 } from "../contexts/react-auth0-context";
 import ProfileList from "./profile/ProfileList";
 import LandingPage from "./auth/Login";
@@ -14,7 +14,8 @@ import SelectRollerCoaster from "./profile/SelectRollerCoaster";
 import AddPark from "./addNewForm/AddPark";
 import News from "./news/News";
 import BlogContributorForm from "./news/BlogContributorForm";
-
+import { postLoginInfo } from "../modules/services/services";
+// import {parseUserAgent} from "../modules/Helpers";
 // import AuthRoute from "./AuthRoute";
 
 const ApplicationViews = ({
@@ -28,16 +29,26 @@ const ApplicationViews = ({
   setAuthToken,
   userRollerCoasters,
   setUserRollerCoasters,
+  browserData,
+  userAgentData,
+  platformOS,
+  appCodeNameData,
 }) => {
   const { isAuthenticated } = useAuth0();
   const hasLoggedIn = () => sessionStorage.getItem("QuantumToken") !== null;
-  // const hasLoggedIn = () => sessionStorage.getItem("QuantumToken") !== null && sessionStorage.getItem("QuantumToken") === typeof !undefined;
-
   const [isLoggedIn, setIsLoggedIn] = useState(hasLoggedIn());
 
   const setDjangoToken = (resp) => {
     sessionStorage.setItem("QuantumToken", resp.QuantumToken);
     setIsLoggedIn(hasLoggedIn());
+  };
+
+  const sendLoginInfo = async (data) => {
+    try {
+      await postLoginInfo(data);
+    } catch (err) {
+      console.log({ "Error sending Login Info": err });
+    }
   };
 
   return (
@@ -63,6 +74,11 @@ const ApplicationViews = ({
                 setIsLoggedIn={setIsLoggedIn}
                 setDjangoToken={setDjangoToken}
                 setAuthToken={setAuthToken}
+                sendLoginInfo={sendLoginInfo}
+                browserData={browserData}
+                userAgentData={userAgentData}
+                platformOS={platformOS}
+                appCodeNameData={appCodeNameData}
                 {...props}
               />
             );
@@ -87,6 +103,11 @@ const ApplicationViews = ({
                 setIsLoggedIn={setIsLoggedIn}
                 hasLoggedIn={hasLoggedIn}
                 setDjangoToken={setDjangoToken}
+                sendLoginInfo={sendLoginInfo}
+                browserData={browserData}
+                userAgentData={userAgentData}
+                platformOS={platformOS}
+                appCodeNameData={appCodeNameData}
                 {...props}
               />
             );
