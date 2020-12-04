@@ -16,7 +16,6 @@ import News from "./news/News";
 import BlogContributorForm from "./news/BlogContributorForm";
 import { postLoginInfo } from "../modules/services/services";
 // import {parseUserAgent} from "../modules/Helpers";
-
 // import AuthRoute from "./AuthRoute";
 
 const ApplicationViews = ({

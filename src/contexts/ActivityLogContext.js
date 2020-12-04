@@ -6,12 +6,7 @@ export const useActivityLog = () => useContext(ActivityLogContext);
 
 export const ActivityLogProvider = ({ children }) => {
   const [activityLog, setActivityLog] = useState([]);
-  // const [user, setUser] = useState([]);
-  // const [action, setAction] = useState({
-  //   userId: "",
-  //   action: "",
-  // });
-  const [actions, setActions] = useState([])
+  const [actions, setActions] = useState([]);
 
   const postNewActivityLogAction = async (payload) => {
     const postAction = await postActivityLog(payload);
@@ -20,20 +15,27 @@ export const ActivityLogProvider = ({ children }) => {
 
   const getCurrentUserActivity = async (userId) => {
     const currentUserActivity = await getUserActivityLog(userId);
-    console.log(currentUserActivity)
-    console.log(currentUserActivity[0])
-
     setActivityLog(currentUserActivity);
-    if (currentUserActivity.length > 0) {
-      const parsedActions = JSON.parse(currentUserActivity[0].action);
-      console.log(parsedActions)
-      setActions(parsedActions)
+    console.log(currentUserActivity.length);
+
+    if (currentUserActivity && currentUserActivity.length > 1) {
+      const allUserActions = [];
+      for (let a of currentUserActivity) {
+        const parsedAction = JSON.parse(a.action);
+        allUserActions.push(parsedAction);
+      }
+      setActions(allUserActions);
+    } else {
+      const a = currentUserActivity[0].action;
+      const parsedAction = JSON.parse(a);
+      setActions(parsedAction);
     }
   };
 
+
   const postActivityLogAddCredit = (e, props, userId, pathname) => {
-    let currentDate = new Date()
-    let dateTime = currentDate.toISOString()
+    let currentDate = new Date();
+    let dateTime = currentDate.toISOString();
     let date = dateTime.split("T")[0];
 
     const action = {
@@ -49,13 +51,13 @@ export const ActivityLogProvider = ({ children }) => {
       date: date,
     };
 
-    postNewActivityLogAction({'event': payload});
+    postNewActivityLogAction({ event: payload });
     props.history.push(pathname);
-  }
+  };
 
   const postActivityLogEditProfile = (e, props, userId, pathname) => {
-    let currentDate = new Date()
-    let dateTime = currentDate.toISOString()
+    let currentDate = new Date();
+    let dateTime = currentDate.toISOString();
     let date = dateTime.split("T")[0];
 
     const action = {
@@ -71,13 +73,13 @@ export const ActivityLogProvider = ({ children }) => {
       date: date,
     };
 
-    postNewActivityLogAction({'event': payload});
+    postNewActivityLogAction({ event: payload });
     props.history.push(pathname);
-  }
+  };
 
   const postActivityLogCreateRollerCoster = (e, props, userId, pathname) => {
-    let currentDate = new Date()
-    let dateTime = currentDate.toISOString()
+    let currentDate = new Date();
+    let dateTime = currentDate.toISOString();
     let date = dateTime.split("T")[0];
 
     const action = {
@@ -93,13 +95,13 @@ export const ActivityLogProvider = ({ children }) => {
       date: date,
     };
 
-    postNewActivityLogAction({'event': payload});
+    postNewActivityLogAction({ event: payload });
     props.history.push(pathname);
-  }
+  };
 
   const postActivityLogRegistration = (e, userId) => {
-    let currentDate = new Date()
-    let dateTime = currentDate.toISOString()
+    let currentDate = new Date();
+    let dateTime = currentDate.toISOString();
     let date = dateTime.split("T")[0];
 
     const action = {
@@ -115,8 +117,8 @@ export const ActivityLogProvider = ({ children }) => {
       date: date,
     };
 
-    postNewActivityLogAction({'event': payload});
-  }
+    postNewActivityLogAction({ event: payload });
+  };
 
   return (
     <ActivityLogContext.Provider
