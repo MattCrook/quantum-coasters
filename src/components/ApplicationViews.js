@@ -1,5 +1,5 @@
 import { Route } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useAuth0 } from "../contexts/react-auth0-context";
 import ProfileList from "./profile/ProfileList";
 import LandingPage from "./auth/Login";
@@ -14,6 +14,7 @@ import SelectRollerCoaster from "./profile/SelectRollerCoaster";
 import AddPark from "./addNewForm/AddPark";
 import News from "./news/News";
 import BlogContributorForm from "./news/BlogContributorForm";
+import Plan from "./plan/Plan";
 import { postLoginInfo } from "../modules/services/services";
 // import {parseUserAgent} from "../modules/Helpers";
 // import AuthRoute from "./AuthRoute";
@@ -274,6 +275,17 @@ const ApplicationViews = ({
         render={(props) => {
           if (isAuthenticated && authUser.id && isLoggedIn) {
             return <BlogContributorForm userProfile={userProfile} authUser={authUser} {...props} />;
+          } else {
+            return <LandingPage />;
+          }
+        }}
+      />
+      <Route
+        exact
+        path="/plan"
+        render={(props) => {
+          if (isAuthenticated && authUser.id && isLoggedIn) {
+            return <Plan userProfile={userProfile} authUser={authUser} {...props} />;
           } else {
             return <LandingPage />;
           }

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import "bulma/css/bulma.css";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { Link } from "react-router-dom";

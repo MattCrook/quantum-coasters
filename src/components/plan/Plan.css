@@ -1,0 +1,115 @@
+.calendar_container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 50%;
+  margin-top: 3%;
+  margin-left: 25%;
+  box-shadow: 3px 3px 3px 3px rgb(156, 155, 155);
+}
+
+.calendar_header {
+  margin-top: 1%;
+  margin-bottom: 2%;
+  display: flex;
+  justify-content: center;
+}
+
+.cal_title {
+  font: 150 2em helvetica neue, open sans, sans-serif;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+
+.cal_change_year {
+  cursor: pointer;
+  border: none;
+  padding: 12px 20px;
+  margin: 0px 5px;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  background-color: #020202;
+  color: #fff;
+}
+
+.cal_change_month {
+  cursor: pointer;
+  border: none;
+  padding: 12px 20px;
+  margin: 0px 5px;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  background-color: #020202;
+  color: #fff;
+}
+
+.weekdays {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1%;
+}
+
+.weekday {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14.2%;
+}
+
+#loading_cal_spinner {
+  margin-top: 12%;
+  width: 32px;
+  height: 32px;
+  border-radius: 20px;
+  box-sizing: border-box;
+  border: 2px groove rgb(224, 224, 224);
+  position: absolute;
+  left: 54%;
+  top: 11%;
+  border-top-color: rgb(27, 27, 27);
+  border-left-color: rgba(54, 53, 53, 0.9);
+  border-bottom-color: rgba(70, 67, 67, 0.8);
+  border-right-color: rgba(56, 54, 54, 0.7);
+  animation: rotate 1000ms infinite linear;
+  transform: translateZ(0px);
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.calendar_body_container {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-bottom: 1%;
+}
+
+.calendar_days {
+  border: 1px solid rgb(214, 214, 214);
+  border-radius: 6px 6px 6px 6px;
+  width: 14.2%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-top: 1%;
+  margin-right: 1%;
+  margin-left: 1%;
+  margin-bottom: 1%;
+
+}
+
+.calendar_days:hover {
+  background-color: #a1a0a0;
+}
