@@ -1,6 +1,7 @@
 import { Route } from "react-router-dom";
 import React, { useState } from "react";
 import { useAuth0 } from "../contexts/react-auth0-context";
+import { useAuthUser } from "../contexts/AuthUserContext";
 import ProfileList from "./profile/ProfileList";
 import LandingPage from "./auth/Login";
 import Home from "./home/Home";
@@ -20,14 +21,14 @@ import { postLoginInfo } from "../modules/services/services";
 // import AuthRoute from "./AuthRoute";
 
 const ApplicationViews = ({
-  userProfile,
-  setUserProfile,
-  authUser,
-  setAuthUser,
-  userCredits,
-  setUserCredits,
-  authToken,
-  setAuthToken,
+  // userProfile,
+  // setUserProfile,
+  // authUser,
+  // setAuthUser,
+  // userCredits,
+  // setUserCredits,
+  // authToken,
+  // setAuthToken,
   userRollerCoasters,
   setUserRollerCoasters,
   browserData,
@@ -36,6 +37,7 @@ const ApplicationViews = ({
   appCodeNameData,
 }) => {
   const { isAuthenticated } = useAuth0();
+  const { authUser, setAuthUser, userProfile, setUserProfile, authToken, setAuthToken, userCredits, setUserCredits} = useAuthUser();
   const hasLoggedIn = () => sessionStorage.getItem("QuantumToken") !== null;
   const [isLoggedIn, setIsLoggedIn] = useState(hasLoggedIn());
 

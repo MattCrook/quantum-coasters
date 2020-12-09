@@ -12,12 +12,7 @@ import "bulma/css/bulma.css";
 
 const App = (props) => {
   const { loading, user, isAuthenticated, appInitOptions } = useAuth0();
-  const { authUser, userProfile, userCredits, authToken, setUserProfile} = useAuthUser();
-  // const [userProfile, setUserProfile] = useState([]);
-  // const [authUser, setAuthUser] = useState([]);
-  // const [userCredits, setUserCredits] = useState([]);
-  // const [authToken, setAuthToken] = useState([]);
-  // const [userRollerCoasters, setUserRollerCoasters] = useState([]);
+  const { authUser, userProfile, userCredits, authToken, setUserProfile, setAuthToken, setUserCredits} = useAuthUser();
   const [initOptions, setInitOptions] = useState([]);
   const [browserData, setBrowserData] = useState({});
   const [userAgentData, setUserAgentData] = useState({});
@@ -92,21 +87,17 @@ const App = (props) => {
           userProfile={userProfile}
           authUser={authUser}
           setUserProfile={setUserProfile}
-          // setAuthUser={setAuthUser}
           authToken={authToken}
           {...props}
         />
         <ApplicationViews
-          userProfile={userProfile}
-          authUser={authUser}
-          setUserProfile={setUserProfile}
-          // setAuthUser={setAuthUser}
-          userCredits={userCredits}
+          // userProfile={userProfile}
+          // authUser={authUser}
+          // setUserProfile={setUserProfile}
+          // userCredits={userCredits}
           // setUserCredits={setUserCredits}
-          authToken={authToken}
+          // authToken={authToken}
           // setAuthToken={setAuthToken}
-          // userRollerCoasters={userRollerCoasters}
-          // setUserRollerCoasters={setUserRollerCoasters}
           initOptions={initOptions}
           browserData={browserData}
           userAgentData={userAgentData}
@@ -119,57 +110,3 @@ const App = (props) => {
   );
 };
 export default App;
-
-// useEffect(() => {
-//   if (user && isAuthenticated) {
-//     const userEmail = user.email;
-//     sessionStorage.setItem("credentials", JSON.stringify(userEmail));
-
-//     const guardForUserProfile = async (userEmail) => {
-//       const tokenId = await getIdTokenClaims();
-//       const accessToken = await getTokenSilently();
-
-//       if (tokenId && accessToken) {
-//         sessionStorage.setItem("IdToken", JSON.stringify(tokenId));
-//         sessionStorage.setItem("accessToken", accessToken);
-//       }
-//       const getAuthUser = await userManager.getAuthUser(userEmail);
-
-//       if (getAuthUser.length > 0) {
-//         const authUserId = getAuthUser[0].id;
-//         const getProfile = await userManager.getUserProfileEmbeddedAuthUser(authUserId);
-//         const creditsArray = getProfile[0].credits;
-
-//         setAuthUser(getAuthUser[0]);
-//         setUserProfile(getProfile[0]);
-//         setUserCredits(creditsArray);
-
-//         const djangoAuthToken = sessionStorage.getItem("QuantumToken");
-//         setAuthToken(djangoAuthToken);
-
-//         if (appInitOptions.length > 0) {
-//           const sessionId = sessionStorage.getItem("sessionId");
-//           const csrf = getCookie("csrftoken");
-//           let authInitOptions = appInitOptions[0];
-
-//           if (csrf) {
-//             authInitOptions["csrf_token"] = csrf;
-//           }
-//           if (sessionId) {
-//             authInitOptions["session_id"] = sessionId;
-//           }
-
-//           const updateAuthInitCredentials = await userManager.postInitAppOptions(authInitOptions);
-//           setInitOptions(updateAuthInitCredentials);
-//           parseUserAgentDataHelper(userAgent, setBrowserData, setUserAgentData);
-//           setPlatformOS(platformOperatingSystem);
-//           setAppCodeNameData(appCodeName);
-//         }
-//       } else {
-//         console.log("Please Complete your Profile. :) ");
-//         setUserProfile([]);
-//       }
-//     };
-//     guardForUserProfile(userEmail);
-//   }
-// }, [user, getIdTokenClaims, getTokenSilently, isAuthenticated, appInitOptions]);
