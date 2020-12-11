@@ -1,18 +1,20 @@
 import React from "react";
-import { useAuth0 } from "../../contexts/react-auth0-context";
-import { useActivityLog } from "../../contexts/ActivityLogContext";
 import "./Plan.css";
-import NewEventForm from "./NewEventForm";
 
 const Calendar = (props) => {
-  const dateTimeSelected = props.isDaySelected;
+  const { isDaySelected } = props;
   const formatDateToUserString = (date) => {
     date = new Date(date);
     const options = { year: "numeric", month: "long", day: "numeric" };
     return date.toLocaleString("en-US", options);
   };
-  const dateTime = formatDateToUserString(dateTimeSelected);
+  const dateTime = formatDateToUserString(isDaySelected);
   const events = [];
+
+  const initAddEventForm = () => {
+    sessionStorage.setItem("CalendarDateIsSelected", isDaySelected);
+    props.history.push("/plan/calendar/event");
+  };
 
   return (
     <div className="modal micromodal-slide" id="modal-cal" aria-hidden="true">
@@ -43,7 +45,7 @@ const Calendar = (props) => {
               <button
                 className="add_item_btn"
                 id="cal_modal__btn-primary"
-                onClick={() => props.history.push("/plan/calendar/event")}
+                onClick={() => initAddEventForm()}
                 style={{ marginRight: "8px" }}
               >
                 Add Item <i className="fas fa-plus"></i>

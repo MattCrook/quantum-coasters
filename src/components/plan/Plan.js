@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { useActivityLog } from "../../contexts/ActivityLogContext";
 import Calendar from "./Calendar";
 import MicroModal from "micromodal";
+import calendarManager from "../../modules/calendar/calendarManager";
 import {
   format,
   addDays,
@@ -18,29 +19,34 @@ import {
 import "./Plan.css";
 
 const Plan = (props) => {
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  console.log(props);
   const { loading, user, logout, clearStorage, isAuthenticated } = useAuth0();
   const { getCurrentUserActivity, postActivityLogAddCredit, postActivityLogEditProfile } = useActivityLog();
-  const defaultQPicture = "https://cdn.dribbble.com/users/2908839/screenshots/6292457/shot-cropped-1554473682961.png";
-  const { authUser } = props;
-  const { userProfile } = props;
-  const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const YEARS = ["2016", "2017", "2018", "2019", "2020", "2021", "2022"];
-  const WEEKDAYS = ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"];
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [userCalendarEvents, setUserCalendarEvents] = useState([]);
   const today = new Date();
   const [date, setDate] = useState(today);
   const [year, setYear] = useState(date.getFullYear());
   const [month, setMonth] = useState(date.getMonth());
   const [isDaySelected, setIsDaySelected] = useState(null);
+  const { authUser } = props;
+  const { userProfile } = props;
+  const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const YEARS = ["2016", "2017", "2018", "2019", "2020", "2021", "2022"];
+  const WEEKDAYS = ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"];
+  const defaultQPicture = "https://cdn.dribbble.com/users/2908839/screenshots/6292457/shot-cropped-1554473682961.png";
+
+  const nextMonth = () => setCurrentDate(addMonths(currentDate, 1));
+  const prevMonth = () => setCurrentDate(subMonths(currentDate, 1));
 
   const handleDayClick = (e) => {
     let eventId = e.target.id;
     let eventIdDate = new Date(eventId);
     const options = { year: "numeric", month: "long", day: "numeric" };
     let parsedDate = eventIdDate.toLocaleString("en-US", options);
-   //  onDateClick(parsedDate);
-   setIsDaySelected(parsedDate);
+    //  onDateClick(parsedDate);
+    setIsDaySelected(parsedDate);
     MicroModal.init({
       openTrigger: "data-micromodal-trigger",
       closeTrigger: "data-micromodal-close",
@@ -137,17 +143,17 @@ const Plan = (props) => {
     return <div className="body">{rows}</div>;
   };
 
-  function nextMonth() {
-    setCurrentDate(addMonths(currentDate, 1));
-  }
+  //   function onDateClick(day) {
+  //     setSelectedDate(day);
+  //   }
 
-  function prevMonth() {
-    setCurrentDate(subMonths(currentDate, 1));
-  }
-
-  function onDateClick(day) {
-    setSelectedDate(day);
-  }
+  useEffect(() => {
+    const userCalendar = async () => {
+       const userEvents = await calendarManager.getUserCalendarEvents(props.authUser.id);
+       setUserCalendarEvents(userEvents);
+    };
+     userCalendar();
+  }, [props]);
 
   return (
     <>
@@ -157,7 +163,6 @@ const Plan = (props) => {
             Quantum Coasters
           </button>
         </div>
-
         <div className="leaderboard_container_2">
           <div className="leaderboard-name">
             <p className="leaderboard-first-and-last-name-in-nav">
@@ -168,7 +173,6 @@ const Plan = (props) => {
             ) : (
               <img id="google-profile-pic" src={defaultQPicture} alt="My Avatar" />
             )}
-
             <button
               onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
               className="logout-navbar-item"
@@ -179,6 +183,7 @@ const Plan = (props) => {
           </div>
         </div>
       </nav>
+
       <div className="calendar_container">
         <div className="calendar_header">
           <select className="cal_change_year">

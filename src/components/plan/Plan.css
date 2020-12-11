@@ -1,3 +1,5 @@
+
+
 .calendar_container {
   display: flex;
   justify-content: center;
@@ -517,7 +519,7 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin-left: 35%;
+  margin-left: 24%;
   margin-top: 5%;
 }
 
@@ -525,10 +527,10 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  width: 50%;
-  background-color: rgb(37, 36, 36);
+  width: 70%;
+  background-color: rgb(59, 59, 59);
   border-radius: 1px 1px 1px 1px;
-  box-shadow: 4px 4px 4px 4px rgb(204, 204, 204);
+  box-shadow: 4px 6px 6px 4px rgb(204, 204, 204);
 }
 .row_wrapper {
   display: flex;
@@ -543,14 +545,24 @@
   margin: auto;
   width: 50%;
   color: rgb(230, 230, 230);
-  margin-top: 4%;
-  margin-bottom: 4%;
+  margin-top: 3.5%;
+  margin-bottom: 3.5%;
 }
 .event_form_input {
   margin: auto;
-  width: 50%;
+  width: 60%;
   background: transparent;
   border: none;
+  padding-top: 2%;
+  padding-bottom: 1%;
+  color: rgb(230, 230, 230);
+  /* box-shadow: 1px 1px 1px 1px rgb(48, 48, 48) inset; */
+  text-align: center;
+}
+
+.event_form_input:focus {
+  color: rgb(230, 230, 230);
+  outline: 1px solid rgb(82, 82, 82);
 }
 
 .event_form_title {
@@ -558,17 +570,29 @@
   margin-bottom: 1%;
 }
 
-.cancel {
+.event_form_header {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-top: 3%;
-  margin-bottom: 3%;
+  margin-bottom: 1%;
+}
+.cancel {
   margin-right: 4%;
   color: #f06d6d;
-  font: 150 0.9em helvetica neue, open sans, sans-serif;
+  font: 150 0.95em helvetica neue, open sans, sans-serif;
   cursor: pointer;
 }
 
+.cancel:hover {
+  color: #cc3a3a;
+}
+
+.current_date_event_form {
+  margin-left: 39%;
+  color: rgb(230, 230, 230);
+  font: 150 0.95em helvetica neue, open sans, sans-serif;
+  letter-spacing: 3px;
+}
 
 #quantum_logo_add_event_form {
   display: flex;
@@ -584,4 +608,230 @@
   font: 150 1em helvetica neue, open sans, sans-serif;
   letter-spacing: 5px;
   text-transform: uppercase;
+}
+
+#new_event_cal_save_btn {
+  display: flex;
+  justify-content: center;
+  margin-top: 6%;
+  margin-bottom: 6%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  margin-left: 25%;
+  color: rgb(230, 230, 230);
+  font-size: 0.875rem;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: 0.01071em;
+  background-color: rgb(59, 59, 59);
+  width: 50%;
+  border: 1px solid rgb(168, 167, 167);
+}
+
+#new_event_cal_save_btn:hover {
+  color: rgb(247, 247, 247);
+  border: 1px solid rgb(247, 247, 247);
+  /* box-shadow: 2px 4px 3px 2px rgb(41, 40, 40); */
+}
+
+/**************** Radio Btns *************/
+
+
+
+#master_reminders_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+}
+
+#reminders_container_radios {
+  display: flex;
+  flex-direction: row;
+  width: 65%;
+}
+
+/* #reminders_container_toggles {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+} */
+
+
+input[type="radio"] + label {
+  margin: 0.9em 0;
+  align-items: center;
+  color: rgb(206, 206, 206);
+  transition: color 250ms cubic-bezier(0.4, 0, 0.23, 1);
+  /* position: relative;
+  display: flex; */
+}
+
+.set_reminders_title {
+  margin-top: 3%;
+  margin-bottom: 1%;
+  color: rgb(230, 230, 230);
+  /* margin-left: 5%; */
+  /* width: 15%; */
+}
+
+.reminders_ul {
+  display: flex;
+  flex-direction: row;
+  /* align-items: center; */
+}
+
+.set_reminders {
+  position: relative;
+  margin-top: 8%;
+  /* display: block; */
+  /* float: left; */
+}
+
+.radio_btn_container {
+  display: block;
+  position: relative;
+  height: auto;
+  /* top: 12%;
+  margin-right: 22%;
+  margin-left: 8%; */
+}
+
+.radio_btn_container ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+}
+
+ul li input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  margin: 0 10px 0 10px;
+}
+
+ul li label {
+  display: block;
+  position: relative;
+  font-weight: 300;
+  font-size: 1em;
+  padding: 25px 25px 25px 70px;
+  margin: 10px auto;
+  height: 20px;
+  cursor: pointer;
+  transition: all;
+  -webkit-transition: all 0.25s linear;
+}
+
+
+ul li:hover label {
+  color: rgb(241, 241, 241);
+}
+
+ul li .check {
+  display: block;
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  top: 40px;
+  left: 25px;
+  border: 1px solid rgb(179, 177, 177);
+  transition: border 0.25s linear;
+  -webkit-transition: border 0.25s linear;
+}
+
+ul li:hover .check {
+  border: 2px solid rgb(238, 238, 238);
+}
+
+ul li .check::before {
+  display: block;
+  position: absolute;
+  content: "";
+  margin: auto;
+  bottom: 1px;
+  transition: background 0.2s linear;
+  -webkit-transition: background 0.2s linear;
+}
+
+input[type="radio"]:checked ~ .check {
+  border: 5px solid #080808;
+}
+
+input[type="radio"]:checked ~ .check::before {
+  background: #0a0a0a;
+}
+
+input[type="radio"]:checked ~ label {
+  color: rgb(255, 255, 255);
+}
+
+
+
+/*************************** Reminder Switches **************************/
+
+.reminders_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.reminder_options {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+
+.theme-switch {
+  --background: #fff;
+  --text: #000;
+  --highlight: #818181;
+
+  color: var(--text);
+  width: 60px;
+  height: 12px;
+  background: var(--highlight);
+  border-radius: 50px;
+  position: relative;
+}
+.theme-switch .switch {
+  background: white;
+  width: 12px;
+  height: 12px;
+  background: var(--background);
+  border-radius: 100%;
+  position: absolute;
+
+  left: 4px;
+  transition: 0.5s all ease;
+}
+
+.light-theme {
+  --background: rgb(36, 36, 36);
+  --highlight: rgb(212, 69, 69);
+
+}
+
+.theme-switch .light-theme {
+  background: var(--highlight);
+}
+.theme-switch.light-theme .switch {
+  transform: translateX(41px);
+}
+
+.reminder_switch_container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 10%;
+}
+.reminder_switch_title {
+  font: 150 0.6em helvetica neue, open sans, sans-serif;
+  letter-spacing: 2px;
+  color: rgb(212, 211, 211);
+  margin-right: 5px;
 }
