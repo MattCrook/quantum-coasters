@@ -1,5 +1,3 @@
-
-
 .calendar_container {
   display: flex;
   justify-content: center;
@@ -520,7 +518,7 @@
   justify-content: center;
   flex-direction: column;
   margin-left: 24%;
-  margin-top: 5%;
+  margin-top: 4%;
 }
 
 .add_event_form {
@@ -541,6 +539,22 @@
   margin-right: 3%;
 }
 
+#start_end_row_wrapper {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  border-bottom: 1px solid rgb(168, 167, 167);
+  margin-left: 3%;
+  margin-right: 3%;
+}
+
+.start_end_event_form_label {
+  width: 50%;
+  color: rgb(230, 230, 230);
+  margin-top: 3.5%;
+  margin-bottom: 3.5%;
+}
+
 .event_form_label {
   margin: auto;
   width: 50%;
@@ -559,6 +573,32 @@
   /* box-shadow: 1px 1px 1px 1px rgb(48, 48, 48) inset; */
   text-align: center;
 }
+
+#start_end_time {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 32%;
+  margin-top: 1%;
+}
+
+.start {
+  display: flex;
+  color: rgb(230, 230, 230);
+  font: 150 0.9em helvetica neue, open sans, sans-serif;
+  align-items: center;
+}
+
+.end {
+  display: flex;
+  color: rgb(230, 230, 230);
+  font: 150 0.9em helvetica neue, open sans, sans-serif;
+  align-items: center;
+  margin-left: 4px;
+  margin-bottom: 2%;
+}
+
+
 
 .event_form_input:focus {
   color: rgb(230, 230, 230);
@@ -637,13 +677,10 @@
 
 /**************** Radio Btns *************/
 
-
-
 #master_reminders_container {
   display: flex;
   flex-direction: row;
   justify-content: center;
-
 }
 
 #reminders_container_radios {
@@ -652,12 +689,13 @@
   width: 65%;
 }
 
-/* #reminders_container_toggles {
-  display: flex;
+#reminders_container_toggles {
+  /* display: flex;
   flex-direction: column;
-  justify-content: center;
-} */
-
+  justify-content: center; */
+  transition: all 0.25s linear;
+  margin-top: 1%;
+}
 
 input[type="radio"] + label {
   margin: 0.9em 0;
@@ -724,7 +762,6 @@ ul li label {
   -webkit-transition: all 0.25s linear;
 }
 
-
 ul li:hover label {
   color: rgb(241, 241, 241);
 }
@@ -767,8 +804,6 @@ input[type="radio"]:checked ~ label {
   color: rgb(255, 255, 255);
 }
 
-
-
 /*************************** Reminder Switches **************************/
 
 .reminders_container {
@@ -784,7 +819,6 @@ input[type="radio"]:checked ~ label {
   flex-direction: column;
 }
 
-
 .theme-switch {
   --background: #fff;
   --text: #000;
@@ -793,7 +827,7 @@ input[type="radio"]:checked ~ label {
   color: var(--text);
   width: 60px;
   height: 12px;
-  background: var(--highlight);
+  /* background: var(--highlight); */
   border-radius: 50px;
   position: relative;
 }
@@ -801,7 +835,7 @@ input[type="radio"]:checked ~ label {
   background: white;
   width: 12px;
   height: 12px;
-  background: var(--background);
+  /* background: var(--background); */
   border-radius: 100%;
   position: absolute;
 
@@ -812,11 +846,10 @@ input[type="radio"]:checked ~ label {
 .light-theme {
   --background: rgb(36, 36, 36);
   --highlight: rgb(212, 69, 69);
-
 }
 
 .theme-switch .light-theme {
-  background: var(--highlight);
+  /* background: var(--highlight); */
 }
 .theme-switch.light-theme .switch {
   transform: translateX(41px);
@@ -826,7 +859,7 @@ input[type="radio"]:checked ~ label {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   margin-top: 10%;
 }
 .reminder_switch_title {
@@ -834,4 +867,9 @@ input[type="radio"]:checked ~ label {
   letter-spacing: 2px;
   color: rgb(212, 211, 211);
   margin-right: 5px;
+}
+
+
+#sig_new_event_form {
+  margin-bottom: 2%;
 }
