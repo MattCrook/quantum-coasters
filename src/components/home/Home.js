@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useEffect } from "react";
 import "bulma/css/bulma.css";
 import { useAuth0 } from "../../contexts/react-auth0-context";
+import { useAuthUser } from "../../contexts/AuthUserContext";
 import { Link } from "react-router-dom";
 import "./Home.css";
 import Authenticate from "../auth/Authenticate";
@@ -21,8 +22,7 @@ MicroModal.init({
 
 const Home = (props) => {
   const { loading, user, logout, clearStorage, isAuthenticated, djangoRestAuthLogout } = useAuth0();
-  const { userProfile } = props;
-  const { authUser } = props;
+  const { authUser, userProfile, setAuthUser} = useAuthUser();
   const { isLoggedIn } = props;
   const { setIsLoggedIn } = props;
   const { hasLoggedIn } = props;
@@ -98,6 +98,7 @@ const Home = (props) => {
               </button>
               <Authenticate
                 authUser={authUser}
+                setAuthUser={setAuthUser}
                 sendLoginInfo={props.sendLoginInfo}
                 browserData={props.browserData}
                 userAgentData={props.userAgentData}
