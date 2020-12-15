@@ -40,13 +40,10 @@ button {
   align-content: center;
 }
 
-
-
-
 .complete-profile-link {
   padding: 11px 42px;
   color: rgb(7, 7, 7);
-  font: 300 0.9em helvetica neue,open sans,sans-serif;
+  font: 300 0.9em helvetica neue, open sans, sans-serif;
   text-transform: uppercase;
   text-align: center;
   position: relative;
@@ -54,7 +51,6 @@ button {
   width: 16%;
   margin-left: 42%;
   margin-top: 1%;
-
 }
 
 .complete-profile-link {
@@ -100,11 +96,6 @@ button {
   border-right: 1px solid #3d3f41;
 }
 
-
-
-
-
-
 .greeting {
   font-size: 15px;
   display: flex;
@@ -113,23 +104,27 @@ button {
 
 .logout-navbar-item {
   color: rgb(194, 64, 64);
-  margin-right: 30px;
+  /* margin-right: 30px; */
+  margin-right: 4%;
   font-variant: small-caps;
 }
 .logout-navbar-item:hover {
   border-bottom: 1px solid rgb(228, 91, 91);
 }
 
+.logout_btn_home_container i {
+  margin-right: 25px;
+}
+
 .navbar-item-home-name {
   color: white;
   margin-right: 7px;
-  font: 150 1em helvetica neue,open sans,sans-serif;
+  font: 150 1em helvetica neue, open sans, sans-serif;
 }
 
 .welcome-greeting {
   margin-top: 5px;
-  font: 50 1em helvetica neue,open sans,sans-serif;
-
+  font: 50 1em helvetica neue, open sans, sans-serif;
 }
 
 /************** Modal *********************/
@@ -203,9 +198,8 @@ button {
   display: flex;
   align-items: center;
   margin-right: 10px;
-  font: 120 1.1em helvetica neue,open sans,sans-serif;
+  font: 120 1.1em helvetica neue, open sans, sans-serif;
 }
-
 
 .edge_case_btns {
   display: flex;
@@ -217,7 +211,7 @@ button {
 .login_alt_edge_case_link {
   padding: 11px 42px;
   color: rgb(7, 7, 7);
-  font: 300 0.9em helvetica neue,open sans,sans-serif;
+  font: 300 0.9em helvetica neue, open sans, sans-serif;
   text-transform: uppercase;
   text-align: center;
   position: relative;
@@ -272,13 +266,12 @@ button {
 .register_alt_edge_case_link {
   padding: 11px 42px;
   color: rgb(7, 7, 7);
-  font: 300 0.9em helvetica neue,open sans,sans-serif;
+  font: 300 0.9em helvetica neue, open sans, sans-serif;
   text-transform: uppercase;
   text-align: center;
   position: relative;
   text-decoration: none;
   margin-right: 1%;
-
 }
 
 .register_alt_edge_case_link {

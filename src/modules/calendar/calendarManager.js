@@ -32,12 +32,23 @@ const calendarManager = {
     }
   },
 
+  async updateEvent(editedEvent) {
+    return await fetch(`${remoteURL}/calendar_events/${editedEvent.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+      },
+      body: JSON.stringify(editedEvent),
+    });
+  },
+
   async deleteEvent(id) {
     return await fetch(`${remoteURL}/calendar_events/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer" + sessionStorage.getItem("accessToken"),
       },
     });
   },

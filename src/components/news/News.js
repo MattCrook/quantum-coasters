@@ -4,13 +4,14 @@ import CustomizedInputBaseLight from "../search/CustomizedSearchLight";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import newsManager from "../../modules/news/newsManager";
 import NewsCard from "./NewsCard";
+import NavHeader from "../nav/NavHeader";
 import "./News.css";
 
 const News = (props) => {
-  const { logout, clearStorage, loading } = useAuth0();
-  const { authUser } = props;
-  const { userProfile } = props;
-  const defaultQPicture = "https://cdn.dribbble.com/users/2908839/screenshots/6292457/shot-cropped-1554473682961.png";
+  // const { logout, clearStorage, loading } = useAuth0();
+  // const { authUser } = props;
+  // const { userProfile } = props;
+  // const defaultQPicture = "https://cdn.dribbble.com/users/2908839/screenshots/6292457/shot-cropped-1554473682961.png";
   // const quantum = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkuMRtA9N0Xxc9D3adOG3x5piu_Ze4LdZVqA&usqp=CAU";
   const [isOpen, setIsOpen] = useState(false);
   const [section, setSection] = useState([]);
@@ -98,35 +99,7 @@ const News = (props) => {
 
   return (
     <>
-      <nav id="nav-container" className="navbar is-dark">
-        <div className="leaderboard_container_1">
-          <button id="quantum_logo_leaderboard" className="navbar-item" onClick={() => props.history.push("/home")}>
-            Quantum Coasters
-          </button>
-        </div>
-
-        <div className="leaderboard_container_2">
-          <div className="leaderboard-name">
-            <p className="leaderboard-first-and-last-name-in-nav">
-              {authUser.first_name} {authUser.last_name}
-            </p>
-            {!loading && userProfile.image ? (
-              <img id="profile-pic" src={userProfile.image.image} alt="My Avatar" />
-            ) : (
-              <img id="google-profile-pic" src={defaultQPicture} alt="My Avatar" />
-            )}
-
-            <button
-              onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
-              className="logout-navbar-item"
-              data-testid="logout-btn-testid"
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-      </nav>
-
+      <NavHeader {...props} />
       <div className="news_title_header">Quantum Coasters News</div>
       <div id="news_container">
         <div className="sort_by_dropdown_container">

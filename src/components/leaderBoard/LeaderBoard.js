@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import userManager from "../../modules/users/userManager";
-import { useAuth0 } from "../../contexts/react-auth0-context";
+// import { useAuth0 } from "../../contexts/react-auth0-context";
+import NavHeader from "../nav/NavHeader";
 import "./LeaderBoard.css";
 
 const LeaderBoard = (props) => {
   const [profiles, setProfiles] = useState([]);
-  const { logout, loading, clearStorage } = useAuth0();
-  const { userProfile } = props;
-  const { authUser } = props;
-  const defaultQPicture = "https://cdn.dribbble.com/users/2908839/screenshots/6292457/shot-cropped-1554473682961.png";
+  // const { logout, loading, clearStorage } = useAuth0();
+  // const { userProfile } = props;
+  // const { authUser } = props;
+  // const defaultQPicture = "https://cdn.dribbble.com/users/2908839/screenshots/6292457/shot-cropped-1554473682961.png";
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
 
@@ -42,48 +43,7 @@ const LeaderBoard = (props) => {
 
   return (
     <>
-      <nav id="nav-container" className="navbar is-dark">
-        <div className="leaderboard_container_1">
-          <button
-            id="quantum_logo_leaderboard"
-            className="navbar-item"
-            onClick={() => props.history.push("/home")}
-          >
-            Quantum Coasters
-          </button>
-        </div>
-
-        <div className="leaderboard_container_2">
-          <div className="leaderboard-name">
-            <p className="leaderboard-first-and-last-name-in-nav">
-              {authUser.first_name} {authUser.last_name}
-            </p>
-            {!loading && userProfile.image ? (
-              <img
-                id="profile-pic"
-                src={userProfile.image.image}
-                alt="My Avatar"
-              />
-            ) : (
-              <img
-                id="google-profile-pic"
-                src={defaultQPicture}
-                alt="My Avatar"
-              />
-            )}
-
-            <button
-              onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
-              className="logout-navbar-item"
-              data-testid="logout-btn-testid"
-            >
-              Logout
-            </button>
-
-          </div>
-        </div>
-      </nav>
-
+        <NavHeader {...props} />
       <div className="leaderBoard-header">
         <p className="leaderBoard-title">LeaderBoard</p>
         <div className="leaderboard_sub_header">Leaderboard represents all users across Quantum Coasters. Compete for coaster credits to become Coaster King!</div>

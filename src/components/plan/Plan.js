@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { useActivityLog } from "../../contexts/ActivityLogContext";
 import Calendar from "./Calendar";
+import NavHeader from "../nav/NavHeader";
 import MicroModal from "micromodal";
 import calendarManager from "../../modules/calendar/calendarManager";
 import {
@@ -19,9 +20,8 @@ import {
 import "./Plan.css";
 
 const Plan = (props) => {
-  console.log(props);
-  const { loading, user, logout, clearStorage, isAuthenticated } = useAuth0();
-  const { getCurrentUserActivity, postActivityLogAddCredit, postActivityLogEditProfile } = useActivityLog();
+  // const { loading, user, logout, clearStorage, isAuthenticated } = useAuth0();
+  // const { getCurrentUserActivity, postActivityLogAddCredit, postActivityLogEditProfile } = useActivityLog();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [userCalendarEvents, setUserCalendarEvents] = useState([]);
@@ -30,15 +30,25 @@ const Plan = (props) => {
   const [year, setYear] = useState(date.getFullYear());
   const [month, setMonth] = useState(date.getMonth());
   const [isDaySelected, setIsDaySelected] = useState(null);
-  const { authUser } = props;
-  const { userProfile } = props;
   const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const YEARS = ["2016", "2017", "2018", "2019", "2020", "2021", "2022"];
   const WEEKDAYS = ["Mon", "Tues", "Wed", "Thurs", "Fri", "Sat", "Sun"];
-  const defaultQPicture = "https://cdn.dribbble.com/users/2908839/screenshots/6292457/shot-cropped-1554473682961.png";
+  // const defaultQPicture = "https://cdn.dribbble.com/users/2908839/screenshots/6292457/shot-cropped-1554473682961.png";
 
   const nextMonth = () => setCurrentDate(addMonths(currentDate, 1));
   const prevMonth = () => setCurrentDate(subMonths(currentDate, 1));
+
+  const isEventsForDate = (userEvents, day) => {
+    let dateFormat = "yyyy-M-dd";
+    let formattedDate = format(day, dateFormat);
+    let matches = [];
+    userEvents.forEach((event) => {
+      if (event.date.length > 0 && event.date === formattedDate) {
+        matches.push(event.date);
+      }
+    });
+    return matches;
+  };
 
   const handleDayClick = (e) => {
     let eventId = e.target.id;
@@ -99,6 +109,12 @@ const Plan = (props) => {
     while (day <= endDate) {
       for (let i = 0; i < 7; i++) {
         formattedDate = format(day, dateFormat);
+
+        const fullFormat = "yyyy-M-dd";
+        const fullFormattedDate = format(day, fullFormat);
+        const t = isEventsForDate(userCalendarEvents, day);
+        console.log(t);
+
         days.push(
           <>
             <div
@@ -116,8 +132,12 @@ const Plan = (props) => {
               <span id={day.toDateString()} className="bg">
                 {formattedDate}
               </span>
+              {userCalendarEvents && userCalendarEvents.length > 0 && t[0] === fullFormattedDate ? (
+                <span className="has_events">0</span>
+              ) : null}
             </div>
             <Calendar
+              key={day.toDateString()}
               today={today}
               formattedDate={formattedDate}
               date={date}
@@ -126,6 +146,9 @@ const Plan = (props) => {
               month={month}
               isDaySelected={isDaySelected}
               selectedDate={selectedDate}
+              userCalendarEvents={userCalendarEvents}
+              authUser={props.authUser}
+              userProfile={props.userProfile}
               {...props}
             />
           </>
@@ -149,41 +172,15 @@ const Plan = (props) => {
 
   useEffect(() => {
     const userCalendar = async () => {
-       const userEvents = await calendarManager.getUserCalendarEvents(props.authUser.id);
-       setUserCalendarEvents(userEvents);
+      const userEvents = await calendarManager.getUserCalendarEvents(props.authUser.id);
+      setUserCalendarEvents(userEvents);
     };
-     userCalendar();
+    userCalendar();
   }, [props]);
 
   return (
     <>
-      <nav id="nav-container" className="navbar is-dark">
-        <div className="leaderboard_container_1">
-          <button id="quantum_logo_leaderboard" className="navbar-item" onClick={() => props.history.push("/home")}>
-            Quantum Coasters
-          </button>
-        </div>
-        <div className="leaderboard_container_2">
-          <div className="leaderboard-name">
-            <p className="leaderboard-first-and-last-name-in-nav">
-              {authUser.first_name} {authUser.last_name}
-            </p>
-            {!loading && userProfile.image ? (
-              <img id="profile-pic" src={userProfile.image.image} alt="My Avatar" />
-            ) : (
-              <img id="google-profile-pic" src={defaultQPicture} alt="My Avatar" />
-            )}
-            <button
-              onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
-              className="logout-navbar-item"
-              data-testid="logout-btn-testid"
-            >
-              Logout
-            </button>
-          </div>
-        </div>
-      </nav>
-
+      <NavHeader {...props} />
       <div className="calendar_container">
         <div className="calendar_header">
           <select className="cal_change_year">

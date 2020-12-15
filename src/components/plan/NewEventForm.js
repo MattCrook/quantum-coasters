@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Reminders from "./Reminders";
 import calendarManager from "../../modules/calendar/calendarManager";
-import TimePicker from "./Pickers";
-import Grid from "@material-ui/core/Grid";
-import DateFnsUtils from "@date-io/date-fns";
-import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from "@material-ui/pickers";
+// import TimePicker from "./Pickers";
+// import Grid from "@material-ui/core/Grid";
+// import DateFnsUtils from "@date-io/date-fns";
+// import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from "@material-ui/pickers";
 import "./Plan.css";
 
 const NewEventForm = (props) => {
@@ -16,7 +16,6 @@ const NewEventForm = (props) => {
   const [endTime, setEndTime] = useState();
   const [reminderValue, setReminderValue] = useState(null);
   const [isReminderSet, setIsReminderSet] = useState(false);
-
   const currentDate = sessionStorage.getItem("CalendarDateIsSelected");
 
   const handleEventFormSubmit = (e) => {
@@ -33,9 +32,15 @@ const NewEventForm = (props) => {
     calendarManager
       .postUserCalendarEvent(newEvent)
       .then(() => {
-        // props.history.push("/plan");
+        sessionStorage.removeItem("CalendarDateIsSelected");
+        props.history.push("/plan");
       })
       .catch((err) => console.log(err));
+  };
+
+  const handleCancel = () => {
+    sessionStorage.removeItem("CalendarDateIsSelected");
+    props.history.push("/plan");
   };
 
   return (
@@ -52,7 +57,7 @@ const NewEventForm = (props) => {
         <form className="add_event_form" onSubmit={handleEventFormSubmit}>
           <div className="event_form_header">
             <div className="current_date_event_form">{currentDate}</div>
-            <div className="cancel" onClick={() => props.history.push("/plan")}>
+            <div className="cancel" onClick={() => handleCancel()}>
               Cancel
             </div>
           </div>
@@ -83,44 +88,21 @@ const NewEventForm = (props) => {
             <div id="start_end_time">
               <div className="start">
                 Start:
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <Grid container justify="space-around">
-                    <KeyboardTimePicker
-                      margin="normal"
-                      id="time-picker"
-                      label="Start Time"
-                      value={startTime}
-                      onChange={(e) => setStartTime(e.target.value)}
-                      KeyboardButtonProps={{
-                        "aria-label": "change time",
-                      }}
-                    />
-                  </Grid>
-                </MuiPickersUtilsProvider>
-                {/* <input className="event_form_input" id="time" type="time" onChange={(e) => setStartTime(e.target.value)} /> */}
+                <input
+                  className="event_form_input"
+                  id="time"
+                  type="time"
+                  onChange={(e) => setStartTime(e.target.value)}
+                />
               </div>
               <div className="end">
                 End:
-                <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                  <Grid container justify="space-around">
-                    <KeyboardTimePicker
-                      margin="normal"
-                      id="time-picker"
-                      label="End Time"
-                      value={startTime}
-                      onChange={(e) => setEndTime(e.target.value)}
-                      KeyboardButtonProps={{
-                        "aria-label": "change time",
-                      }}
-                    />
-                  </Grid>
-                </MuiPickersUtilsProvider>
-                {/* <input
+                <input
                   className="event_form_input"
                   id="time"
                   type="time"
                   onChange={(e) => setEndTime(e.target.value)}
-                /> */}
+                />
               </div>
             </div>
           </div>
