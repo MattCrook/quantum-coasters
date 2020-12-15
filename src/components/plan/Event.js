@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
 import SimpleModal from "./SimpleModal";
 import calendarManager from "../../modules/calendar/calendarManager";
+import { confirmAlert } from "react-confirm-alert";
+import { useActivityLog } from "../../contexts/ActivityLogContext";
 import "./Plan.css";
 
-
 const Event = (props) => {
-  const { event, authUser, userProfile } = props;
+  const { event, events, authUser, userProfile } = props;
+  const { postActivityLogDeleteEvent } = useActivityLog();
   const startTime = event.start_time.split("");
   const start = startTime.slice(0, 5);
   const endTIme = event.end_time.split("");
   const end = endTIme.slice(0, 5);
+  const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [addReminder, setAddReminder] = useState(false);
   const [isReminderSet, setIsReminderSet] = useState(false);
@@ -61,12 +64,53 @@ const Event = (props) => {
       });
   };
 
+  const handleDeleteEvent = (e) => {
+    e.preventDefault();
+    try {
+      confirmAlert({
+        title: "Delete Event",
+        message: "Confirm to delete this event from your calendar.",
+        buttons: [
+          {
+            label: "Yes",
+            onClick: () => {
+              setIsLoading(true);
+              postActivityLogDeleteEvent(e, authUser.id);
+              calendarManager
+                .deleteEvent(currentEvent.id)
+                .then(() => {
+                  props.history.push("/plan");
+                })
+                .catch((error) => {
+                  console.log({ "Error posting activity: ": error });
+                });
+              setIsLoading(false);
+            },
+          },
+          {
+            label: "No",
+            onClick: () => "",
+          },
+        ],
+        closeOnClickOutside: true,
+        onClickOutside: () => {},
+        onKeypressEscape: () => {},
+      });
+    } catch (error) {
+      console.log({ "Error deleting event: ": error });
+    }
+  };
+
+  const hideModalBehindConfirmDelete = () => {
+    const deleteBtn = document.getElementById("edit_cal_event_modal");
+    deleteBtn.style.zIndex = "40";
+  };
+
+
   useEffect(() => {
-    setCurrentEvent(event);
-    // if (event.is_reminder_set === "True") {
-    //   setIsReminderSet(true);
-    // }
-  }, [event]);
+      setCurrentEvent(event);
+  }, [event, events]);
+
 
   return (
     <>
@@ -87,8 +131,10 @@ const Event = (props) => {
             setIsReminderSet={setIsReminderSet}
             isReminderSet={isReminderSet}
             setReminderValue={setReminderValue}
-            aria-labelledby="simple-modal-title"
-            aria-describedby="simple-modal-description"
+            handleDeleteEvent={handleDeleteEvent}
+            hideModalBehindConfirmDelete={hideModalBehindConfirmDelete}
+            // aria-labelledby="simple-modal-title"
+            // aria-describedby="simple-modal-description"
             {...props}
           />
           <div className="event_start">{[...start]}</div> -<div className="event_end">{[...end]}</div>

@@ -120,6 +120,27 @@ export const ActivityLogProvider = ({ children }) => {
     postNewActivityLogAction({ event: payload });
   };
 
+  const postActivityLogDeleteEvent = (e, userId) => {
+    let currentDate = new Date();
+    let dateTime = currentDate.toISOString();
+    let date = dateTime.split("T")[0];
+
+    const action = {
+      component: "Event.js",
+      action: "Delete Calendar Event",
+      target: e.target.id,
+      dataTestId: e.target.dataset,
+    };
+
+    const payload = {
+      user_id: userId,
+      action: action,
+      date: date,
+    };
+
+    postNewActivityLogAction({ event: payload });
+  }
+
   return (
     <ActivityLogContext.Provider
       value={{
@@ -129,6 +150,7 @@ export const ActivityLogProvider = ({ children }) => {
         postActivityLogEditProfile,
         postActivityLogCreateRollerCoster,
         postActivityLogRegistration,
+        postActivityLogDeleteEvent,
         activityLog,
         actions,
       }}

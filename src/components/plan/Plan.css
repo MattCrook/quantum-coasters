@@ -537,7 +537,6 @@ span.has_events {
   align-items: center;
   color: rgb(236, 235, 235);
   font: 150 1em helvetica neue, open sans, sans-serif;
-
 }
 
 .event_location {
@@ -545,7 +544,6 @@ span.has_events {
   align-items: center;
   color: rgb(236, 235, 235);
   font: 150 1em helvetica neue, open sans, sans-serif;
-
 }
 
 .event_description {
@@ -949,14 +947,12 @@ input[type="radio"]:checked ~ label {
   margin-bottom: 2%;
 }
 
-
 .edit_cal_event_button {
   color: rgb(212, 211, 211);
   margin-right: 2px;
 }
 .cal_event_edit_title {
   font: 150 1em helvetica neue, open sans, sans-serif;
-
 }
 
 .cal_edit_event_header {
@@ -967,7 +963,6 @@ input[type="radio"]:checked ~ label {
   border-bottom: 1px solid rgb(87, 86, 86);
 }
 
-
 .modal_close_edit {
   background: transparent;
   border: 0;
@@ -976,4 +971,11 @@ input[type="radio"]:checked ~ label {
 
 .modal_close_edit:before {
   content: "\2715";
+}
+
+.delete_cal_event {
+  margin-left: 70%;
+}
+.delete_cal_event i {
+  filter: brightness(0) saturate(100%) invert(5%) sepia(0%) brightness(108%) contrast(5%);
 }

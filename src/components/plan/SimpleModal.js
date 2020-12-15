@@ -4,19 +4,26 @@ import Modal from "@material-ui/core/Modal";
 import Reminders from "./Reminders";
 import "./Plan.css";
 
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
+// const rand = () => {
+//   return Math.round(Math.random() * 20) - 10;
+// };
 
-function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
+const getModalStyle = () => {
+  //   const top = 50 + rand();
+  //     const left = 50 + rand();
+  const top = 50;
+  const left = 50;
   return {
     top: `${top}%`,
     left: `${left}%`,
     transform: `translate(-${top}%, -${left}%)`,
   };
-}
+};
+
+const handleHideModalBehindDeleteMessage = (props, e) => {
+  props.hideModalBehindConfirmDelete();
+  props.handleDeleteEvent(e);
+};
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -40,7 +47,6 @@ export default function SimpleModal(props) {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
 
-
   return (
     <div>
       <button className="edit_cal_event_button" onClick={props.handleOpen}>
@@ -48,6 +54,7 @@ export default function SimpleModal(props) {
       </button>
 
       <Modal
+        id="edit_cal_event_modal"
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
         open={props.open}
@@ -56,6 +63,9 @@ export default function SimpleModal(props) {
         <div style={modalStyle} className={classes.paper}>
           <div className="cal_edit_event_header">
             <div className="cal_event_edit_title">Edit {props.event.title}</div>
+            <button className="delete_cal_event" onClick={(e) => handleHideModalBehindDeleteMessage(props, e)}>
+              <i className="fas fa-trash"></i>
+            </button>
             <button className="modal_close_edit" onClick={props.handleClose}></button>
           </div>
 

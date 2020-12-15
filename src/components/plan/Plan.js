@@ -37,6 +37,7 @@ const Plan = (props) => {
 
   const nextMonth = () => setCurrentDate(addMonths(currentDate, 1));
   const prevMonth = () => setCurrentDate(subMonths(currentDate, 1));
+  const onDateClick = (day) => setSelectedDate(day);
 
   const isEventsForDate = (userEvents, day) => {
     let dateFormat = "yyyy-M-dd";
@@ -55,17 +56,17 @@ const Plan = (props) => {
     let eventIdDate = new Date(eventId);
     const options = { year: "numeric", month: "long", day: "numeric" };
     let parsedDate = eventIdDate.toLocaleString("en-US", options);
-    //  onDateClick(parsedDate);
+    onDateClick(parsedDate);
     setIsDaySelected(parsedDate);
     MicroModal.init({
       openTrigger: "data-micromodal-trigger",
       closeTrigger: "data-micromodal-close",
       // openClass: "is-open",
-      disableScroll: true,
-      disableFocus: false,
-      awaitOpenAnimation: true,
-      awaitCloseAnimation: false,
-      debugMode: true,
+      // disableScroll: true,
+      // disableFocus: false,
+      // awaitOpenAnimation: true,
+      // awaitCloseAnimation: false,
+      // debugMode: true,
     });
   };
 
@@ -85,9 +86,9 @@ const Plan = (props) => {
   };
 
   const days = () => {
-    const daysOfTheWeek = WEEKDAYS.map((day) => {
+    const daysOfTheWeek = WEEKDAYS.map((day, i) => {
       return (
-        <div className="column day" key={day}>
+        <div className="column day" key={i}>
           {day}
         </div>
       );
@@ -112,8 +113,7 @@ const Plan = (props) => {
 
         const fullFormat = "yyyy-M-dd";
         const fullFormattedDate = format(day, fullFormat);
-        const t = isEventsForDate(userCalendarEvents, day);
-        console.log(t);
+        const eventsForCurrentDay = isEventsForDate(userCalendarEvents, day);
 
         days.push(
           <>
@@ -132,7 +132,7 @@ const Plan = (props) => {
               <span id={day.toDateString()} className="bg">
                 {formattedDate}
               </span>
-              {userCalendarEvents && userCalendarEvents.length > 0 && t[0] === fullFormattedDate ? (
+              {userCalendarEvents && userCalendarEvents.length > 0 && eventsForCurrentDay[0] === fullFormattedDate ? (
                 <span className="has_events">0</span>
               ) : null}
             </div>
@@ -146,6 +146,7 @@ const Plan = (props) => {
               month={month}
               isDaySelected={isDaySelected}
               selectedDate={selectedDate}
+              currentDate={currentDate}
               userCalendarEvents={userCalendarEvents}
               authUser={props.authUser}
               userProfile={props.userProfile}
@@ -165,10 +166,6 @@ const Plan = (props) => {
     }
     return <div className="body">{rows}</div>;
   };
-
-  //   function onDateClick(day) {
-  //     setSelectedDate(day);
-  //   }
 
   useEffect(() => {
     const userCalendar = async () => {

@@ -65,7 +65,7 @@ const NewEventForm = (props) => {
             <label className="event_form_label" htmlFor="title">
               Title:
             </label>
-            <input className="event_form_input" id="title" onChange={(e) => setTitle(e.target.value)} />
+            <input required className="event_form_input" id="title" onChange={(e) => setTitle(e.target.value)} />
           </div>
 
           <div className="row_wrapper">
@@ -89,6 +89,7 @@ const NewEventForm = (props) => {
               <div className="start">
                 Start:
                 <input
+                  required
                   className="event_form_input"
                   id="time"
                   type="time"
@@ -98,6 +99,7 @@ const NewEventForm = (props) => {
               <div className="end">
                 End:
                 <input
+                  required
                   className="event_form_input"
                   id="time"
                   type="time"
