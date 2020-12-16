@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Event from "./Event";
-import "./Plan.css";
+import "../Plan.css";
 
 const Calendar = (props) => {
   const { isDaySelected, selectedDate, userCalendarEvents, authUser, userProfile } = props;

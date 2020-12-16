@@ -12,7 +12,7 @@ import "bulma/css/bulma.css";
 
 const App = (props) => {
   const { loading, user, isAuthenticated, appInitOptions } = useAuth0();
-  const { authUser, userProfile, userCredits, authToken, setUserProfile, setAuthToken, setUserCredits} = useAuthUser();
+  const { authUser, userProfile, authToken, setUserProfile} = useAuthUser();
   const [initOptions, setInitOptions] = useState([]);
   const [browserData, setBrowserData] = useState({});
   const [userAgentData, setUserAgentData] = useState({});
@@ -51,7 +51,8 @@ const App = (props) => {
       console.log("Please Complete your Profile. :) ");
       setUserProfile([]);
     }
-  }, []);
+    // return () => user
+  }, [appCodeName, appInitOptions, authUser.length, isAuthenticated, platformOperatingSystem, setUserProfile, user, userAgent]);
 
   if (loading) {
     return (
@@ -91,13 +92,6 @@ const App = (props) => {
           {...props}
         />
         <ApplicationViews
-          // userProfile={userProfile}
-          // authUser={authUser}
-          // setUserProfile={setUserProfile}
-          // userCredits={userCredits}
-          // setUserCredits={setUserCredits}
-          // authToken={authToken}
-          // setAuthToken={setAuthToken}
           initOptions={initOptions}
           browserData={browserData}
           userAgentData={userAgentData}

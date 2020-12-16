@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import SimpleModal from "./SimpleModal";
-import calendarManager from "../../modules/calendar/calendarManager";
+import EditEventModal from "./EditEventModal";
+import calendarManager from "../../../modules/calendar/calendarManager";
 import { confirmAlert } from "react-confirm-alert";
-import { useActivityLog } from "../../contexts/ActivityLogContext";
-import "./Plan.css";
+import { useActivityLog } from "../../../contexts/ActivityLogContext";
+import "../Plan.css";
 
 const Event = (props) => {
   const { event, events, authUser, userProfile } = props;
@@ -116,7 +116,7 @@ const Event = (props) => {
     <>
       <div className="cal_event_content_container">
         <div className="start_end_container">
-          <SimpleModal
+          <EditEventModal
             open={open}
             handleClose={handleClose}
             handleOpen={handleOpen}
@@ -133,8 +133,6 @@ const Event = (props) => {
             setReminderValue={setReminderValue}
             handleDeleteEvent={handleDeleteEvent}
             hideModalBehindConfirmDelete={hideModalBehindConfirmDelete}
-            // aria-labelledby="simple-modal-title"
-            // aria-describedby="simple-modal-description"
             {...props}
           />
           <div className="event_start">{[...start]}</div> -<div className="event_end">{[...end]}</div>

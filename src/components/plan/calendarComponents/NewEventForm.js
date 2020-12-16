@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Reminders from "./Reminders";
-import calendarManager from "../../modules/calendar/calendarManager";
+import calendarManager from "../../../modules/calendar/calendarManager";
 // import TimePicker from "./Pickers";
 // import Grid from "@material-ui/core/Grid";
 // import DateFnsUtils from "@date-io/date-fns";
 // import { MuiPickersUtilsProvider, KeyboardTimePicker, KeyboardDatePicker } from "@material-ui/pickers";
-import "./Plan.css";
+import "../Plan.css";
 
 const NewEventForm = (props) => {
   const [addReminder, setAddReminder] = useState(false);

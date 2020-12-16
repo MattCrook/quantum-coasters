@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import "./Plan.css";
+import "../Plan.css";
 
 const Reminders = (props) => {
     const oneWeekSwitch = useRef();

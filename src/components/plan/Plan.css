@@ -1,11 +1,19 @@
+#plan_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 .calendar_container {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  width: 50%;
+  width: 44%;
   margin-top: 3%;
-  margin-left: 25%;
-  box-shadow: 3px 3px 3px 3px rgb(156, 155, 155);
+  /* margin-left: 45%; */
+  margin-right: 4%;
+  margin-bottom: 5%;
+  box-shadow: 4px 4px 4px 4px rgb(221, 221, 221);
 }
 
 .calendar_header {
@@ -21,7 +29,7 @@
   margin-right: 20%;
 }
 
-.cal_change_year {
+/* .cal_change_year {
   cursor: pointer;
   border: none;
   padding: 0px 2%;
@@ -32,19 +40,29 @@
   font-size: 12px;
   background-color: #020202;
   color: #fff;
+} */
+
+/* .cal_change_month {
+  cursor: pointer;
+  border: none;
+  padding: 0px 2%;
+  margin: 0px 4%;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 12px;
+  background-color: #020202;
+  color: #fff;
+} */
+
+.cal_change_year {
+  margin: 0px 3%;
 }
 
 .cal_change_month {
-  cursor: pointer;
-  border: none;
-  padding: 0px 2%;
-  margin: 0px 4%;
-  border-radius: 5px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 12px;
-  background-color: #020202;
-  color: #fff;
+  /* margin: 0px 4%; */
+  padding-right: 3%;
+
 }
 
 .weekdays {
@@ -978,4 +996,71 @@ input[type="radio"]:checked ~ label {
 }
 .delete_cal_event i {
   filter: brightness(0) saturate(100%) invert(5%) sepia(0%) brightness(108%) contrast(5%);
+}
+
+
+/****************************** Upcoming Event Card **********************/
+
+
+.upcoming_cal_events_main_container {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 4px 4px 4px rgb(226, 226, 226);
+  height: fit-content;
+  width: 22%;
+}
+
+.upcoming_event_card_container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  margin-left: 10%;
+}
+
+.upcoming_event_card_container:hover {
+  color:rgb(172, 172, 172);
+  cursor: pointer;
+}
+
+
+.upcoming_events_title_container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8%;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-bottom: 5%;
+  font: 150 1.2em helvetica neue, open sans, sans-serif;
+  border-bottom: 1px solid rgb(202, 202, 202);
+}
+
+.upcoming_title {
+  margin-bottom: 1%;
+}
+
+.upcoming_event_card_title {
+  margin-right: 5%;
+  font-size: 15px;
+}
+
+
+
+.upcoming_event_card_date {
+  margin-right: 8%;
+  font-size: 15px;
+}
+
+.space_bottom {
+  margin-bottom: 5%;
+}
+
+/* .add_event_btn_upcoming_events i { */
+  /* filter: brightness(0) saturate(100%) invert(62%) sepia(60%) saturate(2661%) hue-rotate(152deg) brightness(108%) contrast(105%); */
+  /* filter: brightness() saturate(20%) invert(35%) sepia(60%) saturate(30) hue-rotate(382deg) brightness(110%) contrast(90%); */
+/* } */
+
+.add_event_btn_upcoming_events i:hover {
+  filter: brightness(0) invert(50%) sepia(10%) saturate(2661%) hue-rotate(175deg) brightness(108%) contrast(86%);
+   /* filter: brightness() saturate(20%) invert(35%) sepia(60%) saturate(30) hue-rotate(382deg) brightness(110%) contrast(90%); */
 }

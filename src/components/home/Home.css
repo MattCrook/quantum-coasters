@@ -30,7 +30,9 @@ button {
 
 .home-logo {
   color: white;
-  margin-left: 50px;
+  /* margin-left: 50px; */
+  margin-left: 1%;
+
   font-variant: small-caps;
 }
 

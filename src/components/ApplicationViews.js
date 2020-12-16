@@ -16,7 +16,7 @@ import AddPark from "./addNewForm/AddPark";
 import News from "./news/News";
 import BlogContributorForm from "./news/BlogContributorForm";
 import Plan from "./plan/Plan";
-import NewEventForm from "./plan/NewEventForm";
+import NewEventForm from "./plan/calendarComponents/NewEventForm";
 import { postLoginInfo } from "../modules/services/services";
 // import {parseUserAgent} from "../modules/Helpers";
 // import AuthRoute from "./AuthRoute";

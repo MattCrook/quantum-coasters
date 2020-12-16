@@ -2,7 +2,7 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Reminders from "./Reminders";
-import "./Plan.css";
+import "../Plan.css";
 
 // const rand = () => {
 //   return Math.round(Math.random() * 20) - 10;
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleModal(props) {
+export default function EditEventModal(props) {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
 

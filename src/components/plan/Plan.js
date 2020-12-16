@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useAuth0 } from "../../contexts/react-auth0-context";
-import { useActivityLog } from "../../contexts/ActivityLogContext";
-import Calendar from "./Calendar";
+// import { useAuth0 } from "../../contexts/react-auth0-context";
+// import { useActivityLog } from "../../contexts/ActivityLogContext";
+import Calendar from "./calendarComponents/Calendar";
 import NavHeader from "../nav/NavHeader";
+import UpcomingEvents from "./upcomingEventsComponents/UpcomingEvents";
 import MicroModal from "micromodal";
 import calendarManager from "../../modules/calendar/calendarManager";
+import SelectYearDropdown from "./calendarComponents/SelectYear";
+import SelectMonthDropdown from "./calendarComponents/SelectMonth";
+
 import {
   format,
   addDays,
@@ -61,12 +65,6 @@ const Plan = (props) => {
     MicroModal.init({
       openTrigger: "data-micromodal-trigger",
       closeTrigger: "data-micromodal-close",
-      // openClass: "is-open",
-      // disableScroll: true,
-      // disableFocus: false,
-      // awaitOpenAnimation: true,
-      // awaitCloseAnimation: false,
-      // debugMode: true,
     });
   };
 
@@ -178,9 +176,11 @@ const Plan = (props) => {
   return (
     <>
       <NavHeader {...props} />
-      <div className="calendar_container">
-        <div className="calendar_header">
-          <select className="cal_change_year">
+      <div id="plan_container">
+        <UpcomingEvents userCalendarEvents={userCalendarEvents} currentYear={year} currentMonth={month} currentDate={currentDate} {...props} />
+        <div className="calendar_container">
+          <div className="calendar_header">
+            {/* <select className="cal_change_year">
             <option>Year</option>
             Year
             {YEARS.map((y, i) => (
@@ -188,9 +188,20 @@ const Plan = (props) => {
                 {y}
               </option>
             ))}
-          </select>
-          <div className="cal_title">Calendar</div>
-          <select className="cal_change_month">
+          </select> */}
+
+            <div className="cal_change_year">
+              <SelectYearDropdown
+                options={YEARS}
+                label={"Years"}
+                currentDate={currentDate}
+                setCurrentDate={setCurrentDate}
+                {...props}
+              />
+            </div>
+            <div className="cal_title">Calendar</div>
+
+            {/* <select className="cal_change_month">
             Month
             <option>Month</option>
             {MONTHS.map((m, i) => (
@@ -198,13 +209,24 @@ const Plan = (props) => {
                 {m}
               </option>
             ))}
-          </select>
-        </div>
+          </select> */}
 
-        <div className="calendar">
-          <div id="header">{header()}</div>
-          <div>{days()}</div>
-          <div>{cells()}</div>
+            <div className="cal_change_month">
+              <SelectMonthDropdown
+                options={MONTHS}
+                label={"Months"}
+                currentDate={currentDate}
+                setCurrentDate={setCurrentDate}
+                {...props}
+              />
+            </div>
+          </div>
+
+          <div className="calendar">
+            <div id="header">{header()}</div>
+            <div>{days()}</div>
+            <div>{cells()}</div>
+          </div>
         </div>
       </div>
     </>
