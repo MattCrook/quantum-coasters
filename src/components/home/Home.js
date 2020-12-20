@@ -30,6 +30,8 @@ const Home = (props) => {
   // navigator.geolocation.getCurrentPosition(resp => console.log(resp))
 
 
+
+
   useEffect(() => {
     if (isAuthenticated && isLoggedIn && props.authToken) {
       setIsLoggedIn(hasLoggedIn());
@@ -79,6 +81,7 @@ const Home = (props) => {
                     >
                       Logout
                     </button>
+                    <i className="fas fa-sign-out-alt"></i>
                   </div>
                 </div>
               </>

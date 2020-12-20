@@ -6,7 +6,7 @@ const rollerCoasterManager = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
     });
     return await resp.json();
@@ -18,11 +18,11 @@ const rollerCoasterManager = {
   },
 
   async getRollerCoastersForUserProfile(id) {
-    const data = await fetch(`${remoteURL}/rollercoasters/${id}`, {
+    const data = await fetch(`${remoteURL}/rollercoasters`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
     });
     return await data.json();
@@ -33,7 +33,7 @@ const rollerCoasterManager = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
     });
     return await data.json();

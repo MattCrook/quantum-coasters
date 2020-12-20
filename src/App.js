@@ -9,10 +9,11 @@ import { parseUserAgent } from "./modules/Helpers";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import "./App.css";
 import "bulma/css/bulma.css";
+import { ErrorLogProvider } from "./contexts/ErrorLogContext";
 
 const App = (props) => {
   const { loading, user, isAuthenticated, appInitOptions } = useAuth0();
-  const { authUser, userProfile, userCredits, authToken, setUserProfile, setAuthToken, setUserCredits} = useAuthUser();
+  const { authUser, userProfile, authToken, setUserProfile} = useAuthUser();
   const [initOptions, setInitOptions] = useState([]);
   const [browserData, setBrowserData] = useState({});
   const [userAgentData, setUserAgentData] = useState({});
@@ -22,9 +23,11 @@ const App = (props) => {
   const appCodeName = navigator.appCodeName;
   const platformOperatingSystem = navigator.platform;
 
+
   const parseUserAgentDataHelper = (userAgent, setBrowserData, setUserAgentData) => {
     parseUserAgent(userAgent, setBrowserData, setUserAgentData);
   };
+
 
   useEffect(() => {
     if (user && isAuthenticated && authUser.length > 0 && appInitOptions.length > 0) {
@@ -47,11 +50,13 @@ const App = (props) => {
         setAppCodeNameData(appCodeName);
       };
       init();
-    } else {
-      console.log("Please Complete your Profile. :) ");
-      setUserProfile([]);
     }
-  }, []);
+    // } else {
+    //   console.log("Please Complete your Profile. :) ");
+    //   setUserProfile([]);
+    // }
+  }, [appCodeName, appInitOptions, authUser, isAuthenticated, platformOperatingSystem, setUserProfile, user, userAgent]);
+
 
   if (loading) {
     return (
@@ -61,6 +66,7 @@ const App = (props) => {
       </div>
     );
   }
+
 
   function getCookie(cname) {
     let name = cname + "=";
@@ -83,28 +89,22 @@ const App = (props) => {
     <>
       <CssBaseline />
       <BrowserRouter>
+      <ErrorLogProvider>
         <NavBar
           userProfile={userProfile}
           authUser={authUser}
-          setUserProfile={setUserProfile}
           authToken={authToken}
           {...props}
         />
         <ApplicationViews
-          // userProfile={userProfile}
-          // authUser={authUser}
-          // setUserProfile={setUserProfile}
-          // userCredits={userCredits}
-          // setUserCredits={setUserCredits}
-          // authToken={authToken}
-          // setAuthToken={setAuthToken}
           initOptions={initOptions}
           browserData={browserData}
           userAgentData={userAgentData}
           platformOS={platformOS}
           appCodeNameData={appCodeNameData}
           {...props}
-        />
+          />
+          </ErrorLogProvider>
       </BrowserRouter>
     </>
   );

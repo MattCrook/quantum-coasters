@@ -40,6 +40,7 @@
   line-height: 1.25;
   color: #e7e6e6;
   box-sizing: border-box;
+  margin-right: 64%;
 }
 
 .ride_modal__close {
@@ -65,8 +66,8 @@
   padding-right: 1rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  background-color: #e6e6e6;
-  color: rgba(0, 0, 0, 0.8);
+  background-color: #1a1919;
+  color: rgb(255, 255, 255);
   border-radius: 0.25rem;
   border-style: none;
   border-width: 0;
@@ -76,36 +77,6 @@
   overflow: visible;
   line-height: 1.15;
   margin: 0;
-  will-change: transform;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
-  transition: -webkit-transform 0.25s ease-out;
-  transition: transform 0.25s ease-out;
-  transition: transform 0.25s ease-out, -webkit-transform 0.25s ease-out;
-}
-
-#ride_modal__btn-primary {
-  font-size: 0.875rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  margin-right: 8px;
-  margin-left: 4%;
-  width: 92px;
-  background-color: #131111;
-  color: rgba(0, 0, 0, 0.8);
-  border-radius: 0.25rem;
-  border-style: none;
-  border-width: 0;
-  cursor: pointer;
-  -webkit-appearance: button;
-  text-transform: none;
-  overflow: visible;
-  line-height: 1.15;
   will-change: transform;
   -moz-osx-font-smoothing: grayscale;
   -webkit-backface-visibility: hidden;
@@ -136,9 +107,9 @@
 }
 
 #ride_modal_close_btn {
-    margin-left: 5%;
-    width: 28%;
-    margin-bottom: 1%;
+  margin-left: 35%;
+  width: 28%;
+  margin-bottom: 1%;
 }
 
 /**************************\
@@ -217,28 +188,30 @@
   border-radius: 3px 3px 3px 3px;
 }
 
-
-.type_modal_label {
-  margin-left: 6%;
-  margin-bottom: 2%;
-  color: #0e0e0e;
-}
-
-.modal_for_example {
-  font-size: 12px;
-  margin-top: 2px;
-}
-
-.modal-ride-details-section {
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  font-size: 14px;
-  margin-left: 5%;
-  margin-bottom: 4%;
-  margin-top: 3%;
-}
-
 .details_title {
-  margin-top: 2%;
+  display: flex;
+  margin-left: 1%;
+  font: 150 1em helvetica neue, open sans, sans-serif;
+  margin-bottom: 2%;
+  margin-top: 1%;
+}
+
+.profile_card_row_modal {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+  border-bottom: 1px solid rgba(167, 167, 167, 0.993);
+  margin-bottom: 0.7%;
+  font-size: 13px;
+}
+
+#signature_ride_modal {
+  font: 150 0.4em helvetica neue, open sans, sans-serif;
+  letter-spacing: 2px;
+}
+
+.trash_icon_profile_card_ride_modal {
+  margin-right: 10px;
+  filter: brightness(0) invert(100%) sepia(10%) saturate(1661%) hue-rotate(10deg) brightness(80%) contrast(86%);
 }

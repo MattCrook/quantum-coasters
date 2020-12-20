@@ -32,7 +32,6 @@ const EditProfile = (props) => {
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
   const defaultQPicture = "https://cdn.dribbble.com/users/2908839/screenshots/6292457/shot-cropped-1554473682961.png";
 
-
   // Function to first get the auth user from the email passed from auth0 context, then get the userProfile from the id of the auth user by the user_id FK on userProfile.
   // Once have those, fetch image by image id on the userProfile.
   // Then finally fetch all credits and filter them down to specific credits for the current logged in user.
@@ -116,7 +115,6 @@ const EditProfile = (props) => {
     };
 
     if (!loading && userProfile && image.id) {
-
       const editedUserProfile = {
         id: userProfileId,
         address: userProfile.address,
@@ -127,9 +125,7 @@ const EditProfile = (props) => {
       await userManager.putEditedUserProfile(editedUserProfile);
       props.setAuthUser(editedAuthUser);
       props.setUserProfile(editedUserProfile);
-
     } else if (!loading && userProfile && !image) {
-
       const editedUserProfile = {
         id: userProfileId,
         address: userProfile.address,
@@ -140,7 +136,6 @@ const EditProfile = (props) => {
       await userManager.putEditedUserProfile(editedUserProfile);
       props.setAuthUser(editedAuthUser);
       props.setUserProfile(editedUserProfile);
-
     } else {
       // 'Else' for edge case if image === null, It takes the default image above which was set in state. But the user didn't pick.
       // So Thinks the user picked an image, but UserProfile.image === null, but image (in state) is the defaultProfilePic.
@@ -203,8 +198,7 @@ const EditProfile = (props) => {
         buttons: [
           {
             label: "Yes",
-            onClick: () =>
-              userManager.deleteUserProfile(id).then(() => logout()),
+            onClick: () => userManager.deleteUserProfile(id).then(() => logout()),
           },
           {
             label: "No",
@@ -242,24 +236,12 @@ const EditProfile = (props) => {
       <div className="profile-pic-container">
         <div className="profile-pic-flex-box">
           {!loading && userProfile && image.image ? (
-            <img
-              id="edit-profile-pic"
-              src={image.image}
-              alt="Click Change Photo to confirm upload of new Image."
-            />
+            <img id="edit-profile-pic" src={image.image} alt="Click Change Photo to confirm upload of new Image." />
           ) : (
-            <img
-              id="edit-profile-pic"
-              src={defaultQPicture}
-              alt="My default pic"
-            />
+            <img id="edit-profile-pic" src={defaultQPicture} alt="My default pic" />
           )}
 
-          <form
-            className="uploadPicture"
-            onSubmit={handleImageFromSubmit}
-            encType="multipart/form-data"
-          >
+          <form className="uploadPicture" onSubmit={handleImageFromSubmit} encType="multipart/form-data">
             <div className="change-profile-pic">
               <label className="label_upload_profile_pic" htmlFor="image">
                 Profile picture
@@ -274,96 +256,103 @@ const EditProfile = (props) => {
                 required
               />
             </div>
-            <button
-              type="submit"
-              className="change_photo_btn"
-              disabled={isLoading}
-            >Change Photo</button>
+            <button type="submit" className="change_photo_btn" disabled={isLoading}>
+              Change Photo
+            </button>
           </form>
         </div>
         <div className="profile-info-container">
-          <div className="user_info_title">Profile Info</div>
+          <div className="user_info_title"> <i class="fas fa-user-circle"></i> Personal Information</div>
+          <div className="user_info_container">
           <div className="user_info">
-            <strong>First Name: </strong>
-            {authUser.first_name}
+            <div className="user_info_row_title">First Name: </div>
+            <div className="user_info_item">{authUser.first_name}</div>
           </div>
           <div className="user_info">
-            <strong>Last Name: </strong>
-            {authUser.last_name}
+            <div className="user_info_row_title">Last Name: </div>
+            <div className="user_info_item">{authUser.last_name}</div>
           </div>
           <div className="user_info">
-            <strong>Username: </strong>
-            {authUser.username}
+            <div className="user_info_row_title">Username: </div>
+            <div className="user_info_item">{authUser.username}</div>
           </div>
           <div className="user_info">
-            <strong>Address: </strong>
-            {userProfile.address}
+            <div className="user_info_row_title">Address: </div>
+            <div className="user_info_item">{userProfile.address}</div>
           </div>
           {!loading && userCredits ? (
-            <div className="user_info">
-              <strong>Total Credits: </strong>
-              {userCredits.length}
+            <div className="user_info_credits">
+              <div className="user_info_row_title">Total Credits: </div>
+              <div className="user_info_item">{userCredits.length}</div>
             </div>
           ) : (
-            <div className="user_info"><strong>Total Credits: </strong>0</div>
+            <div className="user_info">
+              <div>Total Credits: </div>0
+            </div>
           )}
+          </div>
         </div>
       </div>
 
       <form className="edit-profile-form" onSubmit={handleFormSubmit}>
         <div className="profile-inputs">
-          <label className="first_name" htmlFor="first_name">
-            First Name
-          </label>
-          <input
-            className="input"
-            onChange={handleInputChangeUser}
-            type="text"
-            id="first_name"
-            required
-            value={authUser.first_name}
-          />
-          <label htmlFor="last_name">Last Name</label>
+          <div className="edit_profile_input_container">
+            <label className="first_name" htmlFor="first_name">
+              First Name
+            </label>
+            <input
+              className="input"
+              onChange={handleInputChangeUser}
+              type="text"
+              id="first_name"
+              required
+              value={authUser.first_name}
+            />
+          </div>
 
-          <input
-            className="input"
-            onChange={handleInputChangeUser}
-            type="text"
-            id="last_name"
-            required
-            value={authUser.last_name}
-          />
-          <label htmlFor="username">Username</label>
-          <input
-            className="input"
-            onChange={handleInputChangeUser}
-            type="text"
-            id="username"
-            required
-            value={authUser.username}
-          />
-          <label htmlFor="address">Address</label>
-          <input
-            className="input"
-            onChange={handleInputChangeUserProfile}
-            type="text"
-            id="address"
-            required
-            value={userProfile.address}
-          />
-          <button
-            className="edit-create-btn"
-            type="submit"
-            disabled={isLoading}
-          >
+          <div className="edit_profile_input_container">
+            <label htmlFor="last_name">Last Name</label>
+            <input
+              className="input"
+              onChange={handleInputChangeUser}
+              type="text"
+              id="last_name"
+              required
+              value={authUser.last_name}
+            />
+          </div>
+
+          <div className="edit_profile_input_container">
+            <label htmlFor="username">Username</label>
+            <input
+              className="input"
+              onChange={handleInputChangeUser}
+              type="text"
+              id="username"
+              required
+              value={authUser.username}
+            />
+          </div>
+
+          <div className="edit_profile_input_container">
+            <label htmlFor="address">Address</label>
+            <input
+              className="input"
+              onChange={handleInputChangeUserProfile}
+              type="text"
+              id="address"
+              required
+              value={userProfile.address}
+            />
+          </div>
+          <button className="edit-create-btn" type="submit" disabled={isLoading}>
             Confirm Changes
           </button>
         </div>
       </form>
       <div className="signature">
-        <p>
-          Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a>{" "}
-          <i className="fas fa-trademark"></i>
+        <p className="signature_edit_profile">
+          Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a> <i className="fas fa-trademark"></i>
         </p>
       </div>
     </>

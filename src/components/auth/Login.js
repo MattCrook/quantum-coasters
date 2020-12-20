@@ -27,11 +27,9 @@ const LandingPage = (props) => {
             </div>
           </div>
 
-          {/* menu items */}
-          {/* if there is no user. show the login button */}
           <div className="landing_page_nav_bar_container_2">
             <div className="login_btn_container">
-              {!loading && !user && !isAuthenticated && !isLoggedIn && (
+              {!loading && !isAuthenticated && !isLoggedIn && (
                 <button
                   onClick={loginWithRedirect}
                   id="landing_page_login_btn"

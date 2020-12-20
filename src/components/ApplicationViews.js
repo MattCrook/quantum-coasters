@@ -16,21 +16,30 @@ import AddPark from "./addNewForm/AddPark";
 import News from "./news/News";
 import BlogContributorForm from "./news/BlogContributorForm";
 import Plan from "./plan/Plan";
-import NewEventForm from "./plan/NewEventForm";
+import NewEventForm from "./plan/calendarComponents/NewEventForm";
 import { postLoginInfo } from "../modules/services/services";
 // import {parseUserAgent} from "../modules/Helpers";
 // import AuthRoute from "./AuthRoute";
 
 const ApplicationViews = ({
-  userRollerCoasters,
-  setUserRollerCoasters,
+  // userRollerCoasters,
+  // setUserRollerCoasters,
   browserData,
   userAgentData,
   platformOS,
   appCodeNameData,
 }) => {
-  const { isAuthenticated } = useAuth0();
-  const { authUser, setAuthUser, userProfile, setUserProfile, authToken, setAuthToken, userCredits, setUserCredits} = useAuthUser();
+  const { isAuthenticated, user } = useAuth0();
+  const {
+    authUser,
+    setAuthUser,
+    userProfile,
+    setUserProfile,
+    authToken,
+    setAuthToken,
+    userCredits,
+    setUserCredits,
+  } = useAuthUser();
   const hasLoggedIn = () => sessionStorage.getItem("QuantumToken") !== null;
   const [isLoggedIn, setIsLoggedIn] = useState(hasLoggedIn());
 
@@ -53,7 +62,29 @@ const ApplicationViews = ({
         exact
         path="/"
         render={(props) => {
-          return <LandingPage isLoggedIn={isLoggedIn} {...props} />;
+          if (user && isAuthenticated && !isLoggedIn) {
+            return (
+              <Home
+                userProfile={userProfile}
+                authUser={authUser}
+                setAuthUser={setAuthUser}
+                authToken={authToken}
+                setAuthToken={setAuthToken}
+                isLoggedIn={isLoggedIn}
+                setIsLoggedIn={setIsLoggedIn}
+                hasLoggedIn={hasLoggedIn}
+                setDjangoToken={setDjangoToken}
+                sendLoginInfo={sendLoginInfo}
+                browserData={browserData}
+                userAgentData={userAgentData}
+                platformOS={platformOS}
+                appCodeNameData={appCodeNameData}
+                {...props}
+              />
+            );
+          } else {
+            return <LandingPage isLoggedIn={isLoggedIn} {...props} />;
+          }
         }}
       />
       <Route
@@ -126,8 +157,8 @@ const ApplicationViews = ({
                 setAuthUser={setAuthUser}
                 setUserCredits={setUserCredits}
                 userCredits={userCredits}
-                userRollerCoasters={userRollerCoasters}
-                setUserRollerCoasters={setUserRollerCoasters}
+                // userRollerCoasters={userRollerCoasters}
+                // setUserRollerCoasters={setUserRollerCoasters}
                 {...props}
               />
             );
@@ -302,3 +333,4 @@ const ApplicationViews = ({
 };
 
 export default ApplicationViews;
+

@@ -3,26 +3,25 @@ import MiniProfileCard from "./MiniProfileCard";
 import "./Profile.css";
 
 const UserCreditsByPark = (props) => {
-  console.log(props);
   const [rollerCoasters, setRollerCoasters] = useState([]);
   const userRollerCoasters = props.userRollerCoasters;
   const parks = new Set();
 
   if (userRollerCoasters) {
-    userRollerCoasters.forEach((rc) => {
-      parks.add(rc.park.name);
+    userRollerCoasters.forEach((coaster) => {
+      parks.add(coaster.park.name);
     });
   }
 
   const handleShowCredits = (parkName) => {
-    let rollercoasters = [];
+    let rollerCoasters = [];
     for (let i of userRollerCoasters) {
       const park = i.park.name;
       if (parkName === park.toString()) {
-        rollercoasters.push(i);
+        rollerCoasters.push(i);
       }
     }
-    setRollerCoasters(rollercoasters);
+    setRollerCoasters(rollerCoasters);
   };
 
   return (
