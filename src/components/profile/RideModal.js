@@ -4,7 +4,6 @@ import { faTrash, faExternalLinkSquareAlt } from "@fortawesome/free-solid-svg-ic
 import "./RideModal.css";
 
 const RideModal = (props) => {
-
   const rideName = props.ride[0].name;
   const maxSpeed = props.ride[0].max_speed;
   const maxHeight = props.ride[0].max_height;
@@ -20,7 +19,7 @@ const RideModal = (props) => {
             <h2 className="ride_modal__title" id="ride-modal-1-title">
               {rideName}
             </h2>
-            <span className="trash_icon_profile_card">
+            <span className="trash_icon_profile_card_ride_modal">
               <button
                 data-testid="delete-credit-btn"
                 className="delete-btn"
@@ -34,19 +33,35 @@ const RideModal = (props) => {
 
           <main className="ride_modal__content" id="ride-modal-content">
             <div id="ride_modal">
-              <div className="modal-ride-details-section">
-                <strong className="details_title">Details</strong>
-                <h4>Home Park: {park}</h4>
-                <div className="linkForCompanyWebsite">
-                  <h4>Manufactured By: {manufacturer.name}</h4>
-                  <a className="link-to-company" href={manufacturer.company_website}>
-                    <FontAwesomeIcon icon={faExternalLinkSquareAlt} />
-                  </a>
+              <div className="ride-details-section">
+                <div className="details_title">Details</div>
+                <div className="profile_card_row_modal">
+                  <div className="profile_card_row_item_title">Home Park:</div>
+                  <div className="profile_card_row_item">{park}</div>
                 </div>
-
-                <p>Max Speed: {maxSpeed} mph</p>
-                <p>Max Height: {maxHeight} ft</p>
-                <p>Track Type: {trackType}</p>
+                <div className="profile_card_row_modal">
+                  <div className="profile_card_row_item_title">Manufactured By:</div>
+                  <div className="profile_card_row_item">
+                    {manufacturer.name}
+                    <div className="linkForCompanyWebsite">
+                      <a className="link-to-company" href={manufacturer.company_website}>
+                        <FontAwesomeIcon icon={faExternalLinkSquareAlt} />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div className="profile_card_row_modal">
+                  <div className="profile_card_row_item_title">Max Speed:</div>
+                  <div className="profile_card_row_item">{maxSpeed} mph</div>
+                </div>
+                <div className="profile_card_row_modal">
+                  <div className="profile_card_row_item_title">Max Height:</div>
+                  <div className="profile_card_row_item">{maxHeight} ft</div>
+                </div>
+                <div className="profile_card_row_modal">
+                  <div className="profile_card_row_item_title">Track Type:</div>
+                  <div className="profile_card_row_item">{trackType.name}</div>
+                </div>
               </div>
 
               <footer className="ride_modal__footer">
@@ -62,7 +77,7 @@ const RideModal = (props) => {
             </div>
 
             <div className="signature">
-              <p>
+              <p id="signature_ride_modal">
                 Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a>{" "}
                 <i className="fas fa-trademark"></i>
               </p>

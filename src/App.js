@@ -9,6 +9,7 @@ import { parseUserAgent } from "./modules/Helpers";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import "./App.css";
 import "bulma/css/bulma.css";
+import { ErrorLogProvider } from "./contexts/ErrorLogContext";
 
 const App = (props) => {
   const { loading, user, isAuthenticated, appInitOptions } = useAuth0();
@@ -22,9 +23,11 @@ const App = (props) => {
   const appCodeName = navigator.appCodeName;
   const platformOperatingSystem = navigator.platform;
 
+
   const parseUserAgentDataHelper = (userAgent, setBrowserData, setUserAgentData) => {
     parseUserAgent(userAgent, setBrowserData, setUserAgentData);
   };
+
 
   useEffect(() => {
     if (user && isAuthenticated && authUser.length > 0 && appInitOptions.length > 0) {
@@ -47,12 +50,13 @@ const App = (props) => {
         setAppCodeNameData(appCodeName);
       };
       init();
-    } else {
-      console.log("Please Complete your Profile. :) ");
-      setUserProfile([]);
     }
-    // return () => user
-  }, [appCodeName, appInitOptions, authUser.length, isAuthenticated, platformOperatingSystem, setUserProfile, user, userAgent]);
+    // } else {
+    //   console.log("Please Complete your Profile. :) ");
+    //   setUserProfile([]);
+    // }
+  }, [appCodeName, appInitOptions, authUser, isAuthenticated, platformOperatingSystem, setUserProfile, user, userAgent]);
+
 
   if (loading) {
     return (
@@ -62,6 +66,7 @@ const App = (props) => {
       </div>
     );
   }
+
 
   function getCookie(cname) {
     let name = cname + "=";
@@ -84,10 +89,10 @@ const App = (props) => {
     <>
       <CssBaseline />
       <BrowserRouter>
+      <ErrorLogProvider>
         <NavBar
           userProfile={userProfile}
           authUser={authUser}
-          setUserProfile={setUserProfile}
           authToken={authToken}
           {...props}
         />
@@ -98,7 +103,8 @@ const App = (props) => {
           platformOS={platformOS}
           appCodeNameData={appCodeNameData}
           {...props}
-        />
+          />
+          </ErrorLogProvider>
       </BrowserRouter>
     </>
   );

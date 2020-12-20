@@ -12,6 +12,7 @@ export const AuthUserProvider = ({ children }) => {
   const [userCredits, setUserCredits] = useState([]);
   const [authToken, setAuthToken] = useState([]);
 
+
   useEffect(() => {
     if (user && isAuthenticated) {
       const userEmail = user.email;
@@ -26,7 +27,7 @@ export const AuthUserProvider = ({ children }) => {
         }
         const getAuthUser = await userManager.getAuthUser(userEmail);
 
-        if (getAuthUser.length > 0) {
+        if (getAuthUser && getAuthUser.length > 0) {
           const authUserId = getAuthUser[0].id;
           const getProfile = await userManager.getUserProfileEmbeddedAuthUser(authUserId);
           const creditsArray = getProfile[0].credits;
@@ -45,6 +46,7 @@ export const AuthUserProvider = ({ children }) => {
       initUserProfile(userEmail);
     }
   }, [user, getIdTokenClaims, getTokenSilently, isAuthenticated]);
+
 
   return (
     <AuthUserContext.Provider

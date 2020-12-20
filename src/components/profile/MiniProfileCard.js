@@ -9,37 +9,53 @@ const MiniProfileCard = (props) => {
   const { park } = props;
   const { trackType } = props;
 
-
   return (
     <div className="mini-profile-card">
       <div className="mini-profile-card-content">
         <div className="ride-name-container">
-          <div className="ride-name">{rollerCoaster.name}
+          <div className="ride-name">
+            {rollerCoaster.name}
             <span className="trash_icon_profile_card">
               <button
                 data-testid="delete-credit-btn"
                 className="delete-btn"
-                onClick={() => props.deleteCredit(rollerCoaster.id)}>
+                onClick={() => props.deleteCredit(rollerCoaster.id)}
+              >
                 <FontAwesomeIcon icon={faTrash} />
               </button>
             </span>
           </div>
         </div>
         <div className="ride-details-section">
-          <strong>Details</strong>
-          <h4>Home Park: {park.name}</h4>
-          <div className="linkForCompanyWebsite">
-            <h4>Manufactured By: {manufacturer.name}</h4>
-            <a className="link-to-company" href={manufacturer.company_website}>
-              <FontAwesomeIcon icon={faExternalLinkSquareAlt} />
-            </a>
+          <div className="details">Details</div>
+          <div className="profile_card_row">
+            <div className="profile_card_row_item_title">Home Park:</div>
+            <div className="profile_card_row_item">{park.name}</div>
           </div>
-
-          <p>Max Speed: {rollerCoaster.max_speed} mph</p>
-          <p>Max Height: {rollerCoaster.max_height} ft</p>
-          <p>Track Type: {trackType.name}</p>
+          <div className="profile_card_row">
+            <div className="profile_card_row_item_title">Manufactured By:</div>
+            <div className="profile_card_row_item">
+              {manufacturer.name}
+              <div className="linkForCompanyWebsite">
+                <a className="link-to-company" href={manufacturer.company_website}>
+                  <FontAwesomeIcon icon={faExternalLinkSquareAlt} />
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="profile_card_row">
+            <div className="profile_card_row_item_title">Max Speed:</div>
+            <div className="profile_card_row_item">{rollerCoaster.max_speed} mph</div>
+          </div>
+          <div className="profile_card_row">
+            <div className="profile_card_row_item_title">Max Height:</div>
+            <div className="profile_card_row_item">{rollerCoaster.max_height} ft</div>
+          </div>
+          <div className="profile_card_row">
+            <div className="profile_card_row_item_title">Track Type:</div>
+            <div className="profile_card_row_item">{trackType.name}</div>
+          </div>
         </div>
-
       </div>
     </div>
   );

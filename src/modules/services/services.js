@@ -5,7 +5,7 @@ export async function postActivityLog(payload) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer" + localStorage.getItem("accessToken"),
+      Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
     },
     body: JSON.stringify(payload),
   });
@@ -17,7 +17,7 @@ export async function getUserActivityLog(userId) {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer" + localStorage.getItem("accessToken"),
+      Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
     },
     Accept: "application/json",
   });
@@ -29,7 +29,7 @@ export async function postLoginInfo(payload) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer" + localStorage.getItem("accessToken"),
+      Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
     },
     body: JSON.stringify(payload),
   });
@@ -41,7 +41,7 @@ export async function getLoginInfo(userId) {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer" + localStorage.getItem("accessToken"),
+      Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
     },
     Accept: "application/json",
   });
@@ -53,7 +53,7 @@ export async function retrieveActivityLog(id) {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer" + localStorage.getItem("accessToken"),
+      Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
     },
     Accept: "application/json",
   });
@@ -65,7 +65,44 @@ export async function retrieveLoginInfo(id) {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer" + localStorage.getItem("accessToken"),
+      Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+    },
+    Accept: "application/json",
+  });
+  return await resp.json();
+}
+
+export async function postErrorLog(payload) {
+  const resp = await fetch(`${remoteURL}/error_logs`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+    },
+    Accept: "application/json",
+    body: JSON.stringify(payload),
+  });
+  return await resp.json();
+}
+
+export async function retrieveErrorLog(id) {
+  const resp = await fetch(`${remoteURL}/error_logs/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+    },
+    Accept: "application/json",
+  });
+  return await resp.json();
+}
+
+export async function getUserErrorLog(userId) {
+  const resp = await fetch(`${remoteURL}/error_logs?user_id=${userId}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
     },
     Accept: "application/json",
   });

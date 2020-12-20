@@ -62,7 +62,6 @@
 .cal_change_month {
   /* margin: 0px 4%; */
   padding-right: 3%;
-
 }
 
 .weekdays {
@@ -998,9 +997,7 @@ input[type="radio"]:checked ~ label {
   filter: brightness(0) saturate(100%) invert(5%) sepia(0%) brightness(108%) contrast(5%);
 }
 
-
 /****************************** Upcoming Event Card **********************/
-
 
 .upcoming_cal_events_main_container {
   display: flex;
@@ -1019,10 +1016,9 @@ input[type="radio"]:checked ~ label {
 }
 
 .upcoming_event_card_container:hover {
-  color:rgb(172, 172, 172);
+  color: rgb(172, 172, 172);
   cursor: pointer;
 }
-
 
 .upcoming_events_title_container {
   display: flex;
@@ -1044,8 +1040,6 @@ input[type="radio"]:checked ~ label {
   font-size: 15px;
 }
 
-
-
 .upcoming_event_card_date {
   margin-right: 8%;
   font-size: 15px;
@@ -1055,12 +1049,6 @@ input[type="radio"]:checked ~ label {
   margin-bottom: 5%;
 }
 
-/* .add_event_btn_upcoming_events i { */
-  /* filter: brightness(0) saturate(100%) invert(62%) sepia(60%) saturate(2661%) hue-rotate(152deg) brightness(108%) contrast(105%); */
-  /* filter: brightness() saturate(20%) invert(35%) sepia(60%) saturate(30) hue-rotate(382deg) brightness(110%) contrast(90%); */
-/* } */
-
 .add_event_btn_upcoming_events i:hover {
   filter: brightness(0) invert(50%) sepia(10%) saturate(2661%) hue-rotate(175deg) brightness(108%) contrast(86%);
-   /* filter: brightness() saturate(20%) invert(35%) sepia(60%) saturate(30) hue-rotate(382deg) brightness(110%) contrast(90%); */
 }

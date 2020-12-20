@@ -30,6 +30,8 @@ const Home = (props) => {
   // navigator.geolocation.getCurrentPosition(resp => console.log(resp))
 
 
+
+
   useEffect(() => {
     if (isAuthenticated && isLoggedIn && props.authToken) {
       setIsLoggedIn(hasLoggedIn());

@@ -31,7 +31,6 @@ const NavBar = ({ authUser, authToken }) => {
             <FontAwesomeIcon icon={faHome} />
             <Link
               className="nav-link"
-              // to={{ pathname: "/home", userProfile: userProfile }}
               to="/home"
             >
               {" "}

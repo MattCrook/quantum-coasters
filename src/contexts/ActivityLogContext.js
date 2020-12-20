@@ -16,7 +16,6 @@ export const ActivityLogProvider = ({ children }) => {
   const getCurrentUserActivity = async (userId) => {
     const currentUserActivity = await getUserActivityLog(userId);
     setActivityLog(currentUserActivity);
-    console.log(currentUserActivity.length);
 
     if (currentUserActivity && currentUserActivity.length > 1) {
       const allUserActions = [];

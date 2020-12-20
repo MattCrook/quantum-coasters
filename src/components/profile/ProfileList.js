@@ -10,39 +10,38 @@ import { confirmAlert } from "react-confirm-alert";
 import "./Profile.css";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { useActivityLog } from "../../contexts/ActivityLogContext";
+import { useAuthUser } from "../../contexts/AuthUserContext";
+import { useErrorLog } from "../../contexts/ErrorLogContext";
+
 // import { Send } from "@material-ui/icons";
 
 const ProfileList = (props) => {
+
   const { user, clearStorage, logout } = useAuth0();
-  const { getCurrentUserActivity, postActivityLogAddCredit, postActivityLogEditProfile} = useActivityLog();
+  const { authUser, userProfile, userCredits } = useAuthUser();
+  const { postNewErrorLog } = useErrorLog();
+  const { getCurrentUserActivity, postActivityLogAddCredit, postActivityLogEditProfile } = useActivityLog();
+  const [userRollerCoasters, setUserRollerCoasters] = useState([]);
   const [isSideNaveToggle, setIsSideNavToggle] = useState(false);
   const [visitedParks, setVisitedParks] = useState([]);
   const [whichTab, setWhichTab] = useState({ tab: "All Credits" });
   const [isLoading, setIsLoading] = useState(false);
-  const { authUser } = props;
   const userId = authUser.id;
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
-  const getUserCreditsToFetch = async (userId) => {
+  const getUserCreditsToFetch = async () => {
     try {
-      const userProfileFromAPI = await userManager.getUserProfileEmbeddedAuthUser(userId);
-      const creditsToFetch = await creditManager.getCreditIdFromApi();
-      const profile = userProfileFromAPI[0];
-      const filterUsersCredits = creditsToFetch.filter((credit) => credit.userProfile === profile.id);
-      props.setUserProfile(profile);
-      props.setUserCredits(profile.credits);
-
-      const creditsMap = filterUsersCredits.map((credit) => {
+      const creditsMap = userCredits.map((credit) => {
         const rollerCoasterId = credit.rollerCoaster;
         return rollerCoasterId;
       });
       let promises = [];
-      creditsMap.forEach((item) => {
-        promises.push(rollerCoasterManager.getRollerCoastersForUserProfile(item));
+      creditsMap.forEach((rollerCoasterId) => {
+        promises.push(rollerCoasterManager.getRollerCoastersForUserProfile(rollerCoasterId));
       });
       Promise.all(promises)
         .then((data) => {
-          props.setUserRollerCoasters(data);
+          setUserRollerCoasters(data);
           let parks = new Set();
           data.forEach((ride) => {
             const park = ride.park;
@@ -51,10 +50,12 @@ const ProfileList = (props) => {
           setVisitedParks([...parks]);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log({error});
+          postNewErrorLog(error, "ProfileList", "getUserCreditsToFetch")
         });
     } catch (err) {
-      console.log(err);
+      // console.log({err});
+      postNewErrorLog(err, "ProfileList", "getUserCreditsToFetch")
     }
   };
 
@@ -80,11 +81,13 @@ const ProfileList = (props) => {
                       });
                     })
                     .catch((error) => {
-                      console.log(error);
+                      console.log({error});
+                      postNewErrorLog(error, "ProfileList", "deleteCredit")
                     });
                 })
                 .catch((error) => {
-                  console.log(error);
+                  console.log({error});
+                  postNewErrorLog(error, "ProfileList", "deleteCredit")
                 });
               setIsLoading(false);
             },
@@ -96,7 +99,9 @@ const ProfileList = (props) => {
         ],
       });
     } catch (error) {
-      console.log(error);
+      console.log({error});
+      postNewErrorLog(error, "ProfileList", "deleteCredit")
+
     }
   };
 
@@ -116,18 +121,28 @@ const ProfileList = (props) => {
     setIsLoading(false);
   };
 
+  const handlePostErrorLog = (e) => {
+    e.preventDefault();
+    const error = "Test Error";
+    const component = "ProfileList"
+    const callingFunction = "HandlePostErrorLog";
+    const data = { 'data': 'data in error' }
 
-
-
+    const payload = {
+      error: error,
+      component: component,
+      callingFunction: callingFunction,
+      data: data,
+    };
+    postNewErrorLog(payload);
+}
 
   useEffect(() => {
-    setIsLoading(true);
     if (props) {
-      getUserCreditsToFetch(userId);
+      getUserCreditsToFetch();
       getCurrentUserActivity(userId);
     }
-    setIsLoading(false);
-  }, [user, props.authUser, userId]);
+  }, [user, props, userId, authUser]);
 
 
 
@@ -154,19 +169,20 @@ const ProfileList = (props) => {
           id="edit-profile-button"
           className="edit-profile-button inset"
           data-testid="edit_profile_btn_testid"
-          onClick={(e) => postActivityLogEditProfile(e, props, authUser.id, `/profile/${props.userProfile.id}`)}
+          onClick={(e) => postActivityLogEditProfile(e, props, authUser.id, `/profile/${userProfile.id}`)}
           // onClick={(e) => props.history.push(`/profile/${props.userProfile.id}`)}
 
         >
           Edit Profile
         </button>
+        <button onClick={(e) => handlePostErrorLog(e)}>Error Log</button>
 
         <div className="name-container-profile-list">
           <p className="name-profile-list">
             {authUser.first_name} {authUser.last_name}
           </p>
-          {props.userProfile.image ? (
-            <img id="profile-pic" src={props.userProfile.image.image} alt="My Avatar" />
+          {userProfile.image ? (
+            <img id="profile-pic" src={userProfile.image.image} alt="My Avatar" />
           ) : (
             <img id="profile-pic" src={defaultProfilePicture} alt="My Avatar" />
           )}
@@ -199,7 +215,7 @@ const ProfileList = (props) => {
 
       {whichTab === "settings--allCredits" && (
         <div className="profile-container-card" data-testid="profile_card_container_testid">
-          {props.userRollerCoasters.map((rollerCoaster) => (
+          {userRollerCoasters.map((rollerCoaster) => (
             <ProfileCard
               key={rollerCoaster.id}
               userProfile={props.userProfile}
@@ -216,13 +232,13 @@ const ProfileList = (props) => {
       )}
       {whichTab === "settings--rollercoaster" && (
         <div className="profile-container-card" data-testid="profile_card_container_testid">
-          <UserCreditsByRide userRollerCoasters={props.userRollerCoasters} deleteCredit={deleteCredit} {...props} />
+          <UserCreditsByRide userRollerCoasters={userRollerCoasters} deleteCredit={deleteCredit} {...props} />
         </div>
       )}
 
       {whichTab === "last_btn_link_settings" && (
         <div className="profile-container-credits-by-park" data-testid="profile_card_container_testid">
-          <UserCreditsByPark userRollerCoasters={props.userRollerCoasters} {...props} />
+          <UserCreditsByPark userRollerCoasters={userRollerCoasters} {...props} />
         </div>
       )}
     </>
