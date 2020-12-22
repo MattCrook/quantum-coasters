@@ -1,16 +1,16 @@
 import React, { useState, useCallback } from "react";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import userManager from "../../modules/users/userManager";
-import "./Register.css";
 import { confirmAlert } from "react-confirm-alert";
 import { useActivityLog } from "../../contexts/ActivityLogContext";
+import { useAuthUser } from "../../contexts/AuthUserContext";
+import "./Register.css";
 
-// import ImageUploader from "react-images-upload";
 
 const Register = (props) => {
-  // const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
   const { user } = useAuth0();
-  const { postActivityLogRegistration } = useActivityLog();
+  const { setAuthToken, setAuthUser } = useAuthUser();
+  const { postActivityLogRegistration, sendLoginInfo } = useActivityLog();
   const [isLoading, setIsLoading] = useState(false);
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [formData, setFormData] = useState({
@@ -20,12 +20,13 @@ const Register = (props) => {
     email: user.email,
     password: user.sub.split("|")[1],
     address: "",
-    auth0_identifier: user.sub.replace("|", "."),
+    auth0_identifier: user.sub.replace("|", ".")
   });
 
+
   const attempts = useCallback(() => {
-    setLoginAttempts(loginAttempts + 1)
-  }, [loginAttempts])
+    setLoginAttempts(loginAttempts + 1);
+  }, [loginAttempts]);
 
   const handleAuthUserInputChange = (e) => {
     const stateToChange = { ...formData };
@@ -51,7 +52,7 @@ const Register = (props) => {
         buttons: [
           {
             label: "Ok",
-            onClick: async (e) => {
+            onClick: async () => {
               const newUserObject = {
                 first_name: formData.first_name.trim(),
                 last_name: formData.last_name.trim(),
@@ -66,10 +67,11 @@ const Register = (props) => {
                 // Django User is object I specified to come back from API in register.py
                 if ("DjangoUser" in registerUser) {
                   props.setDjangoToken(registerUser.DjangoUser);
-                  props.setAuthToken(registerUser.DjangoUser.QuantumToken);
+                  setAuthToken(registerUser.DjangoUser.QuantumToken);
                   // Setting AuthUser from props passed from App to Application Views to Register. Setting the user high up in app to then filter back down.
-                  props.setAuthUser(registerUser.DjangoUser);
+                  setAuthUser(registerUser.DjangoUser);
                   sessionStorage.setItem("sessionId", registerUser.DjangoUser.session);
+
                   const loginData = {
                     user_id: registerUser.DjangoUser.id,
                     email: registerUser.DjangoUser.email,
@@ -79,12 +81,13 @@ const Register = (props) => {
                     platform: props.platformOS,
                     app_code_name: props.appCodeNameData,
                   };
-                  await props.sendLoginInfo(loginData);
-                  postActivityLogRegistration(e, registerUser.DjangoUser.id)
+
+                  await sendLoginInfo(loginData);
+                  postActivityLogRegistration(props, registerUser.DjangoUser.id, "/home");
 
                   // Function to POST to rest-auth verify email endpoint with the key returned from register.
                   // const sendEmailVerification = await userManager.verifyEmail(registerUser.DjangoUser.QuantumToken);
-                  props.history.push("/home");
+                  // props.history.push("/home");
                 }
               } catch (err) {
                 console.log(err);

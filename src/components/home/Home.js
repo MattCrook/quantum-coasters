@@ -1,13 +1,12 @@
 import React, { useEffect } from "react";
-import "bulma/css/bulma.css";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { useAuthUser } from "../../contexts/AuthUserContext";
 import { Link } from "react-router-dom";
-import "./Home.css";
 import Authenticate from "../auth/Authenticate";
 import MicroModal from "micromodal";
+import "bulma/css/bulma.css";
+import "./Home.css";
 import "../auth/Authenticate.css";
-
 
 MicroModal.init({
   openTrigger: "data-micromodal-trigger",
@@ -22,14 +21,9 @@ MicroModal.init({
 
 const Home = (props) => {
   const { loading, user, logout, clearStorage, isAuthenticated, djangoRestAuthLogout } = useAuth0();
-  const { authUser, userProfile, setAuthUser} = useAuthUser();
-  const { isLoggedIn } = props;
-  const { setIsLoggedIn } = props;
-  const { hasLoggedIn } = props;
+  const { authUser, userProfile } = useAuthUser();
+  const { isLoggedIn, setIsLoggedIn, hasLoggedIn } = props;
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
-  // navigator.geolocation.getCurrentPosition(resp => console.log(resp))
-
-
 
 
   useEffect(() => {
@@ -100,14 +94,12 @@ const Home = (props) => {
                 <i className="fas fa-user-lock"></i>Confirm Email
               </button>
               <Authenticate
-                authUser={authUser}
-                setAuthUser={setAuthUser}
-                sendLoginInfo={props.sendLoginInfo}
                 browserData={props.browserData}
                 userAgentData={props.userAgentData}
                 platformOS={props.platformOS}
                 appCodeNameData={props.appCodeNameData}
-                {...props} />
+                {...props}
+              />
             </>
           ) : null}
         </div>

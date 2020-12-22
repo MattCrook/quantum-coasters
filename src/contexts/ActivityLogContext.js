@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { postActivityLog, getUserActivityLog } from "../modules/services/services";
+import { postActivityLog, getUserActivityLog, postLoginInfo } from "../modules/services/services";
 
 export const ActivityLogContext = React.createContext();
 export const useActivityLog = () => useContext(ActivityLogContext);
@@ -7,6 +7,7 @@ export const useActivityLog = () => useContext(ActivityLogContext);
 export const ActivityLogProvider = ({ children }) => {
   const [activityLog, setActivityLog] = useState([]);
   const [actions, setActions] = useState([]);
+  const [loginData, setLoginData] = useState([]);
 
   const postNewActivityLogAction = async (payload) => {
     const postAction = await postActivityLog(payload);
@@ -30,7 +31,6 @@ export const ActivityLogProvider = ({ children }) => {
       setActions(parsedAction);
     }
   };
-
 
   const postActivityLogAddCredit = (e, props, userId, pathname) => {
     let currentDate = new Date();
@@ -98,16 +98,14 @@ export const ActivityLogProvider = ({ children }) => {
     props.history.push(pathname);
   };
 
-  const postActivityLogRegistration = (e, userId) => {
+  const postActivityLogRegistration = (props, userId, pathname) => {
     let currentDate = new Date();
     let dateTime = currentDate.toISOString();
     let date = dateTime.split("T")[0];
 
     const action = {
       component: "Register",
-      action: "New User Registration",
-      target: e.target.id,
-      dataTestId: e.target.dataset,
+      action: "New User Registration - Create profile",
     };
 
     const payload = {
@@ -117,6 +115,7 @@ export const ActivityLogProvider = ({ children }) => {
     };
 
     postNewActivityLogAction({ event: payload });
+    props.history.push(pathname);
   };
 
   const postActivityLogDeleteEvent = (e, userId) => {
@@ -138,7 +137,16 @@ export const ActivityLogProvider = ({ children }) => {
     };
 
     postNewActivityLogAction({ event: payload });
-  }
+  };
+
+  const sendLoginInfo = async (data) => {
+    try {
+      const response = await postLoginInfo(data);
+      setLoginData(response);
+    } catch (err) {
+      console.log({ "Error sending Login Info": err });
+    }
+  };
 
   return (
     <ActivityLogContext.Provider
@@ -152,6 +160,8 @@ export const ActivityLogProvider = ({ children }) => {
         postActivityLogDeleteEvent,
         activityLog,
         actions,
+        sendLoginInfo,
+        loginData,
       }}
     >
       {children}

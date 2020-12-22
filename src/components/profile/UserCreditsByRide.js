@@ -39,8 +39,6 @@ const UserCreditsByRide = (props) => {
     }
   }, [props, isOpen, currentRide]);
 
-    console.log("current", currentRide);
-    console.log("open", isOpen)
 
   return (
     <div id="credits_by_ride_main_container">

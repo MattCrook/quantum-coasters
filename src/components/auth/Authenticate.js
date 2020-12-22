@@ -1,20 +1,22 @@
 import React, { useState, useCallback } from "react";
 import { useAuth0 } from "../../contexts/react-auth0-context";
-import "./Authenticate.css";
 import userManager from "../../modules/users/userManager";
+import { useAuthUser } from "../../contexts/AuthUserContext";
+import { useActivityLog } from "../../contexts/ActivityLogContext";
+import "./Authenticate.css";
 
-export default function Authenticate(props) {
+const Authenticate = (props) => {
   const { user } = useAuth0();
   const [email, setEmail] = useState(user.email);
-  const { setAuthUser } = props;
-  const { setAuthToken } = props;
-  const password = user.sub.split("|")[1];
   const [loginAttempts, setLoginAttempts] = useState(0);
+  const { setAuthUser, setAuthToken } = useAuthUser();
+  const { sendLoginInfo } = useActivityLog();
+  const password = user.sub.split("|")[1];
+
 
   const attempts = useCallback(() => {
-    setLoginAttempts(loginAttempts + 1)
-  }, [loginAttempts])
-
+    setLoginAttempts(loginAttempts + 1);
+  }, [loginAttempts]);
 
 
   const loginSubmit = async (e) => {
@@ -39,7 +41,8 @@ export default function Authenticate(props) {
         platform: props.platformOS,
         app_code_name: props.appCodeNameData,
       };
-      props.sendLoginInfo(loginData).then((resp) => {
+      sendLoginInfo(loginData)
+        .then((resp) => {
           console.log({ resp });
           const origin = window.location.origin;
           window.location.href = origin + "/home";
@@ -98,4 +101,6 @@ export default function Authenticate(props) {
       </div>
     </div>
   );
-}
+};
+
+export default Authenticate;

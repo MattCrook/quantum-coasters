@@ -12,7 +12,6 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 import { useActivityLog } from "../../contexts/ActivityLogContext";
 import { useAuthUser } from "../../contexts/AuthUserContext";
 import { useErrorLog } from "../../contexts/ErrorLogContext";
-
 // import { Send } from "@material-ui/icons";
 
 const ProfileList = (props) => {
@@ -50,12 +49,12 @@ const ProfileList = (props) => {
           setVisitedParks([...parks]);
         })
         .catch((error) => {
-          // console.log({error});
           postNewErrorLog(error, "ProfileList", "getUserCreditsToFetch")
+          console.log(error);
         });
     } catch (err) {
-      // console.log({err});
       postNewErrorLog(err, "ProfileList", "getUserCreditsToFetch")
+      console.log(err);
     }
   };
 
@@ -160,7 +159,6 @@ const ProfileList = (props) => {
           className="add-new-credit-btn inset"
           data-testid="add_new_credit_btn_testid"
           onClick={(e) => postActivityLogAddCredit(e, props, authUser.id, "/user/parks/addcredit")}
-          // onClick={() => props.history.push("/user/parks/addcredit")}
         >
           Add New Credit
         </button>
@@ -170,12 +168,10 @@ const ProfileList = (props) => {
           className="edit-profile-button inset"
           data-testid="edit_profile_btn_testid"
           onClick={(e) => postActivityLogEditProfile(e, props, authUser.id, `/profile/${userProfile.id}`)}
-          // onClick={(e) => props.history.push(`/profile/${props.userProfile.id}`)}
 
         >
           Edit Profile
         </button>
-        <button onClick={(e) => handlePostErrorLog(e)}>Error Log</button>
 
         <div className="name-container-profile-list">
           <p className="name-profile-list">

@@ -18,7 +18,7 @@ const rollerCoasterManager = {
   },
 
   async getRollerCoastersForUserProfile(id) {
-    const data = await fetch(`${remoteURL}/rollercoasters`, {
+    const data = await fetch(`${remoteURL}/rollercoasters/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

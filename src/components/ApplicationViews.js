@@ -1,5 +1,5 @@
-import { Route } from "react-router-dom";
 import React, { useState } from "react";
+import { Route } from "react-router-dom";
 import { useAuth0 } from "../contexts/react-auth0-context";
 import { useAuthUser } from "../contexts/AuthUserContext";
 import ProfileList from "./profile/ProfileList";
@@ -17,19 +17,11 @@ import News from "./news/News";
 import BlogContributorForm from "./news/BlogContributorForm";
 import Plan from "./plan/Plan";
 import NewEventForm from "./plan/calendarComponents/NewEventForm";
-import { postLoginInfo } from "../modules/services/services";
-// import {parseUserAgent} from "../modules/Helpers";
 // import AuthRoute from "./AuthRoute";
 
-const ApplicationViews = ({
-  // userRollerCoasters,
-  // setUserRollerCoasters,
-  browserData,
-  userAgentData,
-  platformOS,
-  appCodeNameData,
-}) => {
+const ApplicationViews = (props) => {
   const { isAuthenticated, user } = useAuth0();
+  const { browserData, userAgentData, platformOS, appCodeNameData } = props;
   const {
     authUser,
     setAuthUser,
@@ -40,6 +32,7 @@ const ApplicationViews = ({
     userCredits,
     setUserCredits,
   } = useAuthUser();
+
   const hasLoggedIn = () => sessionStorage.getItem("QuantumToken") !== null;
   const [isLoggedIn, setIsLoggedIn] = useState(hasLoggedIn());
 
@@ -48,13 +41,6 @@ const ApplicationViews = ({
     setIsLoggedIn(hasLoggedIn());
   };
 
-  const sendLoginInfo = async (data) => {
-    try {
-      await postLoginInfo(data);
-    } catch (err) {
-      console.log({ "Error sending Login Info": err });
-    }
-  };
 
   return (
     <React.Fragment>
@@ -74,7 +60,6 @@ const ApplicationViews = ({
                 setIsLoggedIn={setIsLoggedIn}
                 hasLoggedIn={hasLoggedIn}
                 setDjangoToken={setDjangoToken}
-                sendLoginInfo={sendLoginInfo}
                 browserData={browserData}
                 userAgentData={userAgentData}
                 platformOS={platformOS}
@@ -100,8 +85,6 @@ const ApplicationViews = ({
                 setAuthUser={setAuthUser}
                 setIsLoggedIn={setIsLoggedIn}
                 setDjangoToken={setDjangoToken}
-                setAuthToken={setAuthToken}
-                sendLoginInfo={sendLoginInfo}
                 browserData={browserData}
                 userAgentData={userAgentData}
                 platformOS={platformOS}
@@ -130,7 +113,6 @@ const ApplicationViews = ({
                 setIsLoggedIn={setIsLoggedIn}
                 hasLoggedIn={hasLoggedIn}
                 setDjangoToken={setDjangoToken}
-                sendLoginInfo={sendLoginInfo}
                 browserData={browserData}
                 userAgentData={userAgentData}
                 platformOS={platformOS}
@@ -157,8 +139,6 @@ const ApplicationViews = ({
                 setAuthUser={setAuthUser}
                 setUserCredits={setUserCredits}
                 userCredits={userCredits}
-                // userRollerCoasters={userRollerCoasters}
-                // setUserRollerCoasters={setUserRollerCoasters}
                 {...props}
               />
             );
