@@ -19,10 +19,11 @@ export const ErrorLogProvider = ({ children }) => {
       time: date,
       sessionId: sessionStorage.getItem("sessionId"),
     };
+    console.log({payload})
 
     const newErrorLog = await postErrorLog(payload);
     console.log({newErrorLog});
-    setErrorlog(newErrorLog);
+    // setErrorlog(newErrorLog);
   };
 
   const getCurrentUserErrorLogs = async (userId) => {

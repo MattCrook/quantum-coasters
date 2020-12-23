@@ -34,7 +34,6 @@ const SelectMonthDropdown = (props) => {
     const targetDate = `${initialDateData.year}-${selectedMonth}-${initialDateData.day}`;
 
     const targetDateString = new Date(targetDate);
-    console.log(targetDateString);
     setCurrentDate(targetDateString);
   };
 
