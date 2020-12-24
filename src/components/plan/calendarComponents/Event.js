@@ -3,11 +3,13 @@ import EditEventModal from "./EditEventModal";
 import calendarManager from "../../../modules/calendar/calendarManager";
 import { confirmAlert } from "react-confirm-alert";
 import { useActivityLog } from "../../../contexts/ActivityLogContext";
+import { useErrorLog } from "../../../contexts/ErrorLogContext";
 import "../Plan.css";
 
 const Event = (props) => {
   const { event, events, authUser, userProfile } = props;
   const { postActivityLogDeleteEvent } = useActivityLog();
+  const { postNewErrorLog } = useErrorLog();
   const startTime = event.start_time.split("");
   const start = startTime.slice(0, 5);
   const endTIme = event.end_time.split("");
@@ -43,6 +45,7 @@ const Event = (props) => {
 
   const handleUpdateEvent = (e) => {
     e.preventDefault();
+    setIsLoading(true);
     const updatedEvent = {
       id: currentEvent.id,
       title: currentEvent.title,
@@ -56,12 +59,14 @@ const Event = (props) => {
     calendarManager
       .updateEvent(updatedEvent)
       .then(() => {
-        sessionStorage.removeItem("CalendarDateIsSelected");
         props.history.push("/plan");
+        sessionStorage.removeItem("CalendarDateIsSelected");
       })
       .catch((err) => {
         console.log(err);
+        postNewErrorLog(err, "Event.js", "handleUpdateEvent");
       });
+    setIsLoading(false);
   };
 
   const handleDeleteEvent = (e) => {
@@ -98,6 +103,7 @@ const Event = (props) => {
       });
     } catch (error) {
       console.log({ "Error deleting event: ": error });
+      postNewErrorLog(error, "Event.js", "handleDeleteEvent");
     }
   };
 
@@ -106,11 +112,14 @@ const Event = (props) => {
     deleteBtn.style.zIndex = "40";
   };
 
+  const hideModalAfterUpdateSubmit = (e) => {
+    e.preventDefault();
+    setOpen(false);
+  };
 
   useEffect(() => {
-      setCurrentEvent(event);
+    setCurrentEvent(event);
   }, [event, events]);
-
 
   return (
     <>
@@ -121,8 +130,6 @@ const Event = (props) => {
             handleClose={handleClose}
             handleOpen={handleOpen}
             event={event}
-            handleUpdateInput={handleUpdateInput}
-            handleUpdateEvent={handleUpdateEvent}
             addReminder={addReminder}
             setAddReminder={setAddReminder}
             authUser={authUser}
@@ -131,8 +138,11 @@ const Event = (props) => {
             setIsReminderSet={setIsReminderSet}
             isReminderSet={isReminderSet}
             setReminderValue={setReminderValue}
+            handleUpdateInput={handleUpdateInput}
+            handleUpdateEvent={handleUpdateEvent}
             handleDeleteEvent={handleDeleteEvent}
             hideModalBehindConfirmDelete={hideModalBehindConfirmDelete}
+            hideModalAfterUpdateSubmit={hideModalAfterUpdateSubmit}
             {...props}
           />
           <div className="event_start">{[...start]}</div> -<div className="event_end">{[...end]}</div>

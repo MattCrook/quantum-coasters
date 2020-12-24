@@ -262,7 +262,7 @@ const EditProfile = (props) => {
           </form>
         </div>
         <div className="profile-info-container">
-          <div className="user_info_title"> <i class="fas fa-user-circle"></i> Personal Information</div>
+          <div className="user_info_title"> <i className="fas fa-user-circle"></i> Personal Information</div>
           <div className="user_info_container">
           <div className="user_info">
             <div className="user_info_row_title">First Name: </div>

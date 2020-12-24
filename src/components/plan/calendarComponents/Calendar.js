@@ -56,8 +56,7 @@ const Calendar = (props) => {
     matchingEventsWithCurrentDay();
   }, [selectedDate, userCalendarEvents, currentSelectedDay]);
 
-  // console.log({ userCalendarEvents });
-  // console.log({ events });
+
   return (
     <div className="modal micromodal-slide" id="modal-cal" aria-hidden="true">
       <div className="modal__overlay" tabIndex="-1" data-micromodal-close>

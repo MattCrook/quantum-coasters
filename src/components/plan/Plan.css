@@ -553,14 +553,14 @@ span.has_events {
   display: flex;
   align-items: center;
   color: rgb(236, 235, 235);
-  font: 150 1em helvetica neue, open sans, sans-serif;
+  font: 150 0.8em helvetica neue, open sans, sans-serif;
 }
 
 .event_location {
   display: flex;
   align-items: center;
   color: rgb(236, 235, 235);
-  font: 150 1em helvetica neue, open sans, sans-serif;
+  font: 150 0.8em helvetica neue, open sans, sans-serif;
 }
 
 .event_description {
@@ -969,7 +969,7 @@ input[type="radio"]:checked ~ label {
   margin-right: 2px;
 }
 .cal_event_edit_title {
-  font: 150 1em helvetica neue, open sans, sans-serif;
+  font: 150 1.4em helvetica neue, open sans, sans-serif;
 }
 
 .cal_edit_event_header {

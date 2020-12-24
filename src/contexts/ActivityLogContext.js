@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { postActivityLog, getUserActivityLog } from "../modules/services/services";
+import { postActivityLog, getUserActivityLog, postLoginInfo } from "../modules/services/services";
 
 export const ActivityLogContext = React.createContext();
 export const useActivityLog = () => useContext(ActivityLogContext);
@@ -7,10 +7,11 @@ export const useActivityLog = () => useContext(ActivityLogContext);
 export const ActivityLogProvider = ({ children }) => {
   const [activityLog, setActivityLog] = useState([]);
   const [actions, setActions] = useState([]);
+  const [loginData, setLoginData] = useState([]);
 
   const postNewActivityLogAction = async (payload) => {
-    const postAction = await postActivityLog(payload);
-    setActivityLog(postAction);
+    await postActivityLog(payload);
+    // setActivityLog(postAction);
   };
 
   const getCurrentUserActivity = async (userId) => {
@@ -31,8 +32,7 @@ export const ActivityLogProvider = ({ children }) => {
     }
   };
 
-
-  const postActivityLogAddCredit = (e, props, userId, pathname) => {
+  const postActivityLogAddCredit = async (e, props, userId, pathname) => {
     let currentDate = new Date();
     let dateTime = currentDate.toISOString();
     let date = dateTime.split("T")[0];
@@ -50,11 +50,11 @@ export const ActivityLogProvider = ({ children }) => {
       date: date,
     };
 
-    postNewActivityLogAction({ event: payload });
+    await postNewActivityLogAction({ event: payload });
     props.history.push(pathname);
   };
 
-  const postActivityLogEditProfile = (e, props, userId, pathname) => {
+  const postActivityLogEditProfile = async (e, props, userId, pathname) => {
     let currentDate = new Date();
     let dateTime = currentDate.toISOString();
     let date = dateTime.split("T")[0];
@@ -72,11 +72,11 @@ export const ActivityLogProvider = ({ children }) => {
       date: date,
     };
 
-    postNewActivityLogAction({ event: payload });
+    await postNewActivityLogAction({ event: payload });
     props.history.push(pathname);
   };
 
-  const postActivityLogCreateRollerCoster = (e, props, userId, pathname) => {
+  const postActivityLogCreateRollerCoster = async (e, props, userId, pathname) => {
     let currentDate = new Date();
     let dateTime = currentDate.toISOString();
     let date = dateTime.split("T")[0];
@@ -94,20 +94,18 @@ export const ActivityLogProvider = ({ children }) => {
       date: date,
     };
 
-    postNewActivityLogAction({ event: payload });
+    await postNewActivityLogAction({ event: payload });
     props.history.push(pathname);
   };
 
-  const postActivityLogRegistration = (e, userId) => {
+  const postActivityLogRegistration = async (props, userId, pathname) => {
     let currentDate = new Date();
     let dateTime = currentDate.toISOString();
     let date = dateTime.split("T")[0];
 
     const action = {
       component: "Register",
-      action: "New User Registration",
-      target: e.target.id,
-      dataTestId: e.target.dataset,
+      action: "New User Registration - Create profile",
     };
 
     const payload = {
@@ -116,10 +114,11 @@ export const ActivityLogProvider = ({ children }) => {
       date: date,
     };
 
-    postNewActivityLogAction({ event: payload });
+    await postNewActivityLogAction({ event: payload });
+    props.history.push(pathname);
   };
 
-  const postActivityLogDeleteEvent = (e, userId) => {
+  const postActivityLogDeleteEvent = async (e, userId) => {
     let currentDate = new Date();
     let dateTime = currentDate.toISOString();
     let date = dateTime.split("T")[0];
@@ -137,8 +136,81 @@ export const ActivityLogProvider = ({ children }) => {
       date: date,
     };
 
-    postNewActivityLogAction({ event: payload });
-  }
+    await postNewActivityLogAction({ event: payload });
+  };
+
+  const postActivityLogStartNewsApplication = async (e, userId, props) => {
+    let currentDate = new Date();
+    let dateTime = currentDate.toISOString();
+    let date = dateTime.split("T")[0];
+
+    const action = {
+      component: "News.js",
+      action: "Start Blog Contributor Application",
+      target: e.target.id,
+      dataTestId: e.target.dataset,
+    };
+
+    const payload = {
+      user_id: userId,
+      action: action,
+      date: date,
+    };
+
+    await postNewActivityLogAction({ event: payload });
+    props.history.push("/news/contributor/apply");
+  };
+
+  const postActivityLogSubmitNewsApplication = async (e, userId) => {
+    let currentDate = new Date();
+    let dateTime = currentDate.toISOString();
+    let date = dateTime.split("T")[0];
+
+    const action = {
+      component: "News.js",
+      action: "Start Blog Contributor Application",
+      target: e.target.id,
+      dataTestId: e.target.dataset,
+    };
+
+    const payload = {
+      user_id: userId,
+      action: action,
+      date: date,
+    };
+
+    await postNewActivityLogAction({ event: payload });
+  };
+
+  const postNewParkActivityLog = async (e, userId) => {
+    let currentDate = new Date();
+    let dateTime = currentDate.toISOString();
+    let date = dateTime.split("T")[0];
+
+    const action = {
+      component: "News.js",
+      action: "Start Blog Contributor Application",
+      target: e.target.id,
+      dataTestId: e.target.dataset,
+    };
+
+    const payload = {
+      user_id: userId,
+      action: action,
+      date: date,
+    };
+
+    await postNewActivityLogAction({ event: payload });
+  };
+
+  const sendLoginInfo = async (data) => {
+    try {
+      const response = await postLoginInfo(data);
+      setLoginData(response);
+    } catch (err) {
+      console.log({ "Error sending Login Info": err });
+    }
+  };
 
   return (
     <ActivityLogContext.Provider
@@ -150,8 +222,13 @@ export const ActivityLogProvider = ({ children }) => {
         postActivityLogCreateRollerCoster,
         postActivityLogRegistration,
         postActivityLogDeleteEvent,
+        postActivityLogStartNewsApplication,
+        postActivityLogSubmitNewsApplication,
+        postNewParkActivityLog,
         activityLog,
         actions,
+        sendLoginInfo,
+        loginData,
       }}
     >
       {children}

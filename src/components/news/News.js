@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { useAuth0 } from "../../contexts/react-auth0-context";
+// import { useAuth0 } from "../../contexts/react-auth0-context";
+import { useErrorLog } from "../../contexts/ErrorLogContext";
+import { useActivityLog } from "../../contexts/ActivityLogContext";
 import CustomizedInputBaseLight from "../search/CustomizedSearchLight";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import newsManager from "../../modules/news/newsManager";
@@ -8,11 +10,8 @@ import NavHeader from "../nav/NavHeader";
 import "./News.css";
 
 const News = (props) => {
-  // const { logout, clearStorage, loading } = useAuth0();
-  // const { authUser } = props;
-  // const { userProfile } = props;
-  // const defaultQPicture = "https://cdn.dribbble.com/users/2908839/screenshots/6292457/shot-cropped-1554473682961.png";
-  // const quantum = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkuMRtA9N0Xxc9D3adOG3x5piu_Ze4LdZVqA&usqp=CAU";
+  const { postActivityLogStartNewsApplication } = useActivityLog();
+  const { postNewErrorLog } = useErrorLog();
   const [isOpen, setIsOpen] = useState(false);
   const [section, setSection] = useState([]);
   const [sectionContent, setSectionContent] = useState([]);
@@ -76,19 +75,26 @@ const News = (props) => {
     setIsLoading(true);
     let target = e.target.id;
     setActive(target);
-    console.log(sortKeyWord);
+
     if (sortKeyWord === "recent") {
-      const newsContent = await newsManager.getSectionContent(section);
-      const sortedContent = sortArticleDate(newsContent);
-      console.log(sortedContent);
-      sortedContent.reverse();
-      setSectionContent(newsContent);
-      setFilterSection("Recent");
+      try {
+        const newsContent = await newsManager.getSectionContent(section);
+        const sortedContent = sortArticleDate(newsContent);
+        sortedContent.reverse();
+        setSectionContent(newsContent);
+        setFilterSection("Recent");
+      } catch (error) {
+        postNewErrorLog(error, "News.js", "handleSortByMostRecent = recent");
+      }
     } else if (sortKeyWord === "oldest") {
-      const newsContent = await newsManager.getSectionContent(section);
-      sortArticleDate(newsContent);
-      setSectionContent(newsContent);
-      setFilterSection("Oldest");
+      try {
+        const newsContent = await newsManager.getSectionContent(section);
+        sortArticleDate(newsContent);
+        setSectionContent(newsContent);
+        setFilterSection("Oldest");
+      } catch (error) {
+        postNewErrorLog(error, "News.js", "handleSortByMostRecent = oldest");
+      }
     } else if (sortKeyWord === "none") {
       handleShowSectionContent(section);
       setFilterSection("Sort By");
@@ -227,7 +233,7 @@ const News = (props) => {
               <div className="news_apply_user_article_btn_container">
                 <button
                   className="news_apply_user_article_btn"
-                  onClick={() => props.history.push("/news/contributor/apply")}
+                  onClick={(e) => postActivityLogStartNewsApplication(e, props.authUser.id, props)}
                 >
                   Apply
                 </button>

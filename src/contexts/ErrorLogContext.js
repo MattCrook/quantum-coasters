@@ -6,22 +6,21 @@ export const useErrorLog = () => useContext(ErrorLogContext);
 
 export const ErrorLogProvider = ({ children }) => {
   const [errorLog, setErrorlog] = useState([]);
-  const [error, setError] = useState([]);
+  //   const [error, setError] = useState([]);
 
-    const postNewErrorLog = async (error, component, callingFunction) => {
-        let date = new Date();
-        date = date.toUTCString();
+  const postNewErrorLog = async (error, component, callingFunction) => {
+    let date = new Date();
+    date = date.toUTCString();
     const payload = {
       message: error.message,
       stack: error.stack,
       component: component,
       callingFunction: callingFunction,
       time: date,
+      sessionId: sessionStorage.getItem("sessionId"),
     };
 
-    const newErrorLog = await postErrorLog(payload);
-    console.log(newErrorLog);
-    // setErrorlog(newErrorLog);
+    await postErrorLog(payload);
   };
 
   const getCurrentUserErrorLogs = async (userId) => {
@@ -41,7 +40,6 @@ export const ErrorLogProvider = ({ children }) => {
         getCurrentUserErrorLogs,
         fetchOneErrorLog,
         errorLog,
-        error,
       }}
     >
       {children}

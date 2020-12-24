@@ -7,56 +7,52 @@ import ApplicationViews from "./components/ApplicationViews";
 import userManager from "./modules/users/userManager";
 import { parseUserAgent } from "./modules/Helpers";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import {ErrorLogProvider} from "./contexts/ErrorLogContext"
 import "./App.css";
 import "bulma/css/bulma.css";
-import { ErrorLogProvider } from "./contexts/ErrorLogContext";
+
 
 const App = (props) => {
   const { loading, user, isAuthenticated, appInitOptions } = useAuth0();
-  const { authUser, userProfile, authToken, setUserProfile} = useAuthUser();
+  const { authUser, userProfile, authToken } = useAuthUser();
   const [initOptions, setInitOptions] = useState([]);
-  const [browserData, setBrowserData] = useState({});
-  const [userAgentData, setUserAgentData] = useState({});
-  const [platformOS, setPlatformOS] = useState({});
-  const [appCodeNameData, setAppCodeNameData] = useState({});
+  const [browserData, setBrowserData] = useState();
+  const [userAgentData, setUserAgentData] = useState();
+  const [platformOS, setPlatformOS] = useState();
+  const [appCodeNameData, setAppCodeNameData] = useState();
   const { userAgent } = navigator;
   const appCodeName = navigator.appCodeName;
   const platformOperatingSystem = navigator.platform;
-
-
-  const parseUserAgentDataHelper = (userAgent, setBrowserData, setUserAgentData) => {
-    parseUserAgent(userAgent, setBrowserData, setUserAgentData);
-  };
+  const hasCredentials = sessionStorage.getItem("QuantumToken") !== null;
 
 
   useEffect(() => {
-    if (user && isAuthenticated && authUser.length > 0 && appInitOptions.length > 0) {
+    if (user && isAuthenticated && appInitOptions && appInitOptions.length > 0) {
       const init = async () => {
         const sessionId = sessionStorage.getItem("sessionId");
-        const csrf = getCookie("csrftoken");
+        const csrf_token = getCookie("csrftoken");
         let authInitOptions = appInitOptions[0];
 
-        if (csrf) {
-          authInitOptions["csrf_token"] = csrf;
+        if (csrf_token) {
+          authInitOptions["csrf_token"] = csrf_token;
         }
+
         if (sessionId) {
           authInitOptions["session_id"] = sessionId;
         }
 
-        const updateAuthInitCredentials = await userManager.postInitAppOptions(authInitOptions);
-        setInitOptions(updateAuthInitCredentials);
-        parseUserAgentDataHelper(userAgent, setBrowserData, setUserAgentData);
+        if (hasCredentials) {
+          const updateAuthInitCredentials = await userManager.postInitAppOptions(authInitOptions);
+          setInitOptions(updateAuthInitCredentials);
+        }
+
+        parseUserAgent(userAgent, setBrowserData, setUserAgentData);
         setPlatformOS(platformOperatingSystem);
         setAppCodeNameData(appCodeName);
       };
       init();
     }
-    // } else {
-    //   console.log("Please Complete your Profile. :) ");
-    //   setUserProfile([]);
-    // }
-  }, [appCodeName, appInitOptions, authUser, isAuthenticated, platformOperatingSystem, setUserProfile, user, userAgent]);
-
+  }, [appCodeName, appInitOptions, hasCredentials, isAuthenticated, platformOperatingSystem, user, userAgent]);
 
   if (loading) {
     return (
@@ -66,7 +62,6 @@ const App = (props) => {
       </div>
     );
   }
-
 
   function getCookie(cname) {
     let name = cname + "=";
@@ -89,13 +84,8 @@ const App = (props) => {
     <>
       <CssBaseline />
       <BrowserRouter>
-      <ErrorLogProvider>
-        <NavBar
-          userProfile={userProfile}
-          authUser={authUser}
-          authToken={authToken}
-          {...props}
-        />
+        <ErrorLogProvider>
+        <NavBar userProfile={userProfile} authUser={authUser} authToken={authToken} {...props} />
         <ApplicationViews
           initOptions={initOptions}
           browserData={browserData}
@@ -103,8 +93,8 @@ const App = (props) => {
           platformOS={platformOS}
           appCodeNameData={appCodeNameData}
           {...props}
-          />
-          </ErrorLogProvider>
+        />
+        </ErrorLogProvider>
       </BrowserRouter>
     </>
   );

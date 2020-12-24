@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function EditEventModal(props) {
+const EditEventModal = (props) => {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
 
@@ -59,6 +59,7 @@ export default function EditEventModal(props) {
         aria-describedby="simple-modal-description"
         open={props.open}
         onClose={props.handleClose}
+        onSubmit={props.handleUpdateEvent}
       >
         <div style={modalStyle} className={classes.paper}>
           <div className="cal_edit_event_header">
@@ -69,7 +70,7 @@ export default function EditEventModal(props) {
             <button className="modal_close_edit" onClick={props.handleClose}></button>
           </div>
 
-          <form className="event_edit_form" onSubmit={props.handleUpdateEvent}>
+          <form className="event_edit_form" onSubmit={props.hideModalAfterUpdateSubmit}>
             <div className="row_wrapper">
               <label className="event_form_label" htmlFor="title">
                 Title:
@@ -231,3 +232,5 @@ export default function EditEventModal(props) {
     </div>
   );
 }
+
+export default EditEventModal;
