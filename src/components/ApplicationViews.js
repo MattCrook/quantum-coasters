@@ -251,11 +251,7 @@ const ApplicationViews = (props) => {
           if (isAuthenticated && authUser.id && isLoggedIn) {
             return (
               <AddPark
-                userProfile={userProfile}
                 authUser={authUser}
-                setUserProfile={setUserProfile}
-                userCredits={userCredits}
-                setUserCredits={setUserCredits}
                 {...props}
               />
             );

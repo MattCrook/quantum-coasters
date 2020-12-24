@@ -4,11 +4,11 @@ import { useAuthUser } from "../../contexts/AuthUserContext";
 
 
 
-const NavHeader = (props) => {
+const NavHeader = () => {
     const { loading, user, isAuthenticated, clearStorage, djangoRestAuthLogout, logout } = useAuth0()
     const { authUser, userProfile } = useAuthUser();
-    const defaultQPicture = "https://cdn.dribbble.com/users/2908839/screenshots/6292457/shot-cropped-1554473682961.png";
     const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
+    // const defaultQPicture = "https://cdn.dribbble.com/users/2908839/screenshots/6292457/shot-cropped-1554473682961.png";
 
 
   return (

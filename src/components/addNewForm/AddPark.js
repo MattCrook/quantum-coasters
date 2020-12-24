@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { useErrorLog } from "../../contexts/ErrorLogContext";
+import { useActivityLog, userActivityLog } from "../../contexts/ActivityLogContext";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import "./AddPark.css";
-
 
 const remoteUrl = process.env.REACT_APP_REMOTE_API_URL;
 
@@ -9,6 +10,8 @@ const AddPark = (props) => {
   const [name, setName] = useState();
   const [parkLocation, setParkLocation] = useState();
   const [parkCountry, setParkCountry] = useState();
+  const { postNewParkActivityLog } = useActivityLog();
+  const { postNewErrorLog } = useErrorLog();
 
   const addNewPark = async (token, parkObj) => {
     try {
@@ -16,7 +19,7 @@ const AddPark = (props) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `JWT ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(parkObj),
       });
@@ -27,6 +30,7 @@ const AddPark = (props) => {
       throw new Error(`Failed to add Park - ${name}`);
     } catch (err) {
       console.log(err);
+      await postNewErrorLog(err, "AddPark.js", "addNewPark - API call");
     }
   };
   const handleSubmit = (e) => {
@@ -37,12 +41,13 @@ const AddPark = (props) => {
       parkCountry: parkCountry,
     };
 
-    const Auth0Token = localStorage.getItem("accessToken");
-    // const rest_auth_token = sessionStorage.getItem("QuantumToken");
+    const token = localStorage.getItem("accessToken");
 
-      addNewPark(Auth0Token, newPark).then(() => {
+    addNewPark(token, newPark).then(() => {
       alert(`Thanks For Adding ${name} to the database. You may now select it as an option.`);
-      props.history.push("/new/rollercoaster");
+      postNewParkActivityLog(e, props.authUser.id).then(() => {
+        props.history.push("/new/rollercoaster");
+      });
     });
   };
 
@@ -53,10 +58,7 @@ const AddPark = (props) => {
           <div id="quantum_logo">Quantum Coasters</div>
         </div>
         <div className="back_btn_container_select_rollercoaster">
-          <button
-            className="go_back_to_ridelist_btn"
-            onClick={() => props.history.push("/new/rollercoaster")}
-          >
+          <button className="go_back_to_ridelist_btn" onClick={() => props.history.push("/new/rollercoaster")}>
             <i className="fas fa-step-backward"></i>Back
           </button>
         </div>
@@ -78,18 +80,13 @@ const AddPark = (props) => {
                 name="name"
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Ex) Six Flags Magic Mountain, Cedar Point, Europa Park, etc..."
-
               />
             </fieldset>
           </div>
 
           <div className="fieldset_container">
             <fieldset className="new_form">
-              <label
-                id="add_park_label"
-                className="new_form"
-                htmlFor="parkLocation"
-              >
+              <label id="add_park_label" className="new_form" htmlFor="parkLocation">
                 Park State/Providence:{" "}
               </label>
               <input
@@ -117,23 +114,16 @@ const AddPark = (props) => {
                 name="country"
                 onChange={(e) => setParkCountry(e.target.value)}
                 placeholder="Ex) USA, Germany, UK, etc..."
-
               />
             </fieldset>
           </div>
 
-          <input
-            className="new_form"
-            id="create_park_btn"
-            type="submit"
-            value="Create"
-          />
+          <input className="new_form" id="create_park_btn" type="submit" value="Create" />
         </form>
 
         <div className="signature">
           <p>
-            Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a>{" "}
-            <i className="fas fa-trademark"></i>
+            Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a> <i className="fas fa-trademark"></i>
           </p>
         </div>
       </div>

@@ -1,12 +1,14 @@
 import React, { useState, useRef } from "react";
-// import { useAuth0 } from "../../contexts/react-auth0-context";
 import newsManager from "../../modules/news/newsManager";
 import { confirmAlert } from "react-confirm-alert";
+import { useErrorLog } from "../../contexts/ErrorLogContext";
+import { useActivityLog } from "../../contexts/ActivityLogContext";
 import "./BlogContributorForm.css";
-// const remoteUrl = process.env.REACT_APP_REMOTE_API_URL;
 
 const BlogContributorForm = (props) => {
   const [isLoading, setIsLoading] = useState(false);
+  const { postNewErrorLog } = useErrorLog();
+  const { postActivityLogSubmitNewsApplication } = useActivityLog();
   const firstName = useRef();
   const lastName = useRef();
   const email = useRef();
@@ -18,6 +20,7 @@ const BlogContributorForm = (props) => {
   const handleFormSubmit = (e) => {
     setIsLoading(true);
     e.preventDefault();
+    var event = e;
     confirmAlert({
       title: "Application Submitted!",
       message: "Thanks for showing interest in becoming a Quantum Contributor.",
@@ -35,13 +38,13 @@ const BlogContributorForm = (props) => {
             };
             try {
               //   const sendVerificationEmail = await postEmailVerify();
-              newsManager.postUserBlogApplication(data).then((resp) => {
-                console.log(resp);
-                setIsLoading(false);
-                props.history.push("/news");
-              });
+              await newsManager.postUserBlogApplication(data);
+              await postActivityLogSubmitNewsApplication(event, authUser.id);
+              setIsLoading(false);
+              props.history.push("/news");
             } catch (err) {
               console.log({ "Application POST Error": err });
+              await postNewErrorLog(err, "BlogContributorForm,js", "handleFormSubmit");
             }
           },
         },

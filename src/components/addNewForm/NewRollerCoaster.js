@@ -6,10 +6,12 @@ import rollerCoasterManager from "../../modules/rollerCoasters/rollerCoasterMana
 import { confirmAlert } from "react-confirm-alert";
 import { handleFieldChangeHelper } from "../../modules/Helpers";
 import { setResourceStateHelperFunction } from "../../modules/Helpers";
+import { useErrorLog } from "../../contexts/ErrorLogContext";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import "./NewRollerCoasterForm.css";
 
 const AddNewRollerCoaster = (props) => {
+  const { postNewErrorLog } = useErrorLog();
   const [manufacturers, setManufacturers] = useState([]);
   const [trackTypes, setTrackTypes] = useState([]);
   const [parks, setParks] = useState([]);
@@ -88,6 +90,7 @@ const AddNewRollerCoaster = (props) => {
                 var manufacturerId = getManufacturerName.length > 0 ? getManufacturerName[0].id : false;
               } catch (error) {
                 console.log({ error });
+                await postNewErrorLog(error, "NewRollerCoaster.js", "constructNewRollerCoaster-ConfirmAlert-OnClick")
               }
 
               if (!trackTypeId) {
@@ -117,7 +120,10 @@ const AddNewRollerCoaster = (props) => {
               rollerCoasterManager.postNewRollerCoaster(newRollerCoaster).then(() => {
                 setIsLoading(false);
                 props.history.push("/user/parks/addcredit");
-              });
+              })
+                .catch((error) => {
+                  postNewErrorLog(error, "constructNewRollerCoaster.js", "constructNewRollerCoaster-postNewRollerCoaster");
+              })
             },
           },
           {

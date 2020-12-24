@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import { useAuth0 } from "../../contexts/react-auth0-context";
 import { useErrorLog } from "../../contexts/ErrorLogContext";
 import Calendar from "./calendarComponents/Calendar";
 import NavHeader from "../nav/NavHeader";
@@ -24,12 +23,12 @@ import {
 import "./Plan.css";
 
 const Plan = (props) => {
-  // const { loading, user, logout, clearStorage, isAuthenticated } = useAuth0();
+
   // const { getCurrentUserActivity, postActivityLogAddCredit, postActivityLogEditProfile } = useActivityLog();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [userCalendarEvents, setUserCalendarEvents] = useState([]);
-  const { postNewErrorLog } = useErrorLog();
+  const { postNewErrorLog, getCurrentUserErrorLogs, errorLog } = useErrorLog();
   const today = new Date();
   const [date, setDate] = useState(today);
   const [year, setYear] = useState(date.getFullYear());
@@ -45,7 +44,6 @@ const Plan = (props) => {
   const onDateClick = (day) => setSelectedDate(day);
 
   const isEventsForDate = (userEvents, day) => {
-    try {
       let dateFormat = "yyyy-M-dd";
       let formattedDate = parseISO(format(day, dateFormat));
       let matches = [];
@@ -55,9 +53,6 @@ const Plan = (props) => {
         }
       });
       return matches;
-    } catch (error) {
-      console.log(error)
-    }
   };
 
   const handleDayClick = (e) => {
@@ -187,6 +182,7 @@ const Plan = (props) => {
     }
   };
 
+
   useEffect(() => {
     const userCalendar = async () => {
       const userEvents = await calendarManager.getUserCalendarEvents(props.authUser.id);
@@ -194,6 +190,8 @@ const Plan = (props) => {
     };
     userCalendar();
   }, [props]);
+
+
 
   return (
     <>
