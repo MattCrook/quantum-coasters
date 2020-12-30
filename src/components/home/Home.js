@@ -30,7 +30,6 @@ const Home = (props) => {
     if (isAuthenticated && isLoggedIn && props.authToken) {
       setIsLoggedIn(hasLoggedIn());
     } else {
-      console.log("Home.js: Not Logged In");
       setIsLoggedIn(hasLoggedIn());
     }
   }, [props, hasLoggedIn, isLoggedIn, isAuthenticated, setIsLoggedIn]);

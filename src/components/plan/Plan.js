@@ -28,7 +28,7 @@ const Plan = (props) => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [userCalendarEvents, setUserCalendarEvents] = useState([]);
-  const { postNewErrorLog, getCurrentUserErrorLogs, errorLog } = useErrorLog();
+  const { postNewErrorLog } = useErrorLog();
   const today = new Date();
   const [date, setDate] = useState(today);
   const [year, setYear] = useState(date.getFullYear());

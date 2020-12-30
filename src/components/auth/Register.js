@@ -4,6 +4,7 @@ import userManager from "../../modules/users/userManager";
 import { confirmAlert } from "react-confirm-alert";
 import { useActivityLog } from "../../contexts/ActivityLogContext";
 import { useAuthUser } from "../../contexts/AuthUserContext";
+import { useErrorLog } from "../../contexts/ErrorLogContext";
 import "./Register.css";
 
 
@@ -11,6 +12,7 @@ const Register = (props) => {
   const { user } = useAuth0();
   const { setAuthToken, setAuthUser } = useAuthUser();
   const { postActivityLogRegistration, sendLoginInfo } = useActivityLog();
+  const { postNewErrorLog } = useErrorLog();
   const [isLoading, setIsLoading] = useState(false);
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [formData, setFormData] = useState({
@@ -20,7 +22,10 @@ const Register = (props) => {
     email: user.email,
     password: user.sub.split("|")[1],
     address: "",
-    auth0_identifier: user.sub.replace("|", ".")
+    auth0_identifier: user.sub.replace("|", "."),
+    uid: user.sub,
+    provider: "",
+    id_token: "",
   });
 
 
@@ -61,6 +66,10 @@ const Register = (props) => {
                 password: user.sub.split("|")[1],
                 address: formData.address.trim(),
                 auth0_identifier: user.sub.replace("|", "."),
+                uid: user.sub,
+                provider: "Auth0",
+                id_token: sessionStorage.getItem("IdToken"),
+                extra_data: user,
               };
               try {
                 const registerUser = await userManager.register(newUserObject);
@@ -80,6 +89,7 @@ const Register = (props) => {
                     version: props.userAgentData,
                     platform: props.platformOS,
                     app_code_name: props.appCodeNameData,
+                    id_token: sessionStorage.getItem("IdToken"),
                   };
 
                   await sendLoginInfo(loginData);
@@ -91,6 +101,7 @@ const Register = (props) => {
                 }
               } catch (err) {
                 console.log(err);
+                await postNewErrorLog(err, "Register.js", "handleFormSubmit");
               }
             },
           },

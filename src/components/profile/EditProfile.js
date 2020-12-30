@@ -73,30 +73,36 @@ const EditProfile = (props) => {
     setAuthUser(stateToChange);
   };
 
-  const handleImageUpload = (event) => {
-    const inputFile = event.target.files[0];
-    // A hackey way of kicking the file out of the input
-    // when validations fail
+
+  const handleFileReader = (result) => {
+    let imgTagToFill = document.getElementById("edit-profile-pic");
+    imgTagToFill.src = result;
+  };
+
+
+  const handleImagePreview = (e) => {
     const clearInput = () => (document.getElementById("image").value = "");
-    // First check if the user actually ended up uploading a file
-    if (inputFile) {
-      // Then, check if it's an image
-      if (!inputFile.type.startsWith("image/")) {
+    e.preventDefault();
+    const file = e.target.files[0];
+    if (file) {
+      if (!file.type.startsWith("image/")) {
         alert("Only image files are supported");
         clearInput();
-        // Then check if it's smaller than 5MB
-      } else if (inputFile.size > 5000000) {
+      } else if (file.size > 5000000) {
         alert("File size cannot exceed 5MB");
         clearInput();
       } else {
-        // The image is only set in state
-        // if the above validations pass
-        const stateToChange = { ...image };
-        stateToChange[event.target.id] = inputFile;
-        setImage(stateToChange);
+        const reader = new FileReader();
+        reader.onload = () => {
+          handleFileReader(reader.result);
+        };
+        reader.readAsDataURL(file);
+        setImage(file);
       }
-    }
+    };
   };
+
+  console.log({image})
 
   // Building objects to send to Api.
   // If there is a new image, Post new image to images table, grab the ID, and send with new image_id,
@@ -252,7 +258,7 @@ const EditProfile = (props) => {
                 type="file"
                 accept="image/*"
                 className="file-upload"
-                onChange={handleImageUpload}
+                onChange={handleImagePreview}
                 required
               />
             </div>

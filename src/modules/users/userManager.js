@@ -140,21 +140,6 @@ const userManager = {
       console.log(err);
     }
   },
-  async patchQuantumTokenOnLogin(data) {
-    try {
-      await fetch(`${remoteURL}/credentials/${data.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
-        },
-        Accept: "application/json",
-        body: JSON.stringify(data),
-      });
-    } catch (err) {
-      console.log({ err });
-    }
-  },
   async verifyEmail(key) {
     try {
       const response = await fetch(`${remoteURL}/rest-auth/registration/verify-email/`, {

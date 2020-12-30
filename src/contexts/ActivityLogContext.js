@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { postActivityLog, getUserActivityLog, postLoginInfo } from "../modules/services/services";
+import { postActivityLog, getUserActivityLog, postLoginInfo, postErrorLog } from "../modules/services/services";
 
 export const ActivityLogContext = React.createContext();
 export const useActivityLog = () => useContext(ActivityLogContext);
@@ -209,6 +209,7 @@ export const ActivityLogProvider = ({ children }) => {
       setLoginData(response);
     } catch (err) {
       console.log({ "Error sending Login Info": err });
+      await postErrorLog(err, 'Register.js from ActivityLogContext', 'sendLoginInfo')
     }
   };
 
