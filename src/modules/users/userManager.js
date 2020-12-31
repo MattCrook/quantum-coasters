@@ -37,17 +37,17 @@ const userManager = {
     return await result.json();
   },
 
-  async getAuthUserById(id) {
-    const resp = await fetch(`${remoteURL}/users/${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
-      },
-      Accept: "application/json",
-    });
-    return await resp.json();
-  },
+  // async getAuthUserById(id) {
+  //   const resp = await fetch(`${remoteURL}/users/${id}`, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+  //     },
+  //     Accept: "application/json",
+  //   });
+  //   return await resp.json();
+  // },
 
   async getAllUsers() {
     const resp = await fetch(`${remoteURL}/userprofiles`, {

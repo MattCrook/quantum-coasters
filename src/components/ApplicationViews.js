@@ -198,10 +198,10 @@ const ApplicationViews = (props) => {
             return (
               <EditProfile
                 userProfileId={parseInt(props.match.params.userProfileId)}
-                authUser={authUser}
-                setAuthUser={setAuthUser}
-                userProfile={userProfile}
-                setUserProfile={setUserProfile}
+                // authUser={authUser}
+                // setAuthUser={setAuthUser}
+                // userProfile={userProfile}
+                // setUserProfile={setUserProfile}
                 {...props}
               />
             );
@@ -309,4 +309,3 @@ const ApplicationViews = (props) => {
 };
 
 export default ApplicationViews;
-

@@ -203,6 +203,45 @@ export const ActivityLogProvider = ({ children }) => {
     await postNewActivityLogAction({ event: payload });
   };
 
+  const postEditProfileActivityLog = async (userId, props, pathname) => {
+    let currentDate = new Date();
+    let dateTime = currentDate.toISOString();
+    let date = dateTime.split("T")[0];
+
+    const action = {
+      component: "EditProfile.js",
+      action: "Update and or Edit user profile and auth user.",
+    };
+
+    const payload = {
+      user_id: userId,
+      action: action,
+      date: date,
+    };
+
+    await postNewActivityLogAction({ event: payload });
+    props.history.push(pathname)
+  }
+
+  const postChangeProfilePictureActivityLog = async (userId) => {
+    let currentDate = new Date();
+    let dateTime = currentDate.toISOString();
+    let date = dateTime.split("T")[0];
+
+    const action = {
+      component: "EditProfile.js",
+      action: "Update or upload new profile picture.",
+    };
+
+    const payload = {
+      user_id: userId,
+      action: action,
+      date: date,
+    };
+
+    await postNewActivityLogAction({ event: payload });
+  }
+
   const sendLoginInfo = async (data) => {
     try {
       const response = await postLoginInfo(data);
@@ -226,6 +265,8 @@ export const ActivityLogProvider = ({ children }) => {
         postActivityLogStartNewsApplication,
         postActivityLogSubmitNewsApplication,
         postNewParkActivityLog,
+        postEditProfileActivityLog,
+        postChangeProfilePictureActivityLog,
         activityLog,
         actions,
         sendLoginInfo,

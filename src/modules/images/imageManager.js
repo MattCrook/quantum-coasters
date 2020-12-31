@@ -6,7 +6,7 @@ const imageManager = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
     });
     return await resp.json();
@@ -15,7 +15,7 @@ const imageManager = {
   async postNewImage(imageObject) {
     // Note: Content-type cannot be set when uploading a file
     const headers = {
-      Authorization: "Bearer" + localStorage.getItem("accessToken"),
+      Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
     };
     const response = await fetch(`${remoteURL}/images`, {
       method: "POST",
@@ -29,7 +29,7 @@ const imageManager = {
     const data = await fetch(`${remoteURL}/images/${imageObject.id}`, {
       method: "PUT",
       headers: {
-        Authorization: "Bearer" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
       body: imageObject,
     });
