@@ -47,7 +47,6 @@
   margin-left: 1%;
   margin-bottom: 2%;
   margin-top: 1%;
-
 }
 
 .profile_card_row_item {
@@ -55,7 +54,6 @@
   justify-content: space-between;
   align-items: center;
   margin-right: 3%;
-
 }
 
 .details {
@@ -64,7 +62,6 @@
   font: 150 1.1em helvetica neue, open sans, sans-serif;
   margin-bottom: 2%;
   margin-top: 1%;
-
 }
 
 .profile-card-content {
@@ -123,8 +120,6 @@
 .trash_icon_profile_card {
   margin-right: 10px;
 }
-
-
 
 /********** Header Section ***********/
 
@@ -234,27 +229,11 @@ button.btn {
   color: #fff;
   display: flex;
   justify-content: space-between;
-  padding-top: 15px;
-  padding-bottom: 15px;
-}
-.delete-profile-button-container {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  transition: all 1s ease;
 }
 
-.delete-profile-button {
-  color: rgb(228, 64, 64);
-  margin-right: 2rem;
-  font-size: 15px;
-}
-
-.delete-profile-button i {
-  margin-right: 7px;
-}
-.delete-profile-button:hover {
-  border-bottom: 1px solid rgb(228, 64, 64);
-}
 
 .edit-profile-title-container {
   display: flex;
@@ -293,7 +272,7 @@ button.btn {
 }
 
 .edit_profile_input_container input:focus {
-  color: rgb(230, 230, 230);
+  color: rgb(66, 66, 66);
   outline: 1px solid rgb(196, 196, 196);
 }
 
@@ -351,6 +330,8 @@ button.btn {
 .profile-pic-container {
   display: flex;
   justify-content: center;
+  margin-bottom: 1%;
+  margin-top: 2%;
 }
 
 .profile-pic-flex-box {
@@ -394,6 +375,41 @@ button.btn {
   font-weight: bold;
 }
 
+.upload_photo_filler {
+  -webkit-transition: 0.25s;
+  transition: 0.25s;
+}
+#no_file_chosen_space {
+  width: 100%;
+  padding-right: 5rem;
+}
+
+#ui_segment {
+  background-color: rgb(26, 25, 25);
+  transition: all 1s ease;
+  width: 290px;
+  height: 290px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  object-fit: cover;
+}
+#ui_segment p {
+  margin-top: 5%;
+  margin-left: 32%;
+  color: hsl(0, 0%, 91%);
+  font-size: 13px;
+  padding-top: 27%;
+}
+
+#ui_dimmer {
+  margin-top: 15%;
+  margin-left: 42%;
+}
+#ui_loader {
+  height: 3rem;
+  width: 3rem;
+}
+
 .label_upload_profile_pic {
   margin-bottom: 16px;
   border-bottom: 1px solid black;
@@ -401,15 +417,15 @@ button.btn {
 
 .change_photo_btn {
   background: none;
-  border-radius: 4px;
-  border: 2px solid rgb(155, 152, 152);
+  border-radius: 2px;
+  border: 1px solid rgb(155, 152, 152);
   font: inherit;
   line-height: 1;
   margin: 0.5em;
   padding: 10px 10px;
   margin-top: 20px;
   width: 90%;
-  margin-left: 4rem;
+  margin-left: 1rem;
   font-size: 14px;
   font-variant: small-caps;
 }
@@ -440,6 +456,7 @@ button.btn {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  transition: all 1s ease;
 }
 
 .edit-create-btn {
@@ -452,15 +469,111 @@ button.btn {
   padding-bottom: 1%;
   border-radius: 6px;
   margin-left: 29.5%;
-  font-size: 15px;
+  font-size: 14px;
   font-variant: small-caps;
+  -webkit-transition: 0.25s;
+  transition: 0.25s;
 }
 
 .edit-create-btn:hover {
-  border: 1px solid rgb(128, 29, 29);
   box-shadow: 0 2px 8px 2px rgba(145, 5, 5, 0.2);
-  color: rgb(204, 127, 127);
+  color: rgb(182, 106, 106);
+  -webkit-transition: 0.25s;
+  transition: 0.25s;
 }
+
+/************************* Danger Zone Settings *************************/
+
+
+.danger_zone_container {
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+  flex-direction: column;
+  padding-bottom: 8%;
+}
+
+.danger_zone_title {
+  display: flex;
+  justify-content: center;
+  margin-right: 51.6%;
+  margin-bottom: 0.5%;
+  font-size: 21px;
+  font-weight: 600;
+  transition: 0.5s all ease;
+}
+
+.delete-profile-button-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 15%;
+}
+
+.delete-profile-button {
+  text-decoration: none;
+  color: rgb(228, 64, 64);
+  margin-right: 2rem;
+  padding-top: 3.5%;
+  padding-bottom: 3.5%;
+  width: 100%;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid rgb(228, 64, 64);
+  transition: all 0.5s ease;
+}
+
+.delete-profile-button i {
+  margin-right: 7px;
+}
+
+.delete_account_btn_container {
+  border: 1px solid rgb(126, 35, 35);
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 19%;
+  margin-left: 20%;
+  background: rgba(255, 255, 255, 0.966);
+  box-shadow: 4px 6px 4px 2px rgb(214, 214, 214);
+  padding-top: 1%;
+  padding-bottom: 1%;
+  transition: 0.5s all ease;
+}
+
+.delete_account_description {
+  margin-left: 1%;
+  font-size: 14px;
+}
+
+.delete-profile-button:hover {
+  border: 1px solid rgb(228, 64, 64);
+  box-shadow: 1px 1px 1px 1px rgb(187, 180, 180);
+}
+
+#delete-account {
+  color: var(--highlight);
+  transition: 0.5s all ease;
+}
+
+
+#confirm-delete{
+  position: fixed;
+  top: 53%;
+  right: 30%;
+  margin-left: 55%;
+  width: 30%;
+	height: 12rem;
+	background:var(--header);
+	text-align:center;
+	border-radius:5px;
+  z-index:9;
+  color: var(--text);
+  box-shadow: var(--delete_account_shadow);
+}
+
+/********************************************/
 
 .profile-inputs {
   transition: 0.25s;

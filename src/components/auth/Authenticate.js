@@ -3,15 +3,17 @@ import { useAuth0 } from "../../contexts/react-auth0-context";
 import userManager from "../../modules/users/userManager";
 import { useAuthUser } from "../../contexts/AuthUserContext";
 import { useActivityLog } from "../../contexts/ActivityLogContext";
+import { useErrorLog } from "../../contexts/ErrorLogContext";
 import "./Authenticate.css";
 
 const Authenticate = (props) => {
   const { user } = useAuth0();
+  const { postNewErrorLog } = useErrorLog();
   const [email, setEmail] = useState(user.email);
   const [loginAttempts, setLoginAttempts] = useState(0);
   const { setAuthUser, setAuthToken } = useAuthUser();
   const { sendLoginInfo } = useActivityLog();
-  const password = user.sub.split("|")[1];
+  const salt = user.sub.split("|")[1];
 
 
   const attempts = useCallback(() => {
@@ -23,15 +25,20 @@ const Authenticate = (props) => {
     e.preventDefault();
     const userCredentials = {
       email: email,
-      password: password,
+      password: salt,
+      id_token: sessionStorage.getItem("IdToken"),
+      uid: user.sub,
+      provider: 'Auth0',
     };
     const login = await userManager.login(userCredentials);
     if (login.valid === true) {
       setAuthUser(login);
       setAuthToken(login.QuantumToken);
+
       // Calling function that sets the token in session storage, and sets isLogged in to true.
       props.setDjangoToken(login);
       sessionStorage.setItem("sessionId", login.session);
+
       const loginData = {
         user_id: login.id,
         email: login.email,
@@ -40,16 +47,18 @@ const Authenticate = (props) => {
         version: props.userAgentData,
         platform: props.platformOS,
         app_code_name: props.appCodeNameData,
+        id_token: sessionStorage.getItem("IdToken"),
       };
-      sendLoginInfo(loginData)
-        .then((resp) => {
-          console.log({ resp });
-          const origin = window.location.origin;
-          window.location.href = origin + "/home";
-        })
-        .catch((err) => {
-          console.log({ err });
-        });
+
+      try {
+        await sendLoginInfo(loginData)
+        const origin = window.location.origin;
+        window.location.href = origin + "/home";
+      } catch(err) {
+        console.log({ err });
+        await postNewErrorLog(err, "Authenticate.js", "loginSubmit")
+      };
+
     } else {
       alert("Invalid email");
     }

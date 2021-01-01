@@ -7,11 +7,11 @@ import { useAuth0 } from "../../contexts/react-auth0-context";
 import UserCreditsByPark from "./CreditsListByPark";
 import UserCreditsByRide from "./UserCreditsByRide";
 import { confirmAlert } from "react-confirm-alert";
-import "./Profile.css";
-import "react-confirm-alert/src/react-confirm-alert.css";
 import { useActivityLog } from "../../contexts/ActivityLogContext";
 import { useAuthUser } from "../../contexts/AuthUserContext";
 import { useErrorLog } from "../../contexts/ErrorLogContext";
+import "./Profile.css";
+import "react-confirm-alert/src/react-confirm-alert.css";
 // import { Send } from "@material-ui/icons";
 
 const ProfileList = (props) => {
@@ -120,21 +120,21 @@ const ProfileList = (props) => {
     setIsLoading(false);
   };
 
-  const handlePostErrorLog = (e) => {
-    e.preventDefault();
-    const error = "Test Error";
-    const component = "ProfileList"
-    const callingFunction = "HandlePostErrorLog";
-    const data = { 'data': 'data in error' }
+//   const handlePostErrorLog = (e) => {
+//     e.preventDefault();
+//     const error = "Test Error";
+//     const component = "ProfileList"
+//     const callingFunction = "HandlePostErrorLog";
+//     const data = { 'data': 'data in error' }
 
-    const payload = {
-      error: error,
-      component: component,
-      callingFunction: callingFunction,
-      data: data,
-    };
-    postNewErrorLog(payload);
-}
+//     const payload = {
+//       error: error,
+//       component: component,
+//       callingFunction: callingFunction,
+//       data: data,
+//     };
+//     postNewErrorLog(payload);
+// }
 
   useEffect(() => {
     if (props) {
@@ -189,6 +189,7 @@ const ProfileList = (props) => {
           >
             Logout
           </button>
+          <i className="fas fa-sign-out-alt"></i>
         </div>
       </nav>
 

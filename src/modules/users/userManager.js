@@ -37,17 +37,17 @@ const userManager = {
     return await result.json();
   },
 
-  async getAuthUserById(id) {
-    const resp = await fetch(`${remoteURL}/users/${id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
-      },
-      Accept: "application/json",
-    });
-    return await resp.json();
-  },
+  // async getAuthUserById(id) {
+  //   const resp = await fetch(`${remoteURL}/users/${id}`, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+  //     },
+  //     Accept: "application/json",
+  //   });
+  //   return await resp.json();
+  // },
 
   async getAllUsers() {
     const resp = await fetch(`${remoteURL}/userprofiles`, {
@@ -138,21 +138,6 @@ const userManager = {
       throw new Error("Request Failed");
     } catch (err) {
       console.log(err);
-    }
-  },
-  async patchQuantumTokenOnLogin(data) {
-    try {
-      await fetch(`${remoteURL}/credentials/${data.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
-        },
-        Accept: "application/json",
-        body: JSON.stringify(data),
-      });
-    } catch (err) {
-      console.log({ err });
     }
   },
   async verifyEmail(key) {

@@ -5,17 +5,19 @@
 
 1. `git clone git@github.com:MattCrook/quantum-front-end-capstone.git`
 1. `cd` into the directory it creates
-   1. To run locally using `json-server` do the following steps:
-   2. `mkdir api`
-   3. Cd in api directory and `touch db.json`
-   4. Populate the mock database with dummy data found [here](https://gist.github.com/MattCrook/57da766ddee58d9535ebb9beb910e0c8)
-   5. Install [json-server](https://www.npmjs.com/package/json-server): `npm install -g json-server`
-   6. `npm install` to build dependencies
-   7. `npm run dev` to run the app in the development mode
+   1. * Note: *the JSON Server functionality is depreciated*.
+   2. To run locally using `json-server` do the following steps:
+   3. `mkdir api`
+   4. Cd in api directory and `touch db.json`
+   5. Populate the mock database with dummy data found [here](https://gist.github.com/MattCrook/57da766ddee58d9535ebb9beb910e0c8)
+   6. Install [json-server](https://www.npmjs.com/package/json-server): `npm install -g json-server`
+   7. `npm install` to build dependencies
    8. `json-server -p 8200 -w api/database.json`...or I've set up a development server, so you can run `npm run dev-server` to run json-server.
    9.  Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-2.  Or, preferably, run with the **QuantumAPI**.
-    1.  To see instructions, click [here](https://github.com/MattCrook/quantumapp-api).
+2.  Or, ***preferably***, run with the **QuantumAPI**.
+    1.  Run `npm install`.
+    2.  Run `npm run dev`.
+    3.  To see instructions on running the API, click [here](https://github.com/MattCrook/quantumapp-api).
 
 ## Overview
 
@@ -47,8 +49,16 @@ Once the user successfully authenticates, Auth0 will rediect them back to the ho
 
 ### 4) Profile
 Navigating to the profile page, the user will see a list of credits for which they have recorded, as well as have options to add a new credit and edit their profile.
+* They can choose between three different views
+  * All credits
+  * List of credits by Ride
+  * List of credits by Park
 
-![ProfileView](public/ReadMePhotos/ProfileCredits.png)
+![AllCredits](public/ReadMePhotos/AllCredits.png)
+
+![CreditsByRide](public/ReadMePhotos/CreditsByRide.png)
+
+![CreditsByPark](public/ReadMePhotos/CreditsByPark.png)
 
 Once the user selects the park in which the ride is located, they are brought to a list of roller coasters in that park where they can add/ record it is a credit.
 
@@ -65,6 +75,8 @@ User has ability, if they wish, to delete their account with Quantum Coasters. D
 User can edit profile info, see a total of credits to which they have, and upload a profile picture to display in other various places throughout the application.
 
 ![EditProfile](public/ReadMePhotos/EditProfile.png)
+
+![EditProfile2](public/ReadMePhotos/EditProfile2.png)
 
 
 
@@ -85,6 +97,11 @@ Users can see where they rank among other coaster enthusists from around the wor
 Users can also engage with other users of the app and coaster enthusiasts alike, where they can discuss their affinity for roller coasters and share their experiences.
 ![Forum](public/ReadMePhotos/Forum.png)
 
+* ***Feature in Progress:***
+  * Complete overhaul of messaging section. Work in progress includes utilizing *websockets* for a live chat/ instant message system, plus ability to create chat groups, and create sub forums. 
+    * The new multiple features will include the ability to invite friends, send friend requests, and overall socialize with other users on the app.
+    * ![ForumWIP](public/ReadMePhotos/ForumGeneralWIP.png)
+
 
 ### 8) News
 Custom Web Scraper pulls in the latest news from around the country and world so you as a user are always up to date on what is going on in the roller coaster world.
@@ -92,10 +109,21 @@ Custom Web Scraper pulls in the latest news from around the country and world so
 ![News](public/ReadMePhotos/News.png)
 
 * The user may also apply to write blog posts and have them published exclusively here on Quantum Coasters, for the community of coaster loving fans to read and interact with. This is done so with the purpose of creating a truly unique, rewarding, and educational experience reserved only for those using the Quantum Coasters app.
-  
+
 * ![NewsApply](public/ReadMePhotos/NewsApply.png)
 
+### Plan
+Custom calendar to plan and record events. Plan your next theme park visit, set reminders, or just this as your personal calendar to keep track of everything that you have going on!
+* *Google calendar integration coming soon*.
 
+![Plan](public/ReadMePhotos/Plan.png)
+
+* The Quantum Calendar allows user to add events, edit events, delete events, set reminders, and will show any events scheduled in the next 5 days relative to the current day for the user in the left side bar.
+* The calendar day block will show a indicator inside the block if there is an event scheduled for that day, allowing user easy navigation as to which days of the month they have an event scheduled.
+* Calendar can be cycled through months in order, or filtered by years or months for easy navigation if user wishes to look back at previous months, or look into the future.
+
+* ![AddEventModal](public/ReadMePhotos/AddEventModal.png)
+* ![EditEvent](public/ReadMePhotos/EditEvent.png)
 
 
 ## Technologies Used
@@ -106,7 +134,8 @@ This project utilizes the following:
 * React Router
 * React Confirm Alert
 * Auth0
-* JWT for Authentication
+* JWT and session auth for Authentication
+* PostgreSQL
 * React Testing Library
 * Jest
 * Deployed with Zeit/Now/Vercel
@@ -115,6 +144,7 @@ This project utilizes the following:
 * Semantic UI
 * Webpack
 * DbDiagram
+* date-fns
 * Vercel
 
 
@@ -124,7 +154,6 @@ The skills and concepts utilized to complete this project included the following
 1. React: hooks, state, props, routes
 2. API calls with: POST, PUT, PATCH, DELETE, and GET (with expand, embed)
 3. Javascript: functions, objects, arrays, mapping
-4. Persistent data storage with JSON Server
 5. Github Scrum workflow
 6. CSS styling
 7. Modular code

@@ -25,22 +25,19 @@ export const AuthUserProvider = ({ children }) => {
           sessionStorage.setItem("IdToken", JSON.stringify(tokenId));
           sessionStorage.setItem("accessToken", accessToken);
         }
-        const getAuthUser = await userManager.getAuthUser(userEmail);
+        const userData = await userManager.getAuthUser(userEmail);
 
-        if (getAuthUser && getAuthUser.length > 0) {
-          const authUserId = getAuthUser[0].id;
-          const getProfile = await userManager.getUserProfileEmbeddedAuthUser(authUserId);
-          const creditsArray = getProfile[0].credits;
-
-          setAuthUser(getAuthUser[0]);
-          setUserProfile(getProfile[0]);
+        if (userData && userData.id && userData.user) {
+          const creditsArray = userData.credits;
+          setUserProfile(userData);
+          setAuthUser(userData.user);
           setUserCredits(creditsArray);
 
           const djangoAuthToken = sessionStorage.getItem("QuantumToken");
           setAuthToken(djangoAuthToken);
         } else {
           console.log("Please Complete your Profile. :) ");
-          setUserProfile([]);
+          // setUserProfile([]);
         }
       };
       initUserProfile(userEmail);

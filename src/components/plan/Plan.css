@@ -991,7 +991,7 @@ input[type="radio"]:checked ~ label {
 }
 
 .delete_cal_event {
-  margin-left: 70%;
+  margin-left: 55%;
 }
 .delete_cal_event i {
   filter: brightness(0) saturate(100%) invert(5%) sepia(0%) brightness(108%) contrast(5%);

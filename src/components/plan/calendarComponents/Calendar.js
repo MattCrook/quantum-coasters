@@ -3,7 +3,7 @@ import Event from "./Event";
 import "../Plan.css";
 
 const Calendar = (props) => {
-  const { isDaySelected, selectedDate, userCalendarEvents, authUser, userProfile } = props;
+  const { isDaySelected, selectedDate, today, userCalendarEvents, authUser, userProfile } = props;
   const [events, setEvents] = useState([]);
   const [currentSelectedDay, setCurrentSelectedDay] = useState([]);
   const [eventsForDate, setEventsForDate] = useState([]);
@@ -75,6 +75,7 @@ const Calendar = (props) => {
                   {eventsForDate.map((event) => (
                     <Event
                       key={event.id}
+                      today={today}
                       event={event}
                       events={events}
                       authUser={authUser}
