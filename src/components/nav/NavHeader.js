@@ -42,7 +42,6 @@ const NavHeader = () => {
                   )}
                   <div className="logout_btn_home_container">
                     <button
-                      // onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
                       onClick={() => djangoRestAuthLogout(logout, clearStorage, authUser)}
                       className="logout-navbar-item"
                       data-testid="logout-btn-testid"

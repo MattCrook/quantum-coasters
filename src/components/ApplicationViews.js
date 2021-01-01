@@ -17,6 +17,8 @@ import News from "./news/News";
 import BlogContributorForm from "./news/BlogContributorForm";
 import Plan from "./plan/Plan";
 import NewEventForm from "./plan/calendarComponents/NewEventForm";
+import Forum from "./messages/Forum";
+
 // import AuthRoute from "./AuthRoute";
 
 const ApplicationViews = (props) => {
@@ -181,6 +183,17 @@ const ApplicationViews = (props) => {
       />
       <Route
         exact
+        path="/Forum"
+        render={(props) => {
+          if (isAuthenticated && authUser.id && isLoggedIn) {
+            return <Forum {...props} />;
+          } else {
+            return <LandingPage />;
+          }
+        }}
+      />
+      <Route
+        exact
         path="/messages"
         render={(props) => {
           if (isAuthenticated && authUser.id && isLoggedIn) {
@@ -198,10 +211,6 @@ const ApplicationViews = (props) => {
             return (
               <EditProfile
                 userProfileId={parseInt(props.match.params.userProfileId)}
-                // authUser={authUser}
-                // setAuthUser={setAuthUser}
-                // userProfile={userProfile}
-                // setUserProfile={setUserProfile}
                 {...props}
               />
             );

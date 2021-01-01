@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Reminders from "./Reminders";
 import calendarManager from "../../../modules/calendar/calendarManager";
+import { useErrorLog } from "../../../contexts/ErrorLogContext";
+import { useActivityLog } from "../../../contexts/ActivityLogContext";
 import "../Plan.css";
 
 const NewEventForm = (props) => {
@@ -12,26 +14,52 @@ const NewEventForm = (props) => {
   const [endTime, setEndTime] = useState();
   const [reminderValue, setReminderValue] = useState(null);
   const [isReminderSet, setIsReminderSet] = useState(false);
+  const { postNewErrorLog } = useErrorLog();
+  const { postNewEventActivityLog } = useActivityLog();
   const currentDate = sessionStorage.getItem("CalendarDateIsSelected");
+  const today = new Date();
+
+  const validateDate = (selectedDate, today) => {
+    let dates = [selectedDate, today];
+    const isYearValid = dates[0].getYear() >= dates[1].getYear();
+    const isMonthValid = dates[0].getMonth() >= dates[1].getMonth();
+    const isDayValid = dates[0].getDay() >= dates[1].getDay();
+
+    if (isYearValid && !isMonthValid && !isDayValid) return isDayValid;
+    if (isYearValid && isMonthValid && isDayValid) return isDayValid;
+    if (isYearValid && isMonthValid && !isDayValid) return isDayValid;
+    if (!isYearValid && isMonthValid && !isDayValid) return isYearValid;
+    if (isYearValid && !isMonthValid && isDayValid) return isYearValid;
+  };
 
   const handleEventFormSubmit = (e) => {
     e.preventDefault();
-    const newEvent = {
-      title: title,
-      location: location,
-      description: description,
-      startTime: startTime,
-      endTime: endTime,
-      reminderValue: reminderValue,
-      isReminderSet: isReminderSet,
-    };
-    calendarManager
-      .postUserCalendarEvent(newEvent)
-      .then(() => {
-        sessionStorage.removeItem("CalendarDateIsSelected");
-        props.history.push("/plan");
-      })
-      .catch((err) => console.log(err));
+    const dateSelectedToAddEvent = new Date(currentDate);
+    const isDateValid = validateDate(dateSelectedToAddEvent, today);
+    if (isDateValid) {
+      const newEvent = {
+        title: title,
+        location: location,
+        description: description,
+        startTime: startTime,
+        endTime: endTime,
+        reminderValue: reminderValue,
+        isReminderSet: isReminderSet,
+      };
+      calendarManager
+        .postUserCalendarEvent(newEvent)
+        .then(() => {
+          sessionStorage.removeItem("CalendarDateIsSelected");
+          props.history.push("/plan");
+        })
+        .catch((err) => {
+          postNewErrorLog(err, "NewEventForm.js", "handleEventFormSubmit");
+          console.log({ err });
+        });
+    } else {
+      postNewErrorLog("Alert for entering an invalid date to add a new event.", "NewEventForm.js", "handleEventFormSubmit");
+      alert("Cannot add event to date in the past.");
+    }
   };
 
   const handleCancel = () => {
@@ -160,7 +188,7 @@ const NewEventForm = (props) => {
             )}
           </div>
 
-          <button id="new_event_cal_save_btn" type="submit">
+          <button id="new_event_cal_save_btn" type="submit" onClick={(e) => postNewEventActivityLog(e, props, props.authUser.id)}>
             Save
           </button>
         </form>

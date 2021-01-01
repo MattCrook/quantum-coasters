@@ -56,14 +56,16 @@ const SelectRollerCoaster = (props) => {
     };
     creditManager.addCredit(newCreditObj).then(() => {
       userManager.getAuthUser(user.email).then((userData) => {
-        const profile = userData[0];
-        const userId = profile.id;
-        userManager.getUserProfileEmbeddedAuthUser(userId).then((response) => {
-          const userProf = response[0];
-          const creditsArray = userProf.credits;
-          setUserProfile(userProf);
-          setUserCredits(creditsArray);
-        });
+          setUserProfile(userData);
+          setUserCredits(userData.credits);
+        // const profile = userData[0];
+        // const userId = profile.id;
+        // userManager.getUserProfileEmbeddedAuthUser(userId).then((response) => {
+        //   const userProf = response[0];
+        //   const creditsArray = userProf.credits;
+        //   setUserProfile(userData);
+        //   setUserCredits(userData.credits);
+      //   });
       });
     });
   };

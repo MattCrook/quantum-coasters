@@ -1,58 +1,43 @@
 import React, { useState, useEffect } from "react";
-import userManager from "../../modules/users/userManager";
+// import userManager from "../../modules/users/userManager";
 import messageManager from "../../modules/messages/messageManager";
 import MessageCard from "./MessageCard";
 import MessageForm from "./MessageForm";
 import { useAuth0 } from "../../contexts/react-auth0-context";
+import { useAuthUser } from "../../contexts/AuthUserContext";
+import { useErrorLog } from "../../contexts/ErrorLogContext";
 import "./Messages.css";
 
 const MessageList = (props) => {
-  const { user, loading, logout, clearStorage } = useAuth0();
-  const [userProfile, setUserProfile] = useState([]);
-  const [authUser, setAuthUser] = useState([]);
+  const { user, loading, logout, clearStorage, djangoRestAuthLogout } = useAuth0();
+  const { authUser, userProfile } = useAuthUser();
+  const { postNewErrorLog } = useErrorLog();
   const [messages, setMessages] = useState([]);
-  const [userProfileId, setUserProfileId] = useState({});
   const [messageToEdit, setMessageToEdit] = useState({
     user_id: "",
     text: "",
     timestamp: "",
   });
-
+  const userProfileId = userProfile.id;
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
   const getMessages = async () => {
-    const allMessages = await messageManager.getAllMessages();
-    setMessages(allMessages);
-  };
-
-  const getUserProfile = async (user) => {
     try {
-      const userFromAPI = await userManager.getAuthUser(user.email);
-      const userId = userFromAPI[0].id;
-      const profileFromAPI = await userManager.getUserProfileEmbeddedAuthUser(userId);
-      setAuthUser(userFromAPI[0]);
-      setUserProfile(profileFromAPI[0]);
-      const profileId = userFromAPI[0].id;
-      setUserProfileId(profileId);
+      const allMessages = await messageManager.getAllMessages();
+      setMessages(allMessages);
     } catch (error) {
-      console.log(error);
+      postNewErrorLog(error, "Messages.js", "getMessages");
     }
   };
 
-
   useEffect(() => {
     getMessages();
-    getUserProfile(user);
-    return () => user;
-  }, [user]);
-
-
+  }, []);
 
   return (
     <>
       <nav id="nav_forum_container" className="navbar is-dark">
         <div className="forum_container_1">
-          {/* logo */}
           <div className="navbar-brand">
             <button id="quantum_logo_forum" className="navbar-item">
               Quantum Coasters
@@ -60,29 +45,19 @@ const MessageList = (props) => {
           </div>
         </div>
 
-        {/* menu items */}
         <div className="forum_container_2">
-          {/* if there is a user. show the login button */}
           {!loading && user && (
             <>
               <button className="navbar-item-name">
                 {authUser.first_name} {authUser.last_name}
               </button>
               {userProfile.image ? (
-                <img
-                  id="profile-pic"
-                  src={userProfile.image.image}
-                  alt="My Avatar"
-                />
+                <img id="profile-pic" src={userProfile.image.image} alt="My Avatar" />
               ) : (
-                <img
-                  id="profile-pic"
-                  src={defaultProfilePicture}
-                  alt="My Avatar"
-                />
+                <img id="profile-pic" src={defaultProfilePicture} alt="My Avatar" />
               )}
               <button
-                onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
+                onClick={() => djangoRestAuthLogout(logout, clearStorage, authUser)}
                 className="navbar-item-logout-btn"
               >
                 Logout
@@ -123,9 +98,11 @@ const MessageList = (props) => {
             <MessageForm
               userProfile={userProfile}
               userProfileId={userProfileId}
-              getMessages={getMessages}
+              messages={messages}
               messageToEdit={messageToEdit}
               setMessageToEdit={setMessageToEdit}
+              setMessages={setMessages}
+              getMessages={getMessages}
               {...props}
             />
           </div>

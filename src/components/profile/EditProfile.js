@@ -111,6 +111,42 @@ const EditProfile = (props) => {
     setIsLoading(false);
   };
 
+  // const allowedExtensions = ["txt", "pdf", "png", "jpg", "jpeg", "gif"];
+// Function to provide client side validation for the Image input / file upload on the Invoice Settings form.
+// Grabs the file when user clicks a file to upload:
+// Checks type of file it is, the file extension (found in the array above, which corresponds to ALLOWED_EXTENSIONS in alchemy.py) and Checks file size.
+// If any validation fails, will run clearInput and clear the file from the input and display the Error message.
+// (findMatchingExt) iterates the array above and returns true if the returned value from (splitExtension) matches any item. Otherwise returns false.
+// const handleImageUpload = (event) => {
+//   const inputFile = event.target.files[0];
+//   const clearInput = () => (document.getElementById("image").value = "");
+
+//   const splitExtension = (filename) => {
+//     const ext = filename.split(".")[1];
+//     return ext;
+//   };
+
+//   const findMatchingExt = (array, extensionToFind) => array.includes(extensionToFind);
+
+//   if (inputFile) {
+//     const fileExtension = splitExtension(inputFile.name);
+//     const isValidExtension = findMatchingExt(allowedExtensions, fileExtension);
+
+//     if (!inputFile.type.startsWith("image/")) {
+//       document.querySelector(".upload_image_error_message").style.display = "block";
+//       clearInput();
+//     } else if (inputFile.size > 5000000) {
+//       document.querySelector(".upload_image_error_message").style.display = "block";
+//       clearInput();
+//     } else if (!isValidExtension) {
+//       document.querySelector(".upload_image_error_message").style.display = "block";
+//       clearInput();
+//     } else {
+//       inputFile[event.target.id] = event.target.value;
+//     }
+//   }
+// };
+
   const deleteUserProfile = (id) => {
     try {
       confirmAlert({

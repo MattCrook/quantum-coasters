@@ -4,7 +4,7 @@ import { isEditCheck, handleFieldChangeHelper } from "../../modules/Helpers";
 
 const MessageForm = (props) => {
 
-  const { userProfile } = props;
+  const { userProfile, messages } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ message: "" });
 
@@ -44,13 +44,13 @@ const MessageForm = (props) => {
     }
   };
 
-  const handleSubmit = (evt) => {
+  const handleSubmit = (e) => {
     setIsLoading(true);
-    evt.preventDefault();
-    evt.stopPropagation();
-    const constructedMessage = constructNewMessage(evt);
+    e.preventDefault();
+    e.stopPropagation();
+    const constructedMessage = constructNewMessage(e);
     // Clears the form upon submission
-    evt.target.reset();
+    e.target.reset();
     // Defaults the messageToEdit state
     // so it doesn't continue "editing" on subsequent sends
     props.setMessageToEdit({ text: "", user_id: "", timestamp: "" });

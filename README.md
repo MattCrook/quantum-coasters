@@ -49,8 +49,16 @@ Once the user successfully authenticates, Auth0 will rediect them back to the ho
 
 ### 4) Profile
 Navigating to the profile page, the user will see a list of credits for which they have recorded, as well as have options to add a new credit and edit their profile.
+* They can choose between three different views
+  * All credits
+  * List of credits by Ride
+  * List of credits by Park
 
-![ProfileView](public/ReadMePhotos/ProfileCredits.png)
+![AllCredits](public/ReadMePhotos/AllCredits.png)
+
+![CreditsByRide](public/ReadMePhotos/CreditsByRide.png)
+
+![CreditsByPark](public/ReadMePhotos/CreditsByPark.png)
 
 Once the user selects the park in which the ride is located, they are brought to a list of roller coasters in that park where they can add/ record it is a credit.
 
@@ -67,6 +75,8 @@ User has ability, if they wish, to delete their account with Quantum Coasters. D
 User can edit profile info, see a total of credits to which they have, and upload a profile picture to display in other various places throughout the application.
 
 ![EditProfile](public/ReadMePhotos/EditProfile.png)
+
+![EditProfile2](public/ReadMePhotos/EditProfile2.png)
 
 
 
@@ -86,6 +96,11 @@ Users can see where they rank among other coaster enthusists from around the wor
 ### 7) Forum 
 Users can also engage with other users of the app and coaster enthusiasts alike, where they can discuss their affinity for roller coasters and share their experiences.
 ![Forum](public/ReadMePhotos/Forum.png)
+
+* ***Feature in Progress:***
+  * Complete overhaul of messaging section. Work in progress includes utilizing *websockets* for a live chat/ instant message system, plus ability to create chat groups, and create sub forums. 
+    * The new multiple features will include the ability to invite friends, send friend requests, and overall socialize with other users on the app.
+    * ![ForumWIP](public/ReadMePhotos/ForumGeneralWIP.png)
 
 
 ### 8) News

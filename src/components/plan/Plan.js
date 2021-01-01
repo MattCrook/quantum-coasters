@@ -18,7 +18,6 @@ import {
   isSameDay,
   startOfMonth,
   endOfMonth,
-  parseISO,
 } from "date-fns";
 import "./Plan.css";
 
@@ -45,7 +44,7 @@ const Plan = (props) => {
 
   const isEventsForDate = (userEvents, day) => {
       let dateFormat = "yyyy-M-dd";
-      let formattedDate = parseISO(format(day, dateFormat));
+    let formattedDate = format(day, dateFormat);
       let matches = [];
       userEvents.forEach((event) => {
         if (event.date.length > 0 && event.date === formattedDate) {
@@ -121,9 +120,8 @@ const Plan = (props) => {
       while (day <= endDate) {
         for (let i = 0; i < 7; i++) {
           formattedDate = format(day, dateFormat);
-
           const fullFormat = "yyyy-M-dd";
-          const fullFormattedDate = parseISO(format(day, fullFormat));
+          const fullFormattedDate = format(day, fullFormat);
           const eventsForCurrentDay = isEventsForDate(userCalendarEvents, day);
 
           days.push(
@@ -190,7 +188,6 @@ const Plan = (props) => {
     };
     userCalendar();
   }, [props]);
-
 
 
   return (

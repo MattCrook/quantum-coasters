@@ -10,8 +10,12 @@ export const ActivityLogProvider = ({ children }) => {
   const [loginData, setLoginData] = useState([]);
 
   const postNewActivityLogAction = async (payload) => {
-    await postActivityLog(payload);
-    // setActivityLog(postAction);
+    try {
+      await postActivityLog(payload);
+      // setActivityLog(postAction);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const getCurrentUserActivity = async (userId) => {
@@ -220,8 +224,8 @@ export const ActivityLogProvider = ({ children }) => {
     };
 
     await postNewActivityLogAction({ event: payload });
-    props.history.push(pathname)
-  }
+    props.history.push(pathname);
+  };
 
   const postChangeProfilePictureActivityLog = async (userId) => {
     let currentDate = new Date();
@@ -240,15 +244,36 @@ export const ActivityLogProvider = ({ children }) => {
     };
 
     await postNewActivityLogAction({ event: payload });
-  }
+  };
 
+  const postNewEventActivityLog = async (e, props, userId) => {
+    let currentDate = new Date();
+    let dateTime = currentDate.toISOString();
+    let date = dateTime.split("T")[0];
+
+    const action = {
+      component: "NewEventForm.js",
+      action: "Create new calendar event.",
+      target: e.target.id,
+      dataTestId: e.target.dataset,
+      props: props,
+    };
+
+    const payload = {
+      user_id: userId,
+      action: action,
+      date: date,
+    };
+
+    await postNewActivityLogAction({ event: payload });
+  };
   const sendLoginInfo = async (data) => {
     try {
       const response = await postLoginInfo(data);
       setLoginData(response);
     } catch (err) {
       console.log({ "Error sending Login Info": err });
-      await postErrorLog(err, 'Register.js from ActivityLogContext', 'sendLoginInfo')
+      await postErrorLog(err, "Register.js from ActivityLogContext", "sendLoginInfo");
     }
   };
 
@@ -267,6 +292,7 @@ export const ActivityLogProvider = ({ children }) => {
         postNewParkActivityLog,
         postEditProfileActivityLog,
         postChangeProfilePictureActivityLog,
+        postNewEventActivityLog,
         activityLog,
         actions,
         sendLoginInfo,
