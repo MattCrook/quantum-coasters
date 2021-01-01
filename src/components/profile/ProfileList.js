@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import ProfileCard from "./ProfileCard";
+import ProfileCard from "./pages/ProfileCard";
 import userManager from "../../modules/users/userManager";
 import creditManager from "../../modules/credits/creditManager";
 import rollerCoasterManager from "../../modules/rollerCoasters/rollerCoasterManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
-import UserCreditsByPark from "./CreditsListByPark";
-import UserCreditsByRide from "./UserCreditsByRide";
+import UserCreditsByPark from "./profileCredits/CreditsListByPark";
+import UserCreditsByRide from "./profileCredits/UserCreditsByRide";
 import { confirmAlert } from "react-confirm-alert";
 import { useActivityLog } from "../../contexts/ActivityLogContext";
 import { useAuthUser } from "../../contexts/AuthUserContext";
