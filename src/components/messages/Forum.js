@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 // import userManager from "../../modules/users/userManager";
-import messageManager from "../../modules/messages/messageManager";
-import MessageCard from "./MessageCard";
-import MessageForm from "./MessageForm";
+// import messageManager from "../../modules/messages/messageManager";
+// import MessageCard from "./MessageCard";
+// import MessageForm from "./MessageForm";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { useAuthUser } from "../../contexts/AuthUserContext";
-import { useErrorLog } from "../../contexts/ErrorLogContext";
+// import { useErrorLog } from "../../contexts/ErrorLogContext";
 import "./Messages.css";
-import "./Forum.css";
+import "./styles/Forum.css";
 
 const Forum = (props) => {
   const { authUser, userProfile } = useAuthUser();
   const { user, loading, logout, clearStorage, djangoRestAuthLogout } = useAuth0();
-    const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
-    
-    const renderGeneralMessages = () => {
-        props.history.push("/messages");
-    }
+  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
+
+  const renderGeneralMessages = () => {
+    props.history.push("/messages");
+  };
 
   return (
     <>
@@ -57,12 +57,14 @@ const Forum = (props) => {
           <div className="forum_title">Quantum Forum</div>
           <div className="forum_description">Welcome tho the Quantum Forum! Choose a channel and start chatting.</div>
           {/* <div className="forum_description">Choose a channel and start chatting.</div> */}
-              </div>
-              <div className="forum_header_container">
-                  <div className="header_section_button" onClick={(e) => renderGeneralMessages(e)}>General</div>
-                  <div className="header_section_button">Start A Group Chat</div>
-                  <div className="header_section_button">Private Message</div>
-              </div>
+        </div>
+        <div className="forum_header_container">
+          <div className="header_section_button" onClick={(e) => renderGeneralMessages(e)}>
+            General
+          </div>
+          <div className="header_section_button">Start A Group Chat</div>
+          <div className="header_section_button">Private Message</div>
+        </div>
       </div>
     </>
   );

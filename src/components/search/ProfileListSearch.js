@@ -5,17 +5,18 @@ import Paper from "@material-ui/core/Paper";
 import InputBase from "@material-ui/core/InputBase";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
-// import LaunchIcon from "@material-ui/icons/Launch";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     padding: "1px 2px",
     display: "flex",
     alignItems: "center",
-    width: 240,
+    width: "89%",
+    height: 40,
     backgroundColor: "rgb(226, 226, 226)",
     marginTop: "1%",
-    marginBottom: "1%",
+    marginBottom: "2%",
+    marginLeft: "5%",
     boxShadow: "none",
   },
   input: {
@@ -55,6 +56,6 @@ const CustomizedInputBaseLight = (props) => {
       </IconButton>
     </Paper>
   );
-}
+};
 
 export default CustomizedInputBaseLight;

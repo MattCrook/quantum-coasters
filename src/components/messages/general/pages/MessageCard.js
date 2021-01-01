@@ -1,9 +1,8 @@
 import React from "react";
-import "./Messages.css";
-import { useAuth0 } from "../../contexts/react-auth0-context";
+import "../../Messages.css";
 
 const MessageCard = (props) => {
-  const { loading } = useAuth0();
+  const { loading } = props;
   let profilePic = "";
   let timestamp = "";
   const text = props.message.message;

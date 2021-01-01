@@ -9,16 +9,24 @@
   margin-left: 15px;
 }
 
+.total_credits_header_profile_list {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  border-top: 1px solid rgb(56, 56, 56);
+  border-bottom: 1px solid rgb(56, 56, 56);
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
 .credits-title {
   display: flex;
   justify-content: center;
-  font-size: 40px;
-  font-weight: 900;
-  font-variant: small-caps;
-  margin-top: 10px;
-  border-bottom: 1px solid black;
   margin-left: 18%;
   margin-right: 18%;
+  margin-bottom: 1%;
+  font: 250 2.8em helvetica neue, open sans, sans-serif;
+  font-variant: small-caps;
 }
 
 .profile-card {
@@ -160,7 +168,10 @@ button.btn {
   display: flex;
   justify-content: center;
   font-weight: 600;
-  margin-top: 8px;
+  margin-top: 1.5%;
+  margin-bottom: 1.5%;
+  margin-left: 5%;
+  margin-right: 5%;
   font: 500 1em helvetica neue, open sans, sans-serif;
 }
 
@@ -611,6 +622,14 @@ button.btn {
   font-size: 15px;
 }
 
+#settings--allCreditsAndDetails {
+  text-decoration: none;
+  color: #2d2d2e;
+  margin-left: 11%;
+  margin-top: 5%;
+  margin-bottom: 1%;
+  font-size: 15px;
+}
 #settings--rollercoaster {
   text-decoration: none;
   color: #2d2d2e;
@@ -646,6 +665,10 @@ button.btn {
 
 .settings_link_button.active {
   border-right: 3px solid rgb(58, 57, 57);
+}
+
+.settings_link_button {
+  cursor: pointer;
 }
 
 /************************* Credits by Park Styles ****************************/
@@ -836,4 +859,57 @@ button.btn {
 .signature_edit_profile {
   font: 150 0.7em helvetica neue, open sans, sans-serif !important;
   letter-spacing: 2px;
+}
+
+#profile_list_logout_btn {
+  margin-right: 1.5%;
+}
+
+.name-container-profile-list i {
+  margin-right: 10px;
+}
+
+
+
+/***********************Default Card View******************************/
+
+
+.default_view_profile_list {
+  margin-top: 3%;
+  padding-bottom: 3%;
+
+}
+.default_card_container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.8%;
+  margin-left: 42%;
+  margin-right: 42%;
+}
+
+.default_ride_item_ride_name {
+  color: rgb(68, 66, 66);
+  font-family: sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.default_ride_item_ride_name:hover {
+  color: rgb(151, 151, 151);
+}
+
+
+.default_ride_item_park_name {
+  color: rgb(7, 7, 7);
+  font-family: sans-serif;
+  text-align: center;
+  font-size: 14px;
+}
+
+
+.default_view_dash {
+  margin-left: 3px;
+  margin-right: 3px;
 }

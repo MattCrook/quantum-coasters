@@ -7,7 +7,7 @@ import LandingPage from "./auth/Login";
 import Home from "./home/Home";
 import NewRollerCoaster from "./addNewForm/NewRollerCoaster";
 import AddNewCreditForm from "./profile/profileCredits/NewCreditForm";
-import MessageList from "./messages/Messages";
+import MessageList from "./messages/general/Messages";
 import EditProfile from "./profile/EditProfile";
 import LeaderBoard from "./leaderBoard/LeaderBoard";
 import Register from "./auth/Register";
@@ -183,7 +183,7 @@ const ApplicationViews = (props) => {
       />
       <Route
         exact
-        path="/Forum"
+        path="/forum"
         render={(props) => {
           if (isAuthenticated && authUser.id && isLoggedIn) {
             return <Forum {...props} />;

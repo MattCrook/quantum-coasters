@@ -60,7 +60,7 @@ const NavBar = ({ authUser, authToken }) => {
         {!loading && isAuthenticated && authUser.username && token ? (
           <li>
             <FontAwesomeIcon icon={faCommentDots} />
-            <Link className="nav-link" to="/messages">
+            <Link className="nav-link" to="/forum">
               {" "}
               Forum{" "}
             </Link>

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 // import userManager from "../../modules/users/userManager";
-import messageManager from "../../modules/messages/messageManager";
-import MessageCard from "./MessageCard";
+import messageManager from "../../../modules/messages/messageManager";
+import MessageCard from "./pages/MessageCard";
 import MessageForm from "./MessageForm";
-import { useAuth0 } from "../../contexts/react-auth0-context";
-import { useAuthUser } from "../../contexts/AuthUserContext";
-import { useErrorLog } from "../../contexts/ErrorLogContext";
-import "./Messages.css";
+import { useAuth0 } from "../../../contexts/react-auth0-context";
+import { useAuthUser } from "../../../contexts/AuthUserContext";
+import { useErrorLog } from "../../../contexts/ErrorLogContext";
+import "../Messages.css";
 
 const MessageList = (props) => {
   const { user, loading, logout, clearStorage, djangoRestAuthLogout } = useAuth0();
@@ -89,6 +89,7 @@ const MessageList = (props) => {
                     userProfile={userProfile}
                     authUser={authUser}
                     defaultProfilePicture={defaultProfilePicture}
+                    loading={loading}
                     {...props}
                   />
                 ))}
