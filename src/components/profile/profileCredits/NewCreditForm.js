@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import ParkList from "./RollerCoasterList";
-import CustomizedInputBase from "../search/CustomizedInputBase";
-import parkManager from "../../modules/parks/parkManager";
-import { useActivityLog } from "../../contexts/ActivityLogContext";
-import "./NewCreditForm.css";
+import CustomizedInputBase from "../../search/CustomizedInputBase";
+import parkManager from "../../../modules/parks/parkManager";
+import { useActivityLog } from "../../../contexts/ActivityLogContext";
+import "../styles/NewCreditForm.css";
 
 // return ParkList component when user clicks the "add new credit button" on {ProfileList}...
 const AddNewCreditForm = (props) => {

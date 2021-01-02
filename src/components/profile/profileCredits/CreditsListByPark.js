@@ -1,6 +1,6 @@
 import React, { useState} from "react";
-import MiniProfileCard from "./MiniProfileCard";
-import "./Profile.css";
+import MiniProfileCard from "../pages/MiniProfileCard";
+import "../Profile.css";
 
 const UserCreditsByPark = (props) => {
   const [rollerCoasters, setRollerCoasters] = useState([]);

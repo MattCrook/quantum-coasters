@@ -1,7 +1,7 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faExternalLinkSquareAlt } from "@fortawesome/free-solid-svg-icons";
-import "./RideModal.css";
+import "../styles/RideModal.css";
 
 const RideModal = (props) => {
   const rideName = props.ride[0].name;

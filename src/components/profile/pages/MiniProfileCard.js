@@ -1,18 +1,17 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faExternalLinkSquareAlt } from "@fortawesome/free-solid-svg-icons";
-import "./Profile.css";
+import "../Profile.css";
 
-const ProfileCard = (props) => {
+const MiniProfileCard = (props) => {
   const { rollerCoaster } = props;
   const { manufacturer } = props;
   const { park } = props;
   const { trackType } = props;
 
-
   return (
-    <div className="profile-card">
-      <div className="profile-card-content">
+    <div className="mini-profile-card">
+      <div className="mini-profile-card-content">
         <div className="ride-name-container">
           <div className="ride-name">
             {rollerCoaster.name}
@@ -34,14 +33,15 @@ const ProfileCard = (props) => {
             <div className="profile_card_row_item">{park.name}</div>
           </div>
           <div className="profile_card_row">
-              <div className="profile_card_row_item_title">Manufactured By:</div>
-              <div className="profile_card_row_item">{manufacturer.name}
-            <div className="linkForCompanyWebsite">
-              <a className="link-to-company" href={manufacturer.company_website}>
-                <FontAwesomeIcon icon={faExternalLinkSquareAlt} />
-              </a>
+            <div className="profile_card_row_item_title">Manufactured By:</div>
+            <div className="profile_card_row_item">
+              {manufacturer.name}
+              <div className="linkForCompanyWebsite">
+                <a className="link-to-company" href={manufacturer.company_website}>
+                  <FontAwesomeIcon icon={faExternalLinkSquareAlt} />
+                </a>
               </div>
-              </div>
+            </div>
           </div>
           <div className="profile_card_row">
             <div className="profile_card_row_item_title">Max Speed:</div>
@@ -60,4 +60,4 @@ const ProfileCard = (props) => {
     </div>
   );
 };
-export default ProfileCard;
+export default MiniProfileCard;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import messageManager from "../../modules/messages/messageManager";
-import { isEditCheck, handleFieldChangeHelper } from "../../modules/Helpers";
+import messageManager from "../../../modules/messages/messageManager";
+import { isEditCheck, handleFieldChangeHelper } from "../../../modules/Helpers";
 
 const MessageForm = (props) => {
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MicroModal from "micromodal";
 import RideModal from "./RideModal";
-import "./Profile.css";
+import "../Profile.css";
 
 
 

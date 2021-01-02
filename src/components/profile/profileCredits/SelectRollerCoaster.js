@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import rollerCoasterManager from "../../modules/rollerCoasters/rollerCoasterManager";
-import userManager from "../../modules/users/userManager";
-import creditManager from "../../modules/credits/creditManager";
-import parkManager from "../../modules/parks/parkManager";
-import { useAuth0 } from "../../contexts/react-auth0-context";
-import "./SelectRollerCoaster.css";
+import rollerCoasterManager from "../../../modules/rollerCoasters/rollerCoasterManager";
+import userManager from "../../../modules/users/userManager";
+import creditManager from "../../../modules/credits/creditManager";
+import parkManager from "../../../modules/parks/parkManager";
+import { useAuth0 } from "../../../contexts/react-auth0-context";
+import "../styles/SelectRollerCoaster.css";
 
 const SelectRollerCoaster = (props) => {
 
