@@ -16,7 +16,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 25px;
+  margin-right: 15px;
 }
 
 /*            CHAT ITSELF            */
@@ -114,6 +114,7 @@
 .navbar-item-logout-btn {
   color: rgb(199, 74, 74);
   font-variant: small-caps;
+  margin-right: 3px;
 }
 
 .navbar-item-logout-btn:hover {

@@ -2,10 +2,12 @@
     display: flex;
     justify-content: space-evenly;
     padding: 8px 0 8px 0;
+    transition: 0.4s all ease;
 }
 
 .nav-link {
     color: black;
     margin-top: 15px;
     font-variant: small-caps;
+    transition: 0.4s all ease;
 }

@@ -15,7 +15,6 @@ import ProfileListSearch from "../search/ProfileListSearch";
 import "./Profile.css";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
-
 const ProfileList = (props) => {
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
   const { clearStorage, logout } = useAuth0();
@@ -26,6 +25,9 @@ const ProfileList = (props) => {
   const [visitedParks, setVisitedParks] = useState([]);
   const [whichTab, setWhichTab] = useState("settings--allCredits");
   const [isLoading, setIsLoading] = useState(false);
+  const [searchInput, setSearchInput] = useState();
+  const [searchOutput, setSearchOutput] = useState([]);
+  const [defaultSectionContent, setDefaultSectionContent] = useState([]);
   const userId = authUser.id;
   const allCreditsRef = useRef();
 
@@ -34,7 +36,6 @@ const ProfileList = (props) => {
   const defaultSideNavToggle = useCallback((ref) => {
     isActive(ref);
   }, []);
-
 
   const allUserCredits = async (userCredits) => {
     try {
@@ -48,27 +49,30 @@ const ProfileList = (props) => {
     }
   };
 
-  const rollerCoastersFromUserCredits = useCallback(async (userCredits) => {
-    try {
-      const allUserRollerCoasters = await allUserCredits(userCredits);
-      let promises = [];
-      allUserRollerCoasters.forEach((rollerCoasterId) => {
-        promises.push(rollerCoasterManager.getRollerCoastersForUserProfile(rollerCoasterId));
-      });
-      const data = await Promise.all(promises);
-      setUserRollerCoasters(data);
-      let parks = new Set();
-      data.forEach((ride) => {
-        const park = ride.park;
-        parks.add(park.name);
-      });
-      setVisitedParks([...parks]);
-    } catch (err) {
-      postNewErrorLog(err, "ProfileList", "getUserCreditsToFetch");
-      console.log(err);
-    }
-  }, [postNewErrorLog]);
-
+  const rollerCoastersFromUserCredits = useCallback(
+    async (userCredits) => {
+      try {
+        const allUserRollerCoasters = await allUserCredits(userCredits);
+        let promises = [];
+        allUserRollerCoasters.forEach((rollerCoasterId) => {
+          promises.push(rollerCoasterManager.getRollerCoastersForUserProfile(rollerCoasterId));
+        });
+        const data = await Promise.all(promises);
+        setUserRollerCoasters(data);
+        setDefaultSectionContent(data);
+        let parks = new Set();
+        data.forEach((ride) => {
+          const park = ride.park;
+          parks.add(park.name);
+        });
+        setVisitedParks([...parks]);
+      } catch (err) {
+        postNewErrorLog(err, "ProfileList", "getUserCreditsToFetch");
+        console.log(err);
+      }
+    },
+    [postNewErrorLog]
+  );
 
   const deleteCredit = (creditId) => {
     try {
@@ -132,23 +136,22 @@ const ProfileList = (props) => {
     setIsLoading(false);
   };
 
-  //   const handlePostErrorLog = (e) => {
-  //     e.preventDefault();
-  //     const error = "Test Error";
-  //     const component = "ProfileList"
-  //     const callingFunction = "HandlePostErrorLog";
-  //     const data = { 'data': 'data in error' }
+  function searchHandler(e) {
+    let inputStateToChange = { ...searchInput };
+    inputStateToChange = e.target.value;
+    setSearchInput(inputStateToChange);
+    filterSearchList(inputStateToChange);
+  };
 
-  //     const payload = {
-  //       error: error,
-  //       component: component,
-  //       callingFunction: callingFunction,
-  //       data: data,
-  //     };
-  //     postNewErrorLog(payload);
-  // }
-
-
+  function filterSearchList(inputValue) {
+    const stateShallowCopy = [...userRollerCoasters];
+    const filteredResults = stateShallowCopy.filter((result) => {
+      return result.name.toLowerCase().includes(inputValue.toLowerCase());
+    });
+    setUserRollerCoasters(filteredResults);
+    setSearchOutput(filteredResults);
+    return filteredResults;
+  }
 
   useMemo(() => {
     if (props) {
@@ -156,7 +159,7 @@ const ProfileList = (props) => {
     }
   }, [props, rollerCoastersFromUserCredits, userCredits]);
 
-  useEffect(() => defaultSideNavToggle(allCreditsRef), [defaultSideNavToggle])
+  useEffect(() => defaultSideNavToggle(allCreditsRef), [defaultSideNavToggle]);
 
   return (
     <>
@@ -225,7 +228,14 @@ const ProfileList = (props) => {
           <div className="settings_link_button" id="last_btn_link_settings" onClick={(e) => handleToggle(e)}>
             Credits By Park
           </div>
-          <ProfileListSearch {...props} />
+          <ProfileListSearch
+            searchHandler={searchHandler}
+            defaultSectionContent={defaultSectionContent}
+            setSearchOutput={setSearchOutput}
+            setUserRollerCoasters={setUserRollerCoasters}
+            searchInput={searchInput}
+            {...props}
+          />
         </div>
       </div>
       <div className="credits-title">Quantum Credits</div>
@@ -233,19 +243,7 @@ const ProfileList = (props) => {
         <div className="total_credits_profile_list">Total Credits: {props.userCredits.length}</div>
         <div className="total_credits_profile_list">Total Parks Visited: {visitedParks.length}</div>
       </div>
-      {/* 
-      <div className="default_view_profile_list">
-        {userRollerCoasters.map((rollerCoaster) => (
-          <DefaultView
-            key={rollerCoaster.id}
-            userProfile={props.userProfile}
-            authUser={authUser}
-            rollerCoaster={rollerCoaster}
-            park={rollerCoaster.park}
-            {...props}
-          />
-        ))}
-      </div> */}
+
       {whichTab === "settings--allCredits" && (
         <div className="default_view_profile_list">
           {userRollerCoasters.map((rollerCoaster) => (
