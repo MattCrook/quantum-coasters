@@ -31,23 +31,12 @@ const userManager = {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
       Accept: "application/json",
     });
     return await result.json();
   },
-
-  // async getAuthUserById(id) {
-  //   const resp = await fetch(`${remoteURL}/users/${id}`, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
-  //     },
-  //     Accept: "application/json",
-  //   });
-  //   return await resp.json();
-  // },
 
   async getAllUsers() {
     const resp = await fetch(`${remoteURL}/userprofiles`, {
@@ -92,7 +81,7 @@ const userManager = {
   },
 
   async putEditedUserProfile(editedObject) {
-    const data = await fetch(`${remoteURL}/userprofiles/${editedObject.id}`, {
+    await fetch(`${remoteURL}/userprofiles/${editedObject.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

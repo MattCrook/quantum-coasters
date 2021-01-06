@@ -73,7 +73,7 @@ const MessageForm = (props) => {
 
   return (
     <>
-      <div className="message-container, darker, chat-input-container">
+      <div className="message-container darker chat-input-container">
         <form className="chat-form" onSubmit={handleSubmit}>
           <fieldset className="chat-fieldset">
             <div className="chat-input-inner-container">
@@ -84,7 +84,7 @@ const MessageForm = (props) => {
                 required
                 onChange={handleFieldChange}
                 id="message"
-                placeholder="Write Something"
+                placeholder="Send a Message to #General"
               />
               <button
                 className="chat-send-button"

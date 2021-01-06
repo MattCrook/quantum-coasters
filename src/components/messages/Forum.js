@@ -1,29 +1,57 @@
 import React, { useEffect, useState } from "react";
-// import userManager from "../../modules/users/userManager";
 import messageManager from "../../modules/messages/messageManager";
-// import MessageCard from "./MessageCard";
-// import MessageForm from "./MessageForm";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { useAuthUser } from "../../contexts/AuthUserContext";
+import MessagePreviewCard from "./general/pages/MessagePreviewCard";
+// import userManager from "../../modules/users/userManager";
+// import MessageCard from "./MessageCard";
+// import MessageForm from "./MessageForm";
 // import { useErrorLog } from "../../contexts/ErrorLogContext";
 import "./Messages.css";
 import "./styles/Forum.css";
-import MessagePreviewCard from "./general/pages/MessagePreviewCard";
 
 const Forum = (props) => {
+  const URL = process.env.REACT_APP_SERVER_URL;
   const { authUser, userProfile } = useAuthUser();
   const { user, loading, logout, clearStorage, djangoRestAuthLogout } = useAuth0();
-  const [messages, setMessages] = useState([]);
+  // const [messages, setMessages] = useState([]);
+  const [messagesToPreview, setMessagesToPreview] = useState([]);
+
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
   const renderGeneralMessages = () => {
     props.history.push("/messages");
   };
 
+  const renderTemplate = (e) => {
+    const target = `${URL}/chat`;
+    window.location.href = target;
+  }
+
+  const renderGeneralChatRoom = (e) => {
+    e.preventDefault();
+    const target = `${URL}/chat/general/`;
+    window.location.href = target;
+  }
+
+  const sortByDate = (messages) => {
+    const sorted = messages.sort((a, b) => {
+      const dateA = new Date(a.timestamp);
+      const dateB = new Date(b.timestamp);
+      return dateA - dateB;
+    });
+    return sorted;
+  }
+
   useEffect(() => {
     const messagesForPreview = async () => {
       const allMessages = await messageManager.getAllMessages();
-      setMessages(allMessages);
+      // setMessages(allMessages);
+      const sortedMessages = sortByDate(allMessages);
+      const messagesNewestToOldest = sortedMessages.reverse();
+      const messagesToShow = messagesNewestToOldest.slice(0, 5);
+      const sortBackToOldestToNewest = messagesToShow.reverse()
+      setMessagesToPreview(sortBackToOldestToNewest);
     };
     messagesForPreview();
   }, []);
@@ -73,6 +101,10 @@ const Forum = (props) => {
           </div>
           <div className="header_section_button">Start A Group Chat</div>
           <div className="header_section_button">Private Message</div>
+          <div className="header_section_button" onClick={(e) => renderTemplate(e)}>Test</div>
+          <div className="header_section_button" onClick={(e) => renderGeneralChatRoom(e)}>Test General</div>
+
+
         </div>
 
         <div className="forum_body_container">
@@ -87,7 +119,7 @@ const Forum = (props) => {
             <div className="live_look_container">
               <div className="general_forum_title">Forum</div>
               <div className="forum_preview_wrapper">
-                {messages.map((message) => (
+                {messagesToPreview.map((message) => (
                   <MessagePreviewCard
                     key={message.id}
                     message={message}

@@ -23,12 +23,16 @@ const Authenticate = (props) => {
 
   const loginSubmit = async (e) => {
     e.preventDefault();
+    const csrfCookie = getCookie('csrftoken');
+
     const userCredentials = {
       email: email,
       password: salt,
       id_token: sessionStorage.getItem("IdToken"),
       uid: user.sub,
       provider: 'Auth0',
+      csrf_token: csrfCookie,
+      extra_data: user,
     };
     const login = await userManager.login(userCredentials);
     if (login.valid === true) {
@@ -47,7 +51,7 @@ const Authenticate = (props) => {
         version: props.userAgentData,
         platform: props.platformOS,
         app_code_name: props.appCodeNameData,
-        id_token: sessionStorage.getItem("IdToken"),
+        id_token: login.management_user,
       };
 
       try {
@@ -63,6 +67,23 @@ const Authenticate = (props) => {
       alert("Invalid email");
     }
   };
+
+  function getCookie(cookieName) {
+    let name = cookieName + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let cookieArray = decodedCookie.split(";");
+    for (let i = 0; i < cookieArray.length; i++) {
+      let cookie = cookieArray[i];
+      while (cookie.charAt(0) === " ") {
+        cookie = cookie.substring(1);
+        console.log("c", cookie);
+      }
+      if (cookie.indexOf(name) === 0) {
+        return cookie.substring(name.length, cookie.length);
+      }
+    }
+    return "";
+  }
 
   return (
     <div className="modal micromodal-slide" id="modal-1" aria-hidden="true">
