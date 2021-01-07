@@ -3,7 +3,7 @@
   justify-content: center;
   background-color: #363636;
   flex-direction: column;
-  transition: 0.5s all ease;
+  transition: 0.4s all ease;
   padding-bottom: 10%;
 }
 
@@ -101,7 +101,6 @@
   margin-right: 3%;
   margin-top: 3%;
   border-radius: 3px;
-  /* border: 1px solid rgb(78, 78, 78); */
 }
 
 .live_look_container {
@@ -109,84 +108,75 @@
   margin-right: 2%;
   margin-left: 2%;
   margin-bottom: 4%;
+  display: flex;
+  flex-direction: column;
 }
 
 .forum_preview_wrapper {
   margin-bottom: 4%;
+  max-height: 32rem;
 }
 
 /******* Preview ******/
 .message_card_general {
-  height: 3rem;
-  /* box-shadow: 0 4px 4px 0 rgba(15, 15, 15, 0.966); */
   background-color: #1e2224;
-  /* border-radius: 4px; */
   padding: 1px;
   margin-left: 15px;
   margin-right: 15px;
-  display: flex;
-  flex-direction: row;
   color: rgb(212, 212, 212);
   border-top: 1px solid rgb(78, 76, 76);
 }
 
-.card_content_general {
-  font-size: 80%;
-  color: black;
+
+.pic_and_name_and_txt_container_general {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-left: 2%;
-  margin-right: 2%;
+  flex-direction: row;
+  align-items: center;
 }
+
 .pic_and_name_and_txt_container_general img {
-  width: 8%;
   height: 2.2rem;
   margin-right: 10px;
   margin-top: 3px;
 }
 
-.message_container_general::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-.pic_and_name_and_txt_container_general {
-  display: flex;
-  flex-direction: row;
-}
-
 .name_and_txt_container_general {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
   flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+  width: 90%;
 }
+
+
 
 .message_name_general {
   display: flex;
-  align-items: center;
+  justify-content: flex-start;
   font-weight: 600;
   font-size: 13px;
+  width: 23%;
+
 }
 
 .message_text_general {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  justify-content: flex-start;
   margin-left: 5px;
   font-size: 12px;
+  word-break: break-all;
+  width: 100%;
+
 }
 
 .message_time_right_general {
   display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 30%;
+  justify-content: flex-end;
+  width: 33%;
   margin-right: 3px;
   margin-top: 5%;
-  font: 150 0.7em helvetica neue, open sans, sans-serif;
+  font: 150 0.6em helvetica neue, open sans, sans-serif;
   color: rgb(233, 233, 233);
 }
 

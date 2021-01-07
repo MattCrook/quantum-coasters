@@ -29,6 +29,8 @@ const AddNewCreditForm = (props) => {
     return filteredParks;
   };
 
+
+
   useEffect(() => {
     const parksFromAPI = async () => {
       const getAllParks = await parkManager.getParks();
@@ -60,9 +62,17 @@ const AddNewCreditForm = (props) => {
             className="add-new-ride-btn"
             onClick={(e) => postActivityLogCreateRollerCoster(e, props, authUser.id, "/new/rollercoaster")}
           >
-            {/* <button type="button" className="add-new-ride-btn" onClick={() => props.history.push("/new/rollercoaster")}> */}
             Create New Roller Coaster
-            {/* <i className="fas fa-database"></i> */}
+          </button>
+        {/* </div>
+        <div className="new_rc_side_nav_bulk_upload"> */}
+          <button
+            type="button"
+            className="add_new_ride_btn_bulk_upload"
+            onClick={() => props.history.push("/parks")}
+            // onClick={(e) => postActivityLogCreateRollerCoster(e, props, authUser.id, "/new/rollercoaster")}
+          >
+            Submit Bulk Upload to Park
           </button>
         </div>
       </section>

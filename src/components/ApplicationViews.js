@@ -18,6 +18,8 @@ import BlogContributorForm from "./news/BlogContributorForm";
 import Plan from "./plan/Plan";
 import NewEventForm from "./plan/calendarComponents/NewEventForm";
 import Forum from "./messages/Forum";
+import ParkListForBulkSubmit from "./addNewForm/ParkListForBulkSubmit";
+import BulkUploadForm from "./addNewForm/BulkUploadForm";
 
 // import AuthRoute from "./AuthRoute";
 
@@ -42,7 +44,6 @@ const ApplicationViews = (props) => {
     sessionStorage.setItem("QuantumToken", resp.QuantumToken);
     setIsLoggedIn(hasLoggedIn());
   };
-
 
   return (
     <React.Fragment>
@@ -208,12 +209,7 @@ const ApplicationViews = (props) => {
         path="/profile/:userProfileId(\d+)"
         render={(props) => {
           if (isAuthenticated && authUser.id && isLoggedIn) {
-            return (
-              <EditProfile
-                userProfileId={parseInt(props.match.params.userProfileId)}
-                {...props}
-              />
-            );
+            return <EditProfile userProfileId={parseInt(props.match.params.userProfileId)} {...props} />;
           } else {
             return <LandingPage />;
           }
@@ -258,12 +254,7 @@ const ApplicationViews = (props) => {
         path="/new/rollercoaster/parks/create"
         render={(props) => {
           if (isAuthenticated && authUser.id && isLoggedIn) {
-            return (
-              <AddPark
-                authUser={authUser}
-                {...props}
-              />
-            );
+            return <AddPark authUser={authUser} {...props} />;
           } else {
             return <LandingPage />;
           }
@@ -308,6 +299,35 @@ const ApplicationViews = (props) => {
         render={(props) => {
           if (isAuthenticated && authUser.id && isLoggedIn) {
             return <NewEventForm userProfile={userProfile} authUser={authUser} {...props} />;
+          } else {
+            return <LandingPage />;
+          }
+        }}
+      />
+      <Route
+        exact
+        path="/parks"
+        render={(props) => {
+          if (isAuthenticated && authUser.id && isLoggedIn) {
+            return <ParkListForBulkSubmit userProfile={userProfile} authUser={authUser} {...props} />;
+          } else {
+            return <LandingPage />;
+          }
+        }}
+      />
+      <Route
+        exact
+        path="/parks/:parkId(\d+)/bulkupload"
+        render={(props) => {
+          if (isAuthenticated && authUser.id && isLoggedIn) {
+            return (
+              <BulkUploadForm
+                userProfile={userProfile}
+                authUser={authUser}
+                parkId={parseInt(props.match.params.parkId)}
+                {...props}
+              />
+            );
           } else {
             return <LandingPage />;
           }

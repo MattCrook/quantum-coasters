@@ -25,16 +25,20 @@ const MessagePreviewCard = (props) => {
             <img id="profile_pic_general" src={profilePic} alt="My Avatar" />
           ) : (
             <img id="google-profile-pic-general" src={props.defaultProfilePicture} alt="My Avatar" />
-          )}
-          {!loading && profile && profile.user && (
+            )}
             <div className="name_and_txt_container_general">
-              <div className="message_name_general">{name}</div>:<div className="message_text_general">{text}</div>
-            </div>
+            {!loading && profile && profile.user && (
+              <>
+              <div className="message_name_general">{name} : </div>
+                  <div className="message_text_general">{text}
+                </div>
+                </>
           )}
+        <span className="message_time_right_general">{props.message.timestamp}</span>
+          </div>
         </div>
 
-        <span className="message_time_right_general">{props.message.timestamp}</span>
-      </div>
+        </div>
     </>
   );
 };
