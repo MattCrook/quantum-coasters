@@ -5,8 +5,20 @@ const manufacturerManager = {
     const resp = await fetch(`${remoteURL}/manufacturers`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "Bearer" + localStorage.getItem("accessToken"),
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+      },
+      Accept: "application/json",
+    });
+    return await resp.json();
+  },
+
+  async retrieveManufacturer(id) {
+    const resp = await fetch(`${remoteURL}/manufacturers/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
       Accept: "application/json",
     });
@@ -18,7 +30,7 @@ const manufacturerManager = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
       body: JSON.stringify(resource),
     });
@@ -31,7 +43,7 @@ const manufacturerManager = {
       method: "GET",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "Bearer" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
       Accept: "application/json",
     });
