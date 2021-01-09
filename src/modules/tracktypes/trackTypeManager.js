@@ -42,7 +42,7 @@ const trackTypeManager = {
     const resp = await fetch(`${remoteURL}/tracktypes?name=${trackType}`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
         Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
       Accept: "application/json",

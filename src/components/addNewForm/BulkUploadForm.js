@@ -153,21 +153,6 @@ const BulkUploadForm = (props) => {
     }
   };
 
-  //     const newRollerCoaster = {
-  //       name: rollerCoasterNameRef.current.value,
-  //       trackTypeId: trackTypeRef.current.value,
-  //       max_height: maxHeightRef.current.value,
-  //       max_speed: maxSpeedRef.current.value,
-  //       parkId: parkId,
-  //       manufacturerId: manufacturerRef.current.value,
-  //     };
-  //     console.log(newRollerCoaster);
-  //     ridesAddedList.push(newRollerCoaster);
-  //     setIsLoading(false);
-  //   };
-
-
-
   useEffect(() => {
     const initBulkUploadForm = () => {
       allTrackTypes();

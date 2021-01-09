@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     width: 300,
+    height: 40,
     backgroundColor: "#363636",
   },
   input: {
@@ -27,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
   divider: {
     height: 28,
     margin: 4,
+    backgroundColor: "rgb(185, 185, 185)",
   },
 }));
 
@@ -50,10 +52,10 @@ export default function CustomizedInputBase(props) {
         inputProps={{ "aria-label": "search google maps" }}
         onChange={props.handleSearchInput}
       />
+      <Divider className={classes.divider} orientation="vertical" />
       <IconButton type="submit" className={classes.iconButton} aria-label="search" onClick={handleSearchSubmit}>
         <SearchIcon />
       </IconButton>
-      <Divider className={classes.divider} orientation="vertical" />
       <IconButton color="primary" className={classes.iconButton} aria-label="directions"></IconButton>
     </Paper>
   );
