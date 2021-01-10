@@ -193,14 +193,14 @@ const ProfileList = (props) => {
             {authUser.first_name} {authUser.last_name}
           </p>
           {userProfile.image ? (
-            <img id="profile-pic" src={userProfile.image.image} alt="My Avatar" />
+            <img id="profile-pic-profile-list" src={userProfile.image.image} alt="My Avatar" />
           ) : (
-            <img id="profile-pic" src={defaultProfilePicture} alt="My Avatar" />
+            <img id="profile-pic-profile-list" src={defaultProfilePicture} alt="My Avatar" />
           )}
           <button
             id="profile_list_logout_btn"
             onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
-            className="logout-navbar-item"
+            className="logout-navbar-item-profile-list"
             data-testid="logout-btn-testid"
           >
             Logout
