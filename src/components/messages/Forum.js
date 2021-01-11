@@ -16,20 +16,18 @@ const Forum = (props) => {
   const { user, loading, logout, clearStorage, djangoRestAuthLogout } = useAuth0();
   // const [messages, setMessages] = useState([]);
   const [messagesToPreview, setMessagesToPreview] = useState([]);
-
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
   const renderGeneralMessages = () => {
     props.history.push("/messages");
   };
 
-  const renderTemplate = (e) => {
+  const renderTemplate = () => {
     const target = `${URL}/chat`;
     window.location.href = target;
   }
 
-  const renderGeneralChatRoom = (e) => {
-    e.preventDefault();
+  const renderGeneralChatRoom = () => {
     const target = `${URL}/chat/general/`;
     window.location.href = target;
   }
@@ -100,8 +98,8 @@ const Forum = (props) => {
             General
           </div>
           <div className="header_section_button">Start A Group Chat</div>
-          <div className="header_section_button">Private Message</div>
           <div className="header_section_button" onClick={(e) => renderTemplate(e)}>Test</div>
+          <div className="header_section_button">Private Message</div>
           <div className="header_section_button" onClick={(e) => renderGeneralChatRoom(e)}>Test General</div>
 
 
