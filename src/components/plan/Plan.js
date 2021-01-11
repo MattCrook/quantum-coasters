@@ -130,7 +130,8 @@ const Plan = (props) => {
                 className={`column cell ${
                   !isSameMonth(day, monthStart) ? "disabled" : isSameDay(day, selectedDate) ? "selected" : ""
                 }`}
-                key={day}
+                key={day.toDateString()}
+                // key={day}
                 id={day.toDateString()}
                 onClick={(e) => handleDayClick(e)}
                 data-micromodal-trigger="modal-cal"

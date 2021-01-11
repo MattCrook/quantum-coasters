@@ -31,7 +31,10 @@ export function formatInput(target) {
 export function handleFieldChangeHelper(currentState, setCurrentState) {
   return e => {
     const stateToChange = { ...currentState };
+    console.log({stateToChange})
     stateToChange[e.target.id] = e.target.value;
+    console.log({stateToChange})
+
     setCurrentState(stateToChange);
   };
 };

@@ -89,7 +89,7 @@ const Register = (props) => {
                     version: props.userAgentData,
                     platform: props.platformOS,
                     app_code_name: props.appCodeNameData,
-                    id_token: sessionStorage.getItem("IdToken"),
+                    id_token: registerUser.DjangoUser.management_user,
                   };
 
                   await sendLoginInfo(loginData);

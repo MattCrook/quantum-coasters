@@ -10,7 +10,7 @@ const MessageCard = (props) => {
   const profile = props.userProfile;
   const name = props.message.user.user.first_name;
 
-  if (!loading && profile && profile.image) {
+  if (!loading && props && profile && profile.image) {
     profile.image
       ? (profilePic = props.message.user.image.image)
       : (profilePic = props.defaultProfilePicture);
@@ -29,14 +29,14 @@ const MessageCard = (props) => {
             <img id="profile-pic" src={profilePic} alt="My Avatar" />
             ) : (
               <img
-              id="google-profile-pic"
+              id="profile-pic-forum-message"
               src={props.defaultProfilePicture}
               alt="My Avatar"
               />
               )}
           {!loading && profile && profile.user && (
             <div className="name_and_txt_container">
-                <div className="message_name">{name}</div>:
+                <div className="message_name">{name}</div> :
                 <div className="message_text">
                 {text}
                 </div>
@@ -45,16 +45,18 @@ const MessageCard = (props) => {
             </div>
 
           {/* Render edit button if the profile id from API === profile ID from url meaning the currently logged in user */}
+          <span className="edit_msg_span">
+            <span className="message-time-right">{props.message.timestamp}</span>
           {!loading && profile ? (
             messageUserProfileId === profile.id ? (
-              <button
-                data-testid="edit-testid"
-                className="edit-outline-icon"
-                onClick={() => props.setMessageToEdit(props.message)}
-              >Edit<i className="far fa-edit"></i></button>
-            ) : null
-          ) : null}
-          <span className="message-time-right">{timestamp}</span>
+                <button
+                  data-testid="edit-testid"
+                  className="edit-outline-icon"
+                  onClick={() => props.setMessageToEdit(props.message)}
+                ><i className="far fa-edit"></i></button>
+                ) : null
+                ) : null}
+                </span>
         </div>
       </div>
     </>
@@ -62,8 +64,3 @@ const MessageCard = (props) => {
 };
 
 export default MessageCard;
-
-/*
-  If the active user id === the message's user id
-  then output the edit button
-*/

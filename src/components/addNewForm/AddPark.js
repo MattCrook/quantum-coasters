@@ -23,11 +23,7 @@ const AddPark = (props) => {
         },
         body: JSON.stringify(parkObj),
       });
-      if (response.ok) {
-        const jsonResponse = await response.json();
-        return jsonResponse;
-      }
-      throw new Error(`Failed to add Park - ${name}`);
+      return await response.json();
     } catch (err) {
       console.log(err);
       await postNewErrorLog(err, "AddPark.js", "addNewPark - API call");
@@ -41,11 +37,11 @@ const AddPark = (props) => {
       parkCountry: parkCountry,
     };
 
-    const token = localStorage.getItem("accessToken");
+    const token = sessionStorage.getItem("accessToken");
 
     addNewPark(token, newPark).then(() => {
       alert(`Thanks For Adding ${name} to the database. You may now select it as an option.`);
-      postNewParkActivityLog(e, props.authUser.id).then(() => {
+      postNewParkActivityLog(e.currentTarget, props.authUser.id).then(() => {
         props.history.push("/new/rollercoaster");
       });
     });

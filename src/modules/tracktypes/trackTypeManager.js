@@ -1,3 +1,5 @@
+import { retrieveActivityLog } from "../services/services";
+
 const remoteURL = process.env.REACT_APP_REMOTE_API_URL;
 
 const trackTypeManager = {
@@ -5,8 +7,20 @@ const trackTypeManager = {
     const resp = await fetch(`${remoteURL}/tracktypes`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "Bearer" + localStorage.getItem("accessToken"),
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+      },
+      Accept: "application/json",
+    });
+    return await resp.json();
+  },
+
+  async retrieveTrackType(id) {
+    const resp = await fetch(`${remoteURL}/tracktypes/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
       Accept: "application/json",
     });
@@ -18,7 +32,7 @@ const trackTypeManager = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
       body: JSON.stringify(resource),
     });
@@ -28,8 +42,8 @@ const trackTypeManager = {
     const resp = await fetch(`${remoteURL}/tracktypes?name=${trackType}`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "Bearer" + localStorage.getItem("accessToken"),
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
       Accept: "application/json",
     });

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 // import userManager from "../../modules/users/userManager";
 import messageManager from "../../../modules/messages/messageManager";
 import MessageCard from "./pages/MessageCard";
@@ -12,7 +12,9 @@ const MessageList = (props) => {
   const { user, loading, logout, clearStorage, djangoRestAuthLogout } = useAuth0();
   const { authUser, userProfile } = useAuthUser();
   const { postNewErrorLog } = useErrorLog();
-  const [messages, setMessages] = useState([]);
+  const [allMessages, setAllMessages] = useState([]);
+  const [paginatedMessages, setPaginatedMessages] = useState([]);
+
   const [messageToEdit, setMessageToEdit] = useState({
     user_id: "",
     text: "",
@@ -23,8 +25,13 @@ const MessageList = (props) => {
 
   const getMessages = async () => {
     try {
-      const allMessages = await messageManager.getAllMessages();
-      setMessages(allMessages);
+      const messages = await messageManager.getAllMessages();
+      setAllMessages(messages);
+      // const sortedMessages = sortByDate(messages);
+      // const messagesNewestToOldest = sortedMessages.reverse();
+      // const messagesToShow = messagesNewestToOldest.slice(0, 7);
+      // const sortBackToOldestToNewest = messagesToShow.reverse()
+      // setPaginatedMessages(sortBackToOldestToNewest);
     } catch (error) {
       postNewErrorLog(error, "Messages.js", "getMessages");
     }
@@ -33,6 +40,17 @@ const MessageList = (props) => {
   useEffect(() => {
     getMessages();
   }, []);
+
+  // function sortByDate(messages) {
+  //   console.log(messages)
+  //   const sorted = messages.sort((a, b) => {
+  //     const dateA = new Date(a.timestamp);
+  //     const dateB = new Date(b.timestamp);
+  //     return dateA - dateB;
+  //   });
+  //   return sorted;
+  // }
+
 
   return (
     <>
@@ -77,7 +95,7 @@ const MessageList = (props) => {
           </div>
           <div className="chat-ScrollToBottom">
             <div className="message-container-cards">
-              {messages
+              {allMessages
                 .sort(function (a, b) {
                   return new Date(a.timestamp) - new Date(b.timestamp);
                 })
@@ -99,10 +117,10 @@ const MessageList = (props) => {
             <MessageForm
               userProfile={userProfile}
               userProfileId={userProfileId}
-              messages={messages}
+              paginatedMessages={paginatedMessages}
               messageToEdit={messageToEdit}
               setMessageToEdit={setMessageToEdit}
-              setMessages={setMessages}
+              setAllMessages={setAllMessages}
               getMessages={getMessages}
               {...props}
             />

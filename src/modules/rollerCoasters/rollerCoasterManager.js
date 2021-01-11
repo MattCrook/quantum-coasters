@@ -49,6 +49,18 @@ const rollerCoasterManager = {
     });
     return await data.json();
   },
+
+  async sendBulkSubmit(queryset) {
+    const data = await fetch(`${remoteURL}/rollercoasters`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+      },
+      body: JSON.stringify(queryset),
+    });
+    return await data.json();
+  },
 };
 
 export default rollerCoasterManager;

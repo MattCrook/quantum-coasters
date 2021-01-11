@@ -6,7 +6,7 @@ const parkManager = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer" + localStorage.getItem("accessToken"),
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
       body: JSON.stringify(resource),
     });
@@ -17,8 +17,8 @@ const parkManager = {
     const resp = await fetch(`${remoteURL}/parks`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "Bearer" + localStorage.getItem("accessToken"),
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
       Accept: "application/json",
     });
@@ -29,8 +29,8 @@ const parkManager = {
     const resp = await fetch(`${remoteURL}/parks?name=${park}`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "Bearer" + localStorage.getItem("accessToken"),
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
       Accept: "application/json",
     });
@@ -41,8 +41,8 @@ const parkManager = {
     const resp = await fetch(`${remoteURL}/parks/${parkId}`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "Bearer" + localStorage.getItem("accessToken"),
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
       Accept: "application/json",
     });

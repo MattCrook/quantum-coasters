@@ -194,8 +194,7 @@ export const ActivityLogProvider = ({ children }) => {
     const action = {
       component: "News.js",
       action: "Start Blog Contributor Application",
-      target: e.target.id,
-      dataTestId: e.target.dataset,
+      target: e,
     };
 
     const payload = {
