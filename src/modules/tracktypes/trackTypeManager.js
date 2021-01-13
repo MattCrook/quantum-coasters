@@ -4,7 +4,7 @@ const remoteURL = process.env.REACT_APP_REMOTE_API_URL;
 
 const trackTypeManager = {
   async getTrackTypes() {
-    const resp = await fetch(`${remoteURL}/tracktypes`, {
+    const resp = await fetch(`${remoteURL}/api/tracktypes`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -16,7 +16,7 @@ const trackTypeManager = {
   },
 
   async retrieveTrackType(id) {
-    const resp = await fetch(`${remoteURL}/tracktypes/${id}`, {
+    const resp = await fetch(`${remoteURL}/api/tracktypes/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -28,7 +28,7 @@ const trackTypeManager = {
   },
 
   async postNewTrackType(resource) {
-    const data = await fetch(`${remoteURL}/tracktypes`, {
+    const data = await fetch(`${remoteURL}/api/tracktypes`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -39,7 +39,7 @@ const trackTypeManager = {
     return await data.json();
   },
   async getTrackTypeByByName(trackType) {
-    const resp = await fetch(`${remoteURL}/tracktypes?name=${trackType}`, {
+    const resp = await fetch(`${remoteURL}/api/tracktypes?name=${trackType}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -15,56 +15,57 @@ const Authenticate = (props) => {
   const { sendLoginInfo } = useActivityLog();
   const salt = user.sub.split("|")[1];
 
-
   const attempts = useCallback(() => {
     setLoginAttempts(loginAttempts + 1);
   }, [loginAttempts]);
 
-
   const loginSubmit = async (e) => {
     e.preventDefault();
-    const csrfCookie = getCookie('csrftoken');
+    const csrfCookie = getCookie("csrftoken");
 
     const userCredentials = {
       email: email,
       password: salt,
       id_token: sessionStorage.getItem("IdToken"),
       uid: user.sub,
-      provider: 'Auth0',
+      provider: "auth0",
       csrf_token: csrfCookie,
       extra_data: user,
     };
-    const login = await userManager.login(userCredentials);
-    if (login.valid === true) {
-      setAuthUser(login);
-      setAuthToken(login.QuantumToken);
+    try {
+      const login = await userManager.login(userCredentials);
+      if (login.valid === true) {
+        setAuthUser(login);
+        setAuthToken(login.QuantumToken);
 
-      // Calling function that sets the token in session storage, and sets isLogged in to true.
-      props.setDjangoToken(login);
-      sessionStorage.setItem("sessionId", login.session);
+        // Calling function that sets the token in session storage, and sets isLogged in to true.
+        props.setDjangoToken(login);
+        sessionStorage.setItem("sessionId", login.session);
 
-      const loginData = {
-        user_id: login.id,
-        email: login.email,
-        browser: props.browserData,
-        recent_attempts: loginAttempts,
-        version: props.userAgentData,
-        platform: props.platformOS,
-        app_code_name: props.appCodeNameData,
-        id_token: login.management_user,
-      };
+        var loginData = {
+          user_id: login.id,
+          email: login.email,
+          browser: props.browserData,
+          recent_attempts: loginAttempts,
+          version: props.userAgentData,
+          platform: props.platformOS,
+          app_code_name: props.appCodeNameData,
+          id_token: login.management_user,
+        };
 
-      try {
-        await sendLoginInfo(loginData)
-        const origin = window.location.origin;
-        window.location.href = origin + "/home";
-      } catch(err) {
-        console.log({ err });
-        await postNewErrorLog(err, "Authenticate.js", "loginSubmit")
-      };
-
-    } else {
-      alert("Invalid email");
+        try {
+          await sendLoginInfo(loginData);
+          const origin = window.location.origin;
+          window.location.href = origin + "/home";
+        } catch (err) {
+          console.log({ err });
+          await postNewErrorLog(err, "Authenticate.js", "sendLoginInfo");
+        }
+      } else {
+        alert("Invalid email");
+      }
+    } catch (err) {
+      await postNewErrorLog(err, "Authenticate.js", "loginSubmit");
     }
   };
 

@@ -2,7 +2,7 @@ const remoteURL = process.env.REACT_APP_REMOTE_API_URL;
 
 const imageManager = {
   async getAuthUserImage(imageId) {
-    const resp = await fetch(`${remoteURL}/images/${imageId}`, {
+    const resp = await fetch(`${remoteURL}/api/images/${imageId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -17,7 +17,7 @@ const imageManager = {
     const headers = {
       Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
     };
-    const response = await fetch(`${remoteURL}/images`, {
+    const response = await fetch(`${remoteURL}/api/images`, {
       method: "POST",
       headers: headers,
       body: imageObject,
@@ -26,7 +26,7 @@ const imageManager = {
   },
 
   async updateUserProfileImage(imageObject) {
-    const data = await fetch(`${remoteURL}/images/${imageObject.id}`, {
+    const data = await fetch(`${remoteURL}/api/images/${imageObject.id}`, {
       method: "PUT",
       headers: {
         Authorization: "Bearer " + sessionStorage.getItem("accessToken"),

@@ -24,6 +24,7 @@ const App = (props) => {
   const platformOperatingSystem = navigator.platform;
   const hasCredentials = sessionStorage.getItem("QuantumToken") !== null;
 
+
   useEffect(() => {
     if (user && isAuthenticated && appInitOptions && appInitOptions.length > 0) {
       const init = async () => {
@@ -69,7 +70,7 @@ const App = (props) => {
   function getallCookies() {
     let decodedCookie = decodeURIComponent(document.cookie);
     let cookieArray = decodedCookie.split(";");
-    console.log(cookieArray);
+    console.log({cookieArray});
 
     let cookiesInSession = [];
     let otherCookies = [];

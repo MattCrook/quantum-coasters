@@ -2,7 +2,7 @@ const remoteURL = process.env.REACT_APP_REMOTE_API_URL;
 
 const newsManager = {
   async getSectionContent(section) {
-    const resp = await fetch(`${remoteURL}/news?content=${section}`, {
+    const resp = await fetch(`${remoteURL}/api/news?content=${section}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -13,7 +13,7 @@ const newsManager = {
     return await resp.json();
   },
   async fetchAllUserArticles() {
-    const resp = await fetch(`${remoteURL}/news?content=user_articles`, {
+    const resp = await fetch(`${remoteURL}/api/news?content=user_articles`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -24,7 +24,7 @@ const newsManager = {
     return await resp.json();
   },
   async postUserBlogApplication(data) {
-    const response = await fetch(`${remoteURL}/contributor_applications`, {
+    const response = await fetch(`${remoteURL}/api/contributor_applications`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

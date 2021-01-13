@@ -1,7 +1,7 @@
 const remoteURL = process.env.REACT_APP_REMOTE_API_URL;
 
 export async function postActivityLog(payload) {
-  const resp = await fetch(`${remoteURL}/activity_log`, {
+  const resp = await fetch(`${remoteURL}/api/activity_log`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -13,7 +13,7 @@ export async function postActivityLog(payload) {
 }
 
 export async function getUserActivityLog(userId) {
-  const resp = await fetch(`${remoteURL}/activity_log?user_id=${userId}`, {
+  const resp = await fetch(`${remoteURL}/api/activity_log?user_id=${userId}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -25,7 +25,7 @@ export async function getUserActivityLog(userId) {
 }
 
 export async function postLoginInfo(payload) {
-  const resp = await fetch(`${remoteURL}/login_info`, {
+  const resp = await fetch(`${remoteURL}/api/login_info`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -37,7 +37,7 @@ export async function postLoginInfo(payload) {
 }
 
 export async function getLoginInfo(userId) {
-  const resp = await fetch(`${remoteURL}/login_info?user_id=${userId}`, {
+  const resp = await fetch(`${remoteURL}/api/login_info?user_id=${userId}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -49,7 +49,7 @@ export async function getLoginInfo(userId) {
 }
 
 export async function retrieveActivityLog(id) {
-  const resp = await fetch(`${remoteURL}/activity_log/${id}`, {
+  const resp = await fetch(`${remoteURL}/api/activity_log/${id}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -61,7 +61,7 @@ export async function retrieveActivityLog(id) {
 }
 
 export async function retrieveLoginInfo(id) {
-  const resp = await fetch(`${remoteURL}/login_info/${id}`, {
+  const resp = await fetch(`${remoteURL}/api/login_info/${id}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -73,7 +73,7 @@ export async function retrieveLoginInfo(id) {
 }
 
 export async function postErrorLog(payload) {
-  const resp = await fetch(`${remoteURL}/error_logs`, {
+  const resp = await fetch(`${remoteURL}/api/error_logs`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -86,7 +86,7 @@ export async function postErrorLog(payload) {
 }
 
 export async function retrieveErrorLog(id) {
-  const resp = await fetch(`${remoteURL}/error_logs/${id}`, {
+  const resp = await fetch(`${remoteURL}/api/error_logs/${id}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -98,7 +98,7 @@ export async function retrieveErrorLog(id) {
 }
 
 export async function getUserErrorLog(userId) {
-  const resp = await fetch(`${remoteURL}/error_logs?user_id=${userId}`, {
+  const resp = await fetch(`${remoteURL}/api/error_logs?user_id=${userId}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

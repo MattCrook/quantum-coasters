@@ -2,7 +2,7 @@ const remoteURL = process.env.REACT_APP_REMOTE_API_URL;
 
 const manufacturerManager = {
   async getAllManufacturers() {
-    const resp = await fetch(`${remoteURL}/manufacturers`, {
+    const resp = await fetch(`${remoteURL}/api/manufacturers`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -14,7 +14,7 @@ const manufacturerManager = {
   },
 
   async retrieveManufacturer(id) {
-    const resp = await fetch(`${remoteURL}/manufacturers/${id}`, {
+    const resp = await fetch(`${remoteURL}/api/manufacturers/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -26,7 +26,7 @@ const manufacturerManager = {
   },
 
   async postNewManufacturer(resource) {
-    const data = await fetch(`${remoteURL}/manufacturers`, {
+    const data = await fetch(`${remoteURL}/api/manufacturers`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -39,7 +39,7 @@ const manufacturerManager = {
 
   async getManufacturerByName(manufacturer) {
     const encodedName = encodeURIComponent(manufacturer);
-    const resp = await fetch(`${remoteURL}/manufacturers?name=${encodedName}`, {
+    const resp = await fetch(`${remoteURL}/api/manufacturers?name=${encodedName}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",

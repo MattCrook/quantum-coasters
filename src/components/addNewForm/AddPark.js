@@ -16,7 +16,7 @@ const AddPark = (props) => {
 
   const addNewPark = async (token, parkObj) => {
     try {
-      const response = await fetch(`${remoteUrl}/parks`, {
+      const response = await fetch(`${remoteUrl}/api/parks`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

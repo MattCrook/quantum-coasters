@@ -39,10 +39,10 @@ const userManager = {
   },
 
   async getAllUsers() {
-    const resp = await fetch(`${remoteURL}/userprofiles`, {
+    const resp = await fetch(`${remoteURL}/api/userprofiles`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
         Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
       Accept: "application/json",
@@ -51,7 +51,7 @@ const userManager = {
   },
 
   async getUserProfileEmbeddedAuthUser(userId) {
-    const resp = await fetch(`${remoteURL}/userprofiles?userId=${userId}`, {
+    const resp = await fetch(`${remoteURL}/api/userprofiles?userId=${userId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -62,7 +62,7 @@ const userManager = {
   },
 
   async getAuthUser(email) {
-    const resp = await fetch(`${remoteURL}/userprofiles?email=${email}`, {
+    const resp = await fetch(`${remoteURL}/api/userprofiles?email=${email}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -74,14 +74,14 @@ const userManager = {
 
   async deleteUserProfile(id) {
     console.log("****************");
-    const result = await fetch(`${remoteURL}/userprofiles/${id}`, {
+    const result = await fetch(`${remoteURL}/api/userprofiles/${id}`, {
       method: "DELETE",
     });
     return await result.json();
   },
 
   async putEditedUserProfile(editedObject) {
-    await fetch(`${remoteURL}/userprofiles/${editedObject.id}`, {
+    await fetch(`${remoteURL}/api/userprofiles/${editedObject.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -92,7 +92,7 @@ const userManager = {
   },
 
   async putEditedAuthUser(editedObject) {
-    await fetch(`${remoteURL}/users/${editedObject.id}`, {
+    await fetch(`${remoteURL}/api/users/${editedObject.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -102,7 +102,7 @@ const userManager = {
     });
   },
   async getInitAppOptions(authUserId) {
-    const resp = await fetch(`${remoteURL}/credentials?user_id=${authUserId}`, {
+    const resp = await fetch(`${remoteURL}/api/credentials?user_id=${authUserId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -113,7 +113,7 @@ const userManager = {
   },
   async postInitAppOptions(initOptionsData) {
     try {
-      const response = await fetch(`${remoteURL}/credentials`, {
+      const response = await fetch(`${remoteURL}/api/credentials`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
