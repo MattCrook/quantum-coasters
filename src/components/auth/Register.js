@@ -7,10 +7,9 @@ import { useAuthUser } from "../../contexts/AuthUserContext";
 import { useErrorLog } from "../../contexts/ErrorLogContext";
 import "./Register.css";
 
-
 const Register = (props) => {
-  const { user } = useAuth0();
-  const { setAuthToken, setAuthUser } = useAuthUser();
+  const { user, transactions, loading, isAuthenticated, djangoRestAuthLogout, logout, clearStorage } = useAuth0();
+  const { setAuthToken, setAuthUser, authUser, userProfile } = useAuthUser();
   const { postActivityLogRegistration, sendLoginInfo } = useActivityLog();
   const { postNewErrorLog } = useErrorLog();
   const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +26,7 @@ const Register = (props) => {
     provider: "",
     id_token: "",
   });
-
+  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
   const attempts = useCallback(() => {
     setLoginAttempts(loginAttempts + 1);
@@ -40,7 +39,6 @@ const Register = (props) => {
   };
 
   const handleFormSubmit = (e) => {
-    setIsLoading(true);
     e.preventDefault();
 
     if (
@@ -58,6 +56,7 @@ const Register = (props) => {
           {
             label: "Ok",
             onClick: async () => {
+              setIsLoading(true);
               const newUserObject = {
                 first_name: formData.first_name.trim(),
                 last_name: formData.last_name.trim(),
@@ -67,9 +66,10 @@ const Register = (props) => {
                 address: formData.address.trim(),
                 auth0_identifier: user.sub.replace("|", "."),
                 uid: user.sub,
-                provider: "Auth0",
+                provider: "auth0",
                 id_token: sessionStorage.getItem("IdToken"),
                 extra_data: user,
+                transactions: transactions,
               };
               try {
                 const registerUser = await userManager.register(newUserObject);
@@ -93,11 +93,12 @@ const Register = (props) => {
                   };
 
                   await sendLoginInfo(loginData);
-                  postActivityLogRegistration(props, registerUser.DjangoUser.id, "/home");
+                  await postActivityLogRegistration(props, registerUser.DjangoUser.id);
 
                   // Function to POST to rest-auth verify email endpoint with the key returned from register.
                   // const sendEmailVerification = await userManager.verifyEmail(registerUser.DjangoUser.QuantumToken);
-                  // props.history.push("/home");
+                  props.history.push("/home");
+                  setIsLoading(false);
                 }
               } catch (err) {
                 console.log(err);
@@ -114,15 +115,68 @@ const Register = (props) => {
         onClickOutside: () => {},
         onKeypressEscape: () => {},
       });
-      setIsLoading(false);
     }
   };
 
+  if (isLoading) {
+    return (
+      <div className="loading_container">
+        {/* <div className="loading_pop_up">Loading...</div> */}
+        <div className="spinner icon-spinner-2" aria-hidden="true"></div>
+      </div>
+    );
+  }
+
   return (
     <>
+      <nav id="home_navbar_container" className="navbar is-dark">
+        <div className="navbar-menu is-active">
+          <button className="home-logo">Quantum Coasters</button>
+          {!loading && user && isAuthenticated && (
+            <>
+              <div className="navbar-end">
+                {authUser.email ? (
+                  <button className="navbar-item-home-name">
+                    {authUser.first_name} {authUser.last_name}
+                  </button>
+                ) : (
+                  <div className="navbar_item_home_user_name">{user.email}</div>
+                )}
+                {!loading && userProfile.image ? (
+                  <img
+                    data-testid="home-profile-pic-testid"
+                    id="profile-pic"
+                    src={userProfile.image.image}
+                    alt="My Avatar"
+                  />
+                ) : (
+                  <img
+                    data-testid="home-profile-pic-testid"
+                    id="profile-pic"
+                    src={defaultProfilePicture}
+                    alt="My Avatar"
+                  />
+                )}
+                <div className="logout_btn_home_container">
+                  <button
+                    onClick={() => djangoRestAuthLogout(logout, clearStorage, authUser)}
+                    className="logout-navbar-item"
+                    data-testid="logout-btn-testid"
+                  >
+                    Logout
+                  </button>
+                  <i className="fas fa-sign-out-alt"></i>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      </nav>
       <form className="register-form" onSubmit={handleFormSubmit}>
         <fieldset className="fs-register-form">
-          <h3 className="register-title">Complete Your Profile</h3>
+          <div className="register-title-container">
+            <div className="register-title">Complete Your Profile</div>
+          </div>
           <div className="profile-create-form">
             <label className="register_form_label" htmlFor="first_name">
               First Name
@@ -158,16 +212,16 @@ const Register = (props) => {
             <input className="input_register" onChange={handleAuthUserInputChange} type="text" id="address" required />
 
             <button className="register-create-btn" type="submit" disabled={isLoading} onClick={attempts}>
-              Finish
+              Register
             </button>
+          </div>
+          <div className="signature">
+            <p id="signature_font_register_form">
+              Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a> <i className="fas fa-trademark"></i>
+            </p>
           </div>
         </fieldset>
       </form>
-      <div className="signature">
-        <p>
-          Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a> <i className="fas fa-trademark"></i>
-        </p>
-      </div>
     </>
   );
 };

@@ -24,11 +24,10 @@ export const Auth0Provider = ({
   useEffect(() => {
     const initAuth0 = async () => {
       const auth0FromHook = await createAuth0Client(initOptions);
-      console.log({auth0FromHook})
       const transactionsManager = auth0FromHook.transactionManager;
+      console.log({transactionsManager})
       setTransactions(transactionsManager)
       setAuth0(auth0FromHook);
-      console.log({auth0Client})
 
 
       if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
@@ -53,7 +52,7 @@ export const Auth0Provider = ({
             redirect_uri: initOptions.redirect_uri,
             audience: initOptions.audience,
             scope: initOptions.scope,
-            transactions: transactions,
+            transactions: transactionsManager,
             nonce: tokenId.nonce,
             access_token: tokenId.__raw,
             django_token: sessionStorage.getItem("QuantumToken"),
@@ -132,6 +131,7 @@ export const Auth0Provider = ({
         handleRedirectCallback,
         clearStorage,
         djangoRestAuthLogout,
+        transactions,
         appInitOptions,
         getIdTokenClaims: (...p) => auth0Client.getIdTokenClaims(...p),
         loginWithRedirect: (...p) => auth0Client.loginWithRedirect(...p),

@@ -6,6 +6,7 @@ const userManager = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
       Accept: "application/json",
       body: JSON.stringify(userToPost),
@@ -62,14 +63,22 @@ const userManager = {
   },
 
   async getAuthUser(email) {
-    const resp = await fetch(`${remoteURL}/api/userprofiles?email=${email}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
-      },
-    });
-    return await resp.json();
+    try {
+      const resp = await fetch(`${remoteURL}/api/userprofiles?email=${email}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+        },
+      });
+      if (resp.ok && resp.status === 204) {
+        return resp;
+      } else {
+        return await resp.json();
+      }
+    } catch (err) {
+      console.log({err});
+    }
   },
 
   async deleteUserProfile(id) {
@@ -132,18 +141,18 @@ const userManager = {
   async verifyEmail(key) {
     try {
       const response = await fetch(`${remoteURL}/rest-auth/registration/verify-email/`, {
-        method: 'POST',
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${key}`
+          Authorization: `Bearer ${key}`,
         },
         body: key,
-      })
+      });
       if (response.ok) {
         const jsonResponse = await response.json();
-        console.log({ jsonResponse })
+        console.log({ jsonResponse });
       }
-      throw new Error('Verify Email Request Failed')
+      throw new Error("Verify Email Request Failed");
     } catch (err) {
       console.info(err);
     }

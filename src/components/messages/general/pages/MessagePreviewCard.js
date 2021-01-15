@@ -2,6 +2,7 @@ import React from "react";
 import "../../styles/Forum.css";
 
 const MessagePreviewCard = (props) => {
+  console.log(props)
   const { loading } = props;
   let profilePic = "";
   let timestamp;

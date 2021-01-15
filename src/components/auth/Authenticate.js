@@ -55,8 +55,9 @@ const Authenticate = (props) => {
 
         try {
           await sendLoginInfo(loginData);
-          const origin = window.location.origin;
-          window.location.href = origin + "/home";
+          props.history.push("/home");
+          // const origin = window.location.origin;
+          // window.location.href = origin + "/home";
         } catch (err) {
           console.log({ err });
           await postNewErrorLog(err, "Authenticate.js", "sendLoginInfo");

@@ -102,7 +102,7 @@ export const ActivityLogProvider = ({ children }) => {
     props.history.push(pathname);
   };
 
-  const postActivityLogRegistration = async (props, userId, pathname) => {
+  const postActivityLogRegistration = async (props, userId) => {
     let currentDate = new Date();
     let dateTime = currentDate.toISOString();
     let date = dateTime.split("T")[0];
@@ -116,10 +116,10 @@ export const ActivityLogProvider = ({ children }) => {
       user_id: userId,
       action: action,
       date: date,
+      props: props
     };
 
     await postNewActivityLogAction({ event: payload });
-    props.history.push(pathname);
   };
 
   const postActivityLogDeleteEvent = async (e, userId) => {

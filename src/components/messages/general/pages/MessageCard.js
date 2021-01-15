@@ -2,6 +2,7 @@ import React from "react";
 import "../../Messages.css";
 
 const MessageCard = (props) => {
+  console.log(props)
   const { loading } = props;
   let profilePic = "";
   let timestamp = "";
