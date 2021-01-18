@@ -18,19 +18,31 @@ const Forum = (props) => {
   const [messagesToPreview, setMessagesToPreview] = useState([]);
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
-  const renderGeneralMessages = () => {
-    props.history.push("/messages");
-  };
+
 
   const renderTemplate = () => {
     const target = `${URL}/chat`;
     window.location.href = target;
-  }
+  };
+
+  const renderGroupChat = (e, userId) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const target = `${URL}/group_chat/${userId}`;
+    window.location.href = target;
+  };
+
+  const renderPrivateChat = (e, userId) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const target = `${URL}/private_chat/${userId}`;
+    window.location.href = target;
+  };
 
   const renderGeneralChatRoom = () => {
     const target = `${URL}/chat/general/`;
     window.location.href = target;
-  }
+  };
 
   const sortByDate = (messages) => {
     const sorted = messages.sort((a, b) => {
@@ -39,7 +51,7 @@ const Forum = (props) => {
       return dateA - dateB;
     });
     return sorted;
-  }
+  };
 
   useEffect(() => {
     const messagesForPreview = async () => {
@@ -48,7 +60,7 @@ const Forum = (props) => {
       const sortedMessages = sortByDate(allMessages);
       const messagesNewestToOldest = sortedMessages.reverse();
       const messagesToShow = messagesNewestToOldest.slice(0, 5);
-      const sortBackToOldestToNewest = messagesToShow.reverse()
+      const sortBackToOldestToNewest = messagesToShow.reverse();
       setMessagesToPreview(sortBackToOldestToNewest);
     };
     messagesForPreview();
@@ -94,15 +106,12 @@ const Forum = (props) => {
           <div className="forum_description">Welcome to the Quantum Forum! Choose a channel and start chatting.</div>
         </div>
         <div className="forum_header_container">
-          <div className="header_section_button" onClick={(e) => renderGeneralMessages(e)}>
-            General
-          </div>
-          <div className="header_section_button">Start A Group Chat</div>
-          <div className="header_section_button" onClick={(e) => renderTemplate(e)}>Test</div>
-          <div className="header_section_button">Private Message</div>
-          <div className="header_section_button" onClick={(e) => renderGeneralChatRoom(e)}>Test General</div>
+          <div className="header_section_button" onClick={() => props.history.push("/messages")}>General</div>
+          <div className="header_section_button" onClick={(e) => renderGroupChat(e, authUser.id)}>Start A Group Chat</div>
+          <div className="header_section_button" onClick={(e) => renderPrivateChat(e, authUser.id)}>Private Message</div>
 
-
+          {/* <div className="header_section_button" onClick={(e) => renderTemplate(e)}>Test</div>
+          <div className="header_section_button" onClick={(e) => renderGeneralChatRoom(e)}>Test General</div> */}
         </div>
 
         <div className="forum_body_container">
@@ -142,12 +151,9 @@ const Forum = (props) => {
 
           <div className="group_chat_container">
             <div className="group_chat_description_title">
-              <div className="group_chat_description">
-                Choose a Quantum friend/ enthusiast to private message.
-              </div>
+              <div className="group_chat_description">Choose a Quantum friend/ enthusiast to private message.</div>
             </div>
           </div>
-
         </div>
       </div>
     </>

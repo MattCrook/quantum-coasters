@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useAuthUser } from "../../contexts/AuthUserContext";
 import { useErrorLog } from "../../contexts/ErrorLogContext";
 import Calendar from "./calendarComponents/Calendar";
 import NavHeader from "../nav/NavHeader";
@@ -18,12 +19,14 @@ import {
   isSameDay,
   startOfMonth,
   endOfMonth,
+  parseISO
 } from "date-fns";
 import "./Plan.css";
 
 const Plan = (props) => {
 
   // const { getCurrentUserActivity, postActivityLogAddCredit, postActivityLogEditProfile } = useActivityLog();
+  const { authUser, userProfile } = useAuthUser();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [userCalendarEvents, setUserCalendarEvents] = useState([]);
@@ -116,6 +119,8 @@ const Plan = (props) => {
       let days = [];
       let day = startDate;
       let formattedDate = "";
+      var self = 0
+
 
       while (day <= endDate) {
         for (let i = 0; i < 7; i++) {
@@ -123,15 +128,16 @@ const Plan = (props) => {
           const fullFormat = "yyyy-M-dd";
           const fullFormattedDate = format(day, fullFormat);
           const eventsForCurrentDay = isEventsForDate(userCalendarEvents, day);
+          self = self + 1
+
 
           days.push(
-            <>
+              <>
               <div
                 className={`column cell ${
                   !isSameMonth(day, monthStart) ? "disabled" : isSameDay(day, selectedDate) ? "selected" : ""
                 }`}
                 key={day.toDateString()}
-                // key={day}
                 id={day.toDateString()}
                 onClick={(e) => handleDayClick(e)}
                 data-micromodal-trigger="modal-cal"
@@ -146,8 +152,10 @@ const Plan = (props) => {
                   <span className="has_events">0</span>
                 ) : null}
               </div>
+
               <Calendar
-                key={day.toDateString()}
+                // key={parseISO(fullFormattedDate)}
+                // key={self}
                 today={today}
                 formattedDate={formattedDate}
                 date={date}
@@ -158,8 +166,8 @@ const Plan = (props) => {
                 selectedDate={selectedDate}
                 currentDate={currentDate}
                 userCalendarEvents={userCalendarEvents}
-                authUser={props.authUser}
-                userProfile={props.userProfile}
+                authUser={authUser}
+                userProfile={userProfile}
                 {...props}
               />
             </>
@@ -167,7 +175,7 @@ const Plan = (props) => {
           day = addDays(day, 1);
         }
         rows.push(
-          <div className="row" key={day}>
+          <div className="row" key={day.toDateString()}>
             {" "}
             {days}{" "}
           </div>
@@ -184,11 +192,11 @@ const Plan = (props) => {
 
   useEffect(() => {
     const userCalendar = async () => {
-      const userEvents = await calendarManager.getUserCalendarEvents(props.authUser.id);
+      const userEvents = await calendarManager.getUserCalendarEvents(authUser.id);
       setUserCalendarEvents(userEvents);
     };
     userCalendar();
-  }, [props]);
+  }, [authUser]);
 
 
   return (
