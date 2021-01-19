@@ -12,6 +12,9 @@ import { useAuthUser } from "../../contexts/AuthUserContext";
 import { useErrorLog } from "../../contexts/ErrorLogContext";
 import DefaultView from "./pages/DefaultView";
 import ProfileListSearch from "../search/ProfileListSearch";
+import FeedbackModal from "../modals/FeedbackModal";
+import BugReportModal from "../modals/BugModal";
+import { postFeedback, postBugReport } from "../../modules/services/services";
 import "./Profile.css";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
@@ -28,14 +31,73 @@ const ProfileList = (props) => {
   const [searchInput, setSearchInput] = useState();
   const [searchOutput, setSearchOutput] = useState([]);
   const [defaultSectionContent, setDefaultSectionContent] = useState([]);
-  const userId = authUser.id;
+  const [isProfileDropdown, setIsProfileDropdown] = useState(false);
+  const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
+  const [bugReportModalOpen, setBugReportModalOpen] = useState(false);
+  const feedbackComment = useRef();
+  const feedbackSubject = useRef();
+  const bugTitle = useRef();
+  const bugDescription = useRef();
   const allCreditsRef = useRef();
+  const userId = authUser.id;
 
+  const toggleProfileDropdown = () => setIsProfileDropdown(!isProfileDropdown);
   const isActive = (ref) => ref.current.classList.add("active");
 
   const defaultSideNavToggle = useCallback((ref) => {
     isActive(ref);
   }, []);
+
+  const handleOpenFeedBack = () => {
+    setFeedbackModalOpen(true);
+  };
+
+  const handleCloseFeedBack = () => {
+    setFeedbackModalOpen(false);
+  };
+
+  const handleOpenBugReport = () => {
+    setBugReportModalOpen(true);
+  };
+
+  const handleCloseBugReport = () => {
+    setBugReportModalOpen(false);
+  };
+
+  const handleSubmitFeedback = (e) => {
+    e.preventDefault();
+    const feedback = {
+      subject: feedbackSubject.current.value,
+      comment: feedbackComment.current.value,
+    };
+    postFeedback(feedback).then(() => {
+      alert("Thanks for your feedback! Your submission has been received.");
+      setFeedbackModalOpen(false);
+      setIsProfileDropdown(false);
+    })
+    .catch((error) => {
+      console.log(error);
+      postNewErrorLog(error, "ProfileList.js", "handleSubmitFeedback");
+    });
+  };
+
+  const handleSubmitBug = (e) => {
+    e.preventDefault();
+    const bug = {
+      title: bugTitle.current.value,
+      description: bugDescription.current.value,
+    };
+    postBugReport(bug)
+      .then(() => {
+        alert("Thanks for your feedback! Your submission has been received.");
+        setFeedbackModalOpen(false);
+        setIsProfileDropdown(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        postNewErrorLog(error, "ProfileList.js", "handleSubmitBug");
+      });
+  };
 
   const allUserCredits = async (userCredits) => {
     try {
@@ -49,8 +111,7 @@ const ProfileList = (props) => {
     }
   };
 
-  const rollerCoastersFromUserCredits = useCallback(
-    async (userCredits) => {
+  const rollerCoastersFromUserCredits = useCallback(async (userCredits) => {
       try {
         const allUserRollerCoasters = await allUserCredits(userCredits);
         let promises = [];
@@ -141,7 +202,7 @@ const ProfileList = (props) => {
     inputStateToChange = e.target.value;
     setSearchInput(inputStateToChange);
     filterSearchList(inputStateToChange);
-  };
+  }
 
   function filterSearchList(inputValue) {
     const stateShallowCopy = [...userRollerCoasters];
@@ -189,14 +250,16 @@ const ProfileList = (props) => {
         </button>
 
         <div className="name-container-profile-list">
-          <p className="name-profile-list">
+          <div className="name-profile-list">
             {authUser.first_name} {authUser.last_name}
-          </p>
-          {userProfile.image ? (
-            <img id="profile-pic-profile-list" src={userProfile.image.image} alt="My Avatar" />
-          ) : (
-            <img id="profile-pic-profile-list" src={defaultProfilePicture} alt="My Avatar" />
-          )}
+          </div>
+          <button onClick={() => toggleProfileDropdown()}>
+            {userProfile.image ? (
+              <img id="profile-pic-profile-list" src={userProfile.image.image} alt="My Avatar" />
+            ) : (
+              <img id="profile-pic-profile-list" src={defaultProfilePicture} alt="My Avatar" />
+            )}
+          </button>
           <button
             id="profile_list_logout_btn"
             onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
@@ -208,6 +271,53 @@ const ProfileList = (props) => {
           <i className="fas fa-sign-out-alt"></i>
         </div>
       </nav>
+
+      {isProfileDropdown ? (
+        <div className="nav_profile_dropdown_container">
+          <>
+            <div className="nav_profile_dropdown_row">
+              <div className="nav_profile_dropdown_item" onClick={() => props.history.push("/home")}>
+                Home
+              </div>
+              {/* <i className="fas fa-long-arrow-alt-right"></i> */}
+              <i className="fas fa-home"></i>
+            </div>
+            <div className="nav_profile_dropdown_row">
+              <div className="nav_profile_dropdown_item" onClick={() => props.history.push(`/profile/${authUser.id}`)}>
+                Edit Account
+              </div>
+              <i className="fas fa-user-edit"></i>
+            </div>
+            <div className="nav_profile_dropdown_row">
+              <div className="nav_profile_dropdown_item" onClick={() => handleOpenFeedBack()}>Give Feedback</div>
+              <i className="far fa-comments"></i>
+            </div>
+            <div className="nav_profile_dropdown_row">
+              <div className="nav_profile_dropdown_item" onClick={() => handleOpenBugReport()}>Report a Bug</div>
+              <i className="fas fa-bug"></i>
+            </div>
+          </>
+        </div>
+      ) : null}
+      <FeedbackModal
+        authUser={authUser}
+        feedbackModalOpen={feedbackModalOpen}
+        handleOpenFeedBack={handleOpenFeedBack}
+        handleCloseFeedBack={handleCloseFeedBack}
+        feedbackComment={feedbackComment}
+        feedbackSubject={feedbackSubject}
+        handleSubmitFeedback={handleSubmitFeedback}
+        {...props}
+      />
+        <BugReportModal
+        bugReportModalOpen={bugReportModalOpen}
+        handleOpenBugReport={handleOpenBugReport}
+        handleCloseBugReport={handleCloseBugReport}
+        bugDescription={bugDescription}
+        bugTitle={bugTitle}
+        handleSubmitBug={handleSubmitBug}
+        {...props}
+      />
 
       <div className="setting_side_nav">
         <div className="settings_links_containers">

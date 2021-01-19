@@ -1,9 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { useAuthUser } from "../../contexts/AuthUserContext";
 import { Link } from "react-router-dom";
 import Authenticate from "../auth/Authenticate";
 import MicroModal from "micromodal";
+import FeedbackModal from "../modals/FeedbackModal";
+import BugReportModal from "../modals/BugModal";
+import { postFeedback, postBugReport } from "../../modules/services/services";
+import { useErrorLog } from "../../contexts/ErrorLogContext";
 import "bulma/css/bulma.css";
 import "./Home.css";
 import "../auth/Authenticate.css";
@@ -20,11 +24,71 @@ MicroModal.init({
 });
 
 const Home = (props) => {
+  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
   const { loading, user, logout, clearStorage, isAuthenticated, djangoRestAuthLogout } = useAuth0();
   const { authUser, userProfile } = useAuthUser();
+  const { postNewErrorLog } = useErrorLog();
+  const [isProfileDropdown, setIsProfileDropdown] = useState(false);
+  const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
   const { isLoggedIn, setIsLoggedIn, hasLoggedIn } = props;
-  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
+  const feedbackComment = useRef();
+  const feedbackSubject = useRef();
+  const [bugReportModalOpen, setBugReportModalOpen] = useState(false);
+  const bugTitle = useRef();
+  const bugDescription = useRef();
 
+  const toggleProfileDropdown = () => setIsProfileDropdown(!isProfileDropdown);
+
+  const handleOpenFeedBack = () => {
+    setFeedbackModalOpen(true);
+  };
+
+  const handleCloseFeedBack = () => {
+    setFeedbackModalOpen(false);
+  };
+
+  const handleOpenBugReport = () => {
+    setBugReportModalOpen(true);
+  };
+
+  const handleCloseBugReport = () => {
+    setBugReportModalOpen(false);
+  };
+
+  const handleSubmitFeedback = (e) => {
+    e.preventDefault();
+    const feedback = {
+      subject: feedbackSubject.current.value,
+      comment: feedbackComment.current.value,
+    };
+    postFeedback(feedback).then(() => {
+      alert("Thanks for your feedback! Your submission has been received.");
+      setFeedbackModalOpen(false);
+      setIsProfileDropdown(false);
+    })
+    .catch((error) => {
+      console.log(error);
+      postNewErrorLog(error, "Home.js", "handleSubmitFeedback");
+    });
+  };
+
+  const handleSubmitBug = (e) => {
+    e.preventDefault();
+    const bug = {
+      title: bugTitle.current.value,
+      description: bugDescription.current.value,
+    };
+    postBugReport(bug)
+      .then(() => {
+        alert("Thanks for your feedback! Your submission has been received.");
+        setFeedbackModalOpen(false);
+        setIsProfileDropdown(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        postNewErrorLog(error, "Home.js", "handleSubmitBug");
+      });
+  };
 
   useEffect(() => {
     if (isAuthenticated && isLoggedIn && props.authToken) {
@@ -34,6 +98,12 @@ const Home = (props) => {
     }
   }, [props, hasLoggedIn, isLoggedIn, isAuthenticated, setIsLoggedIn]);
 
+  const redirectToAdminLogin = () => {
+    const Url = process.env.REACT_APP_SERVER_URL;
+    const target = `${Url}/admin/login/`;
+    window.location.href = target;
+  };
+
   return (
     <>
       <header>
@@ -42,32 +112,33 @@ const Home = (props) => {
             <button className="home-logo">Quantum Coasters</button>
             {!loading && user && isAuthenticated && (
               <>
-                <div className="navbar-end">
+                <div id="home_nav_bar_end" className="navbar-end">
                   {authUser.email ? (
-                    <button className="navbar-item-home-name">
+                    <div className="navbar-item-home-name">
                       {authUser.first_name} {authUser.last_name}
-                    </button>
+                    </div>
                   ) : (
                     <div className="navbar_item_home_user_name">{user.email}</div>
                   )}
-                  {!loading && userProfile.image ? (
-                    <img
-                      data-testid="home-profile-pic-testid"
-                      id="profile-pic"
-                      src={userProfile.image.image}
-                      alt="My Avatar"
-                    />
-                  ) : (
-                    <img
-                      data-testid="home-profile-pic-testid"
-                      id="profile-pic"
-                      src={defaultProfilePicture}
-                      alt="My Avatar"
-                    />
-                  )}
+                  <button onClick={() => toggleProfileDropdown()}>
+                    {!loading && userProfile.image ? (
+                      <img
+                        data-testid="home-profile-pic-testid"
+                        id="profile-pic"
+                        src={userProfile.image.image}
+                        alt="My Avatar"
+                      />
+                    ) : (
+                      <img
+                        data-testid="home-profile-pic-testid"
+                        id="profile-pic"
+                        src={defaultProfilePicture}
+                        alt="My Avatar"
+                      />
+                    )}
+                  </button>
                   <div className="logout_btn_home_container">
                     <button
-                      // onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
                       onClick={() => djangoRestAuthLogout(logout, clearStorage, authUser)}
                       className="logout-navbar-item"
                       data-testid="logout-btn-testid"
@@ -81,6 +152,58 @@ const Home = (props) => {
             )}
           </div>
         </nav>
+
+        {isProfileDropdown && isAuthenticated && isLoggedIn ? (
+          <div className="home_profile_dropdown_container">
+            <>
+              <div className="home_profile_dropdown_row">
+                <div className="home_profile_dropdown_item" onClick={() => redirectToAdminLogin()}>
+                  Admin
+                </div>
+                <i className="fas fa-user-lock"></i>
+              </div>
+              <div className="home_profile_dropdown_row">
+                <div
+                  className="home_profile_dropdown_item"
+                  onClick={() => props.history.push(`/profile/${authUser.id}`)}
+                >
+                  Edit Account
+                </div>
+                <i className="fas fa-user-edit"></i>
+              </div>
+              <div className="home_profile_dropdown_row">
+                <div className="home_profile_dropdown_item" onClick={() => handleOpenFeedBack()}>
+                  Give Feedback
+                </div>
+                <i className="far fa-comments"></i>
+              </div>
+              <div className="home_profile_dropdown_row">
+                <div className="home_profile_dropdown_item" onClick={() => handleOpenBugReport()}>Report a Bug</div>
+                <i className="fas fa-bug"></i>
+              </div>
+            </>
+          </div>
+        ) : null}
+
+        <FeedbackModal
+          authUser={authUser}
+          feedbackModalOpen={feedbackModalOpen}
+          handleOpenFeedBack={handleOpenFeedBack}
+          handleCloseFeedBack={handleCloseFeedBack}
+          feedbackComment={feedbackComment}
+          feedbackSubject={feedbackSubject}
+          handleSubmitFeedback={handleSubmitFeedback}
+          {...props}
+        />
+      <BugReportModal
+        bugReportModalOpen={bugReportModalOpen}
+        handleOpenBugReport={handleOpenBugReport}
+        handleCloseBugReport={handleCloseBugReport}
+        bugDescription={bugDescription}
+        bugTitle={bugTitle}
+        handleSubmitBug={handleSubmitBug}
+        {...props}
+      />
 
         <div className="modal_btn_toggle_home">
           {!loading && user && userProfile.id && isAuthenticated && !isLoggedIn ? (

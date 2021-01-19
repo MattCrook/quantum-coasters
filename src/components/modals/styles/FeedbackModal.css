@@ -1,0 +1,87 @@
+.feedback_form {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.feedback_header {
+  display: flex;
+  justify-content: center;
+  font: 600 1.3em helvetica neue, open sans, sans-serif;
+  border-bottom: 1px solid rgb(146, 146, 146);
+}
+
+.feedback_title {
+  margin-bottom: 10px;
+  margin-top: 10px
+}
+
+#subject {
+  text-align: center;
+}
+
+.feedback_form_label {
+  display: flex;
+  justify-content: center;
+  font: 400 1.3em helvetica neue, open sans, sans-serif;
+  margin-top: 5%;
+  margin-bottom: 2%;
+}
+
+.feedback_input {
+  background: transparent;
+  width: 60%;
+  margin-left: 20%;
+  border-radius: 3px 3px 3px 3px;
+  padding: 8px;
+  color: white;
+  box-shadow: none !important;
+  border: 1px solid rgb(109, 108, 108);
+}
+
+.feedback_input:focus {
+  outline: 1px solid rgb(196, 196, 196);
+}
+
+.feedback_form_ul {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  margin-top: 8px;
+  margin-left: 20%;
+}
+
+.feedback_list_item {
+  list-style-type: disc;
+  font-size: 11px;
+}
+
+#submit_feedback_btn {
+  display: inline-block;
+  border: none;
+  padding: 12px 20px;
+  margin-top: 5%;
+  margin-left: 35%;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  width: 30%;
+  background-color: #020202;
+  color: #fff;
+  box-shadow: 2px 3px 4px 3px rgb(32, 32, 32);
+  cursor: pointer;
+}
+
+#submit_feedback_btn:hover {
+  opacity: 0.8;
+}
+
+#signature_modal {
+    margin-top: 3%;
+}
+#signature_font_modal {
+  font: 260 0.65em helvetica neue, open sans, sans-serif;
+  letter-spacing: 5px;
+  color: rgb(94, 94, 94);
+}

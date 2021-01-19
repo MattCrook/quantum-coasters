@@ -127,7 +127,6 @@
   border-top: 1px solid rgb(78, 76, 76);
 }
 
-
 .pic_and_name_and_txt_container_general {
   display: flex;
   flex-direction: row;
@@ -149,15 +148,12 @@
   width: 90%;
 }
 
-
-
 .message_name_general {
   display: flex;
   justify-content: flex-start;
   font-weight: 600;
   font-size: 13px;
   width: 23%;
-
 }
 
 .message_text_general {
@@ -167,7 +163,6 @@
   font-size: 12px;
   word-break: break-all;
   width: 100%;
-
 }
 
 .message_time_right_general {

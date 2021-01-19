@@ -160,7 +160,7 @@ button.btn {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: 100%;
+  /* width: 100%; */
   margin-right: 2%;
   font: 150 1em helvetica neue, open sans, sans-serif;
 }
@@ -343,7 +343,7 @@ button.btn {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding-left: 3rem;
+  padding-left: 2rem;
 }
 .edit-profile-title {
   color: white;
@@ -442,7 +442,7 @@ button.btn {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin-right: 30px;
+  margin-right: 10%;
 }
 
 .profile-info-container {

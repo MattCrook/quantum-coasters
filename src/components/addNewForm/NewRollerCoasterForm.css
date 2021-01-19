@@ -152,38 +152,6 @@
   color: #aaaaaa;
 }
 
-.signature .much-heart {
-  display: inline-block;
-  position: relative;
-  margin: 0 4px;
-  height: 10px;
-  width: 10px;
-  background: #ac1d3f;
-  border-radius: 4px;
-  -ms-transform: rotate(45deg);
-  -webkit-transform: rotate(45deg);
-  transform: rotate(45deg);
-}
-
-.signature .much-heart::before,
-.signature .much-heart::after {
-  display: block;
-  content: "";
-  position: absolute;
-  margin: auto;
-  height: 10px;
-  width: 10px;
-  border-radius: 5px;
-  background: #ac1d3f;
-  top: -4px;
-}
-
-.signature .much-heart::after {
-  bottom: 0;
-  top: auto;
-  left: -4px;
-}
-
 .signature a {
   color: #aaaaaa;
   text-decoration: none;

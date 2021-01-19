@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 // import userManager from "../../modules/users/userManager";
 import messageManager from "../../../modules/messages/messageManager";
 import MessageCard from "./pages/MessageCard";
@@ -6,6 +6,9 @@ import MessageForm from "./MessageForm";
 import { useAuth0 } from "../../../contexts/react-auth0-context";
 import { useAuthUser } from "../../../contexts/AuthUserContext";
 import { useErrorLog } from "../../../contexts/ErrorLogContext";
+import FeedbackModal from "../../modals/FeedbackModal";
+import BugReportModal from "../../modals/BugModal";
+import { postBugReport, postFeedback } from "../../../modules/services/services";
 import "../Messages.css";
 
 const MessageList = (props) => {
@@ -13,8 +16,14 @@ const MessageList = (props) => {
   const { authUser, userProfile } = useAuthUser();
   const { postNewErrorLog } = useErrorLog();
   const [allMessages, setAllMessages] = useState([]);
-  const [paginatedMessages, setPaginatedMessages] = useState([]);
-
+  const [isProfileDropdown, setIsProfileDropdown] = useState(false);
+  // const [paginatedMessages, setPaginatedMessages] = useState([]);
+  const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
+  const [bugReportModalOpen, setBugReportModalOpen] = useState(false);
+  const feedbackComment = useRef();
+  const feedbackSubject = useRef();
+  const bugTitle = useRef();
+  const bugDescription = useRef();
   const [messageToEdit, setMessageToEdit] = useState({
     user_id: "",
     text: "",
@@ -23,15 +32,59 @@ const MessageList = (props) => {
   const userProfileId = userProfile.id;
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
 
+  const toggleProfileDropdown = () => setIsProfileDropdown(!isProfileDropdown);
+
+  const handleOpenFeedBack = () => {
+    setFeedbackModalOpen(true);
+  };
+
+  const handleCloseFeedBack = () => {
+    setFeedbackModalOpen(false);
+  };
+
+  const handleOpenBugReport = () => {
+    setBugReportModalOpen(true);
+  };
+
+  const handleCloseBugReport = () => {
+    setBugReportModalOpen(false);
+  };
+
+  const handleSubmitFeedback = (e) => {
+    e.preventDefault();
+    const feedback = {
+      subject: feedbackSubject.current.value,
+      comment: feedbackComment.current.value,
+    };
+    postFeedback(feedback).then(() => {
+      alert("Thanks for your feedback! Your submission has been received.");
+      setFeedbackModalOpen(false);
+      setIsProfileDropdown(false);
+    });
+  };
+
+  const handleSubmitBug = (e) => {
+    e.preventDefault();
+    const bug = {
+      title: bugTitle.current.value,
+      description: bugDescription.current.value,
+    };
+    postBugReport(bug)
+      .then(() => {
+        alert("Thanks for your feedback! Your submission has been received.");
+        setFeedbackModalOpen(false);
+        setIsProfileDropdown(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        postNewErrorLog(error, "NavHeader.js", "handleSubmitBug");
+      });
+  };
+
   const getMessages = async () => {
     try {
       const messages = await messageManager.getAllMessages();
       setAllMessages(messages);
-      // const sortedMessages = sortByDate(messages);
-      // const messagesNewestToOldest = sortedMessages.reverse();
-      // const messagesToShow = messagesNewestToOldest.slice(0, 7);
-      // const sortBackToOldestToNewest = messagesToShow.reverse()
-      // setPaginatedMessages(sortBackToOldestToNewest);
     } catch (error) {
       postNewErrorLog(error, "Messages.js", "getMessages");
     }
@@ -40,17 +93,6 @@ const MessageList = (props) => {
   useEffect(() => {
     getMessages();
   }, []);
-
-  // function sortByDate(messages) {
-  //   console.log(messages)
-  //   const sorted = messages.sort((a, b) => {
-  //     const dateA = new Date(a.timestamp);
-  //     const dateB = new Date(b.timestamp);
-  //     return dateA - dateB;
-  //   });
-  //   return sorted;
-  // }
-
 
   return (
     <>
@@ -66,31 +108,82 @@ const MessageList = (props) => {
         <div className="forum_container_2">
           {!loading && user && (
             <>
-              <button className="navbar-item-name">
+              <div className="navbar-item-name">
                 {authUser.first_name} {authUser.last_name}
+              </div>
+              <button className="profile_dropdown" onClick={() => toggleProfileDropdown()}>
+                {userProfile.image ? (
+                  <img id="profile-pic" src={userProfile.image.image} alt="My Avatar" />
+                ) : (
+                  <img id="profile-pic" src={defaultProfilePicture} alt="My Avatar" />
+                )}
               </button>
-              {userProfile.image ? (
-                <img id="profile-pic" src={userProfile.image.image} alt="My Avatar" />
-              ) : (
-                <img id="profile-pic" src={defaultProfilePicture} alt="My Avatar" />
-              )}
               <button
                 onClick={() => djangoRestAuthLogout(logout, clearStorage, authUser)}
                 className="navbar-item-logout-btn"
               >
                 Logout
               </button>
-              <hr />
+              <i className="fas fa-sign-out-alt"></i>
             </>
           )}
         </div>
       </nav>
+      {isProfileDropdown ? (
+        <div className="profile_dropdown_container">
+          <>
+            <div className="profile_dropdown_row">
+              <div className="profile_dropdown_item" onClick={() => props.history.push("/forum")}>
+                Back to Forum
+              </div>
+              <i className="fas fa-long-arrow-alt-right"></i>
+            </div>
+            <div className="profile_dropdown_row">
+              <div className="profile_dropdown_item" onClick={() => props.history.push(`/profile/${authUser.id}`)}>
+                Edit Account
+              </div>
+              <i className="fas fa-user-edit"></i>
+            </div>
+            <div className="profile_dropdown_row">
+              <div className="profile_dropdown_item" onClick={() => handleOpenFeedBack()}>
+                Give Feedback
+              </div>
+              <i className="far fa-comments"></i>
+            </div>
+            <div className="profile_dropdown_row">
+              <div className="profile_dropdown_item" onClick={() => handleOpenBugReport()}>
+                Report a Bug
+              </div>
+              <i className="fas fa-bug"></i>
+            </div>
+          </>
+        </div>
+      ) : null}
+      <FeedbackModal
+        authUser={authUser}
+        feedbackModalOpen={feedbackModalOpen}
+        handleOpenFeedBack={handleOpenFeedBack}
+        handleCloseFeedBack={handleCloseFeedBack}
+        feedbackComment={feedbackComment}
+        feedbackSubject={feedbackSubject}
+        handleSubmitFeedback={handleSubmitFeedback}
+        {...props}
+      />
+      <BugReportModal
+        bugReportModalOpen={bugReportModalOpen}
+        handleOpenBugReport={handleOpenBugReport}
+        handleCloseBugReport={handleCloseBugReport}
+        bugDescription={bugDescription}
+        bugTitle={bugTitle}
+        handleSubmitBug={handleSubmitBug}
+        {...props}
+      />
 
       <div className="chat-wrapper">
         <div className="chat-fixed-height-container">
           <div id="chat-headerContainer">
             <div className="forum-header">
-              <h1>Forum</h1>
+              <div className="general_forum_messages_title">General Quantum Forum</div>
             </div>
           </div>
           <div className="chat-ScrollToBottom">
@@ -117,7 +210,7 @@ const MessageList = (props) => {
             <MessageForm
               userProfile={userProfile}
               userProfileId={userProfileId}
-              paginatedMessages={paginatedMessages}
+              // paginatedMessages={paginatedMessages}
               messageToEdit={messageToEdit}
               setMessageToEdit={setMessageToEdit}
               setAllMessages={setAllMessages}
@@ -131,3 +224,31 @@ const MessageList = (props) => {
   );
 };
 export default MessageList;
+
+// const getMessages = async () => {
+//   try {
+//     const messages = await messageManager.getAllMessages();
+//     setAllMessages(messages);
+//     const sortedMessages = sortByDate(messages);
+//     const messagesNewestToOldest = sortedMessages.reverse();
+//     const messagesToShow = messagesNewestToOldest.slice(0, 7);
+//     const sortBackToOldestToNewest = messagesToShow.reverse()
+//     setPaginatedMessages(sortBackToOldestToNewest);
+//   } catch (error) {
+//     postNewErrorLog(error, "Messages.js", "getMessages");
+//   }
+// };
+
+// useEffect(() => {
+//   getMessages();
+// }, []);
+
+// function sortByDate(messages) {
+//   console.log(messages)
+//   const sorted = messages.sort((a, b) => {
+//     const dateA = new Date(a.timestamp);
+//     const dateB = new Date(b.timestamp);
+//     return dateA - dateB;
+//   });
+//   return sorted;
+// }

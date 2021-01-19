@@ -1,9 +1,21 @@
-h3.banner {
+/* h3.banner {
   padding-left: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
   background-color: #363636;
   color: rgb(233, 233, 233);
+} */
+
+.banner {
+  position: absolute;
+  left: 30%;
+  top: 17%;
+  font-size: 14.5px;
+  font-style: italic;
+}
+
+.banner i {
+  margin-right: 5px;
 }
 .banner-container {
   display: flex;
@@ -11,6 +23,17 @@ h3.banner {
   justify-content: row;
   background-color: #363636;
   box-shadow: 2px 5px 4px 2px rgb(185, 185, 185);
+}
+
+.add_credit_banner {
+  padding-left: 1.5%;
+  padding-top: 11px;
+  padding-bottom: 12px;
+  color: rgb(233, 233, 233);
+  font-family: sans-serif;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 14px;
 }
 
 /* .search-bar-container {

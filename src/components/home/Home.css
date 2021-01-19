@@ -117,6 +117,10 @@ button {
   margin-right: 25px;
 }
 
+#navbar-item-home-name {
+  display: flex;
+  align-items: center;
+}
 .navbar-item-home-name {
   color: white;
   margin-right: 7px;
@@ -318,3 +322,47 @@ button {
   border-right: 1px solid #50504f;
 }
 /*********************************/
+
+
+#home_nav_bar_end {
+  align-items: center;
+}
+
+.home_profile_dropdown_container {
+  position: fixed;
+  right: 2%;
+  top: 11.5%;
+  width: 10%;
+  text-align: left;
+  font-size: 12.5px;
+  margin-top: 0.5%;
+  z-index: 4;
+  background-color: #363636;
+  transition: 0.5s all ease;
+  border-radius: 4px 4px 4px 4px;
+  border: 1px solid rgb(87, 87, 87);
+}
+
+.home_profile_dropdown_row {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  color: rgb(196, 196, 196);
+}
+
+.home_profile_dropdown_item {
+  margin-top: 6%;
+  margin-bottom: 5.5%;
+  margin-left: 5%;
+  cursor: pointer;
+}
+
+.home_profile_dropdown_row:hover {
+  color: #f8f8f8;
+}
+
+.home_profile_dropdown_row i {
+  margin-right: 5%;
+  cursor: pointer;
+}
