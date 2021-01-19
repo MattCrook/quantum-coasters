@@ -29,8 +29,6 @@ const AddNewCreditForm = (props) => {
     return filteredParks;
   };
 
-
-
   useEffect(() => {
     const parksFromAPI = async () => {
       const getAllParks = await parkManager.getParks();
@@ -44,9 +42,7 @@ const AddNewCreditForm = (props) => {
     <>
       <section className="ride-not-found-section">
         <div className="banner-container">
-          <h3 className="banner">
-            Don't see the ride you are looking for? Click below and help us add to our repertoire!
-          </h3>
+          <div className="add_credit_banner">Add New Credit</div>
           <div className="search-bar-container">
             <CustomizedInputBase
               handleSearchInput={handleSearchInput}
@@ -64,8 +60,6 @@ const AddNewCreditForm = (props) => {
           >
             Create New Roller Coaster
           </button>
-        {/* </div>
-        <div className="new_rc_side_nav_bulk_upload"> */}
           <button
             type="button"
             className="add_new_ride_btn_bulk_upload"
@@ -76,6 +70,7 @@ const AddNewCreditForm = (props) => {
           </button>
         </div>
       </section>
+      <div className="banner"><i className="fas fa-info-circle"></i>Don't see the ride you are looking for? Select either Create new or Submit Bulk Upload to help us add to our repertoire!</div>
 
       <div className="rollerCoaster-list-to-add-credits">
         <ParkList parks={parks} authUser={authUser} userProfile={userProfile} {...props} />

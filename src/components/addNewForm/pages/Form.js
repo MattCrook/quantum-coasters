@@ -53,9 +53,7 @@ const Form = (props) => {
             <input className="form-input" type="text" id="speed" ref={props.refs.maxSpeedRef} required />
             <div className="form_ul">
               <li className="form_li">All Measurements done in Miles Per Hour (mph).</li>
-              <li className="form_li">
-                No need to put the speed unit of measurement.
-              </li>
+              <li className="form_li">No need to put the speed unit of measurement.</li>
               <li className="form_li">
                 Simply put the number, (For example - 65), and we will calculate and expect the number to mean 65mph.
               </li>
@@ -65,11 +63,14 @@ const Form = (props) => {
             </label>
             <div className="form-input" id="parkName">
               {props.park.name}
-                      </div>
-                      <div className="form_ul">
-                          <li id="warning_form_correct_park" className="form_li">Please be sure this is the park you intend to bulk add rides to.</li>
-                          <li className="form_li">Otherwise, go back and select the park for which you intended to bulk add rides.</li>
-
+            </div>
+            <div className="form_ul">
+              <li id="warning_form_correct_park" className="form_li">
+                Please be sure this is the park you intend to bulk add rides to.
+              </li>
+              <li className="form_li">
+                Otherwise, go back and select the park for which you intended to bulk add rides.
+              </li>
             </div>
             <label className="bulk_upload_rollercoaster_label" htmlFor="manufacturer">
               Manufacturer
@@ -85,16 +86,16 @@ const Form = (props) => {
               className="submit_bulk_upload"
               type="submit"
               disabled={props.IsLoading}
-            //   onClick={() => props.confirm()}
+              //   onClick={() => props.confirm()}
             >
               Confirm
             </button>
           </fieldset>
-      <div className="signature">
-        <p id="signature_font_form">
-          Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a> <i className="fas fa-trademark"></i>
-        </p>
-      </div>
+          <div className="signature">
+            <p id="signature_font_form">
+              Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a> <i className="fas fa-trademark"></i>
+            </p>
+          </div>
         </div>
       </form>
     </>

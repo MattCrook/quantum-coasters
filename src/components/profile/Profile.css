@@ -152,14 +152,15 @@ button.btn {
   align-items: center;
   justify-content: space-evenly;
   flex-direction: row;
-  width: 15%;
+  width: 17.5%;
+  margin-right: 0.5%;
 }
 
 .name-profile-list {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  width: 100%;
+  /* width: 100%; */
   margin-right: 2%;
   font: 150 1em helvetica neue, open sans, sans-serif;
 }
@@ -198,6 +199,68 @@ button.btn {
 }
 
 .edit-profile-button {
+  padding: 8px 40px;
+  margin: 9px 5px;
+  color: rgb(219, 219, 219);
+  font-family: sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+  position: relative;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+}
+
+.edit-profile-button::before {
+  content: "";
+  position: absolute;
+  bottom: 0%;
+  left: 0px;
+  width: 100%;
+  height: 1px;
+  background: #f7f7f7;
+  display: block;
+  -webkit-transform-origin: right top;
+  -ms-transform-origin: right top;
+  transform-origin: right top;
+  -webkit-transform: scale(0, 1);
+  -ms-transform: scale(0, 1);
+  transform: scale(0, 1);
+  -webkit-transition: transform 0.4s cubic-bezier(1, 0, 0, 1);
+  transition: transform 0.4s cubic-bezier(1, 0, 0, 1);
+}
+
+.edit-profile-button:hover::before {
+  color: rgb(240, 240, 240);
+  -webkit-transform-origin: left top;
+  -ms-transform-origin: left top;
+  transform-origin: left top;
+  -webkit-transform: scale(1, 1);
+  -ms-transform: scale(1, 1);
+  transform: scale(1, 1);
+}
+
+.edit-profile-button:hover {
+  color: rgb(248, 248, 248);
+}
+
+/* .add-new-credit-btn {
+  color: #fff;
+  background-color: #363636;
+  border: 5px solid #363636;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  font-size: 16px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-right: 20px;
+}
+.add-new-credit-btn.inset:hover {
+  box-shadow: inset 0px -1px 0px 0px rgb(207, 206, 206);
+  color: rgb(207, 206, 206);
+} */
+
+/* .edit-profile-button {
   color: #fff;
   background-color: #363636;
   border: 5px solid #363636;
@@ -210,25 +273,56 @@ button.btn {
 }
 .edit-profile-button.inset:hover {
   box-shadow: inset 0px -1px 0px 0px #fff;
+} */
+
+.add-new-credit-btn {
+  padding: 8px 40px;
+  margin: 9px 5px;
+  color: rgb(219, 219, 219);
+  font-family: sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+  position: relative;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+}
+
+.add-new-credit-btn::before {
+  content: "";
+  position: absolute;
+  bottom: 0%;
+  left: 0px;
+  width: 100%;
+  height: 1px;
+  background: #f7f7f7;
+  display: block;
+  -webkit-transform-origin: right top;
+  -ms-transform-origin: right top;
+  transform-origin: right top;
+  -webkit-transform: scale(0, 1);
+  -ms-transform: scale(0, 1);
+  transform: scale(0, 1);
+  -webkit-transition: transform 0.4s cubic-bezier(1, 0, 0, 1);
+  transition: transform 0.4s cubic-bezier(1, 0, 0, 1);
+}
+
+.add-new-credit-btn:hover::before {
+  color: rgb(240, 240, 240);
+  -webkit-transform-origin: left top;
+  -ms-transform-origin: left top;
+  transform-origin: left top;
+  -webkit-transform: scale(1, 1);
+  -ms-transform: scale(1, 1);
+  transform: scale(1, 1);
+}
+
+.add-new-credit-btn.inset:hover {
+  color: rgb(250, 250, 250);
 }
 
 .profile-back-btn {
   border: 2px solid black;
-}
-
-.add-new-credit-btn {
-  color: #fff;
-  background-color: #363636;
-  border: 5px solid #363636;
-  -webkit-transition: 0.2s;
-  transition: 0.2s;
-  font-size: 16px;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-right: 20px;
-}
-.add-new-credit-btn.inset:hover {
-  box-shadow: inset 0px -1px 0px 0px #fff;
 }
 
 /******************* Add New Ride Form ********************/
@@ -245,12 +339,11 @@ button.btn {
   transition: all 1s ease;
 }
 
-
 .edit-profile-title-container {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding-left: 3rem;
+  padding-left: 2rem;
 }
 .edit-profile-title {
   color: white;
@@ -349,7 +442,7 @@ button.btn {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  margin-right: 30px;
+  margin-right: 10%;
 }
 
 .profile-info-container {
@@ -495,7 +588,6 @@ button.btn {
 
 /************************* Danger Zone Settings *************************/
 
-
 .danger_zone_container {
   display: flex;
   justify-content: center;
@@ -568,18 +660,17 @@ button.btn {
   transition: 0.5s all ease;
 }
 
-
-#confirm-delete{
+#confirm-delete {
   position: fixed;
   top: 53%;
   right: 30%;
   margin-left: 55%;
   width: 30%;
-	height: 12rem;
-	background:var(--header);
-	text-align:center;
-	border-radius:5px;
-  z-index:9;
+  height: 12rem;
+  background: var(--header);
+  text-align: center;
+  border-radius: 5px;
+  z-index: 9;
   color: var(--text);
   box-shadow: var(--delete_account_shadow);
 }
@@ -861,23 +952,75 @@ button.btn {
   letter-spacing: 2px;
 }
 
-#profile_list_logout_btn {
+/* #profile_list_logout_btn {
   margin-right: 1.5%;
+} */
+
+#profile_list_logout_btn  {
+  padding: 5px 15px;
+  /* margin: 9px 5px; */
+  margin-right: 2%;
+  color: rgb(194, 64, 64);
+  font-family: sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+  position: relative;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+}
+
+#profile_list_logout_btn::before {
+  content: "";
+  position: absolute;
+  bottom: 0%;
+  left: 0px;
+  width: 100%;
+  height: 1px;
+  background: rgb(194, 64, 64);
+  display: block;
+  -webkit-transform-origin: right top;
+  -ms-transform-origin: right top;
+  transform-origin: right top;
+  -webkit-transform: scale(0, 1);
+  -ms-transform: scale(0, 1);
+  transform: scale(0, 1);
+  -webkit-transition: transform 0.4s cubic-bezier(1, 0, 0, 1);
+  transition: transform 0.4s cubic-bezier(1, 0, 0, 1);
+}
+
+#profile_list_logout_btn:hover::before {
+  color: rgb(228, 91, 91);
+  -webkit-transform-origin: left top;
+  -ms-transform-origin: left top;
+  transform-origin: left top;
+  -webkit-transform: scale(1, 1);
+  -ms-transform: scale(1, 1);
+  transform: scale(1, 1);
+}
+
+#profile_list_logout_btn:hover {
+  color: rgb(228, 91, 91);
 }
 
 .name-container-profile-list i {
   margin-right: 10px;
 }
 
-
+#profile-pic-profile-list {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  margin-right: 2%;
+  margin-left: 1%;
+  object-fit: cover;
+}
 
 /***********************Default Card View******************************/
-
 
 .default_view_profile_list {
   margin-top: 3%;
   padding-bottom: 3%;
-
 }
 .default_card_container {
   display: flex;
@@ -900,14 +1043,12 @@ button.btn {
   color: rgb(151, 151, 151);
 }
 
-
 .default_ride_item_park_name {
   color: rgb(7, 7, 7);
   font-family: sans-serif;
   text-align: center;
   font-size: 14px;
 }
-
 
 .default_view_dash {
   margin-left: 3px;

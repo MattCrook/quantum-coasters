@@ -6,6 +6,7 @@ const userManager = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
       Accept: "application/json",
       body: JSON.stringify(userToPost),
@@ -39,10 +40,10 @@ const userManager = {
   },
 
   async getAllUsers() {
-    const resp = await fetch(`${remoteURL}/userprofiles`, {
+    const resp = await fetch(`${remoteURL}/api/userprofiles`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
         Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
       Accept: "application/json",
@@ -51,7 +52,7 @@ const userManager = {
   },
 
   async getUserProfileEmbeddedAuthUser(userId) {
-    const resp = await fetch(`${remoteURL}/userprofiles?userId=${userId}`, {
+    const resp = await fetch(`${remoteURL}/api/userprofiles?userId=${userId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -62,26 +63,34 @@ const userManager = {
   },
 
   async getAuthUser(email) {
-    const resp = await fetch(`${remoteURL}/userprofiles?email=${email}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
-      },
-    });
-    return await resp.json();
+    try {
+      const resp = await fetch(`${remoteURL}/api/userprofiles?email=${email}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+        },
+      });
+      if (resp.ok && resp.status === 204) {
+        return resp;
+      } else {
+        return await resp.json();
+      }
+    } catch (err) {
+      console.log({err});
+    }
   },
 
   async deleteUserProfile(id) {
     console.log("****************");
-    const result = await fetch(`${remoteURL}/userprofiles/${id}`, {
+    const result = await fetch(`${remoteURL}/api/userprofiles/${id}`, {
       method: "DELETE",
     });
     return await result.json();
   },
 
   async putEditedUserProfile(editedObject) {
-    await fetch(`${remoteURL}/userprofiles/${editedObject.id}`, {
+    await fetch(`${remoteURL}/api/userprofiles/${editedObject.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -92,7 +101,7 @@ const userManager = {
   },
 
   async putEditedAuthUser(editedObject) {
-    await fetch(`${remoteURL}/users/${editedObject.id}`, {
+    await fetch(`${remoteURL}/api/users/${editedObject.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -102,7 +111,7 @@ const userManager = {
     });
   },
   async getInitAppOptions(authUserId) {
-    const resp = await fetch(`${remoteURL}/credentials?user_id=${authUserId}`, {
+    const resp = await fetch(`${remoteURL}/api/credentials?user_id=${authUserId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -113,7 +122,7 @@ const userManager = {
   },
   async postInitAppOptions(initOptionsData) {
     try {
-      const response = await fetch(`${remoteURL}/credentials`, {
+      const response = await fetch(`${remoteURL}/api/credentials`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -132,18 +141,18 @@ const userManager = {
   async verifyEmail(key) {
     try {
       const response = await fetch(`${remoteURL}/rest-auth/registration/verify-email/`, {
-        method: 'POST',
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${key}`
+          Authorization: `Bearer ${key}`,
         },
         body: key,
-      })
+      });
       if (response.ok) {
         const jsonResponse = await response.json();
-        console.log({ jsonResponse })
+        console.log({ jsonResponse });
       }
-      throw new Error('Verify Email Request Failed')
+      throw new Error("Verify Email Request Failed");
     } catch (err) {
       console.info(err);
     }

@@ -1,0 +1,11 @@
+.bug_header {
+  display: flex;
+  justify-content: center;
+  font: 600 1.3em helvetica neue, open sans, sans-serif;
+  border-bottom: 1px solid rgb(146, 146, 146);
+}
+
+.bug_title {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useErrorLog } from "../../contexts/ErrorLogContext";
-import { useActivityLog, userActivityLog } from "../../contexts/ActivityLogContext";
+import { useActivityLog } from "../../contexts/ActivityLogContext";
+import NavHeader from "../nav/NavHeader";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import "./AddPark.css";
 
@@ -15,7 +16,7 @@ const AddPark = (props) => {
 
   const addNewPark = async (token, parkObj) => {
     try {
-      const response = await fetch(`${remoteUrl}/parks`, {
+      const response = await fetch(`${remoteUrl}/api/parks`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -47,30 +48,24 @@ const AddPark = (props) => {
     });
   };
 
+
   return (
     <>
-      <div className="nav_banner_rollercoaster_select">
-        <div className="navbar_brand_logo">
-          <div id="quantum_logo">Quantum Coasters</div>
-        </div>
-        <div className="back_btn_container_select_rollercoaster">
-          <button className="go_back_to_ridelist_btn" onClick={() => props.history.push("/new/rollercoaster")}>
-            <i className="fas fa-step-backward"></i>Back
-          </button>
-        </div>
-      </div>
-
+      <NavHeader {...props} />
+      <button className="back_to_previous" onClick={() => props.history.push("/new/rollercoaster")}>
+        &lt; Back To Previous
+      </button>
       <div className="add_new_park_form_container">
-        <form className="new_form" id="form_container" onSubmit={handleSubmit}>
+        <form className="ew_form" id="form_container" onSubmit={handleSubmit}>
           <div className="add_new_park_form_title">Add New Park</div>
-          <div id="park_name_label" className="fieldset_container">
-            <fieldset className="new_form">
+          <div id="park_name_label" className="fieldset_container_add_park">
+            <fieldset className="add_park_new_form">
               <label id="add_park_label" className="new_form" htmlFor="name">
                 Park Name:{" "}
               </label>
               <input
                 required
-                className="new_form"
+                className="add_park_new_form"
                 id="name"
                 type="text"
                 name="name"
@@ -80,14 +75,14 @@ const AddPark = (props) => {
             </fieldset>
           </div>
 
-          <div className="fieldset_container">
-            <fieldset className="new_form">
+          <div className="fieldset_container_add_park">
+            <fieldset className="add_park_new_form">
               <label id="add_park_label" className="new_form" htmlFor="parkLocation">
                 Park State/Providence:{" "}
               </label>
               <input
                 required
-                className="new_form"
+                className="add_park_new_form"
                 id="parkLocation"
                 type="text"
                 name="parkLocation"
@@ -97,14 +92,14 @@ const AddPark = (props) => {
             </fieldset>
           </div>
 
-          <div className="fieldset_container">
-            <fieldset className="new_form">
+          <div className="fieldset_container_add_park">
+            <fieldset className="add_park_new_form">
               <label id="add_park_label" className="new_form" htmlFor="country">
                 Park Country:{" "}
               </label>
               <input
                 required
-                className="new_form"
+                className="add_park_new_form"
                 id="country"
                 type="text"
                 name="country"
@@ -114,14 +109,13 @@ const AddPark = (props) => {
             </fieldset>
           </div>
 
-          <input className="new_form" id="create_park_btn" type="submit" value="Create" />
+          <input id="create_park_btn" type="submit" value="Create" />
+          <div className="signature">
+            <p id="signature_add_park_form">
+              Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a> <i className="fas fa-trademark"></i>
+            </p>
+          </div>
         </form>
-
-        <div className="signature">
-          <p>
-            Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a> <i className="fas fa-trademark"></i>
-          </p>
-        </div>
       </div>
     </>
   );

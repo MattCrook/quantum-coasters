@@ -2,7 +2,7 @@ const remoteURL = process.env.REACT_APP_REMOTE_API_URL;
 
 const creditManager = {
   async deleteCredit(id) {
-    return await fetch(`${remoteURL}/credits/${id}`, {
+    return await fetch(`${remoteURL}/api/credits/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -12,7 +12,7 @@ const creditManager = {
   },
 
   async addCredit(creditObj) {
-    const data = await fetch(`${remoteURL}/credits`, {
+    const data = await fetch(`${remoteURL}/api/credits`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,7 +35,7 @@ const creditManager = {
   },
 
   async getCreditIdFromApi() {
-    const data = await fetch(`${remoteURL}/credits`, {
+    const data = await fetch(`${remoteURL}/api/credits`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

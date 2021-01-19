@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import messageManager from "../../modules/messages/messageManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { useAuthUser } from "../../contexts/AuthUserContext";
+import { useErrorLog } from "../../contexts/ErrorLogContext";
 import MessagePreviewCard from "./general/pages/MessagePreviewCard";
+import FeedbackModal from "../modals/FeedbackModal";
+import BugReportModal from "../modals/BugModal";
+import { postFeedback, postBugReport } from "../../modules/services/services";
 // import userManager from "../../modules/users/userManager";
 // import MessageCard from "./MessageCard";
 // import MessageForm from "./MessageForm";
@@ -12,27 +16,96 @@ import "./styles/Forum.css";
 
 const Forum = (props) => {
   const URL = process.env.REACT_APP_SERVER_URL;
+  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
   const { authUser, userProfile } = useAuthUser();
   const { user, loading, logout, clearStorage, djangoRestAuthLogout } = useAuth0();
-  // const [messages, setMessages] = useState([]);
+  const { postNewErrorLog } = useErrorLog();
   const [messagesToPreview, setMessagesToPreview] = useState([]);
+  const [isProfileDropdown, setIsProfileDropdown] = useState(false);
+  const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
+  const [bugReportModalOpen, setBugReportModalOpen] = useState(false);
+  const feedbackComment = useRef();
+  const feedbackSubject = useRef();
+  const bugTitle = useRef();
+  const bugDescription = useRef();
 
-  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
+  const toggleProfileDropdown = () => setIsProfileDropdown(!isProfileDropdown);
 
-  const renderGeneralMessages = () => {
-    props.history.push("/messages");
+  const handleOpenFeedBack = () => {
+    setFeedbackModalOpen(true);
   };
 
-  const renderTemplate = (e) => {
-    const target = `${URL}/chat`;
-    window.location.href = target;
-  }
+  const handleCloseFeedBack = () => {
+    setFeedbackModalOpen(false);
+  };
 
-  const renderGeneralChatRoom = (e) => {
+  const handleOpenBugReport = () => {
+    setBugReportModalOpen(true);
+  };
+
+  const handleCloseBugReport = () => {
+    setBugReportModalOpen(false);
+  };
+
+  const handleSubmitFeedback = (e) => {
     e.preventDefault();
-    const target = `${URL}/chat/general/`;
+    const feedback = {
+      subject: feedbackSubject.current.value,
+      comment: feedbackComment.current.value,
+    };
+    postFeedback(feedback)
+      .then(() => {
+        alert("Thanks for your feedback! Your submission has been received.");
+        setFeedbackModalOpen(false);
+        setIsProfileDropdown(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        postNewErrorLog(error, "Forum.js", "handleSubmitFeedback");
+      });
+  };
+
+  const handleSubmitBug = (e) => {
+    e.preventDefault();
+    const bug = {
+      title: bugTitle.current.value,
+      description: bugDescription.current.value,
+    };
+    postBugReport(bug)
+      .then(() => {
+        alert("Thanks for your feedback! Your submission has been received.");
+        setFeedbackModalOpen(false);
+        setIsProfileDropdown(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        postNewErrorLog(error, "Forum.js", "handleSubmitBug");
+      });
+  };
+
+  const renderGroupChat = (e, userId) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const target = `${URL}/group_chat/${userId}`;
     window.location.href = target;
-  }
+  };
+
+  const renderPrivateChat = (e, userId) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const target = `${URL}/private_chat/${userId}`;
+    window.location.href = target;
+  };
+
+  // const renderTemplate = () => {
+  //   const target = `${URL}/chat`;
+  //   window.location.href = target;
+  // };
+
+  // const renderGeneralChatRoom = () => {
+  //   const target = `${URL}/chat/general/`;
+  //   window.location.href = target;
+  // };
 
   const sortByDate = (messages) => {
     const sorted = messages.sort((a, b) => {
@@ -41,16 +114,15 @@ const Forum = (props) => {
       return dateA - dateB;
     });
     return sorted;
-  }
+  };
 
   useEffect(() => {
     const messagesForPreview = async () => {
       const allMessages = await messageManager.getAllMessages();
-      // setMessages(allMessages);
       const sortedMessages = sortByDate(allMessages);
       const messagesNewestToOldest = sortedMessages.reverse();
       const messagesToShow = messagesNewestToOldest.slice(0, 5);
-      const sortBackToOldestToNewest = messagesToShow.reverse()
+      const sortBackToOldestToNewest = messagesToShow.reverse();
       setMessagesToPreview(sortBackToOldestToNewest);
     };
     messagesForPreview();
@@ -70,14 +142,16 @@ const Forum = (props) => {
         <div className="forum_container_2">
           {!loading && user && (
             <>
-              <button className="navbar-item-name">
+              <div className="navbar-item-name">
                 {authUser.first_name} {authUser.last_name}
+              </div>
+              <button className="profile_dropdown" onClick={() => toggleProfileDropdown()}>
+                {userProfile.image ? (
+                  <img id="profile-pic" src={userProfile.image.image} alt="My Avatar" />
+                ) : (
+                  <img id="profile-pic" src={defaultProfilePicture} alt="My Avatar" />
+                )}
               </button>
-              {userProfile.image ? (
-                <img id="profile-pic" src={userProfile.image.image} alt="My Avatar" />
-              ) : (
-                <img id="profile-pic" src={defaultProfilePicture} alt="My Avatar" />
-              )}
               <button
                 onClick={() => djangoRestAuthLogout(logout, clearStorage, authUser)}
                 className="navbar-item-logout-btn"
@@ -90,21 +164,74 @@ const Forum = (props) => {
           )}
         </div>
       </nav>
+      {isProfileDropdown ? (
+        <div className="profile_dropdown_container">
+          <>
+            <div className="profile_dropdown_row">
+              <div className="profile_dropdown_item" onClick={() => props.history.push("/home")}>
+                Home
+              </div>
+              <i className="fas fa-home"></i>
+              {/* <i className="fas fa-long-arrow-alt-right"></i> */}
+            </div>
+            <div className="profile_dropdown_row">
+              <div className="profile_dropdown_item" onClick={() => props.history.push(`/profile/${authUser.id}`)}>
+                Edit Account
+              </div>
+              <i className="fas fa-user-edit"></i>
+            </div>
+            <div className="profile_dropdown_row">
+              <div className="profile_dropdown_item" onClick={() => handleOpenFeedBack()}>
+                Give Feedback
+              </div>
+              <i className="far fa-comments"></i>
+            </div>
+            <div className="profile_dropdown_row">
+              <div className="profile_dropdown_item" onClick={() => handleOpenBugReport()}>
+                Report a Bug
+              </div>
+              <i className="fas fa-bug"></i>
+            </div>
+          </>
+        </div>
+      ) : null}
+      <FeedbackModal
+        authUser={authUser}
+        feedbackModalOpen={feedbackModalOpen}
+        handleOpenFeedBack={handleOpenFeedBack}
+        handleCloseFeedBack={handleCloseFeedBack}
+        feedbackComment={feedbackComment}
+        feedbackSubject={feedbackSubject}
+        handleSubmitFeedback={handleSubmitFeedback}
+        {...props}
+      />
+      <BugReportModal
+        bugReportModalOpen={bugReportModalOpen}
+        handleOpenBugReport={handleOpenBugReport}
+        handleCloseBugReport={handleCloseBugReport}
+        bugDescription={bugDescription}
+        bugTitle={bugTitle}
+        handleSubmitBug={handleSubmitBug}
+        {...props}
+      />
       <div className="main_container">
         <div className="forum_title_container">
           <div className="forum_title">Quantum Forum</div>
           <div className="forum_description">Welcome to the Quantum Forum! Choose a channel and start chatting.</div>
         </div>
         <div className="forum_header_container">
-          <div className="header_section_button" onClick={(e) => renderGeneralMessages(e)}>
+          <div className="header_section_button" onClick={() => props.history.push("/messages")}>
             General
           </div>
-          <div className="header_section_button">Start A Group Chat</div>
-          <div className="header_section_button">Private Message</div>
-          <div className="header_section_button" onClick={(e) => renderTemplate(e)}>Test</div>
-          <div className="header_section_button" onClick={(e) => renderGeneralChatRoom(e)}>Test General</div>
+          <div className="header_section_button" onClick={(e) => renderGroupChat(e, authUser.id)}>
+            Start A Group Chat
+          </div>
+          <div className="header_section_button" onClick={(e) => renderPrivateChat(e, authUser.id)}>
+            Private Message
+          </div>
 
-
+          {/* <div className="header_section_button" onClick={(e) => renderTemplate(e)}>Test</div>
+          <div className="header_section_button" onClick={(e) => renderGeneralChatRoom(e)}>Test General</div> */}
         </div>
 
         <div className="forum_body_container">
@@ -144,12 +271,9 @@ const Forum = (props) => {
 
           <div className="group_chat_container">
             <div className="group_chat_description_title">
-              <div className="group_chat_description">
-                Choose a Quantum friend/ enthusiast to private message.
-              </div>
+              <div className="group_chat_description">Choose a Quantum friend/ enthusiast to private message.</div>
             </div>
           </div>
-
         </div>
       </div>
     </>

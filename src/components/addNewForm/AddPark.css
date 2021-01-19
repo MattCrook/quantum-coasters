@@ -1,15 +1,18 @@
 #create_park_btn {
-  background: rgb(175, 175, 175);
-  font: inherit;
   line-height: 1;
   padding: 1em 2em;
   border: none;
-  width: 12%;
   border-radius: 3px 3px 3px 3px;
   text-transform: uppercase;
   font-size: 12px;
-  border: 1px solid black;
+  margin-top: 5%;
+  margin-bottom: 12px;
+  width: 57.5%;
+  margin-left: 22.4%;
+  background-color: rgb(27, 27, 27);
+  color: rgb(211, 211, 210);
   cursor: pointer;
+  transition: 0.4s all ease;
 }
 
 #create_park_btn:hover,
@@ -21,32 +24,48 @@
 
 #create_park_btn {
   --color: #08068a83;
-  --hover: #02103b;
+  --hover: #8d8f96;
 }
 
 /*********************** Form Styles ********************/
 
+
+.add_new_park_form_container {
+  padding-bottom: 3%;
+}
 .add_new_park_form_title {
+  font: 350 1.4em helvetica neue, open sans, sans-serif;
+  margin-left: 13%;
+  margin-right: 12%;
+  margin-top: 40px;
   display: flex;
   justify-content: center;
-  font: 150 1.4em helvetica neue, open sans, sans-serif;
+  border-bottom: 1px solid black;
   text-transform: uppercase;
-  border-bottom: 1px solid rgb(105, 105, 105);
-  padding-top: 10px;
-  margin-bottom: 10px;
+  letter-spacing: 2px;
 }
+
 #form_container {
-  margin-top: 8%;
-  margin-bottom: 5%;
-  margin-left: 34%;
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  box-shadow: 0 4px 8px 2px rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  border-radius: 4px;
+  margin-top: 2%;
+  margin-bottom: 2%;
+  margin-left: 30%;
   margin-right: 33%;
-  background-color: #dfdfdf;
-  border-radius: 5px 5px 5px 5px;
-  box-shadow: 3px 3px 3px 3px rgb(182, 181, 181);
+  text-align: center;
+  background: #f4f7f8;
+}
+
+#form_container:hover {
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
 #park_name_label {
-  padding-top: 8%;
+  padding-top: 1%;
 }
 
 .fieldset_container {
@@ -56,28 +75,46 @@
   margin-bottom: 10px;
 }
 
-#create_park_btn {
+.fieldset_container_add_park {
+  display: flex;
+  flex-direction: column;
   margin-top: 10px;
-  margin-bottom: 12px;
-  width: 52%;
-  margin-left: 24%;
-  background-color: rgb(27, 27, 27);
-  color: rgb(211, 211, 210);
-}
-label.new_form {
-  font: 150 1em helvetica neue, open sans, sans-serif;
-}
-.new_form input {
-  height: 35px;
-  width: 98%;
-  border: none;
-  margin-top: 8px;
+  margin-bottom: 10px;
 }
 
-.new_form input:focus::placeholder {
+
+label.new_form {
+  font: 400 1.1em helvetica neue, open sans, sans-serif;
+  margin-top: 5%;
+  margin-bottom: 1%;
+}
+
+.add_park_new_form {
+  display: flex;
+  flex-direction: column;
+}
+.add_park_new_form input {
+  background-color: #e8eeef;
+  text-align: center;
+  margin-top: 10px;
+  outline: 0;
+  padding: 8px;
+  width: 60%;
+  margin-left: 20%;
+  border-radius: 3px 3px 3px 3px;
+}
+
+.add_park_new_form input:focus::placeholder {
   color: transparent;
 }
 
-fieldset.new_form {
+fieldset.add_park_new_form {
   margin-left: 10px;
+}
+
+
+#signature_add_park_form {
+  font: 260 0.65em helvetica neue, open sans, sans-serif;
+  letter-spacing: 2px;
+  color: rgb(82, 82, 82);
 }

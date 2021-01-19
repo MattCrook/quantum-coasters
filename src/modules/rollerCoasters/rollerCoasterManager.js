@@ -2,7 +2,7 @@ const remoteURL = process.env.REACT_APP_REMOTE_API_URL;
 
 const rollerCoasterManager = {
   async getRollerCoastersWithAllExpanded(id) {
-    const resp = await fetch(`${remoteURL}/rollercoasters/${id}`, {
+    const resp = await fetch(`${remoteURL}/api/rollercoasters/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -13,12 +13,12 @@ const rollerCoasterManager = {
   },
 
   async getAllRollerCoastersWithAllExpanded() {
-    const resp = await fetch(`${remoteURL}/rollercoasters`);
+    const resp = await fetch(`${remoteURL}/api/rollercoasters`);
     return await resp.json();
   },
 
   async getRollerCoastersForUserProfile(id) {
-    const data = await fetch(`${remoteURL}/rollercoasters/${id}`, {
+    const data = await fetch(`${remoteURL}/api/rollercoasters/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -29,7 +29,7 @@ const rollerCoasterManager = {
   },
 
   async getRollerCoastersByParkId(parkId) {
-    const data = await fetch(`${remoteURL}/rollercoasters?park_id=${parkId}`, {
+    const data = await fetch(`${remoteURL}/api/rollercoasters?park_id=${parkId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -40,7 +40,7 @@ const rollerCoasterManager = {
   },
 
   async postNewRollerCoaster(resource) {
-    const data = await fetch(`${remoteURL}/rollercoasters`, {
+    const data = await fetch(`${remoteURL}/api/rollercoasters`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -51,7 +51,7 @@ const rollerCoasterManager = {
   },
 
   async sendBulkSubmit(queryset) {
-    const data = await fetch(`${remoteURL}/rollercoasters`, {
+    const data = await fetch(`${remoteURL}/api/rollercoasters`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

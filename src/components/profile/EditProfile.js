@@ -15,6 +15,7 @@ const EditProfile = (props) => {
   const { postEditProfileActivityLog, postChangeProfilePictureActivityLog } = useActivityLog();
   const { userProfileId } = props;
   const [isLoading, setIsLoading] = useState(false);
+  const [isProfileDropdown, setIsProfileDropdown] = useState(false);
   const [image, setImage] = useState({ id: "", image: "" });
   const [selectedImage, setSelectedImage] = useState("");
   const [authUserToUpdate, setAuthUserToUpdate] = useState({
@@ -32,6 +33,8 @@ const EditProfile = (props) => {
   });
   const defaultQPicture = "https://cdn.dribbble.com/users/2908839/screenshots/6292457/shot-cropped-1554473682961.png";
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
+
+  const toggleProfileDropdown = () => setIsProfileDropdown(!isProfileDropdown);
 
   const userAuthAndProfile = (authUser, userProfile) => {
     if (authUser.id && userProfile.id) {
@@ -112,40 +115,40 @@ const EditProfile = (props) => {
   };
 
   // const allowedExtensions = ["txt", "pdf", "png", "jpg", "jpeg", "gif"];
-// Function to provide client side validation for the Image input / file upload on the Invoice Settings form.
-// Grabs the file when user clicks a file to upload:
-// Checks type of file it is, the file extension (found in the array above, which corresponds to ALLOWED_EXTENSIONS in alchemy.py) and Checks file size.
-// If any validation fails, will run clearInput and clear the file from the input and display the Error message.
-// (findMatchingExt) iterates the array above and returns true if the returned value from (splitExtension) matches any item. Otherwise returns false.
-// const handleImageUpload = (event) => {
-//   const inputFile = event.target.files[0];
-//   const clearInput = () => (document.getElementById("image").value = "");
+  // Function to provide client side validation for the Image input / file upload on the Invoice Settings form.
+  // Grabs the file when user clicks a file to upload:
+  // Checks type of file it is, the file extension (found in the array above, which corresponds to ALLOWED_EXTENSIONS in alchemy.py) and Checks file size.
+  // If any validation fails, will run clearInput and clear the file from the input and display the Error message.
+  // (findMatchingExt) iterates the array above and returns true if the returned value from (splitExtension) matches any item. Otherwise returns false.
+  // const handleImageUpload = (event) => {
+  //   const inputFile = event.target.files[0];
+  //   const clearInput = () => (document.getElementById("image").value = "");
 
-//   const splitExtension = (filename) => {
-//     const ext = filename.split(".")[1];
-//     return ext;
-//   };
+  //   const splitExtension = (filename) => {
+  //     const ext = filename.split(".")[1];
+  //     return ext;
+  //   };
 
-//   const findMatchingExt = (array, extensionToFind) => array.includes(extensionToFind);
+  //   const findMatchingExt = (array, extensionToFind) => array.includes(extensionToFind);
 
-//   if (inputFile) {
-//     const fileExtension = splitExtension(inputFile.name);
-//     const isValidExtension = findMatchingExt(allowedExtensions, fileExtension);
+  //   if (inputFile) {
+  //     const fileExtension = splitExtension(inputFile.name);
+  //     const isValidExtension = findMatchingExt(allowedExtensions, fileExtension);
 
-//     if (!inputFile.type.startsWith("image/")) {
-//       document.querySelector(".upload_image_error_message").style.display = "block";
-//       clearInput();
-//     } else if (inputFile.size > 5000000) {
-//       document.querySelector(".upload_image_error_message").style.display = "block";
-//       clearInput();
-//     } else if (!isValidExtension) {
-//       document.querySelector(".upload_image_error_message").style.display = "block";
-//       clearInput();
-//     } else {
-//       inputFile[event.target.id] = event.target.value;
-//     }
-//   }
-// };
+  //     if (!inputFile.type.startsWith("image/")) {
+  //       document.querySelector(".upload_image_error_message").style.display = "block";
+  //       clearInput();
+  //     } else if (inputFile.size > 5000000) {
+  //       document.querySelector(".upload_image_error_message").style.display = "block";
+  //       clearInput();
+  //     } else if (!isValidExtension) {
+  //       document.querySelector(".upload_image_error_message").style.display = "block";
+  //       clearInput();
+  //     } else {
+  //       inputFile[event.target.id] = event.target.value;
+  //     }
+  //   }
+  // };
 
   const deleteUserProfile = (id) => {
     try {
@@ -271,17 +274,19 @@ const EditProfile = (props) => {
     return (
       <div className="navbar-end">
         {authUser.email ? (
-          <button className="navbar-item-home-name">
+          <div id="navbar-item-home-name" className="navbar-item-home-name">
             {authUser.first_name} {authUser.last_name}
-          </button>
+          </div>
         ) : (
           <div className="navbar_item_home_user_name">{user.email}</div>
         )}
-        {!loading && userProfile.image ? (
-          <img data-testid="home-profile-pic-testid" id="profile-pic" src={userProfile.image.image} alt="My Avatar" />
-        ) : (
-          <img data-testid="home-profile-pic-testid" id="profile-pic" src={defaultProfilePicture} alt="My Avatar" />
-        )}
+        <button onClick={() => toggleProfileDropdown()}>
+          {!loading && userProfile.image ? (
+            <img data-testid="home-profile-pic-testid" id="profile-pic" src={userProfile.image.image} alt="My Avatar" />
+          ) : (
+            <img data-testid="home-profile-pic-testid" id="profile-pic" src={defaultProfilePicture} alt="My Avatar" />
+          )}
+        </button>
         <div className="logout_btn_home_container">
           <button
             onClick={() => djangoRestAuthLogout(logout, clearStorage, authUser)}
@@ -304,6 +309,34 @@ const EditProfile = (props) => {
         </div>
         <div>{navBarEnd()}</div>
       </nav>
+
+      {isProfileDropdown ? (
+        <div className="nav_profile_dropdown_container">
+          <>
+            <div className="nav_profile_dropdown_row">
+              <div className="nav_profile_dropdown_item" onClick={() => props.history.push("/home")}>
+                Home
+              </div>
+              {/* <i className="fas fa-long-arrow-alt-right"></i> */}
+              <i className="fas fa-home"></i>
+            </div>
+            <div className="nav_profile_dropdown_row">
+              <div className="nav_profile_dropdown_item" onClick={() => props.history.push("/user/profile/credits")}>
+                Profile/ Credits
+              </div>
+              <i className="far fa-user"></i>
+            </div>
+            <div className="nav_profile_dropdown_row">
+              <div className="nav_profile_dropdown_item">Give Feedback</div>
+              <i className="far fa-comments"></i>
+            </div>
+            <div className="nav_profile_dropdown_row">
+              <div className="nav_profile_dropdown_item">Report a Bug</div>
+              <i className="fas fa-bug"></i>
+            </div>
+          </>
+        </div>
+      ) : null}
       <div className="profile-pic-container">
         <div className="profile-pic-flex-box">
           {isLoading ? (

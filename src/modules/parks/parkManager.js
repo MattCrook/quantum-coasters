@@ -2,7 +2,7 @@ const remoteURL = process.env.REACT_APP_REMOTE_API_URL;
 
 const parkManager = {
   async postNewPark(resource) {
-    const data = await fetch(`${remoteURL}/parks`, {
+    const data = await fetch(`${remoteURL}/api/parks`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -14,7 +14,7 @@ const parkManager = {
   },
 
   async getParks() {
-    const resp = await fetch(`${remoteURL}/parks`, {
+    const resp = await fetch(`${remoteURL}/api/parks`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -26,7 +26,7 @@ const parkManager = {
   },
 
   async getParkByName(park) {
-    const resp = await fetch(`${remoteURL}/parks?name=${park}`, {
+    const resp = await fetch(`${remoteURL}/api/parks?name=${park}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -38,7 +38,7 @@ const parkManager = {
   },
 
   async retrievePark(parkId) {
-    const resp = await fetch(`${remoteURL}/parks/${parkId}`, {
+    const resp = await fetch(`${remoteURL}/api/parks/${parkId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

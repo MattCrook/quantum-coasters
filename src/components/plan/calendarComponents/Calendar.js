@@ -54,7 +54,7 @@ const Calendar = (props) => {
       setEventsForDate(calendarDayEvents);
     };
     matchingEventsWithCurrentDay();
-  }, [selectedDate, userCalendarEvents, currentSelectedDay]);
+  }, [currentSelectedDay, selectedDate, userCalendarEvents]);
 
 
   return (

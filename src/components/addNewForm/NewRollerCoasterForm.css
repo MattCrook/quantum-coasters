@@ -1,70 +1,86 @@
+#new_rc_form_master_container {
+  padding-bottom: 5%;
+}
 .create-new-rollerCoaster-btn {
-  display: flex;
-  justify-content: center;
-  border: 1px solid black;
-  margin-top: 4%;
-  margin-left: 26%;
-  padding-bottom: 6px;
-  padding-top: 6px;
-  width: 50%;
+  color: #fff;
+  padding: 10px;
+  background: black;
   margin-bottom: 20px;
-  background-color: #949494;
-  font: 150 1em helvetica neue, open sans, sans-serif;
-  border-radius: 5px 5px 5px 5px;
+  margin-top: 6%;
+  border: 1px solid rgba(0, 0, 0, 0.753);
+  line-height: 1;
+  padding: 1em 2em;
+  width: 59%;
+  border-radius: 3px 3px 3px 3px;
+  text-transform: uppercase;
+  font-size: 12px;
+  transition: 0.3s all ease;
+  margin-left: 21%;
 }
 
-.create-new-rollerCoaster-btn:hover {
-  animation: fade 1s both;
+.create-new-rollerCoaster-btn:hover,
+.create-new-rollerCoaster-btn:focus {
+  box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+  -webkit-transform: translateY(-0.25em);
+  transform: translateY(-0.25em);
 }
 
-@keyframes fade {
-  0% {
-    background: white;
-  }
-  100% {
-    background: #3e4247;
-    color: white;
-  }
+.create-new-rollerCoaster-btn {
+  --color: #7b7b8083;
+  --hover: #333333;
 }
 
+#signature_font_rc_form {
+  font: 260 0.65em helvetica neue, open sans, sans-serif;
+  letter-spacing: 2px;
+  color: rgb(82, 82, 82);
+}
+
+.create-new-rollerCoaster-btn-confirm {
+  color: #fff;
+  padding: 10px;
+  background: black;
+  margin-bottom: 20px;
+  margin-top: 6%;
+  border: 1px solid rgba(0, 0, 0, 0.753);
+  line-height: 1;
+  padding: 1em 2em;
+  width: 59%;
+  border-radius: 3px 3px 3px 3px;
+  text-transform: uppercase;
+  font-size: 12px;
+  transition: 0.3s all ease;
+  margin-left: 21%;
+  cursor: pointer;
+}
+
+.create-new-rollerCoaster-btn-confirm:hover,
+.create-new-rollerCoaster-btn-confirm:focus {
+  box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+  -webkit-transform: translateY(-0.25em);
+  transform: translateY(-0.25em);
+}
+
+.create-new-rollerCoaster-btn-confirm {
+  --color: #7b7b8083;
+  --hover: #333333;
+}
 /*********** New Styles Added ***********/
-
-/* .create-form {
-  display: flex;
-  flex-direction: column;
-  border-radius: 15px;
-  box-shadow: 3px 3px 1px solid;
-  margin-top: 30px;
-  margin-left: 400px;
-  margin-right: 400px;
-  margin-bottom: 20px;
-} */
 
 .main-form {
   display: flex;
   flex-direction: column;
-  width: 45%;
+  width: 46%;
   box-shadow: 0 4px 8px 2px rgba(0, 0, 0, 0.2);
   transition: 0.3s;
   border-radius: 5px;
-  margin-top: 5%;
-  margin-left: 6%;
   text-align: center;
   background: #f4f7f8;
   margin-bottom: 100px;
   padding-bottom: 12px;
   margin-top: 5%;
+  margin-left: 26.5%;
 }
-/* .title {
-  margin-left: 200px;
-  margin-right: 200px;
-  margin-top: 40px;
-  display: flex;
-  justify-content: center;
-  border-bottom: 1px solid black;
-  font: 150 1.8em helvetica neue, open sans, sans-serif;
-  text-transform: uppercase;
-} */
 
 .title {
   font: 350 1.6em helvetica neue, open sans, sans-serif;
@@ -77,12 +93,6 @@
   text-transform: uppercase;
   letter-spacing: 2px;
 }
-/* 
-.create-form > label {
-  color: rgb(12, 12, 12);
-  margin-bottom: 1px;
-  margin-top: 2px;
-} */
 
 .create-form > label {
   font: 400 1.1em helvetica neue, open sans, sans-serif;
@@ -99,26 +109,10 @@
 }
 
 .add_new_rollercoaster_form_label {
-font: 400 1.1em helvetica neue, open sans, sans-serif;
-margin-top: 5%;
-margin-bottom: 1%;
+  font: 400 1.1em helvetica neue, open sans, sans-serif;
+  margin-top: 5%;
+  margin-bottom: 1%;
 }
-
-/* .form-control {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  margin-top: 5px;
-  margin-bottom: 15px;
-  border-radius: 5px;
-  border: 0;
-  background: rgb(255, 255, 255);
-  box-shadow: 1px 1px 3px rgb(119, 119, 119);
-  color: rgb(7, 7, 7);
-  width: 97%;
-  margin-left: 12px;
-  margin-right: 12px;
-  justify-content: center;
-} */
 
 .form-control {
   background-color: #e8eeef;
@@ -131,35 +125,17 @@ margin-bottom: 1%;
   border-radius: 3px 3px 3px 3px;
 }
 
-/* .add_new_ride_container { */
-  /* display: flex;
-  justify-content: center; */
-  /* box-shadow: 1px 1px 3px rgb(119, 119, 119);
-  background-color: #dfdfdf;
-  border-radius: 2%;
-  margin-top: 4%;
-} */
-
 .add_new_ride_container {
-display: flex;
-flex-direction: column;
-justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .rollercoaster_name {
-  /* display: flex;
-  margin-top: 3%;
-  margin-left: 13px;
-  font-weight: 550; */
-  /* font-variant: small-caps; */
-  /* font: 150 1em helvetica neue, open sans, sans-serif; */
-
   font: 400 1.1em helvetica neue, open sans, sans-serif;
-margin-top: 5%;
-margin-bottom: 1%;
+  margin-top: 5%;
+  margin-bottom: 1%;
 }
-
-
 
 /************ Signature *******************/
 
@@ -176,38 +152,6 @@ margin-bottom: 1%;
   color: #aaaaaa;
 }
 
-.signature .much-heart {
-  display: inline-block;
-  position: relative;
-  margin: 0 4px;
-  height: 10px;
-  width: 10px;
-  background: #ac1d3f;
-  border-radius: 4px;
-  -ms-transform: rotate(45deg);
-  -webkit-transform: rotate(45deg);
-  transform: rotate(45deg);
-}
-
-.signature .much-heart::before,
-.signature .much-heart::after {
-  display: block;
-  content: "";
-  position: absolute;
-  margin: auto;
-  height: 10px;
-  width: 10px;
-  border-radius: 5px;
-  background: #ac1d3f;
-  top: -4px;
-}
-
-.signature .much-heart::after {
-  bottom: 0;
-  top: auto;
-  left: -4px;
-}
-
 .signature a {
   color: #aaaaaa;
   text-decoration: none;
@@ -222,24 +166,30 @@ margin-bottom: 1%;
 }
 
 .add_park_description {
-  font: 150 0.8em helvetica neue, open sans, sans-serif;
+  justify-content: center;
+  /* font: 150 0.8em helvetica neue, open sans, sans-serif; */
   color: rgb(27, 27, 82);
-  margin-left: 35%;
+  font-size: 11px;
+  margin-left: 5%;
+  margin-top: 8px;
+  margin-bottom: 2%;
+  list-style: disc;
 }
 
-/* .link_to_add_park_form {
+.link_to_add_park_form {
   text-decoration: none;
   padding: 6px 22px;
   margin: 8px 8px;
-  color: rgb(68, 66, 66);
+  color: rgb(138, 138, 138);
   font-family: sans-serif;
   text-transform: uppercase;
   text-align: center;
   font-size: 12px;
   position: relative;
   display: inline-block;
+  width: 24%;
+  margin: auto;
 }
-
 
 .link_to_add_park_form {
   border: 1px solid transparent;
@@ -249,13 +199,13 @@ margin-bottom: 1%;
 
 .link_to_add_park_form::before {
   content: "";
-  position: relative;
+  position: absolute;
   left: 0px;
   bottom: 0px;
   width: 0%;
   height: 1px;
-  background: #01318a;
-  box-shadow: inset 0px 0px 0px #1a49a1;
+  background: #949494;
+  box-shadow: inset 0px 0px 0px #888888;
   display: block;
   -webkit-transition: all 0.4s cubic-bezier(0.5, 0.24, 0, 1);
   transition: all 0.4s cubic-bezier(0.5, 0.24, 0, 1);
@@ -272,22 +222,21 @@ margin-bottom: 1%;
   top: 0px;
   width: 0%;
   height: 1px;
-  background: #103479;
+  background: #919191;
   -webkit-transition: all 0.4s cubic-bezier(0.5, 0.24, 0, 1);
   transition: all 0.4s cubic-bezier(0.5, 0.24, 0, 1);
 }
-
 .link_to_add_park_form:hover::after {
-  width: 20%;
+  width: 100%;
 }
-
 .link_to_add_park_form:hover {
   text-decoration: none;
-  border-left: 1px solid #1e4386;
-  border-right: 1px solid #174bad;
-} */
+  color: #0c0c0c;
+  border-left: 1px solid #949494;
+  border-right: 1px solid #858585;
+}
 
-.link_to_add_park_form {
+/* .link_to_add_park_form {
   -webkit-box-flex: 1;
   flex-grow: 1;
   text-align: center;
@@ -341,4 +290,111 @@ margin-bottom: 1%;
 .link_to_add_park_form:active {
   background-position: -75vw 0, 0 0;
   border-style: solid;
+} */
+
+/************************ RC Confirm Modal *********************/
+
+#rc_modal_content {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  margin-top: 7%;
+  margin-bottom: 5%;
+  padding-bottom: 5%;
+  border-bottom: 1px solid rgb(134, 134, 134);
+}
+
+#modal-rc-title {
+  padding-bottom: 1%;
+}
+
+#rc_modal_header {
+  border-bottom: none;
+}
+
+#rc_modal_close {
+  padding-bottom: 1%;
+}
+
+#rc_modal_container {
+  width: 35%;
+}
+
+.rc_modal_description {
+ border-bottom: 1px solid rgb(134, 134, 134);
+ padding-bottom: 1%;
+}
+
+.rc_modal_rc_name {
+  color: rgb(243, 243, 243);
+}
+
+.rc_modal_rc_data {
+  color: rgb(243, 243, 243);
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  width: 38%;
+}
+
+.rc_modal_description {
+  font-size: 12px;
+  color: rgb(243, 243, 243);
+  font-style: oblique;
+}
+
+.rc_modal_rc_data_items {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+
+}
+
+.rc_modal_item_title {
+  margin-right: 10%;
+}
+#rc_modal__btn-primary {
+  font-size: 0.875rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  width: 30%;
+  border-radius: 0.25rem;
+  border-style: none;
+  border-width: 0;
+  cursor: pointer;
+  -webkit-appearance: button;
+  text-transform: none;
+  overflow: visible;
+  line-height: 1.15;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  transition: -webkit-transform 0.25s ease-out;
+  transition: transform 0.25s ease-out;
+  transition: transform 0.25s ease-out, -webkit-transform 0.25s ease-out;
+  background-color: #032249;
+  color: #fff;
+  font-variant: small-caps;
+}
+
+.confirm_rc_modal_btn i {
+  margin-left: 10px;
+}
+
+#rc_modal__btn-primary:hover {
+  box-shadow: 2px 2px 3px 2px rgb(20, 26, 41);
+}
+
+.rc_modal_error {
+  display: flex;
+  justify-content: center;
+  color: rgb(180, 179, 179);
+  padding-bottom: 10rem;
+  margin-top: 5%;
+  color: indianred;
 }

@@ -2,11 +2,11 @@ const remoteURL = process.env.REACT_APP_REMOTE_API_URL;
 
 const messageManager = {
   async getAllMessages() {
-    const resp = await fetch(`${remoteURL}/messages`, {
+    const resp = await fetch(`${remoteURL}/api/messages`, {
       method: "GET",
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        Authorization: "Bearer" + localStorage.getItem("accessToken"),
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
       },
       Accept: "application/json",
     });
@@ -14,7 +14,7 @@ const messageManager = {
   },
 
   async updateMessagesPut(editedObject) {
-    await fetch(`${remoteURL}/messages/${editedObject.id}`, {
+    await fetch(`${remoteURL}/api/messages/${editedObject.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -25,7 +25,7 @@ const messageManager = {
   },
 
   async postMessage(newObject) {
-    const data = await fetch(`${remoteURL}/messages`, {
+    const data = await fetch(`${remoteURL}/api/messages`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

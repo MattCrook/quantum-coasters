@@ -24,6 +24,7 @@ const App = (props) => {
   const platformOperatingSystem = navigator.platform;
   const hasCredentials = sessionStorage.getItem("QuantumToken") !== null;
 
+
   useEffect(() => {
     if (user && isAuthenticated && appInitOptions && appInitOptions.length > 0) {
       const init = async () => {
@@ -57,19 +58,27 @@ const App = (props) => {
     }
   }, [appCodeName, appInitOptions, hasCredentials, isAuthenticated, platformOperatingSystem, user, userAgent]);
 
+
   if (loading) {
     return (
-      <div className="loading_container">
-        <div className="loading_pop_up">Loading...</div>
-        <div className="spinner icon-spinner-2" aria-hidden="true"></div>
+      <div className="loading fade_in">
+        <div className="loading-text">
+          <span className="loading-text-words">L</span>
+          <span className="loading-text-words">O</span>
+          <span className="loading-text-words">A</span>
+          <span className="loading-text-words">D</span>
+          <span className="loading-text-words">I</span>
+          <span className="loading-text-words">N</span>
+          <span className="loading-text-words">G</span>
+        </div>
       </div>
-    );
+    )
   }
 
   function getallCookies() {
     let decodedCookie = decodeURIComponent(document.cookie);
     let cookieArray = decodedCookie.split(";");
-    console.log(cookieArray);
+    console.log({cookieArray});
 
     let cookiesInSession = [];
     let otherCookies = [];

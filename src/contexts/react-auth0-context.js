@@ -18,14 +18,17 @@ export const Auth0Provider = ({
   const [auth0Client, setAuth0] = useState();
   const [loading, setLoading] = useState(true);
   const [popupOpen, setPopupOpen] = useState(false);
+  const [transactions, setTransactions] = useState([]);
   const [appInitOptions, setAppInitOptions] = useState([]);
 
   useEffect(() => {
     const initAuth0 = async () => {
       const auth0FromHook = await createAuth0Client(initOptions);
+      const transactionsManager = auth0FromHook.transactionManager;
+      console.log({transactionsManager})
+      setTransactions(transactionsManager)
       setAuth0(auth0FromHook);
 
-      const transactions = auth0FromHook.transactionManager;
 
       if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
         const { appState } = await auth0FromHook.handleRedirectCallback();
@@ -49,7 +52,7 @@ export const Auth0Provider = ({
             redirect_uri: initOptions.redirect_uri,
             audience: initOptions.audience,
             scope: initOptions.scope,
-            transactions: transactions,
+            transactions: transactionsManager,
             nonce: tokenId.nonce,
             access_token: tokenId.__raw,
             django_token: sessionStorage.getItem("QuantumToken"),
@@ -116,6 +119,7 @@ export const Auth0Provider = ({
     }
   };
 
+
   return (
     <Auth0Context.Provider
       value={{
@@ -127,6 +131,7 @@ export const Auth0Provider = ({
         handleRedirectCallback,
         clearStorage,
         djangoRestAuthLogout,
+        transactions,
         appInitOptions,
         getIdTokenClaims: (...p) => auth0Client.getIdTokenClaims(...p),
         loginWithRedirect: (...p) => auth0Client.loginWithRedirect(...p),

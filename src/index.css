@@ -7,6 +7,19 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: 1s linear ease;
+  transition: 0.5s all ease;
+  animation: fadeIn;
+  -webkit-animation: 1s all ease;
+  -webkit-transition: 0.5s all ease;
   background-color: rgb(243, 243, 243) !important
+}
+
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
