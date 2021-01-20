@@ -14,16 +14,20 @@ const useStyles = makeStyles((theme) => ({
     width: 300,
     height: 40,
     backgroundColor: "#363636",
+    border: "1px solid rgb(124, 124, 124)",
   },
   input: {
     marginLeft: theme.spacing(1),
     display: "flex",
     alignItems: "center",
     color: "white",
+    paddingRight: 30,
   },
   iconButton: {
-    padding: 10,
+    paddingLeft: 25,
     color: "white",
+    display: "flex",
+    justifyContent: "center"
   },
   divider: {
     height: 28,
@@ -45,18 +49,15 @@ export default function CustomizedInputBase(props) {
 
   return (
     <Paper component="form" className={classes.root}>
-      <IconButton className={classes.iconButton} aria-label="menu"></IconButton>
       <InputBase
         className={classes.input}
         placeholder="Search"
-        inputProps={{ "aria-label": "search google maps" }}
         onChange={props.handleSearchInput}
       />
       <Divider className={classes.divider} orientation="vertical" />
       <IconButton type="submit" className={classes.iconButton} aria-label="search" onClick={handleSearchSubmit}>
-        <SearchIcon />
+        <SearchIcon/>
       </IconButton>
-      <IconButton color="primary" className={classes.iconButton} aria-label="directions"></IconButton>
     </Paper>
   );
 }

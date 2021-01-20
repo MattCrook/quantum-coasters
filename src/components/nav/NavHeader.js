@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { useAuthUser } from "../../contexts/AuthUserContext";
 import { useErrorLog } from "../../contexts/ErrorLogContext";
+import { useActivityLog } from "../../contexts/ActivityLogContext";
 import FeedbackModal from "../modals/FeedbackModal";
 import BugReportModal from "../modals/BugModal";
 import { postBugReport, postFeedback } from "../../modules/services/services";
@@ -11,6 +12,7 @@ const NavHeader = (props) => {
   const { loading, user, isAuthenticated, clearStorage, djangoRestAuthLogout, logout } = useAuth0();
   const { authUser, userProfile } = useAuthUser();
   const { postNewErrorLog } = useErrorLog();
+  const { postFeedbackActivityLog, postBugReportActivityLog } = useActivityLog();
   const [isProfileDropdown, setIsProfileDropdown] = useState(false);
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
   const feedbackComment = useRef();
@@ -46,8 +48,10 @@ const NavHeader = (props) => {
     postFeedback(feedback)
       .then(() => {
         alert("Thanks for your feedback! Your submission has been received.");
-        setFeedbackModalOpen(false);
-        setIsProfileDropdown(false);
+        postFeedbackActivityLog(e, props, authUser.id, "NavHeader.js", "FeedbackModal.js").then(() => {
+          setFeedbackModalOpen(false);
+          setIsProfileDropdown(false);
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -64,8 +68,10 @@ const NavHeader = (props) => {
     postBugReport(bug)
       .then(() => {
         alert("Thanks for your feedback! Your submission has been received.");
-        setFeedbackModalOpen(false);
-        setIsProfileDropdown(false);
+        postBugReportActivityLog(e, props, authUser.id, "NavHeader.js", "BugModal.js").then(() => {
+          setBugReportModalOpen(false);
+          setIsProfileDropdown(false);
+        });
       })
       .catch((error) => {
         console.log(error);

@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { useAuthUser } from "../../contexts/AuthUserContext";
+import { useErrorLog } from "../../contexts/ErrorLogContext";
+import { useActivityLog } from "../../contexts/ActivityLogContext";
 import { Link } from "react-router-dom";
 import Authenticate from "../auth/Authenticate";
 import MicroModal from "micromodal";
 import FeedbackModal from "../modals/FeedbackModal";
 import BugReportModal from "../modals/BugModal";
 import { postFeedback, postBugReport } from "../../modules/services/services";
-import { useErrorLog } from "../../contexts/ErrorLogContext";
 import "bulma/css/bulma.css";
 import "./Home.css";
 import "../auth/Authenticate.css";
@@ -28,6 +29,7 @@ const Home = (props) => {
   const { loading, user, logout, clearStorage, isAuthenticated, djangoRestAuthLogout } = useAuth0();
   const { authUser, userProfile } = useAuthUser();
   const { postNewErrorLog } = useErrorLog();
+  const { postFeedbackActivityLog, postBugReportActivityLog } = useActivityLog();
   const [isProfileDropdown, setIsProfileDropdown] = useState(false);
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
   const { isLoggedIn, setIsLoggedIn, hasLoggedIn } = props;
@@ -61,15 +63,17 @@ const Home = (props) => {
       subject: feedbackSubject.current.value,
       comment: feedbackComment.current.value,
     };
-    postFeedback(feedback).then(() => {
-      alert("Thanks for your feedback! Your submission has been received.");
-      setFeedbackModalOpen(false);
-      setIsProfileDropdown(false);
-    })
-    .catch((error) => {
-      console.log(error);
-      postNewErrorLog(error, "Home.js", "handleSubmitFeedback");
-    });
+    postFeedback(feedback)
+      .then(() => {
+        postFeedbackActivityLog(e, props, authUser.id, "FeedbackModal.js", "Home.js").then(() => {
+          setFeedbackModalOpen(false);
+          setIsProfileDropdown(false);
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        postNewErrorLog(error, "Home.js", "handleSubmitFeedback");
+      });
   };
 
   const handleSubmitBug = (e) => {
@@ -78,16 +82,18 @@ const Home = (props) => {
       title: bugTitle.current.value,
       description: bugDescription.current.value,
     };
-    postBugReport(bug)
-      .then(() => {
-        alert("Thanks for your feedback! Your submission has been received.");
-        setFeedbackModalOpen(false);
-        setIsProfileDropdown(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        postNewErrorLog(error, "Home.js", "handleSubmitBug");
-      });
+    postBugReport(bug).then(() => {
+      alert("Thanks for finding a bug! Your submission has been received.");
+      postBugReportActivityLog(e, props, authUser.id, "Home.js", "BugModal.js")
+        .then(() => {
+          setBugReportModalOpen(false);
+          setIsProfileDropdown(false);
+        })
+        .catch((error) => {
+          console.log(error);
+          postNewErrorLog(error, "Home.js", "handleSubmitBug");
+        });
+    });
   };
 
   useEffect(() => {
@@ -178,7 +184,9 @@ const Home = (props) => {
                 <i className="far fa-comments"></i>
               </div>
               <div className="home_profile_dropdown_row">
-                <div className="home_profile_dropdown_item" onClick={() => handleOpenBugReport()}>Report a Bug</div>
+                <div className="home_profile_dropdown_item" onClick={() => handleOpenBugReport()}>
+                  Report a Bug
+                </div>
                 <i className="fas fa-bug"></i>
               </div>
             </>
@@ -195,15 +203,15 @@ const Home = (props) => {
           handleSubmitFeedback={handleSubmitFeedback}
           {...props}
         />
-      <BugReportModal
-        bugReportModalOpen={bugReportModalOpen}
-        handleOpenBugReport={handleOpenBugReport}
-        handleCloseBugReport={handleCloseBugReport}
-        bugDescription={bugDescription}
-        bugTitle={bugTitle}
-        handleSubmitBug={handleSubmitBug}
-        {...props}
-      />
+        <BugReportModal
+          bugReportModalOpen={bugReportModalOpen}
+          handleOpenBugReport={handleOpenBugReport}
+          handleCloseBugReport={handleCloseBugReport}
+          bugDescription={bugDescription}
+          bugTitle={bugTitle}
+          handleSubmitBug={handleSubmitBug}
+          {...props}
+        />
 
         <div className="modal_btn_toggle_home">
           {!loading && user && userProfile.id && isAuthenticated && !isLoggedIn ? (

@@ -70,7 +70,8 @@ const BugReportModal = (props) => {
             <textarea className="feedback_input" id="feedback" ref={props.bugDescription} required />
             <div className="feedback_form_ul">
               <li className="feedback_list_item">Tell us the bug you found.</li>
-              <li className="feedback_list_item">Be as specific as possible, i.e. what went wrong, how are you stuck, what do you think caused the bug, how can we reproduce, etc...</li>
+              <li className="feedback_list_item">Be as specific as possible!</li>
+              <li className="feedback_list_item">For example, what went wrong, how are you stuck, what do you think caused the bug, how can we reproduce, etc...</li>
             </div>
           </div>
 

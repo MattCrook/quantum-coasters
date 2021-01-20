@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CustomizedInputBaseLight = (props) => {
+const SearchBarLight = (props) => {
   const classes = useStyles();
 
   const submitSearch = (e) => {
@@ -67,4 +67,4 @@ const CustomizedInputBaseLight = (props) => {
   );
 };
 
-export default CustomizedInputBaseLight;
+export default SearchBarLight;

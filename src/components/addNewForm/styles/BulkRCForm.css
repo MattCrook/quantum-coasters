@@ -301,12 +301,11 @@
 .rides_added_container {
   width: 20%;
   box-shadow: 1px 4px 5px 3px rgb(182, 182, 182);
-  z-index: 1000;
+  /* z-index: 1000; */
   position: absolute;
   top: 95px;
   left: 230px;
   margin-left: -230px;
-  /* background: rgb(248, 248, 248); */
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;

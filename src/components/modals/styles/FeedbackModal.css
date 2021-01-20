@@ -46,6 +46,7 @@
 .feedback_form_ul {
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   align-items: baseline;
   margin-top: 8px;
   margin-left: 20%;
