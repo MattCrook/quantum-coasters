@@ -192,6 +192,9 @@ const MessageList = (props) => {
 
       <div className="chat-wrapper">
         <div className="chat-fixed-height-container">
+          <button className="messages_back_to_previous" onClick={() => props.history.push("/forum")}>
+        &lt; Back To Previous
+      </button>
           <div id="chat-headerContainer">
             <div className="forum-header">
               <div className="general_forum_messages_title">General Quantum Forum</div>
@@ -221,7 +224,6 @@ const MessageList = (props) => {
             <MessageForm
               userProfile={userProfile}
               userProfileId={userProfileId}
-              // paginatedMessages={paginatedMessages}
               messageToEdit={messageToEdit}
               setMessageToEdit={setMessageToEdit}
               setAllMessages={setAllMessages}
@@ -235,31 +237,3 @@ const MessageList = (props) => {
   );
 };
 export default MessageList;
-
-// const getMessages = async () => {
-//   try {
-//     const messages = await messageManager.getAllMessages();
-//     setAllMessages(messages);
-//     const sortedMessages = sortByDate(messages);
-//     const messagesNewestToOldest = sortedMessages.reverse();
-//     const messagesToShow = messagesNewestToOldest.slice(0, 7);
-//     const sortBackToOldestToNewest = messagesToShow.reverse()
-//     setPaginatedMessages(sortBackToOldestToNewest);
-//   } catch (error) {
-//     postNewErrorLog(error, "Messages.js", "getMessages");
-//   }
-// };
-
-// useEffect(() => {
-//   getMessages();
-// }, []);
-
-// function sortByDate(messages) {
-//   console.log(messages)
-//   const sorted = messages.sort((a, b) => {
-//     const dateA = new Date(a.timestamp);
-//     const dateB = new Date(b.timestamp);
-//     return dateA - dateB;
-//   });
-//   return sorted;
-// }
