@@ -103,6 +103,7 @@ const News = (props) => {
     setIsOpen(false);
   };
 
+
   return (
     <>
       <NavHeader {...props} />
@@ -222,7 +223,7 @@ const News = (props) => {
         />
       </div>
       <div id="news_content_container">
-        {isSection ? (
+        {isSection && sectionContent.length > 0 && sectionContent != null ? (
           sectionContent.map((article) => <NewsCard key={article.id} article={article} section={section} {...props} />)
         ) : (
           <>
