@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import createAuth0Client from "@auth0/auth0-spa-js";
+import userManager from "../modules/users/userManager";
+import { postErrorLog } from "../modules/services/services";
 // import createContext from "react"
 
 const DEFAULT_REDIRECT_CALLBACK = () => window.history.replaceState({}, document.title, window.location.pathname);
@@ -92,15 +94,20 @@ export const Auth0Provider = ({
   };
 
   const clearStorage = () => {
-    auth0Client.logout();
     sessionStorage.removeItem("accessToken");
     sessionStorage.removeItem("IdToken");
     sessionStorage.removeItem("QuantumToken");
     sessionStorage.removeItem("credentials");
     sessionStorage.removeItem("sessionId");
+    auth0Client.logout();
   };
 
   const djangoRestAuthLogout = async (logout, clearStorage, userToLogout) => {
+    try {
+      await userManager.setUserAsInActive({ 'is_currently_active': "False" }, userToLogout.id);
+    } catch (error) {
+      await postErrorLog(error, "Auth0 Context", "djangoRestAuthLogout");
+    }
     try {
       const response = await fetch("http://localhost:8000/rest-auth/logout/", {
         method: "POST",

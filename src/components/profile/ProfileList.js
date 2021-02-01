@@ -3,27 +3,28 @@ import ProfileCard from "./pages/ProfileCard";
 import userManager from "../../modules/users/userManager";
 import creditManager from "../../modules/credits/creditManager";
 import rollerCoasterManager from "../../modules/rollerCoasters/rollerCoasterManager";
+import { postFeedback, postBugReport } from "../../modules/services/services";
 import { useAuth0 } from "../../contexts/react-auth0-context";
-import UserCreditsByPark from "./profileCredits/CreditsListByPark";
-import UserCreditsByRide from "./profileCredits/UserCreditsByRide";
-import { confirmAlert } from "react-confirm-alert";
 import { useActivityLog } from "../../contexts/ActivityLogContext";
 import { useAuthUser } from "../../contexts/AuthUserContext";
 import { useErrorLog } from "../../contexts/ErrorLogContext";
+import UserCreditsByPark from "./profileCredits/CreditsListByPark";
+import UserCreditsByRide from "./profileCredits/UserCreditsByRide";
+import { confirmAlert } from "react-confirm-alert";
 import DefaultView from "./pages/DefaultView";
-import ProfileListSearch from "../search/ProfileListSearch";
+import SearchBarLight from "../search/ProfileListSearch";
 import FeedbackModal from "../modals/FeedbackModal";
 import BugReportModal from "../modals/BugModal";
-import { postFeedback, postBugReport } from "../../modules/services/services";
 import "./Profile.css";
 import "react-confirm-alert/src/react-confirm-alert.css";
 
+
 const ProfileList = (props) => {
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
-  const { clearStorage, logout } = useAuth0();
+  const { clearStorage, logout, djangoRestAuthLogout } = useAuth0();
   const { authUser, userProfile, userCredits } = useAuthUser();
   const { postNewErrorLog } = useErrorLog();
-  const { postActivityLogAddCredit, postActivityLogEditProfile } = useActivityLog();
+  const { postActivityLogAddCredit, postActivityLogEditProfile, postFeedbackActivityLog, postBugReportActivityLog } = useActivityLog();
   const [userRollerCoasters, setUserRollerCoasters] = useState([]);
   const [visitedParks, setVisitedParks] = useState([]);
   const [whichTab, setWhichTab] = useState("settings--allCredits");
@@ -48,57 +49,6 @@ const ProfileList = (props) => {
     isActive(ref);
   }, []);
 
-  const handleOpenFeedBack = () => {
-    setFeedbackModalOpen(true);
-  };
-
-  const handleCloseFeedBack = () => {
-    setFeedbackModalOpen(false);
-  };
-
-  const handleOpenBugReport = () => {
-    setBugReportModalOpen(true);
-  };
-
-  const handleCloseBugReport = () => {
-    setBugReportModalOpen(false);
-  };
-
-  const handleSubmitFeedback = (e) => {
-    e.preventDefault();
-    const feedback = {
-      subject: feedbackSubject.current.value,
-      comment: feedbackComment.current.value,
-    };
-    postFeedback(feedback).then(() => {
-      alert("Thanks for your feedback! Your submission has been received.");
-      setFeedbackModalOpen(false);
-      setIsProfileDropdown(false);
-    })
-    .catch((error) => {
-      console.log(error);
-      postNewErrorLog(error, "ProfileList.js", "handleSubmitFeedback");
-    });
-  };
-
-  const handleSubmitBug = (e) => {
-    e.preventDefault();
-    const bug = {
-      title: bugTitle.current.value,
-      description: bugDescription.current.value,
-    };
-    postBugReport(bug)
-      .then(() => {
-        alert("Thanks for your feedback! Your submission has been received.");
-        setFeedbackModalOpen(false);
-        setIsProfileDropdown(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        postNewErrorLog(error, "ProfileList.js", "handleSubmitBug");
-      });
-  };
-
   const allUserCredits = async (userCredits) => {
     try {
       const creditsMap = userCredits.map((credit) => {
@@ -111,7 +61,8 @@ const ProfileList = (props) => {
     }
   };
 
-  const rollerCoastersFromUserCredits = useCallback(async (userCredits) => {
+  const rollerCoastersFromUserCredits = useCallback(
+    async (userCredits) => {
       try {
         const allUserRollerCoasters = await allUserCredits(userCredits);
         let promises = [];
@@ -222,6 +173,63 @@ const ProfileList = (props) => {
 
   useEffect(() => defaultSideNavToggle(allCreditsRef), [defaultSideNavToggle]);
 
+  const handleOpenFeedBack = () => {
+    setFeedbackModalOpen(true);
+  };
+
+  const handleCloseFeedBack = () => {
+    setFeedbackModalOpen(false);
+  };
+
+  const handleOpenBugReport = () => {
+    setBugReportModalOpen(true);
+  };
+
+  const handleCloseBugReport = () => {
+    setBugReportModalOpen(false);
+  };
+
+  const handleSubmitFeedback = (e) => {
+    e.preventDefault();
+    const feedback = {
+      subject: feedbackSubject.current.value,
+      comment: feedbackComment.current.value,
+    };
+    postFeedback(feedback)
+      .then(() => {
+        alert("Thanks for your feedback! Your submission has been received.");
+        postFeedbackActivityLog(e, props, authUser.id, "ProfileList.js", "FeedbackModal.js").then(() => {
+          setFeedbackModalOpen(false);
+          setIsProfileDropdown(false);
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        postNewErrorLog(error, "ProfileList.js", "handleSubmitFeedback");
+      });
+  };
+
+  const handleSubmitBug = (e) => {
+    e.preventDefault();
+    const bug = {
+      title: bugTitle.current.value,
+      description: bugDescription.current.value,
+    };
+    postBugReport(bug)
+      .then(() => {
+        alert("Thanks for finding a bug! Your submission has been received.");
+        postBugReportActivityLog(e, props, authUser.id, "ProfileList.js", "BugModal.js").then(() => {
+          setBugReportModalOpen(false);
+          setIsProfileDropdown(false);
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        postNewErrorLog(error, "ProfileList.js", "handleSubmitBug");
+      });
+  };
+
+
   return (
     <>
       <nav id="nav_profile_list_container" className="navbar is-dark">
@@ -262,7 +270,8 @@ const ProfileList = (props) => {
           </button>
           <button
             id="profile_list_logout_btn"
-            onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
+            onClick={() => djangoRestAuthLogout(logout, clearStorage, authUser)}
+            // onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
             className="logout-navbar-item-profile-list"
             data-testid="logout-btn-testid"
           >
@@ -289,11 +298,15 @@ const ProfileList = (props) => {
               <i className="fas fa-user-edit"></i>
             </div>
             <div className="nav_profile_dropdown_row">
-              <div className="nav_profile_dropdown_item" onClick={() => handleOpenFeedBack()}>Give Feedback</div>
+              <div className="nav_profile_dropdown_item" onClick={() => handleOpenFeedBack()}>
+                Give Feedback
+              </div>
               <i className="far fa-comments"></i>
             </div>
             <div className="nav_profile_dropdown_row">
-              <div className="nav_profile_dropdown_item" onClick={() => handleOpenBugReport()}>Report a Bug</div>
+              <div className="nav_profile_dropdown_item" onClick={() => handleOpenBugReport()}>
+                Report a Bug
+              </div>
               <i className="fas fa-bug"></i>
             </div>
           </>
@@ -309,7 +322,7 @@ const ProfileList = (props) => {
         handleSubmitFeedback={handleSubmitFeedback}
         {...props}
       />
-        <BugReportModal
+      <BugReportModal
         bugReportModalOpen={bugReportModalOpen}
         handleOpenBugReport={handleOpenBugReport}
         handleCloseBugReport={handleCloseBugReport}
@@ -338,7 +351,7 @@ const ProfileList = (props) => {
           <div className="settings_link_button" id="last_btn_link_settings" onClick={(e) => handleToggle(e)}>
             Credits By Park
           </div>
-          <ProfileListSearch
+          <SearchBarLight
             searchHandler={searchHandler}
             defaultSectionContent={defaultSectionContent}
             setSearchOutput={setSearchOutput}

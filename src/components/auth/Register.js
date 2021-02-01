@@ -8,7 +8,7 @@ import { useErrorLog } from "../../contexts/ErrorLogContext";
 import "./Register.css";
 
 const Register = (props) => {
-  const { user, transactions, loading, isAuthenticated, djangoRestAuthLogout, logout, clearStorage } = useAuth0();
+  const { user, transactions, loading, isAuthenticated, djangoRestAuthLogout, logout, clearStorage, getTokenSilently } = useAuth0();
   const { setAuthToken, setAuthUser, authUser, userProfile } = useAuthUser();
   const { postActivityLogRegistration, sendLoginInfo } = useActivityLog();
   const { postNewErrorLog } = useErrorLog();
@@ -94,6 +94,7 @@ const Register = (props) => {
 
                   await sendLoginInfo(loginData);
                   await postActivityLogRegistration(props, registerUser.DjangoUser.id);
+                  await userManager.setUserAsActive({'is_currently_active': "True"}, registerUser.DjangoUser.id, getTokenSilently)
 
                   // Function to POST to rest-auth verify email endpoint with the key returned from register.
                   // const sendEmailVerification = await userManager.verifyEmail(registerUser.DjangoUser.QuantumToken);

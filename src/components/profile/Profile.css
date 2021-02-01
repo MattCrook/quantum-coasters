@@ -336,7 +336,8 @@ button.btn {
   justify-content: space-between;
   padding-top: 2px;
   padding-bottom: 2px;
-  transition: all 1s ease;
+  transition: 0.5s  all ease;
+  box-shadow: 1px 6px 4px 1px rgb(182, 182, 182);
 }
 
 .edit-profile-title-container {

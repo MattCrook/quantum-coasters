@@ -5,9 +5,9 @@ import NavHeader from "../nav/NavHeader";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import "./AddPark.css";
 
-const remoteUrl = process.env.REACT_APP_REMOTE_API_URL;
 
 const AddPark = (props) => {
+  const remoteUrl = process.env.REACT_APP_REMOTE_API_URL;
   const [name, setName] = useState();
   const [parkLocation, setParkLocation] = useState();
   const [parkCountry, setParkCountry] = useState();

@@ -116,7 +116,7 @@ export const ActivityLogProvider = ({ children }) => {
       user_id: userId,
       action: action,
       date: date,
-      props: props
+      props: props,
     };
 
     await postNewActivityLogAction({ event: payload });
@@ -266,6 +266,51 @@ export const ActivityLogProvider = ({ children }) => {
 
     await postNewActivityLogAction({ event: payload });
   };
+
+  const postFeedbackActivityLog = async (e, props, userId, parentComponent, component) => {
+    let currentDate = new Date();
+    let dateTime = currentDate.toISOString();
+    let date = dateTime.split("T")[0];
+
+    const action = {
+      parentComponent: parentComponent,
+      component: component,
+      action: "Create and submit new feedback form.",
+      target: e.currentTarget,
+      props: props,
+    };
+
+    const payload = {
+      user_id: userId,
+      action: action,
+      date: date,
+    };
+
+    await postNewActivityLogAction({ event: payload });
+  };
+
+  const postBugReportActivityLog = async (e, props, userId, parentComponent, component) => {
+    let currentDate = new Date();
+    let dateTime = currentDate.toISOString();
+    let date = dateTime.split("T")[0];
+
+    const action = {
+      parentComponent: parentComponent,
+      component: component,
+      action: "Create and submit new bug report form.",
+      target: e.currentTarget,
+      props: props,
+    };
+
+    const payload = {
+      user_id: userId,
+      action: action,
+      date: date,
+    };
+
+    await postNewActivityLogAction({ event: payload });
+  };
+
   const sendLoginInfo = async (data) => {
     try {
       const response = await postLoginInfo(data);
@@ -292,6 +337,8 @@ export const ActivityLogProvider = ({ children }) => {
         postEditProfileActivityLog,
         postChangeProfilePictureActivityLog,
         postNewEventActivityLog,
+        postBugReportActivityLog,
+        postFeedbackActivityLog,
         activityLog,
         actions,
         sendLoginInfo,

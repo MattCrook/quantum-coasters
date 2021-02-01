@@ -7,7 +7,7 @@ import { useErrorLog } from "../../contexts/ErrorLogContext";
 import "./Authenticate.css";
 
 const Authenticate = (props) => {
-  const { user } = useAuth0();
+  const { user, getTokenSilently } = useAuth0();
   const { postNewErrorLog } = useErrorLog();
   const [email, setEmail] = useState(user.email);
   const [loginAttempts, setLoginAttempts] = useState(0);
@@ -55,9 +55,8 @@ const Authenticate = (props) => {
 
         try {
           await sendLoginInfo(loginData);
+          await userManager.setUserAsActive({'is_currently_active': "True"}, login.id, getTokenSilently)
           props.history.push("/home");
-          // const origin = window.location.origin;
-          // window.location.href = origin + "/home";
         } catch (err) {
           console.log({ err });
           await postNewErrorLog(err, "Authenticate.js", "sendLoginInfo");

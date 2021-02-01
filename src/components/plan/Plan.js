@@ -148,7 +148,7 @@ const Plan = (props) => {
                 <span id={day.toDateString()} className="bg">
                   {formattedDate}
                 </span>
-                {userCalendarEvents && userCalendarEvents.length > 0 && eventsForCurrentDay[0] === fullFormattedDate ? (
+                {userCalendarEvents && userCalendarEvents != null && userCalendarEvents.length > 0 && eventsForCurrentDay[0] === fullFormattedDate ? (
                   <span className="has_events">0</span>
                 ) : null}
               </div>

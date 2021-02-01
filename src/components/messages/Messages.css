@@ -246,10 +246,10 @@
 }
 
 .profile_dropdown_container {
-  position: fixed;
+  position: absolute;
   right: 2%;
-  top: 11.2%;
-  width: 10%;
+  top: 11%;
+  width: 12%;
   text-align: left;
   font-size: 12.5px;
   margin-top: 0.5%;
@@ -282,4 +282,19 @@
 
 .profile_dropdown_row i {
   margin-right: 5%;
+}
+
+
+.messages_back_to_previous {
+  display: flex;
+  font-size: 14px;
+  text-decoration: underline !important;
+  transition: 0.2s all ease;
+  margin-left: 91%;
+  margin-top: 0.5%;
+  color: rgb(201, 199, 199);
+}
+
+.messages_back_to_previous:hover {
+  color: rgb(221, 221, 221);
 }

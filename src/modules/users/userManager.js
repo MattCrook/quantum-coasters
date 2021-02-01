@@ -1,5 +1,6 @@
 const remoteURL = process.env.REACT_APP_REMOTE_API_URL;
 
+
 const userManager = {
   async register(userToPost) {
     const data = await fetch(`${remoteURL}/rest-auth/registration/`, {
@@ -151,6 +152,52 @@ const userManager = {
       if (response.ok) {
         const jsonResponse = await response.json();
         console.log({ jsonResponse });
+      }
+      throw new Error("Verify Email Request Failed");
+    } catch (err) {
+      console.info(err);
+    }
+  },
+  async setUserAsActive(payload, authUserId, getTokenSilently) {
+    try {
+      const token = await getTokenSilently();
+      const userProfile = await this.getUserProfileEmbeddedAuthUser(authUserId);
+      const uid = userProfile.id;
+      const response = await fetch(`${remoteURL}/api/userprofiles/${uid}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+      if (response.ok) {
+        const jsonResponse = await response.json();
+        console.log({ jsonResponse });
+        return jsonResponse;
+      }
+      throw new Error("Verify Email Request Failed");
+    } catch (err) {
+      console.info(err);
+    }
+  },
+  async setUserAsInActive(payload, authUserId) {
+    try {
+      const userProfile = await this.getUserProfileEmbeddedAuthUser(authUserId);
+      const uid = userProfile.id;
+      const token = sessionStorage.getItem('accessToken');
+      const response = await fetch(`${remoteURL}/api/userprofiles/${uid}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+      if (response.ok) {
+        const jsonResponse = await response.json();
+        console.log({ jsonResponse });
+        return jsonResponse;
       }
       throw new Error("Verify Email Request Failed");
     } catch (err) {

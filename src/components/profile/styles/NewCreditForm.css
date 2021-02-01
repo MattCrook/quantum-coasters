@@ -20,7 +20,8 @@
 .banner-container {
   display: flex;
   justify-content: space-between;
-  justify-content: row;
+  flex-direction: row;
+  align-items: center;
   background-color: #363636;
   box-shadow: 2px 5px 4px 2px rgb(185, 185, 185);
 }
@@ -256,8 +257,21 @@ button.add-credit-button {
   justify-items: center;
   flex-direction: column;
   box-shadow: 4px 4px 4px 4px rgb(224, 224, 224);
-  /* border: 1px solid black; */
   transition: 0.5s all ease;
   width: 17%;
   font-size: 14px;
+}
+
+.add_new_credit_nav_profile_pic_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 2%;
+}
+
+#nav-profile-pic-add-new-credit {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: cover;
 }

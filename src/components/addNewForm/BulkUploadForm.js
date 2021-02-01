@@ -172,10 +172,10 @@ const BulkUploadForm = (props) => {
   }, [parkId]);
 
 
-    
+
   return (
     <>
-      <NavHeader />
+      <NavHeader {...props}/>
       <div id="bulk_upload_master_container">
         <div className="rides_added_container">
           <div className="rides_added_title_container">

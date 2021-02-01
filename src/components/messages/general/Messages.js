@@ -1,23 +1,24 @@
 import React, { useState, useEffect, useRef } from "react";
-// import userManager from "../../modules/users/userManager";
 import messageManager from "../../../modules/messages/messageManager";
 import MessageCard from "./pages/MessageCard";
 import MessageForm from "./MessageForm";
 import { useAuth0 } from "../../../contexts/react-auth0-context";
 import { useAuthUser } from "../../../contexts/AuthUserContext";
 import { useErrorLog } from "../../../contexts/ErrorLogContext";
+import { useActivityLog } from "../../../contexts/ActivityLogContext";
 import FeedbackModal from "../../modals/FeedbackModal";
 import BugReportModal from "../../modals/BugModal";
 import { postBugReport, postFeedback } from "../../../modules/services/services";
 import "../Messages.css";
 
 const MessageList = (props) => {
+  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
   const { user, loading, logout, clearStorage, djangoRestAuthLogout } = useAuth0();
   const { authUser, userProfile } = useAuthUser();
   const { postNewErrorLog } = useErrorLog();
+  const { postFeedbackActivityLog, postBugReportActivityLog } = useActivityLog();
   const [allMessages, setAllMessages] = useState([]);
   const [isProfileDropdown, setIsProfileDropdown] = useState(false);
-  // const [paginatedMessages, setPaginatedMessages] = useState([]);
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
   const [bugReportModalOpen, setBugReportModalOpen] = useState(false);
   const feedbackComment = useRef();
@@ -30,9 +31,23 @@ const MessageList = (props) => {
     timestamp: "",
   });
   const userProfileId = userProfile.id;
-  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
+  // const [paginatedMessages, setPaginatedMessages] = useState([]);
 
   const toggleProfileDropdown = () => setIsProfileDropdown(!isProfileDropdown);
+
+  const getMessages = async () => {
+    try {
+      const messages = await messageManager.getAllMessages();
+      setAllMessages(messages);
+    } catch (error) {
+      postNewErrorLog(error, "Messages.js", "getMessages");
+    }
+  };
+
+  useEffect(() => {
+    getMessages();
+  }, []);
+
 
   const handleOpenFeedBack = () => {
     setFeedbackModalOpen(true);
@@ -56,11 +71,18 @@ const MessageList = (props) => {
       subject: feedbackSubject.current.value,
       comment: feedbackComment.current.value,
     };
-    postFeedback(feedback).then(() => {
-      alert("Thanks for your feedback! Your submission has been received.");
-      setFeedbackModalOpen(false);
-      setIsProfileDropdown(false);
-    });
+    postFeedback(feedback)
+      .then(() => {
+        alert("Thanks for your feedback! Your submission has been received.");
+        postFeedbackActivityLog(e, props, authUser.id, "Messages.js", "FeedbackModal.js").then(() => {
+          setFeedbackModalOpen(false);
+          setIsProfileDropdown(false);
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        postNewErrorLog(error, "Messages.js", "handleSubmitFeedback");
+      });
   };
 
   const handleSubmitBug = (e) => {
@@ -71,28 +93,17 @@ const MessageList = (props) => {
     };
     postBugReport(bug)
       .then(() => {
-        alert("Thanks for your feedback! Your submission has been received.");
-        setFeedbackModalOpen(false);
-        setIsProfileDropdown(false);
+        alert("Thanks for finding a bug! Your submission has been received.");
+        postBugReportActivityLog(e, props, authUser.id, "Messages.js", "BugModal.js").then(() => {
+          setBugReportModalOpen(false);
+          setIsProfileDropdown(false);
+        });
       })
       .catch((error) => {
         console.log(error);
-        postNewErrorLog(error, "NavHeader.js", "handleSubmitBug");
+        postNewErrorLog(error, "Messages.js", "handleSubmitBug");
       });
   };
-
-  const getMessages = async () => {
-    try {
-      const messages = await messageManager.getAllMessages();
-      setAllMessages(messages);
-    } catch (error) {
-      postNewErrorLog(error, "Messages.js", "getMessages");
-    }
-  };
-
-  useEffect(() => {
-    getMessages();
-  }, []);
 
   return (
     <>
@@ -181,6 +192,9 @@ const MessageList = (props) => {
 
       <div className="chat-wrapper">
         <div className="chat-fixed-height-container">
+          <button className="messages_back_to_previous" onClick={() => props.history.push("/forum")}>
+        &lt; Back To Previous
+      </button>
           <div id="chat-headerContainer">
             <div className="forum-header">
               <div className="general_forum_messages_title">General Quantum Forum</div>
@@ -210,7 +224,6 @@ const MessageList = (props) => {
             <MessageForm
               userProfile={userProfile}
               userProfileId={userProfileId}
-              // paginatedMessages={paginatedMessages}
               messageToEdit={messageToEdit}
               setMessageToEdit={setMessageToEdit}
               setAllMessages={setAllMessages}
@@ -224,31 +237,3 @@ const MessageList = (props) => {
   );
 };
 export default MessageList;
-
-// const getMessages = async () => {
-//   try {
-//     const messages = await messageManager.getAllMessages();
-//     setAllMessages(messages);
-//     const sortedMessages = sortByDate(messages);
-//     const messagesNewestToOldest = sortedMessages.reverse();
-//     const messagesToShow = messagesNewestToOldest.slice(0, 7);
-//     const sortBackToOldestToNewest = messagesToShow.reverse()
-//     setPaginatedMessages(sortBackToOldestToNewest);
-//   } catch (error) {
-//     postNewErrorLog(error, "Messages.js", "getMessages");
-//   }
-// };
-
-// useEffect(() => {
-//   getMessages();
-// }, []);
-
-// function sortByDate(messages) {
-//   console.log(messages)
-//   const sorted = messages.sort((a, b) => {
-//     const dateA = new Date(a.timestamp);
-//     const dateB = new Date(b.timestamp);
-//     return dateA - dateB;
-//   });
-//   return sorted;
-// }

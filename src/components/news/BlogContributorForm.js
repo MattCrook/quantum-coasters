@@ -3,6 +3,7 @@ import newsManager from "../../modules/news/newsManager";
 import { confirmAlert } from "react-confirm-alert";
 import { useErrorLog } from "../../contexts/ErrorLogContext";
 import { useActivityLog } from "../../contexts/ActivityLogContext";
+import NavHeader from "../nav/NavHeader";
 import "./BlogContributorForm.css";
 
 const BlogContributorForm = (props) => {
@@ -61,6 +62,7 @@ const BlogContributorForm = (props) => {
 
   return (
     <>
+      <NavHeader {...props} />
       <form className="blog_apply_form" onSubmit={handleFormSubmit}>
         <fieldset className="fs-apply-form">
           <h3 className="apply-title">Become a Quantum Contributor</h3>
@@ -98,7 +100,7 @@ const BlogContributorForm = (props) => {
               ref={socialMedia}
               type="text"
               id="social_media"
-              placeholder="Include at least one social media handle. (*Optional)"
+              placeholder="Include link to at least one social media account. (*Optional)"
             />
             <label id="apply_form_final_words_label" className="apply_form_label" htmlFor="short_description">
               Final Words

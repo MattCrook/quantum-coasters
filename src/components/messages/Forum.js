@@ -3,6 +3,7 @@ import messageManager from "../../modules/messages/messageManager";
 import { useAuth0 } from "../../contexts/react-auth0-context";
 import { useAuthUser } from "../../contexts/AuthUserContext";
 import { useErrorLog } from "../../contexts/ErrorLogContext";
+import { useActivityLog } from "../../contexts/ActivityLogContext";
 import MessagePreviewCard from "./general/pages/MessagePreviewCard";
 import FeedbackModal from "../modals/FeedbackModal";
 import BugReportModal from "../modals/BugModal";
@@ -20,6 +21,7 @@ const Forum = (props) => {
   const { authUser, userProfile } = useAuthUser();
   const { user, loading, logout, clearStorage, djangoRestAuthLogout } = useAuth0();
   const { postNewErrorLog } = useErrorLog();
+  const { postFeedbackActivityLog, postBugReportActivityLog } = useActivityLog();
   const [messagesToPreview, setMessagesToPreview] = useState([]);
   const [isProfileDropdown, setIsProfileDropdown] = useState(false);
   const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
@@ -31,64 +33,25 @@ const Forum = (props) => {
 
   const toggleProfileDropdown = () => setIsProfileDropdown(!isProfileDropdown);
 
-  const handleOpenFeedBack = () => {
-    setFeedbackModalOpen(true);
-  };
 
-  const handleCloseFeedBack = () => {
-    setFeedbackModalOpen(false);
-  };
-
-  const handleOpenBugReport = () => {
-    setBugReportModalOpen(true);
-  };
-
-  const handleCloseBugReport = () => {
-    setBugReportModalOpen(false);
-  };
-
-  const handleSubmitFeedback = (e) => {
-    e.preventDefault();
-    const feedback = {
-      subject: feedbackSubject.current.value,
-      comment: feedbackComment.current.value,
-    };
-    postFeedback(feedback)
-      .then(() => {
-        alert("Thanks for your feedback! Your submission has been received.");
-        setFeedbackModalOpen(false);
-        setIsProfileDropdown(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        postNewErrorLog(error, "Forum.js", "handleSubmitFeedback");
-      });
-  };
-
-  const handleSubmitBug = (e) => {
-    e.preventDefault();
-    const bug = {
-      title: bugTitle.current.value,
-      description: bugDescription.current.value,
-    };
-    postBugReport(bug)
-      .then(() => {
-        alert("Thanks for your feedback! Your submission has been received.");
-        setFeedbackModalOpen(false);
-        setIsProfileDropdown(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        postNewErrorLog(error, "Forum.js", "handleSubmitBug");
-      });
-  };
 
   const renderGroupChat = (e, userId) => {
     e.preventDefault();
     e.stopPropagation();
-    const target = `${URL}/group_chat/${userId}`;
+    // const chat_type = "group_chat";
+    // const target = `${URL}/authenticate/${chat_type}`;
+
+    // const target = `${URL}/authenticate_for_group_chat/${userId}`;
+    // window.location.href = target;
+    const target = `${URL}/group_chat/`;
     window.location.href = target;
   };
+  // const renderGroupChat = (e, userId) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  //   const target = `${URL}/group_chat/${userId}`;
+  //   window.location.href = target;
+  // };
 
   const renderPrivateChat = (e, userId) => {
     e.preventDefault();
@@ -127,6 +90,63 @@ const Forum = (props) => {
     };
     messagesForPreview();
   }, []);
+
+
+  const handleOpenFeedBack = () => {
+    setFeedbackModalOpen(true);
+  };
+
+  const handleCloseFeedBack = () => {
+    setFeedbackModalOpen(false);
+  };
+
+  const handleOpenBugReport = () => {
+    setBugReportModalOpen(true);
+  };
+
+  const handleCloseBugReport = () => {
+    setBugReportModalOpen(false);
+  };
+
+  const handleSubmitFeedback = (e) => {
+    e.preventDefault();
+    const feedback = {
+      subject: feedbackSubject.current.value,
+      comment: feedbackComment.current.value,
+    };
+    postFeedback(feedback)
+      .then(() => {
+        alert("Thanks for your feedback! Your submission has been received.");
+        postFeedbackActivityLog(e, props, authUser.id, "Forum.js", "FeedbackModal.js").then(() => {
+          setFeedbackModalOpen(false);
+          setIsProfileDropdown(false);
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        postNewErrorLog(error, "Forum.js", "handleSubmitFeedback");
+      });
+  };
+
+  const handleSubmitBug = (e) => {
+    e.preventDefault();
+    const bug = {
+      title: bugTitle.current.value,
+      description: bugDescription.current.value,
+    };
+    postBugReport(bug)
+      .then(() => {
+        alert("Thanks for finding a bug! Your submission has been received.");
+        postBugReportActivityLog(e, props, authUser.id, "Forum.js", "BugModal.js").then(() => {
+          setBugReportModalOpen(false);
+          setIsProfileDropdown(false);
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        postNewErrorLog(error, "Forum.js", "handleSubmitBug");
+      });
+  };
 
   return (
     <>
