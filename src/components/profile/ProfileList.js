@@ -21,7 +21,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 
 const ProfileList = (props) => {
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
-  const { clearStorage, logout } = useAuth0();
+  const { clearStorage, logout, djangoRestAuthLogout } = useAuth0();
   const { authUser, userProfile, userCredits } = useAuthUser();
   const { postNewErrorLog } = useErrorLog();
   const { postActivityLogAddCredit, postActivityLogEditProfile, postFeedbackActivityLog, postBugReportActivityLog } = useActivityLog();
@@ -270,7 +270,8 @@ const ProfileList = (props) => {
           </button>
           <button
             id="profile_list_logout_btn"
-            onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
+            onClick={() => djangoRestAuthLogout(logout, clearStorage, authUser)}
+            // onClick={() => logout({ returnTo: window.location.origin }, clearStorage())}
             className="logout-navbar-item-profile-list"
             data-testid="logout-btn-testid"
           >
