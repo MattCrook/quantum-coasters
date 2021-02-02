@@ -43,7 +43,8 @@ const Forum = (props) => {
 
     // const target = `${URL}/authenticate_for_group_chat/${userId}`;
     // window.location.href = target;
-    const target = `${URL}/group_chat/`;
+    // const target = `${URL}/authorize/`;
+    const target = `${URL}/index/`;
     window.location.href = target;
   };
   // const renderGroupChat = (e, userId) => {

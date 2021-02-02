@@ -62,7 +62,6 @@ const Register = (props) => {
                 last_name: formData.last_name.trim(),
                 username: formData.username.trim(),
                 email: formData.email.trim(),
-                password: user.sub.split("|")[1],
                 address: formData.address.trim(),
                 auth0_identifier: user.sub.replace("|", "."),
                 uid: user.sub,
