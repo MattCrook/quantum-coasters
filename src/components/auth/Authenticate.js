@@ -28,12 +28,12 @@ const Authenticate = (props) => {
       password: salt,
       id_token: sessionStorage.getItem("IdToken"),
       uid: user.sub,
-      provider: "auth0",
       csrf_token: csrfCookie,
       extra_data: user,
     };
     try {
       const login = await userManager.login(userCredentials);
+      console.log(login)
       if (login.valid === true) {
         setAuthUser(login);
         setAuthToken(login.QuantumToken);
@@ -59,13 +59,13 @@ const Authenticate = (props) => {
           props.history.push("/home");
         } catch (err) {
           console.log({ err });
-          await postNewErrorLog(err, "Authenticate.js", "sendLoginInfo");
+          postNewErrorLog(err, "Authenticate.js", "sendLoginInfo");
         }
       } else {
         alert("Invalid email");
       }
     } catch (err) {
-      await postNewErrorLog(err, "Authenticate.js", "loginSubmit");
+      postNewErrorLog(err, "Authenticate.js", "loginSubmit");
     }
   };
 
