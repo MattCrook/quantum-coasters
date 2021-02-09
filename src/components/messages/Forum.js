@@ -38,26 +38,21 @@ const Forum = (props) => {
   const renderGroupChat = (e, userId) => {
     e.preventDefault();
     e.stopPropagation();
-    // const chat_type = "group_chat";
-    // const target = `${URL}/authenticate/${chat_type}`;
-
     // const target = `${URL}/authenticate_for_group_chat/${userId}`;
-    // window.location.href = target;
-    // const target = `${URL}/authorize/`;
-    const target = `${URL}/index/`;
+    // If index. wil hit index first so always be un authenticated, so will always show the login page after first click.
+    // /group_chat/ take user to ?next=/group_chat/ automatically running the social auth pipeline in the background.
+    // const target = `${URL}/index/`;
+
+    const target = `${URL}/group_chat/`;
     window.location.href = target;
   };
-  // const renderGroupChat = (e, userId) => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  //   const target = `${URL}/group_chat/${userId}`;
-  //   window.location.href = target;
-  // };
+
 
   const renderPrivateChat = (e, userId) => {
     e.preventDefault();
     e.stopPropagation();
-    const target = `${URL}/private_chat/${userId}`;
+    // const target = `${URL}/private_chat/${userId}`;
+    const target = `${URL}/private_chat/`;
     window.location.href = target;
   };
 
