@@ -18,6 +18,7 @@ const EditProfile = (props) => {
   const [isProfileDropdown, setIsProfileDropdown] = useState(false);
   const [image, setImage] = useState({ id: "", image: "" });
   const [selectedImage, setSelectedImage] = useState("");
+  const [imageUploadError, setImageUploadError] = useState(false);
   const [authUserToUpdate, setAuthUserToUpdate] = useState({
     id: "",
     first_name: "",
@@ -60,16 +61,36 @@ const EditProfile = (props) => {
     imgTagToFill.src = fileReaderResult;
   };
 
+  const allowedExtensions = ["txt", "pdf", "png", "jpg", "jpeg", "gif"];
   const handleImagePreview = (e) => {
     e.preventDefault();
     const clearInput = () => (document.getElementById("image").value = "");
     const file = e.target.files[0];
+
+    const splitExtension = (filename) => {
+      const ext = filename.split(".")[1];
+      return ext;
+    };
+
+    const findMatchingExt = (array, extensionToFind) => array.includes(extensionToFind);
+
     if (file) {
+      const fileExtension = splitExtension(file.name);
+      const isValidExtension = findMatchingExt(allowedExtensions, fileExtension);
+
       if (!file.type.startsWith("image/")) {
+        setImageUploadError(true);
         alert("Only image files are supported");
+        // document.querySelector(".upload_image_error_message").style.display = "block";
         clearInput();
       } else if (file.size > 5000000) {
+        setImageUploadError(true);
         alert("File size cannot exceed 5MB");
+        // document.querySelector(".upload_image_error_message").style.display = "block";
+        clearInput();
+      } else if (!isValidExtension) {
+        setImageUploadError(true)
+        // document.querySelector(".upload_image_error_message").style.display = "block";
         clearInput();
       } else {
         const reader = new FileReader();
@@ -377,6 +398,10 @@ const EditProfile = (props) => {
               Change Photo
             </button>
           </form>
+          {imageUploadError ? (
+            <div class="image_upload_error">Error uploading image. Please try another Image.</div>
+          ) : null}
+          <div></div>
         </div>
 
         <div className="profile-info-container">
