@@ -134,3 +134,16 @@ export async function postBugReport(payload) {
   });
   return await resp.json();
 }
+
+export async function sendAppLoginData(payload) {
+  const response = await fetch(`${remoteURL}/api/app_login_data`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+    },
+    Accept: "application/json",
+    body: JSON.stringify(payload),
+  });
+  return await response.json();
+}

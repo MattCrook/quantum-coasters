@@ -49,8 +49,8 @@ export const Auth0Provider = ({
         if (tokenId && user) {
           const initObject = {
             user_sub: user.sub.replace("|", "."),
-            domain: initOptions.domain,
-            client_id: initOptions.client_id,
+            // domain: initOptions.domain,
+            // client_id: initOptions.client_id,
             redirect_uri: initOptions.redirect_uri,
             audience: initOptions.audience,
             scope: initOptions.scope,
