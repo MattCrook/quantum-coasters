@@ -240,7 +240,7 @@ const Forum = (props) => {
             General
           </div>
           <div className="header_section_button" onClick={(e) => renderGroupChat(e, authUser.id)}>
-            Start A Group Chat
+            Group Chat/ Channels
           </div>
           <div className="header_section_button" onClick={(e) => renderPrivateChat(e, authUser.id)}>
             Private Message
