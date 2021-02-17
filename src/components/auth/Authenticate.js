@@ -8,19 +8,27 @@ import { sendAppLoginData } from "../../modules/services/services";
 import "./Authenticate.css";
 
 const Authenticate = (props) => {
-  const { user, getTokenSilently } = useAuth0();
+  const { user, getTokenSilently, appInitOptions } = useAuth0();
   const { postNewErrorLog } = useErrorLog();
   const [email, setEmail] = useState(user.email);
   const [loginAttempts, setLoginAttempts] = useState(0);
   const { setAuthUser, setAuthToken } = useAuthUser();
-  const { sendLoginInfo } = useActivityLog();
+  const { sendLoginInfo, postAppLoginDataActivityLog } = useActivityLog();
   const salt = user.sub.split("|")[1];
+  const [isLoading, setIsLoading] = useState(false);
+  const [isActive, setIsActive] = useState('');
+  const [authUserLoginData, setAuthUserLoginData] = useState([]);
+  var appInitOptionsCredentials = props.initOptions
+  const [initOptions, setInitOptions] = useState([]);
+
+
 
   const attempts = useCallback(() => {
     setLoginAttempts(loginAttempts + 1);
   }, [loginAttempts]);
 
   const loginSubmit = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     const csrfCookie = getCookie("csrftoken");
 
@@ -34,15 +42,7 @@ const Authenticate = (props) => {
     };
     try {
       var login = await userManager.login(userCredentials);
-      console.log(login)
       if (login.valid === true) {
-        setAuthUser(login);
-        setAuthToken(login.QuantumToken);
-
-        // Calling function that sets the token in session storage, and sets isLogged in to true.
-        props.setDjangoToken(login);
-        sessionStorage.setItem("sessionId", login.session);
-
         var loginData = {
           user_id: login.id,
           email: login.email,
@@ -59,45 +59,34 @@ const Authenticate = (props) => {
           sessionId: login.session,
         }
 
-        // try {
-        //   await sendLoginInfo(loginData);
-        //   await sendAppLoginData(appLoginPayload);
-        //   await userManager.setUserAsActive({'is_currently_active': 'True'}, login.id, getTokenSilently)
-        //   props.history.push("/home");
-        // } catch (err) {
-        //   console.log({ err });
-        //   postNewErrorLog(err, "Authenticate.js", "sendLoginInfo");
-        // }
+        await sendLoginInfo(loginData);
+        const appLoginData = await sendAppLoginData(appLoginPayload);
+        const setUserActive = await userManager.setUserAsActive({ is_currently_active: "True" }, login.id, getTokenSilently)
+        setIsActive(setUserActive);
+        setAuthUserLoginData(appLoginData);
+        setAuthUser(login);
+        setAuthToken(login.QuantumToken);
+
+        // Calling function that sets the token in session storage, and sets isLogged in to true.
+        props.setDjangoToken(login);
+        sessionStorage.setItem("sessionId", login.session);
+        appInitOptionsCredentials['django_token'] = login.QuantumToken;
+        appInitOptionsCredentials['session_id'] = login.session;
+
+        const authInitCredentialsResult = await userManager.postInitAppOptions(appInitOptionsCredentials);
+        setInitOptions(authInitCredentialsResult);
+
+        postAppLoginDataActivityLog({"Confirm Button": "modal__btn-primary"}, props, login.id, "Authenticate.js", "sendAppLoginData")
+        setIsLoading(false);
+        props.history.push("/home");
       } else {
         alert("Invalid email");
       }
     } catch (err) {
       postNewErrorLog(err, "Authenticate.js", "login");
     }
-
-    try {
-      await sendLoginInfo(loginData);
-    } catch (err) {
-      console.log({ err });
-      postNewErrorLog(err, "Authenticate.js", "sendLoginInfo");
-    }
-
-    try {
-      const appLoginInfo = await sendAppLoginData(appLoginPayload);
-      console.log(appLoginInfo)
-    } catch (err) {
-      console.log({ err });
-      postNewErrorLog(err, "Authenticate.js", "sendAppLoginInfo");
-    }
-
-    try {
-      await userManager.setUserAsActive({'is_currently_active': 'True'}, login.id, getTokenSilently)
-      props.history.push("/home");
-    } catch (err) {
-      console.log({ err });
-      postNewErrorLog(err, "Authenticate.js", "sendLoginInfo");
-    }
   };
+
 
   function getCookie(cookieName) {
     let name = cookieName + "=";
@@ -114,6 +103,21 @@ const Authenticate = (props) => {
       }
     }
     return "";
+  }
+  if (isLoading) {
+    return (
+      <div className="loading fade_in">
+        <div className="loading-text">
+          <span className="loading-text-words">L</span>
+          <span className="loading-text-words">O</span>
+          <span className="loading-text-words">A</span>
+          <span className="loading-text-words">D</span>
+          <span className="loading-text-words">I</span>
+          <span className="loading-text-words">N</span>
+          <span className="loading-text-words">G</span>
+        </div>
+      </div>
+    );
   }
 
   return (

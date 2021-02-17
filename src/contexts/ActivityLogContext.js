@@ -1,6 +1,8 @@
 import React, { useState, useContext } from "react";
 import { postActivityLog, getUserActivityLog, postLoginInfo, postErrorLog } from "../modules/services/services";
 
+
+
 export const ActivityLogContext = React.createContext();
 export const useActivityLog = () => useContext(ActivityLogContext);
 
@@ -12,9 +14,9 @@ export const ActivityLogProvider = ({ children }) => {
   const postNewActivityLogAction = async (payload) => {
     try {
       await postActivityLog(payload);
-      // setActivityLog(postAction);
     } catch (error) {
       console.log(error);
+      postErrorLog(error, "ActivityLogContext", "postNewErrorLog")
     }
   };
 
@@ -311,6 +313,28 @@ export const ActivityLogProvider = ({ children }) => {
     await postNewActivityLogAction({ event: payload });
   };
 
+  const postAppLoginDataActivityLog = async (target, props, userId, parentComponent, component) => {
+    let currentDate = new Date();
+    let dateTime = currentDate.toISOString();
+    let date = dateTime.split("T")[0];
+
+    const action = {
+      parentComponent: parentComponent,
+      component: component,
+      action: "Auth0 Login Data for User.",
+      target: target,
+      props: props,
+    };
+
+    const payload = {
+      user_id: userId,
+      action: action,
+      date: date,
+    };
+
+    await postNewActivityLogAction({ event: payload });
+  };
+
   const sendLoginInfo = async (data) => {
     try {
       const response = await postLoginInfo(data);
@@ -339,6 +363,7 @@ export const ActivityLogProvider = ({ children }) => {
         postNewEventActivityLog,
         postBugReportActivityLog,
         postFeedbackActivityLog,
+        postAppLoginDataActivityLog,
         activityLog,
         actions,
         sendLoginInfo,

@@ -27,7 +27,7 @@ const NavBar = ({ authUser, authToken }) => {
     <nav>
       <ul className="nav-link-btns">
         {!loading && isAuthenticated && authToken && (
-          <li>
+          <li className="nav-link-li">
             <FontAwesomeIcon icon={faHome} />
             <Link
               className="nav-link"
@@ -39,7 +39,7 @@ const NavBar = ({ authUser, authToken }) => {
           </li>
         )}
         {!loading && isAuthenticated && authUser.username && token ? (
-          <li>
+          <li className="nav-link-li">
             <FontAwesomeIcon icon={faUser} />
             <Link className="nav-link" to="/user/profile/credits">
               {" "}
@@ -48,7 +48,7 @@ const NavBar = ({ authUser, authToken }) => {
           </li>
         ) : null}
         {!loading && isAuthenticated && authUser.username && token ? (
-          <li>
+          <li className="nav-link-li">
             <FontAwesomeIcon icon={faPollH} />
 
             <Link className="nav-link" to="/leaderBoard">
@@ -58,7 +58,7 @@ const NavBar = ({ authUser, authToken }) => {
           </li>
         ) : null}
         {!loading && isAuthenticated && authUser.username && token ? (
-          <li>
+          <li className="nav-link-li">
             <FontAwesomeIcon icon={faCommentDots} />
             <Link className="nav-link" to="/forum">
               {" "}
@@ -67,7 +67,7 @@ const NavBar = ({ authUser, authToken }) => {
           </li>
         ) : null}
         {!loading && isAuthenticated && authUser.username && token ? (
-          <li>
+          <li className="nav-link-li">
             <FontAwesomeIcon icon={faNewspaper} />
             <Link className="nav-link" to="/news">
               {" "}
@@ -76,7 +76,7 @@ const NavBar = ({ authUser, authToken }) => {
           </li>
         ) : null}
         {!loading && isAuthenticated && authUser.username && token ? (
-          <li>
+          <li className="nav-link-li">
             <FontAwesomeIcon icon={faCalendarAlt} />
             <Link className="nav-link" to="/plan">
               {" "}

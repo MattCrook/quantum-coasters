@@ -5,15 +5,30 @@ import { confirmAlert } from "react-confirm-alert";
 import { useActivityLog } from "../../contexts/ActivityLogContext";
 import { useAuthUser } from "../../contexts/AuthUserContext";
 import { useErrorLog } from "../../contexts/ErrorLogContext";
+import { sendAppLoginData } from "../../modules/services/services";
 import "./Register.css";
 
 const Register = (props) => {
-  const { user, transactions, loading, isAuthenticated, djangoRestAuthLogout, logout, clearStorage, getTokenSilently } = useAuth0();
+  const {
+    user,
+    transactions,
+    loading,
+    isAuthenticated,
+    djangoRestAuthLogout,
+    logout,
+    clearStorage,
+    getTokenSilently,
+    appInitOptions,
+  } = useAuth0();
+  var appInitOptionsCredentials = props.initOptions
+  const [initOptions, setInitOptions] = useState([]);
   const { setAuthToken, setAuthUser, authUser, userProfile } = useAuthUser();
   const { postActivityLogRegistration, sendLoginInfo } = useActivityLog();
   const { postNewErrorLog } = useErrorLog();
   const [isLoading, setIsLoading] = useState(false);
   const [loginAttempts, setLoginAttempts] = useState(0);
+  const [authUserAppLoginData, setAuthUserAppLoginData] = useState([]);
+  const [isActive, setIsActive] = useState('');
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -74,13 +89,7 @@ const Register = (props) => {
                 const registerUser = await userManager.register(newUserObject);
                 // Django User is object I specified to come back from API in register.py
                 if ("DjangoUser" in registerUser) {
-                  props.setDjangoToken(registerUser.DjangoUser);
-                  setAuthToken(registerUser.DjangoUser.QuantumToken);
-                  // Setting AuthUser from props passed from App to Application Views to Register. Setting the user high up in app to then filter back down.
-                  setAuthUser(registerUser.DjangoUser);
-                  sessionStorage.setItem("sessionId", registerUser.DjangoUser.session);
-
-                  const loginData = {
+                  const userLoginData = {
                     user_id: registerUser.DjangoUser.id,
                     email: registerUser.DjangoUser.email,
                     browser: props.browserData,
@@ -91,18 +100,40 @@ const Register = (props) => {
                     id_token: registerUser.DjangoUser.management_user,
                   };
 
-                  await sendLoginInfo(loginData);
-                  await postActivityLogRegistration(props, registerUser.DjangoUser.id);
-                  await userManager.setUserAsActive({'is_currently_active': "True"}, registerUser.DjangoUser.id, getTokenSilently)
+                  var appLoginPayload = {
+                    recent_attempts: loginAttempts,
+                    sessionId: registerUser.DjangoUser.session,
+                  }
 
+                  await sendLoginInfo(userLoginData);
+                  const appLoginData = await sendAppLoginData(appLoginPayload);
+                  const setUserActive = await userManager.setUserAsActive({ is_currently_active: "True" }, registerUser.DjangoUser.id, getTokenSilently)
+                  setIsActive(setUserActive);
+                  setAuthUserAppLoginData(appLoginData);
+                  setAuthUser(registerUser.DjangoUser);
+                  props.setDjangoToken(registerUser.DjangoUser);
+                  setAuthToken(registerUser.DjangoUser.QuantumToken);
+
+                  // Setting AuthUser from props passed from App to Application Views to Register. Setting the user high up in app to then filter back down.
+                  setAuthUser(registerUser.DjangoUser);
+                  sessionStorage.setItem("sessionId", registerUser.DjangoUser.session);
+
+                  console.log(appInitOptions)
+                  console.log({appInitOptionsCredentials})
+                  appInitOptionsCredentials['django_token'] = registerUser.DjangoUser.QuantumToken;
+                  appInitOptionsCredentials['session_id'] = registerUser.DjangoUser.session;
+                  const authInitCredentialsResult = await userManager.postInitAppOptions(appInitOptionsCredentials);
+                  setInitOptions(authInitCredentialsResult);
+
+                  await postActivityLogRegistration(props, registerUser.DjangoUser.id);
                   // Function to POST to rest-auth verify email endpoint with the key returned from register.
                   // const sendEmailVerification = await userManager.verifyEmail(registerUser.DjangoUser.QuantumToken);
-                  props.history.push("/home");
                   setIsLoading(false);
+                  props.history.push("/home");
                 }
               } catch (err) {
                 console.log(err);
-                await postNewErrorLog(err, "Register.js", "handleFormSubmit");
+                postNewErrorLog(err, "Register.js", "handleFormSubmit");
               }
             },
           },
@@ -118,11 +149,27 @@ const Register = (props) => {
     }
   };
 
+  // if (isLoading) {
+  //   return (
+  //     <div className="loading_container">
+  //       {/* <div className="loading_pop_up">Loading...</div> */}
+  //       <div className="spinner icon-spinner-2" aria-hidden="true"></div>
+  //     </div>
+  //   );
+  // }
+
   if (isLoading) {
     return (
-      <div className="loading_container">
-        {/* <div className="loading_pop_up">Loading...</div> */}
-        <div className="spinner icon-spinner-2" aria-hidden="true"></div>
+      <div className="loading fade_in">
+        <div className="loading-text">
+          <span className="loading-text-words">L</span>
+          <span className="loading-text-words">O</span>
+          <span className="loading-text-words">A</span>
+          <span className="loading-text-words">D</span>
+          <span className="loading-text-words">I</span>
+          <span className="loading-text-words">N</span>
+          <span className="loading-text-words">G</span>
+        </div>
       </div>
     );
   }

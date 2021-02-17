@@ -9,7 +9,19 @@
   color: black;
   margin-top: 15px;
   font-variant: small-caps;
-  transition: 0.4s all ease;
+  font-feature-settings: "c2sc";
+  color: #000000;
+}
+
+.nav-link-li {
+  color: #000000;
+  transition: 0.3s all ease;
+}
+
+
+.nav-link-li:hover {
+  color: #9b9b9b;
+
 }
 
 #navbar_end {

@@ -39,6 +39,7 @@ const Home = (props) => {
   const bugTitle = useRef();
   const bugDescription = useRef();
 
+
   const toggleProfileDropdown = () => setIsProfileDropdown(!isProfileDropdown);
 
   const handleOpenFeedBack = () => {
@@ -159,7 +160,7 @@ const Home = (props) => {
           </div>
         </nav>
 
-        {isProfileDropdown && isAuthenticated && isLoggedIn ? (
+        {!loading && isProfileDropdown && isAuthenticated && isLoggedIn ? (
           <div className="home_profile_dropdown_container">
             <>
               <div className="home_profile_dropdown_row">
@@ -228,6 +229,7 @@ const Home = (props) => {
                 userAgentData={props.userAgentData}
                 platformOS={props.platformOS}
                 appCodeNameData={props.appCodeNameData}
+                initOptions={props.initOptions}
                 {...props}
               />
             </>
@@ -255,9 +257,10 @@ const Home = (props) => {
                 <button
                   data-testid="complete-profile-btn-testid"
                   className="login_alt_edge_case_link"
-                  onClick={() => djangoRestAuthLogout(logout, clearStorage, authUser)}
+                  onClick={clearStorage}
+                  // onClick={() => djangoRestAuthLogout(logout, clearStorage, authUser)}
                 >
-                  Login
+                  Back to Login
                 </button>
                 <Link data-testid="complete-profile-btn-testid" className="register_alt_edge_case_link" to="register/">
                   Register
