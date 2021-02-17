@@ -8,7 +8,7 @@ import { sendAppLoginData } from "../../modules/services/services";
 import "./Authenticate.css";
 
 const Authenticate = (props) => {
-  const { user, getTokenSilently, appInitOptions } = useAuth0();
+  const { user, getTokenSilently } = useAuth0();
   const { postNewErrorLog } = useErrorLog();
   const [email, setEmail] = useState(user.email);
   const [loginAttempts, setLoginAttempts] = useState(0);
@@ -16,23 +16,31 @@ const Authenticate = (props) => {
   const { sendLoginInfo, postAppLoginDataActivityLog } = useActivityLog();
   const salt = user.sub.split("|")[1];
   const [isLoading, setIsLoading] = useState(false);
-  const [isActive, setIsActive] = useState('');
+  const [isActive, setIsActive] = useState("");
   const [authUserLoginData, setAuthUserLoginData] = useState([]);
-  var appInitOptionsCredentials = props.initOptions
+  var appInitOptionsCredentials = props.initOptions;
   const [initOptions, setInitOptions] = useState([]);
+  const [isLoginError, setIsLoginError] = useState(false);
+  const [isValidatingEmail, setIsValidatingEmail] = useState(false); // spinner
+  const [emailValidationCheck, setEmailValidationCheck] = useState(false);  // check icon
+  const [errorMessage, setErrorMessage] = useState('');   // Error message
 
-
+  const showError = (message) => {
+    setIsValidatingEmail(false);
+    setIsLoginError(true);
+    setErrorMessage(message);
+  };
 
   const attempts = useCallback(() => {
     setLoginAttempts(loginAttempts + 1);
   }, [loginAttempts]);
 
   const loginSubmit = async (e) => {
-    setIsLoading(true);
+    setIsValidatingEmail(true);
     e.preventDefault();
-    const csrfCookie = getCookie("csrftoken");
+    var csrfCookie = getCookie("csrftoken");
 
-    const userCredentials = {
+    var userCredentials = {
       email: email,
       password: salt,
       id_token: sessionStorage.getItem("IdToken"),
@@ -42,51 +50,85 @@ const Authenticate = (props) => {
     };
     try {
       var login = await userManager.login(userCredentials);
-      if (login.valid === true) {
-        var loginData = {
-          user_id: login.id,
-          email: login.email,
-          browser: props.browserData,
-          recent_attempts: loginAttempts,
-          version: props.userAgentData,
-          platform: props.platformOS,
-          app_code_name: props.appCodeNameData,
-          id_token: login.management_user,
-        };
+    } catch (error) {
+      setIsLoading(false);
+      showError("Could not match email. Please try again or contact support.");
+      postNewErrorLog(error, "Authenticate.js", "login");
+    }
+    if (login.valid === true) {
+      setIsValidatingEmail(false);
+      setEmailValidationCheck(true);
+      var loginData = {
+        user_id: login.id,
+        email: login.email,
+        browser: props.browserData,
+        recent_attempts: loginAttempts,
+        version: props.userAgentData,
+        platform: props.platformOS,
+        app_code_name: props.appCodeNameData,
+        id_token: login.management_user,
+      };
 
-        var appLoginPayload = {
-          recent_attempts: loginAttempts,
-          sessionId: login.session,
-        }
+      var appLoginPayload = {
+        recent_attempts: loginAttempts,
+        sessionId: login.session,
+      };
 
+      try {
         await sendLoginInfo(loginData);
-        const appLoginData = await sendAppLoginData(appLoginPayload);
-        const setUserActive = await userManager.setUserAsActive({ is_currently_active: "True" }, login.id, getTokenSilently)
-        setIsActive(setUserActive);
-        setAuthUserLoginData(appLoginData);
-        setAuthUser(login);
-        setAuthToken(login.QuantumToken);
-
-        // Calling function that sets the token in session storage, and sets isLogged in to true.
-        props.setDjangoToken(login);
-        sessionStorage.setItem("sessionId", login.session);
-        appInitOptionsCredentials['django_token'] = login.QuantumToken;
-        appInitOptionsCredentials['session_id'] = login.session;
-
-        const authInitCredentialsResult = await userManager.postInitAppOptions(appInitOptionsCredentials);
-        setInitOptions(authInitCredentialsResult);
-
-        postAppLoginDataActivityLog({"Confirm Button": "modal__btn-primary"}, props, login.id, "Authenticate.js", "sendAppLoginData")
+      } catch (error) {
         setIsLoading(false);
-        props.history.push("/home");
-      } else {
-        alert("Invalid email");
+        showError("Login Info Error. Please contact support.");
+        postNewErrorLog(error, "Authenticate.js", "sendLoginInfo");
       }
-    } catch (err) {
-      postNewErrorLog(err, "Authenticate.js", "login");
+
+      try {
+        setEmailValidationCheck(false);
+        setIsLoading(true);
+        var appLoginData = await sendAppLoginData(appLoginPayload);
+      } catch (error) {
+        setIsLoading(false);
+        showError("Oops! Something went wrong. Please try again.");
+        postNewErrorLog(error, "Authenticate.js", "appLoginData");
+      }
+
+      userManager
+        .setUserAsActive({ is_currently_active: "True" }, login.id, getTokenSilently)
+        .then((resp) => {
+          setIsActive(resp);
+          setAuthUserLoginData(appLoginData);
+          setAuthUser(login);
+          setAuthToken(login.QuantumToken);
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          showError("Oops! Something went wrong. Please try again.");
+          postNewErrorLog(error, "Authenticate.js", "userManager.setUserAsActive");
+        });
+
+      // Calling function that sets the token in session storage, and sets isLogged in to true.
+      props.setDjangoToken(login);
+      sessionStorage.setItem("sessionId", login.session);
+      appInitOptionsCredentials["django_token"] = login.QuantumToken;
+      appInitOptionsCredentials["session_id"] = login.session;
+
+      try {
+        var authInitCredentialsResult = await userManager.postInitAppOptions(appInitOptionsCredentials);
+      } catch (error) {
+        setIsLoading(false);
+        showError("Oops! Something went wrong. Please try again.");
+        postNewErrorLog(error, "Authenticate.js", "userManager.setUserAsActive");
+      }
+
+      setInitOptions(authInitCredentialsResult);
+      await postAppLoginDataActivityLog({ "Confirm Button": "modal__btn-primary" }, props, login.id, "Authenticate.js", "sendAppLoginData");
+      setIsLoading(false);
+      props.history.push("/home");
+    } else {
+      setIsLoading(false);
+      showError("Could not match email. Please try again.");
     }
   };
-
 
   function getCookie(cookieName) {
     let name = cookieName + "=";
@@ -104,6 +146,8 @@ const Authenticate = (props) => {
     }
     return "";
   }
+
+
   if (isLoading) {
     return (
       <div className="loading fade_in">
@@ -120,43 +164,58 @@ const Authenticate = (props) => {
     );
   }
 
+
   return (
     <div className="modal micromodal-slide" id="modal-1" aria-hidden="true">
       <div className="modal__overlay" tabIndex="-1" data-micromodal-close>
-        <div className="modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
-          <header className="modal__header">
-            <h2 className="modal__title" id="modal-1-title">
+        <div className="auth_modal__container" role="dialog" aria-modal="true" aria-labelledby="modal-1-title">
+          <header className="auth_modal__header">
+            <h2 className="auth_modal__title" id="modal-1-title">
               Confirm Email To Login
             </h2>
-            <button className="modal__close" aria-label="Close modal" data-micromodal-close></button>
+            <button className="auth_modal__close" aria-label="Close modal" data-micromodal-close></button>
           </header>
 
-          <main className="modal__content" id="modal-1-content">
-            <form className="new_form" id="modal" onSubmit={loginSubmit}>
-              <div className="fieldset_container">
-                <fieldset className="new_form" id="modal">
-                  <label className="new_form_modal" htmlFor="email">
-                    <div className="type_modal_label">Email: </div>
-                  </label>
+          <main className="auth_modal__content" id="modal-1-content">
+            <form className="new_form" id="auth_modal" onSubmit={loginSubmit}>
+              <div className="auth_fieldset_container">
+                <fieldset className="auth_new_form">
+                  <label className="auth_label" htmlFor="email">Email: </label>
                   <input
                     required
-                    className="new_form"
+                    className="auth_input"
                     id="email"
-                    type="text"
+                    type="email"
                     name="email"
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </fieldset>
               </div>
-              <footer className="modal__footer">
-                <button id="modal__btn-primary" type="submit" style={{ marginRight: "8px" }} onClick={attempts}>
+              {isValidatingEmail ? (
+                <div className="validating_email_container">
+                  <div id="auth_spinner"></div>
+                </div>
+              ) : null}
+              {isLoginError ? (
+                <div className="error_message_container">
+                  <i id="fa_triangle" className="fas fa-exclamation-triangle"></i>
+                  <div className="error_message">{errorMessage}</div>
+                </div>
+              ) : null}
+              {emailValidationCheck ? (
+                <div className="success_check_wrapper">
+                  <i id="auth_check" className="fas fa-check-circle"></i>
+                </div>
+              ) : null}
+              <footer className="auth_modal__footer">
+                <button id="auth_modal__btn-primary" type="submit" style={{ marginRight: "8px" }} onClick={attempts}>
                   Confirm
                 </button>
               </footer>
             </form>
 
             <div className="signature">
-              <p>
+              <p id="signature_auth_modal">
                 Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a>{" "}
                 <i className="fas fa-trademark"></i>
               </p>

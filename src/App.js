@@ -48,11 +48,6 @@ const App = (props) => {
         if (hasQuantumToken) {
           console.log("App.js: hasQuantumToken");
         }
-        //   console.log({authInitOptions})
-        //   setInitOptions(authInitOptions)
-          // const updateAuthInitCredentials = await userManager.postInitAppOptions(authInitOptions);
-          // setInitOptions(updateAuthInitCredentials);
-        // }
         setInitOptions(authInitOptions)
         parseUserAgent(userAgent, setBrowserData, setUserAgentData);
         setPlatformOS(platformOperatingSystem);
@@ -84,7 +79,6 @@ const App = (props) => {
     let decodedCookie = decodeURIComponent(document.cookie);
     let cookieArray = decodedCookie.split(";");
     console.log("App.js - cookieArray", cookieArray);
-
     let cookiesInSession = [];
     let otherCookies = [];
     let allCookies = {};

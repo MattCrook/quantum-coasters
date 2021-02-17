@@ -39,7 +39,6 @@ const Home = (props) => {
   const bugTitle = useRef();
   const bugDescription = useRef();
 
-
   const toggleProfileDropdown = () => setIsProfileDropdown(!isProfileDropdown);
 
   const handleOpenFeedBack = () => {
@@ -189,6 +188,25 @@ const Home = (props) => {
                   Report a Bug
                 </div>
                 <i className="fas fa-bug"></i>
+              </div>
+            </>
+          </div>
+        ) : null}
+
+        {!loading && isProfileDropdown && isAuthenticated && !isLoggedIn ? (
+          <div className="home_profile_dropdown_container">
+            <>
+              <div className="home_profile_dropdown_row">
+                <div className="home_profile_dropdown_item" onClick={() => redirectToAdminLogin()}>
+                  Admin
+                </div>
+                <i className="fas fa-user-lock"></i>
+              </div>
+              <div className="home_profile_dropdown_row">
+                <div className="home_profile_dropdown_item">
+                  Help
+                </div>
+                <i className="fas fa-question-circle"></i>
               </div>
             </>
           </div>

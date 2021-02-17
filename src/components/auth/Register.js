@@ -18,7 +18,6 @@ const Register = (props) => {
     logout,
     clearStorage,
     getTokenSilently,
-    appInitOptions,
   } = useAuth0();
   var appInitOptionsCredentials = props.initOptions
   const [initOptions, setInitOptions] = useState([]);
@@ -29,6 +28,7 @@ const Register = (props) => {
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [authUserAppLoginData, setAuthUserAppLoginData] = useState([]);
   const [isActive, setIsActive] = useState('');
+  const [isLoginError, setIsLoginError] = useState(false);
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -71,7 +71,6 @@ const Register = (props) => {
           {
             label: "Ok",
             onClick: async () => {
-              setIsLoading(true);
               const newUserObject = {
                 first_name: formData.first_name.trim(),
                 last_name: formData.last_name.trim(),
@@ -86,6 +85,7 @@ const Register = (props) => {
                 transactions: transactions,
               };
               try {
+                setIsLoading(true);
                 const registerUser = await userManager.register(newUserObject);
                 // Django User is object I specified to come back from API in register.py
                 if ("DjangoUser" in registerUser) {
@@ -118,8 +118,6 @@ const Register = (props) => {
                   setAuthUser(registerUser.DjangoUser);
                   sessionStorage.setItem("sessionId", registerUser.DjangoUser.session);
 
-                  console.log(appInitOptions)
-                  console.log({appInitOptionsCredentials})
                   appInitOptionsCredentials['django_token'] = registerUser.DjangoUser.QuantumToken;
                   appInitOptionsCredentials['session_id'] = registerUser.DjangoUser.session;
                   const authInitCredentialsResult = await userManager.postInitAppOptions(appInitOptionsCredentials);
@@ -133,6 +131,7 @@ const Register = (props) => {
                 }
               } catch (err) {
                 console.log(err);
+                setIsLoginError(true);
                 postNewErrorLog(err, "Register.js", "handleFormSubmit");
               }
             },

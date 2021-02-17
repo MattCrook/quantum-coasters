@@ -7,7 +7,7 @@ import "bulma/css/bulma.css";
 const LandingPage = (props) => {
   const { loading, user, loginWithRedirect, clearStorage, isAuthenticated, djangoRestAuthLogout, logout, loginWithPopup } = useAuth0();
   const { isLoggedIn, authUser } = props;
-  console.log({props})
+
 
   const redirectToConfirmEmail = () => {
     props.history.push("/home");
@@ -64,7 +64,7 @@ const LandingPage = (props) => {
               )}
               {!loading && !user && !isAuthenticated && isLoggedIn && !authUser && (
                 <button
-                  onClick={loginWithPopup}
+                  onClick={reAuthenticateRedirect}
                   className="navbar-item"
                   id="confirm_email_landing_page"
                 >

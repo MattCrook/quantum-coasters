@@ -8,9 +8,10 @@
 .nav-link {
   color: black;
   margin-top: 15px;
-  font-variant: small-caps;
-  font-feature-settings: "c2sc";
+  text-transform: uppercase;
   color: #000000;
+  font-family: sans-serif;
+  font-size: 12px;
 }
 
 .nav-link-li {
