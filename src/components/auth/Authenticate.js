@@ -18,12 +18,12 @@ const Authenticate = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isActive, setIsActive] = useState("");
   const [authUserLoginData, setAuthUserLoginData] = useState([]);
-  var appInitOptionsCredentials = props.initOptions;
   const [initOptions, setInitOptions] = useState([]);
   const [isLoginError, setIsLoginError] = useState(false);
   const [isValidatingEmail, setIsValidatingEmail] = useState(false); // spinner
   const [emailValidationCheck, setEmailValidationCheck] = useState(false);  // check icon
   const [errorMessage, setErrorMessage] = useState('');   // Error message
+  var appInitOptionsCredentials = props.initOptions;
 
   const showError = (message) => {
     setIsValidatingEmail(false);
