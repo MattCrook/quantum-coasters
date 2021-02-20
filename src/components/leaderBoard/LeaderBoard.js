@@ -45,7 +45,9 @@ const LeaderBoard = (props) => {
     <>
         <NavHeader {...props} />
       <div className="leaderBoard-header">
-        <p className="leaderBoard-title">Quantum LeaderBoard</p>
+        <p>Coming Soon</p>
+        </div>
+        {/* <p className="leaderBoard-title">Quantum LeaderBoard</p>
         <div className="leaderboard_sub_header">Leaderboard represents all users across Quantum Coasters. Compete for coaster credits to become Coaster King!</div>
       </div>
       <div className="leaderBoard-main-content">
@@ -66,7 +68,7 @@ const LeaderBoard = (props) => {
             </p>
           </div>
         ))}
-      </div>
+      </div> */}
     </>
   );
 };

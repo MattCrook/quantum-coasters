@@ -4,7 +4,7 @@ import { useAuthUser } from "./contexts/AuthUserContext";
 import { BrowserRouter } from "react-router-dom";
 import NavBar from "./components/nav/NavBar";
 import ApplicationViews from "./components/ApplicationViews";
-import userManager from "./modules/users/userManager";
+// import userManager from "./modules/users/userManager";
 import { parseUserAgent } from "./modules/Helpers";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ErrorLogProvider } from "./contexts/ErrorLogContext";
@@ -22,7 +22,7 @@ const App = (props) => {
   const { userAgent } = navigator;
   const appCodeName = navigator.appCodeName;
   const platformOperatingSystem = navigator.platform;
-  const hasCredentials = sessionStorage.getItem("QuantumToken") !== null;
+  const hasQuantumToken = sessionStorage.getItem("QuantumToken") !== null;
 
 
   useEffect(() => {
@@ -45,18 +45,17 @@ const App = (props) => {
           authInitOptions['cookies'] = allCookies[0];
         }
 
-        if (hasCredentials) {
-          const updateAuthInitCredentials = await userManager.postInitAppOptions(authInitOptions);
-          setInitOptions(updateAuthInitCredentials);
+        if (hasQuantumToken) {
+          console.log("App.js: hasQuantumToken");
         }
-
+        setInitOptions(authInitOptions)
         parseUserAgent(userAgent, setBrowserData, setUserAgentData);
         setPlatformOS(platformOperatingSystem);
         setAppCodeNameData(appCodeName);
       };
       init();
     }
-  }, [appCodeName, appInitOptions, hasCredentials, isAuthenticated, platformOperatingSystem, user, userAgent]);
+  }, [appCodeName, appInitOptions, hasQuantumToken, isAuthenticated, platformOperatingSystem, user, userAgent]);
 
 
   if (loading) {
@@ -75,11 +74,11 @@ const App = (props) => {
     )
   }
 
+
   function getallCookies() {
     let decodedCookie = decodeURIComponent(document.cookie);
     let cookieArray = decodedCookie.split(";");
-    console.log({cookieArray});
-
+    console.log("App.js - cookieArray", cookieArray);
     let cookiesInSession = [];
     let otherCookies = [];
     let allCookies = {};

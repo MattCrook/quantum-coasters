@@ -24,8 +24,8 @@ import BulkUploadForm from "./addNewForm/BulkUploadForm";
 // import AuthRoute from "./AuthRoute";
 
 const ApplicationViews = (props) => {
-  const { isAuthenticated, user } = useAuth0();
-  const { browserData, userAgentData, platformOS, appCodeNameData } = props;
+  const { isAuthenticated, user, loading } = useAuth0();
+  const { browserData, userAgentData, platformOS, appCodeNameData, initOptions } = props;
   const {
     authUser,
     setAuthUser,
@@ -45,13 +45,15 @@ const ApplicationViews = (props) => {
     setIsLoggedIn(hasLoggedIn());
   };
 
+
+
   return (
     <React.Fragment>
       <Route
         exact
         path="/"
         render={(props) => {
-          if (user && isAuthenticated && !isLoggedIn) {
+          if (!loading && user && isAuthenticated && !isLoggedIn) {
             return (
               <Home
                 userProfile={userProfile}
@@ -67,11 +69,14 @@ const ApplicationViews = (props) => {
                 userAgentData={userAgentData}
                 platformOS={platformOS}
                 appCodeNameData={appCodeNameData}
+                initOptions={initOptions}
                 {...props}
               />
             );
+          } else if (!loading && user && isAuthenticated && isLoggedIn && authUser) {
+            return <LandingPage isLoggedIn={isLoggedIn} authUser={authUser} {...props} />;
           } else {
-            return <LandingPage isLoggedIn={isLoggedIn} {...props} />;
+            return <LandingPage isLoggedIn={isLoggedIn} {...props}/>;
           }
         }}
       />
@@ -92,11 +97,12 @@ const ApplicationViews = (props) => {
                 userAgentData={userAgentData}
                 platformOS={platformOS}
                 appCodeNameData={appCodeNameData}
+                initOptions={initOptions}
                 {...props}
               />
             );
           } else {
-            return <LandingPage />;
+            return <LandingPage isLoggedIn={isLoggedIn} {...props}/>;
           }
         }}
       />
@@ -104,7 +110,7 @@ const ApplicationViews = (props) => {
         exact
         path="/home"
         render={(props) => {
-          if (isAuthenticated) {
+          if (isAuthenticated && !loading) {
             return (
               <Home
                 userProfile={userProfile}
@@ -120,15 +126,15 @@ const ApplicationViews = (props) => {
                 userAgentData={userAgentData}
                 platformOS={platformOS}
                 appCodeNameData={appCodeNameData}
+                initOptions={initOptions}
                 {...props}
               />
             );
           } else {
-            return <LandingPage />;
+            return <LandingPage isLoggedIn={isLoggedIn} {...props}/>;
           }
         }}
       />
-
       <Route
         exact
         path="/user/profile/credits"
@@ -146,7 +152,7 @@ const ApplicationViews = (props) => {
               />
             );
           } else {
-            return <LandingPage />;
+            return <LandingPage isLoggedIn={isLoggedIn} {...props}/>;
           }
         }}
       />
@@ -167,7 +173,7 @@ const ApplicationViews = (props) => {
               />
             );
           } else {
-            return <LandingPage />;
+            return <LandingPage isLoggedIn={isLoggedIn} {...props}/>;
           }
         }}
       />
@@ -178,7 +184,7 @@ const ApplicationViews = (props) => {
           if (isAuthenticated && authUser.id && isLoggedIn) {
             return <NewRollerCoaster {...props} />;
           } else {
-            return <LandingPage />;
+            return <LandingPage isLoggedIn={isLoggedIn} {...props}/>;
           }
         }}
       />
@@ -186,10 +192,10 @@ const ApplicationViews = (props) => {
         exact
         path="/forum"
         render={(props) => {
-          if (isAuthenticated && authUser.id && isLoggedIn) {
+          if (!loading && isAuthenticated && authUser.id && isLoggedIn) {
             return <Forum {...props} />;
           } else {
-            return <LandingPage />;
+            return <LandingPage isLoggedIn={isLoggedIn} {...props}/>;
           }
         }}
       />
@@ -200,7 +206,7 @@ const ApplicationViews = (props) => {
           if (isAuthenticated && authUser.id && isLoggedIn) {
             return <MessageList {...props} />;
           } else {
-            return <LandingPage />;
+            return <LandingPage isLoggedIn={isLoggedIn} {...props}/>;
           }
         }}
       />
@@ -211,7 +217,7 @@ const ApplicationViews = (props) => {
           if (isAuthenticated && authUser.id && isLoggedIn) {
             return <EditProfile userProfileId={parseInt(props.match.params.userProfileId)} {...props} />;
           } else {
-            return <LandingPage />;
+            return <LandingPage isLoggedIn={isLoggedIn} {...props}/>;
           }
         }}
       />
@@ -224,7 +230,7 @@ const ApplicationViews = (props) => {
               <LeaderBoard userProfile={userProfile} authUser={authUser} setUserProfile={setUserProfile} {...props} />
             );
           } else {
-            return <LandingPage />;
+            return <LandingPage isLoggedIn={isLoggedIn} {...props}/>;
           }
         }}
       />
@@ -245,7 +251,7 @@ const ApplicationViews = (props) => {
               />
             );
           } else {
-            return <LandingPage />;
+            return <LandingPage isLoggedIn={isLoggedIn} {...props}/>;
           }
         }}
       />
@@ -256,7 +262,7 @@ const ApplicationViews = (props) => {
           if (isAuthenticated && authUser.id && isLoggedIn) {
             return <AddPark authUser={authUser} {...props} />;
           } else {
-            return <LandingPage />;
+            return <LandingPage isLoggedIn={isLoggedIn} {...props}/>;
           }
         }}
       />
@@ -267,7 +273,7 @@ const ApplicationViews = (props) => {
           if (isAuthenticated && authUser.id && isLoggedIn) {
             return <News userProfile={userProfile} authUser={authUser} {...props} />;
           } else {
-            return <LandingPage />;
+            return <LandingPage isLoggedIn={isLoggedIn} {...props}/>;
           }
         }}
       />
@@ -278,7 +284,7 @@ const ApplicationViews = (props) => {
           if (isAuthenticated && authUser.id && isLoggedIn) {
             return <BlogContributorForm userProfile={userProfile} authUser={authUser} {...props} />;
           } else {
-            return <LandingPage />;
+            return <LandingPage isLoggedIn={isLoggedIn} {...props}/>;
           }
         }}
       />
@@ -289,7 +295,7 @@ const ApplicationViews = (props) => {
           if (isAuthenticated && authUser.id && isLoggedIn) {
             return <Plan userProfile={userProfile} authUser={authUser} {...props} />;
           } else {
-            return <LandingPage />;
+            return <LandingPage isLoggedIn={isLoggedIn} {...props}/>;
           }
         }}
       />
@@ -300,7 +306,7 @@ const ApplicationViews = (props) => {
           if (isAuthenticated && authUser.id && isLoggedIn) {
             return <NewEventForm userProfile={userProfile} authUser={authUser} {...props} />;
           } else {
-            return <LandingPage />;
+            return <LandingPage isLoggedIn={isLoggedIn} {...props}/>;
           }
         }}
       />
@@ -311,7 +317,7 @@ const ApplicationViews = (props) => {
           if (isAuthenticated && authUser.id && isLoggedIn) {
             return <ParkListForBulkSubmit userProfile={userProfile} authUser={authUser} {...props} />;
           } else {
-            return <LandingPage />;
+            return <LandingPage isLoggedIn={isLoggedIn} {...props}/>;
           }
         }}
       />
@@ -329,7 +335,7 @@ const ApplicationViews = (props) => {
               />
             );
           } else {
-            return <LandingPage />;
+            return <LandingPage isLoggedIn={isLoggedIn} {...props}/>;
           }
         }}
       />

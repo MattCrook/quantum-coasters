@@ -172,9 +172,8 @@ const userManager = {
         body: JSON.stringify(payload),
       });
       if (response.ok) {
-        const jsonResponse = await response.json();
-        console.log({ jsonResponse });
-        return jsonResponse;
+        const resp = response;
+        console.log({resp})
       }
       throw new Error("Verify Email Request Failed");
     } catch (err) {
@@ -195,9 +194,8 @@ const userManager = {
         body: JSON.stringify(payload),
       });
       if (response.ok) {
-        const jsonResponse = await response.json();
-        console.log({ jsonResponse });
-        return jsonResponse;
+        const resp = response;
+        console.log({resp})
       }
       throw new Error("Verify Email Request Failed");
     } catch (err) {

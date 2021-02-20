@@ -8,8 +8,21 @@
 .nav-link {
   color: black;
   margin-top: 15px;
-  font-variant: small-caps;
-  transition: 0.4s all ease;
+  text-transform: uppercase;
+  color: #000000;
+  font-family: sans-serif;
+  font-size: 12px;
+}
+
+.nav-link-li {
+  color: #000000;
+  transition: 0.3s all ease;
+}
+
+
+.nav-link-li:hover {
+  color: #9b9b9b;
+
 }
 
 #navbar_end {

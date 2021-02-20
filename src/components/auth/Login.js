@@ -5,14 +5,18 @@ import "../auth/Login.css";
 import "bulma/css/bulma.css";
 
 const LandingPage = (props) => {
-  const {
-    loading,
-    user,
-    loginWithRedirect,
-    clearStorage,
-    isAuthenticated,
-  } = useAuth0();
-  const { isLoggedIn } = props;
+  const { loading, user, loginWithRedirect, clearStorage, isAuthenticated, djangoRestAuthLogout, logout, loginWithPopup } = useAuth0();
+  const { isLoggedIn, authUser } = props;
+
+
+  const redirectToConfirmEmail = () => {
+    props.history.push("/home");
+  }
+
+  const reAuthenticateRedirect = async () => {
+    // clearStorage();
+    await loginWithPopup();
+  }
 
   return (
     <>
@@ -41,14 +45,42 @@ const LandingPage = (props) => {
             </div>
             {/* if for some reason user lands on this page and is logged in, show home and logout button */}
             <div className="logout_landing_page_btn">
-              {!loading && user && isAuthenticated && isLoggedIn && (
-                <button onClick={clearStorage} className="navbar-item">
+              {!loading && user && isAuthenticated && isLoggedIn && authUser && (
+                <button
+                  onClick={() => djangoRestAuthLogout(logout, clearStorage, authUser)}
+                  className="navbar-item">
                   Logout
+                </button>
+              )}
+              {!loading && user && isAuthenticated && !isLoggedIn && (
+                <button
+                  onClick={() => redirectToConfirmEmail()}
+                  className="navbar-item"
+                  id="confirm_email_landing_page"
+                >
+                  Confirm Email
+                  <i className="fas fa-long-arrow-alt-right"></i>
+                </button>
+              )}
+              {!loading && !user && !isAuthenticated && isLoggedIn && !authUser && (
+                <button
+                  onClick={reAuthenticateRedirect}
+                  className="navbar-item"
+                  id="confirm_email_landing_page"
+                >
+                  Login
+                  <i className="fas fa-long-arrow-alt-right"></i>
                 </button>
               )}
             </div>
           </div>
         </nav>
+        {!loading && !user && !isAuthenticated && isLoggedIn && !authUser && (
+          <div className="session_exp_wrapper">
+            <i className="fas fa-exclamation-circle"></i>
+          <div className="session_expired_banner"> Your session has expired. Please log in again.</div>
+          </div>
+        )}
         <div className="hero is-fullheight">
           <div className="hero-body bg-img" style={{ marginTop: "20px" }}>
             <div className="container has-text-centered login-foo"></div>

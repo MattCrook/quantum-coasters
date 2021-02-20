@@ -22,3 +22,72 @@
 .login_btn_container i {
     margin-left: 9px;
 }
+
+#confirm_email_landing_page i {
+  margin-left: 10px;
+}
+
+
+#confirm_email_landing_page {
+  padding: 4px 15px;
+  /* margin: 9px 5px; */
+  color: rgb(243, 243, 243);
+  font-family: sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+  position: relative;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 13px;
+}
+
+#confirm_email_landing_page::before {
+  content: "";
+  position: absolute;
+  bottom: 0%;
+  left: 0px;
+  width: 100%;
+  height: 1px;
+  background: #f7f7f7;
+  display: block;
+  -webkit-transform-origin: right top;
+  -ms-transform-origin: right top;
+  transform-origin: right top;
+  -webkit-transform: scale(0, 1);
+  -ms-transform: scale(0, 1);
+  transform: scale(0, 1);
+  -webkit-transition: transform 0.4s cubic-bezier(1, 0, 0, 1);
+  transition: transform 0.4s cubic-bezier(1, 0, 0, 1);
+}
+
+#confirm_email_landing_page:hover::before {
+  color: rgb(240, 240, 240);
+  -webkit-transform-origin: left top;
+  -ms-transform-origin: left top;
+  transform-origin: left top;
+  -webkit-transform: scale(1, 1);
+  -ms-transform: scale(1, 1);
+  transform: scale(1, 1);
+}
+
+#confirm_email_landing_page:hover {
+  color: rgb(255, 255, 255);
+}
+
+
+.session_exp_wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 8px;
+}
+.session_expired_banner {
+  display: flex;
+  justify-content: center;
+  font: 400 1em helvetica neue, open sans, sans-serif;
+}
+
+.session_exp_wrapper i {
+  margin-right: 8px;
+  color: rgb(97, 38, 38);
+}

@@ -3,8 +3,9 @@
 
 ## Setup
 
-1. `git clone git@github.com:MattCrook/quantum-front-end-capstone.git`
-1. `cd` into the directory it creates
+* `git clone git@github.com:MattCrook/quantum-front-end-capstone.git`
+#### Run with JSON Server
+* `cd` into the directory it creates
    1. * Note: *the JSON Server functionality is depreciated*.
    2. To run locally using `json-server` do the following steps:
    3. `mkdir api`
@@ -14,10 +15,14 @@
    7. `npm install` to build dependencies
    8. `json-server -p 8200 -w api/database.json`...or I've set up a development server, so you can run `npm run dev-server` to run json-server.
    9.  Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-2.  Or, ***preferably***, run with the **QuantumAPI**.
-    1.  Run `npm install`.
-    2.  Run `npm run dev`.
-    3.  To see instructions on running the API, click [here](https://github.com/MattCrook/quantumapp-api).
+
+#### Run Locally with QuantumAPI
+* Or, ***preferably***, run with the **QuantumAPI**.
+    1. `git clone git@github.com:MattCrook/quantum-front-end-capstone.git`
+    2. `cd` into the directory it creates
+    3.  Run `npm install`.
+    4.  Run `npm run dev`.
+    5.  To see instructions on running the API, click [here](https://github.com/MattCrook/quantumapp-api).
 
 ## Overview
 

@@ -152,7 +152,7 @@ button.btn {
   align-items: center;
   justify-content: space-evenly;
   flex-direction: row;
-  width: 17.5%;
+  width: 13%;
   margin-right: 0.5%;
 }
 
@@ -244,37 +244,6 @@ button.btn {
   color: rgb(248, 248, 248);
 }
 
-/* .add-new-credit-btn {
-  color: #fff;
-  background-color: #363636;
-  border: 5px solid #363636;
-  -webkit-transition: 0.2s;
-  transition: 0.2s;
-  font-size: 16px;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-right: 20px;
-}
-.add-new-credit-btn.inset:hover {
-  box-shadow: inset 0px -1px 0px 0px rgb(207, 206, 206);
-  color: rgb(207, 206, 206);
-} */
-
-/* .edit-profile-button {
-  color: #fff;
-  background-color: #363636;
-  border: 5px solid #363636;
-  -webkit-transition: 0.2s;
-  transition: 0.2s;
-  font-size: 16px;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-left: 20px;
-}
-.edit-profile-button.inset:hover {
-  box-shadow: inset 0px -1px 0px 0px #fff;
-} */
-
 .add-new-credit-btn {
   padding: 8px 40px;
   margin: 9px 5px;
@@ -336,7 +305,7 @@ button.btn {
   justify-content: space-between;
   padding-top: 2px;
   padding-bottom: 2px;
-  transition: 0.5s  all ease;
+  transition: 0.5s all ease;
   box-shadow: 1px 6px 4px 1px rgb(182, 182, 182);
 }
 
@@ -957,7 +926,7 @@ button.btn {
   margin-right: 1.5%;
 } */
 
-#profile_list_logout_btn  {
+#profile_list_logout_btn {
   padding: 5px 15px;
   /* margin: 9px 5px; */
   margin-right: 2%;

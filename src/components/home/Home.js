@@ -159,7 +159,7 @@ const Home = (props) => {
           </div>
         </nav>
 
-        {isProfileDropdown && isAuthenticated && isLoggedIn ? (
+        {!loading && isProfileDropdown && isAuthenticated && isLoggedIn ? (
           <div className="home_profile_dropdown_container">
             <>
               <div className="home_profile_dropdown_row">
@@ -188,6 +188,25 @@ const Home = (props) => {
                   Report a Bug
                 </div>
                 <i className="fas fa-bug"></i>
+              </div>
+            </>
+          </div>
+        ) : null}
+
+        {!loading && isProfileDropdown && isAuthenticated && !isLoggedIn ? (
+          <div className="home_profile_dropdown_container">
+            <>
+              <div className="home_profile_dropdown_row">
+                <div className="home_profile_dropdown_item" onClick={() => redirectToAdminLogin()}>
+                  Admin
+                </div>
+                <i className="fas fa-user-lock"></i>
+              </div>
+              <div className="home_profile_dropdown_row">
+                <div className="home_profile_dropdown_item">
+                  Help
+                </div>
+                <i className="fas fa-question-circle"></i>
               </div>
             </>
           </div>
@@ -228,6 +247,7 @@ const Home = (props) => {
                 userAgentData={props.userAgentData}
                 platformOS={props.platformOS}
                 appCodeNameData={props.appCodeNameData}
+                initOptions={props.initOptions}
                 {...props}
               />
             </>
@@ -255,9 +275,10 @@ const Home = (props) => {
                 <button
                   data-testid="complete-profile-btn-testid"
                   className="login_alt_edge_case_link"
-                  onClick={() => djangoRestAuthLogout(logout, clearStorage, authUser)}
+                  onClick={clearStorage}
+                  // onClick={() => djangoRestAuthLogout(logout, clearStorage, authUser)}
                 >
-                  Login
+                  Back to Login
                 </button>
                 <Link data-testid="complete-profile-btn-testid" className="register_alt_edge_case_link" to="register/">
                   Register
