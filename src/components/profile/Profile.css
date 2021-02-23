@@ -152,8 +152,8 @@ button.btn {
   align-items: center;
   justify-content: space-evenly;
   flex-direction: row;
-  width: 13%;
-  margin-right: 0.5%;
+  width: 17%;
+  /* margin-right: 0.5%; */
 }
 
 .name-profile-list {

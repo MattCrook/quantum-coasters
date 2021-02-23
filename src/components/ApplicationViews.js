@@ -20,7 +20,6 @@ import NewEventForm from "./plan/calendarComponents/NewEventForm";
 import Forum from "./messages/Forum";
 import ParkListForBulkSubmit from "./addNewForm/ParkListForBulkSubmit";
 import BulkUploadForm from "./addNewForm/BulkUploadForm";
-
 // import AuthRoute from "./AuthRoute";
 
 const ApplicationViews = (props) => {
@@ -34,7 +33,7 @@ const ApplicationViews = (props) => {
     authToken,
     setAuthToken,
     userCredits,
-    setUserCredits,
+    setUserCredits
   } = useAuthUser();
 
   const hasLoggedIn = () => sessionStorage.getItem("QuantumToken") !== null;
@@ -44,7 +43,6 @@ const ApplicationViews = (props) => {
     sessionStorage.setItem("QuantumToken", resp.QuantumToken);
     setIsLoggedIn(hasLoggedIn());
   };
-
 
 
   return (

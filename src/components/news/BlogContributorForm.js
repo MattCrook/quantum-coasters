@@ -79,7 +79,7 @@ const BlogContributorForm = (props) => {
             <label id="apply_email_label" className="apply_form_label" htmlFor="applyEmail">
               Email
             </label>
-            <input className="input_apply" ref={email} type="text" id="applyEmail" required />
+            <input className="input_apply" ref={email} type="text" id="applyEmail" placeholder="example@gmail.com"required />
 
             <label id="apply_website_label" className="apply_form_label" htmlFor="website">
               Website/ Personal Blog
@@ -89,8 +89,11 @@ const BlogContributorForm = (props) => {
               ref={website}
               type="text"
               id="website"
-              placeholder="Please include link to website, personal blog, if you have one."
             />
+            <ul className="apply_ul">
+              <li className="apply_li">Please include link to website, personal blog, if you have one.</li>
+            </ul>
+
 
             <label id="register_form_social_label" className="apply_form_label" htmlFor="social_media">
               Social Media
@@ -100,8 +103,10 @@ const BlogContributorForm = (props) => {
               ref={socialMedia}
               type="text"
               id="social_media"
-              placeholder="Include link to at least one social media account. (*Optional)"
             />
+            <ul className="apply_ul">
+              <li className="apply_li">Include link to at least one social media account. (*Optional)</li>
+            </ul>
             <label id="apply_form_final_words_label" className="apply_form_label" htmlFor="short_description">
               Final Words
             </label>
@@ -110,20 +115,22 @@ const BlogContributorForm = (props) => {
               ref={shortDescription}
               type="message"
               id="short_description"
-              placeholder="Short description why you'd like to become a contributor."
             />
+            <ul className="apply_ul">
+              <li className="apply_li">Short description why you'd like to become a contributor.</li>
+            </ul>
 
             <button className="apply-create-btn" type="submit" disabled={isLoading}>
               Finish
             </button>
           </div>
-        </fieldset>
-      </form>
-      <div className="signature">
-        <p>
+          <div className="signature">
+        <p id="signature_font_news_apply">
           Made by <a href="https://matt-crook-io.now.sh/">Quantum Coasters</a> <i className="fas fa-trademark"></i>
         </p>
       </div>
+        </fieldset>
+      </form>
     </>
   );
 };

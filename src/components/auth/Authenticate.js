@@ -12,14 +12,14 @@ const Authenticate = (props) => {
   const { postNewErrorLog } = useErrorLog();
   const [email, setEmail] = useState(user.email);
   const [loginAttempts, setLoginAttempts] = useState(0);
-  const { setAuthUser, setAuthToken } = useAuthUser();
+  const { setAuthUser, setAuthToken, setAuthUserData } = useAuthUser();
   const { sendLoginInfo, postAppLoginDataActivityLog } = useActivityLog();
   const salt = user.sub.split("|")[1];
   const [isLoading, setIsLoading] = useState(false);
   const [isActive, setIsActive] = useState("");
-  const [authUserLoginData, setAuthUserLoginData] = useState([]);
+  const [appLoginData, setAppLoginData] = useState([]);
   const [initOptions, setInitOptions] = useState([]);
-  const [isLoginError, setIsLoginError] = useState(false);
+  const [isLoginError, setIsLoginError] = useState(false); // Error State
   const [isValidatingEmail, setIsValidatingEmail] = useState(false); // spinner
   const [emailValidationCheck, setEmailValidationCheck] = useState(false);  // check icon
   const [errorMessage, setErrorMessage] = useState('');   // Error message
@@ -36,6 +36,7 @@ const Authenticate = (props) => {
   }, [loginAttempts]);
 
   const loginSubmit = async (e) => {
+    setIsLoginError(false);
     setIsValidatingEmail(true);
     e.preventDefault();
     var csrfCookie = getCookie("csrftoken");
@@ -57,6 +58,7 @@ const Authenticate = (props) => {
     }
     if (login.valid === true) {
       setIsValidatingEmail(false);
+      setIsLoginError(false);
       setEmailValidationCheck(true);
       var loginData = {
         user_id: login.id,
@@ -75,7 +77,7 @@ const Authenticate = (props) => {
       };
 
       try {
-        await sendLoginInfo(loginData);
+        var loginInfo = await sendLoginInfo(loginData);
       } catch (error) {
         setIsLoading(false);
         showError("Login Info Error. Please contact support.");
@@ -83,9 +85,10 @@ const Authenticate = (props) => {
       }
 
       try {
+        setIsLoginError(false);
         setEmailValidationCheck(false);
         setIsLoading(true);
-        var appLoginData = await sendAppLoginData(appLoginPayload);
+        var appLoginResult = await sendAppLoginData(appLoginPayload);
       } catch (error) {
         setIsLoading(false);
         showError("Oops! Something went wrong. Please try again.");
@@ -96,7 +99,7 @@ const Authenticate = (props) => {
         .setUserAsActive({ is_currently_active: "True" }, login.id, getTokenSilently)
         .then((resp) => {
           setIsActive(resp);
-          setAuthUserLoginData(appLoginData);
+          setAppLoginData(appLoginResult);
           setAuthUser(login);
           setAuthToken(login.QuantumToken);
         })
@@ -121,7 +124,18 @@ const Authenticate = (props) => {
       }
 
       setInitOptions(authInitCredentialsResult);
-      await postAppLoginDataActivityLog({ "Confirm Button": "modal__btn-primary" }, props, login.id, "Authenticate.js", "sendAppLoginData");
+      const loginActivityLog = await postAppLoginDataActivityLog({ "Confirm Button": "modal__btn-primary" }, props, login.id, "Authenticate.js", "sendAppLoginData");
+
+      const userContextData = {
+        isActive: isActive,
+        appLoginData: appLoginData,
+        initOptions: initOptions,
+        loginActivityLog: true,
+        loginActivityLogData: loginActivityLog,
+        credentials: authInitCredentialsResult,
+        userLoginData: loginInfo
+      }
+      setAuthUserData(userContextData);
       setIsLoading(false);
       props.history.push("/home");
     } else {

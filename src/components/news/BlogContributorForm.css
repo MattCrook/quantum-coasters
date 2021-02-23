@@ -9,32 +9,39 @@
 .fs-apply-form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 35%;
-  background-color: #ececec;
-  border-radius: 8px 8px 8px 8px;
-  box-shadow: 2px 2px 2px 2px rgb(216, 216, 216);
+  width: 46%;
+  box-shadow: 0 4px 8px 2px rgb(0 0 0 / 20%);
+  transition: 0.3s;
+  border-radius: 5px;
+  text-align: center;
+  background: #f4f7f8;
+  margin-bottom: 100px;
+  padding-bottom: 12px;
+  margin-left: 1%;
 }
 
 .apply-title {
-  margin-top: 20px;
-  margin-bottom: 25px;
+  font: 350 1.1em helvetica neue, open sans, sans-serif;
+  margin-left: 6%;
+  margin-right: 6%;
+  margin-top: 40px;
   display: flex;
   justify-content: center;
-  border-bottom: 1px solid rgb(104, 102, 102);
-  font: 50 1.1em helvetica neue, open sans, sans-serif;
+  border-bottom: 1px solid black;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .apply_form_label {
-  font: 150 1em helvetica neue, open sans, sans-serif;
-  margin-right: 83%;
+  font: 350 1em helvetica neue, open sans, sans-serif;
+  margin-top: 5%;
+  margin-bottom: 1%;
 }
 
 .apply-for-blog-form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 95%;
+  justify-content: center;
 }
 
 .register-create-buttons {
@@ -50,7 +57,7 @@
   cursor: pointer;
   border: none;
   padding: 12px 20px;
-  margin-top: 10px;
+  margin-top: 9%;
   margin-bottom: 20px;
   margin-left: 5px;
   margin-right: 5px;
@@ -61,37 +68,49 @@
   cursor: pointer;
   background-color: #020202;
   color: #fff;
-  border-radius: 5px;
+  border-radius: 3px;
   text-align: center;
-  width: 20%;
+  width: 54%;
+  transition: 0.3s all ease;
 }
 
-.apply-create-btn:hover {
-    box-shadow: 4px 4px 4px 4px rgb(192, 192, 192);
+.apply-create-btn:hover,
+.apply-create-btn:focus {
+  box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+  -webkit-transform: translateY(-0.25em);
+  transform: translateY(-0.25em);
+}
+
+.apply-create-btn{
+  --hover: #333333;
 }
 
 .input_apply {
-  width: 96%;
-  height: 36px;
-  border: none;
-  padding-left: 10px;
-  padding-right: 10px;
-  margin-top: 5px;
-  margin-bottom: 12px;
+  background-color: #e8eeef;
+  text-align: center;
+  margin-top: 10px;
+  outline: 0;
+  padding: 8px;
+  width: 60%;
+  margin-left: 20%;
+  border-radius: 3px 3px 3px 3px;
 }
 
-#apply_form_final_words_label {
-  margin-right: 81%;
+.apply_ul {
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  margin-top: 8px;
+  margin-left: 24%;
 }
 
-#apply_email_label {
-  margin-right: 88%;
+.apply_li {
+  list-style-type: disc;
+  font-size: 12px;
 }
 
-#apply_website_label {
-  margin-right: 67%;
-}
-
-#register_form_social_label {
-  margin-right: 80%;
-}
+#signature_font_news_apply {
+  font: 260 0.65em helvetica neue, open sans, sans-serif;
+  letter-spacing: 2px;
+  color: rgb(82, 82, 82);
+ }
