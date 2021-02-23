@@ -15,7 +15,8 @@ const LandingPage = (props) => {
 
   const reAuthenticateRedirect = async () => {
     // clearStorage();
-    await loginWithPopup();
+    const loginPopUp = await loginWithPopup();
+    console.log({loginPopUp})
   }
 
   return (

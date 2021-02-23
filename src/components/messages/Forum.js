@@ -42,9 +42,10 @@ const Forum = (props) => {
     // const target = `${URL}/authenticate_for_group_chat/${userId}`;
     // If index. wil hit index first so always be un authenticated, so will always show the login page after first click.
     // /group_chat/ take user to ?next=/group_chat/ automatically running the social auth pipeline in the background.
-    // const target = `${URL}/index/`;
+    const target = `${URL}/index/`;
 
-    const target = `${URL}/group_chat/`;
+    // const target = `${URL}/group_chat/`;
+    // const target = `${URL}/login/auth0?next=/group_chat/`
     window.location.href = target;
   };
 

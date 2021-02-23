@@ -73,7 +73,9 @@ export const Auth0Provider = ({
   const loginWithPopup = async (params = {}) => {
     setPopupOpen(true);
     try {
-      await auth0Client.loginWithPopup(params);
+      console.log({params})
+      const auth = await auth0Client.loginWithPopup(params);
+      console.log({auth})
     } catch (error) {
       console.error(error);
     } finally {
