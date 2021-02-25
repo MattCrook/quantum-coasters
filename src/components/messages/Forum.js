@@ -34,8 +34,6 @@ const Forum = (props) => {
   const toggleProfileDropdown = () => setIsProfileDropdown(!isProfileDropdown);
 
 
-
-
   const renderGroupChat = (e, userId) => {
     e.preventDefault();
     e.stopPropagation();

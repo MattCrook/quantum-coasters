@@ -24,7 +24,7 @@ import BulkUploadForm from "./addNewForm/BulkUploadForm";
 
 const ApplicationViews = (props) => {
   const { isAuthenticated, user, loading } = useAuth0();
-  const { browserData, userAgentData, platformOS, appCodeNameData, initOptions } = props;
+  const { browserData, userAgentData, platformOS, appCodeNameData, initCredentials } = props;
   const {
     authUser,
     setAuthUser,
@@ -67,7 +67,7 @@ const ApplicationViews = (props) => {
                 userAgentData={userAgentData}
                 platformOS={platformOS}
                 appCodeNameData={appCodeNameData}
-                initOptions={initOptions}
+                initCredentials={initCredentials}
                 {...props}
               />
             );
@@ -95,7 +95,7 @@ const ApplicationViews = (props) => {
                 userAgentData={userAgentData}
                 platformOS={platformOS}
                 appCodeNameData={appCodeNameData}
-                initOptions={initOptions}
+                initCredentials={initCredentials}
                 {...props}
               />
             );
@@ -124,7 +124,7 @@ const ApplicationViews = (props) => {
                 userAgentData={userAgentData}
                 platformOS={platformOS}
                 appCodeNameData={appCodeNameData}
-                initOptions={initOptions}
+                initCredentials={initCredentials}
                 {...props}
               />
             );

@@ -8,22 +8,20 @@ import { sendAppLoginData } from "../../modules/services/services";
 import "./Authenticate.css";
 
 const Authenticate = (props) => {
-  const { user, getTokenSilently } = useAuth0();
+  const { user, getTokenSilently, appInitOptions } = useAuth0();
   const { postNewErrorLog } = useErrorLog();
   const [email, setEmail] = useState(user.email);
   const [loginAttempts, setLoginAttempts] = useState(0);
   const { setAuthUser, setAuthToken, setAuthUserData } = useAuthUser();
   const { sendLoginInfo, postAppLoginDataActivityLog } = useActivityLog();
-  const salt = user.sub.split("|")[1];
   const [isLoading, setIsLoading] = useState(false);
   const [isActive, setIsActive] = useState("");
   const [appLoginData, setAppLoginData] = useState([]);
-  const [initOptions, setInitOptions] = useState([]);
   const [isLoginError, setIsLoginError] = useState(false); // Error State
   const [isValidatingEmail, setIsValidatingEmail] = useState(false); // spinner
   const [emailValidationCheck, setEmailValidationCheck] = useState(false);  // check icon
   const [errorMessage, setErrorMessage] = useState('');   // Error message
-  var appInitOptionsCredentials = props.initOptions;
+  var appInitOptionsCredentials = props.initCredentials;
 
   const showError = (message) => {
     setIsValidatingEmail(false);
@@ -43,7 +41,6 @@ const Authenticate = (props) => {
 
     var userCredentials = {
       email: email,
-      password: salt,
       id_token: sessionStorage.getItem("IdToken"),
       uid: user.sub,
       csrf_token: csrfCookie,
@@ -116,23 +113,22 @@ const Authenticate = (props) => {
       appInitOptionsCredentials["session_id"] = login.session;
 
       try {
-        var authInitCredentialsResult = await userManager.postInitAppOptions(appInitOptionsCredentials);
+        var authCredentialsResult = await userManager.postInitAppOptions(appInitOptionsCredentials);
       } catch (error) {
         setIsLoading(false);
         showError("Oops! Something went wrong. Please try again.");
         postNewErrorLog(error, "Authenticate.js", "userManager.setUserAsActive");
       }
 
-      setInitOptions(authInitCredentialsResult);
       const loginActivityLog = await postAppLoginDataActivityLog({ "Confirm Button": "modal__btn-primary" }, props, login.id, "Authenticate.js", "sendAppLoginData");
 
       const userContextData = {
         isActive: isActive,
         appLoginData: appLoginData,
-        initOptions: initOptions,
+        initOptions: appInitOptions,
         loginActivityLog: true,
         loginActivityLogData: loginActivityLog,
-        credentials: authInitCredentialsResult,
+        credentials: authCredentialsResult,
         userLoginData: loginInfo
       }
       setAuthUserData(userContextData);

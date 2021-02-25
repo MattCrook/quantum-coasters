@@ -13,7 +13,6 @@ export const Auth0Provider = ({
   children,
   onRedirectCallback = DEFAULT_REDIRECT_CALLBACK,
   ...initOptions
-  // domain/clientId/redirect_Uri
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState();
   const [user, setUser] = useState();
@@ -47,7 +46,7 @@ export const Auth0Provider = ({
         setUser(user);
 
         if (tokenId && user) {
-          const initObject = {
+          const initCredentials = {
             user_sub: user.sub.replace("|", "."),
             // domain: initOptions.domain,
             // client_id: initOptions.client_id,
@@ -61,13 +60,12 @@ export const Auth0Provider = ({
             session_id: sessionStorage.getItem("sessionId"),
             updated_at: tokenId.updated_at,
           };
-          setAppInitOptions([initObject]);
+          setAppInitOptions([initCredentials]);
         }
       }
       setLoading(false);
     };
     initAuth0();
-    // eslint-disable-next-line
   }, []);
 
   const loginWithPopup = async (params = {}) => {

@@ -4,7 +4,6 @@ import { useAuthUser } from "./contexts/AuthUserContext";
 import { BrowserRouter } from "react-router-dom";
 import NavBar from "./components/nav/NavBar";
 import ApplicationViews from "./components/ApplicationViews";
-// import userManager from "./modules/users/userManager";
 import { parseUserAgent } from "./modules/Helpers";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { ErrorLogProvider } from "./contexts/ErrorLogContext";
@@ -14,7 +13,7 @@ import "bulma/css/bulma.css";
 const App = (props) => {
   const { loading, user, isAuthenticated, appInitOptions } = useAuth0();
   const { authUser, userProfile, authToken } = useAuthUser();
-  const [initOptions, setInitOptions] = useState([]);
+  const [initCredentials, setInitCredentials] = useState([]);
   const [browserData, setBrowserData] = useState();
   const [userAgentData, setUserAgentData] = useState();
   const [platformOS, setPlatformOS] = useState();
@@ -48,7 +47,7 @@ const App = (props) => {
         if (hasQuantumToken) {
           console.log("App.js: hasQuantumToken");
         }
-        setInitOptions(authInitOptions)
+        setInitCredentials(authInitOptions)
         parseUserAgent(userAgent, setBrowserData, setUserAgentData);
         setPlatformOS(platformOperatingSystem);
         setAppCodeNameData(appCodeName);
@@ -130,7 +129,7 @@ const App = (props) => {
         <ErrorLogProvider>
           <NavBar userProfile={userProfile} authUser={authUser} authToken={authToken} {...props} />
           <ApplicationViews
-            initOptions={initOptions}
+            initCredentials={initCredentials}
             browserData={browserData}
             userAgentData={userAgentData}
             platformOS={platformOS}

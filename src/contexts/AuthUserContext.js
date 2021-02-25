@@ -57,7 +57,7 @@ export const AuthUserProvider = ({ children }) => {
         setAuthToken,
         setUserCredits,
         setAuthUserData,
-        authUserData
+        authUserData,
       }}
     >
       {children}

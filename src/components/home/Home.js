@@ -25,6 +25,7 @@ MicroModal.init({
 });
 
 const Home = (props) => {
+  console.log(props)
   const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
   const { loading, user, logout, clearStorage, isAuthenticated, djangoRestAuthLogout } = useAuth0();
   const { authUser, userProfile } = useAuthUser();
@@ -242,14 +243,7 @@ const Home = (props) => {
               >
                 <i className="fas fa-user-lock"></i>Confirm Email
               </button>
-              <Authenticate
-                browserData={props.browserData}
-                userAgentData={props.userAgentData}
-                platformOS={props.platformOS}
-                appCodeNameData={props.appCodeNameData}
-                initOptions={props.initOptions}
-                {...props}
-              />
+              <Authenticate {...props} />
             </>
           ) : null}
         </div>
