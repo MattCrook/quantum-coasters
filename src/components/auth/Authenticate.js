@@ -145,7 +145,7 @@ const Authenticate = (props) => {
         message: "Final Validation Error. Login was not valid.",
         stack: "loginSubmit/userManager.login>TEST"
       }
-      postNewErrorLog(error, "Authenticate.js", "loginSubmit/userManager.login/valid=false");
+      postNewErrorLog(error, "Authenticate.js", "loginSubmit/ userManager.login - valid returned false - Error validating data");
     }
   };
 
