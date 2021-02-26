@@ -120,7 +120,11 @@ const Authenticate = (props) => {
         postNewErrorLog(error, "Authenticate.js", "userManager.setUserAsActive");
       }
 
-      const loginActivityLog = await postAppLoginDataActivityLog({ "Confirm Button": "modal__btn-primary" }, props, login.id, "Authenticate.js", "sendAppLoginData");
+      try {
+        var loginActivityLog = await postAppLoginDataActivityLog({ "Confirm Button": "modal__btn-primary" }, props, login.id, "Authenticate.js", "sendAppLoginData");
+      } catch (error) {
+        postNewErrorLog(error, "Authenticate.js", "loginSubmit/postAppLoginDataActivityLog");
+      }
 
       const userContextData = {
         isActive: isActive,
@@ -137,6 +141,11 @@ const Authenticate = (props) => {
     } else {
       setIsLoading(false);
       showError("Could not match email. Please try again.");
+      const error = {
+        message: "Final Validation Error. Login was not valid.",
+        stack: "loginSubmit/userManager.login>TEST"
+      }
+      postNewErrorLog(error, "Authenticate.js", "loginSubmit/userManager.login/valid=false");
     }
   };
 

@@ -201,7 +201,10 @@ const ProfileList = (props) => {
         postFeedbackActivityLog(e, props, authUser.id, "ProfileList.js", "FeedbackModal.js").then(() => {
           setFeedbackModalOpen(false);
           setIsProfileDropdown(false);
-        });
+        })
+          .catch((error) => {
+            postNewErrorLog(error, "ProfileList.js", "postFeedback");
+        })
       })
       .catch((error) => {
         console.log(error);
@@ -209,24 +212,23 @@ const ProfileList = (props) => {
       });
   };
 
-  const handleSubmitBug = (e) => {
+  const handleSubmitBug = async (e) => {
     e.preventDefault();
     const bug = {
       title: bugTitle.current.value,
       description: bugDescription.current.value,
     };
-    postBugReport(bug)
-      .then(() => {
-        alert("Thanks for finding a bug! Your submission has been received.");
-        postBugReportActivityLog(e, props, authUser.id, "ProfileList.js", "BugModal.js").then(() => {
-          setBugReportModalOpen(false);
-          setIsProfileDropdown(false);
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-        postNewErrorLog(error, "ProfileList.js", "handleSubmitBug");
-      });
+    try {
+      await postBugReport(bug);
+      alert("Thanks for finding a bug! Your submission has been received.");
+    } catch (error) {
+      await postNewErrorLog(error, "ProfileList.js", "handleSubmitBug");
+      alert("Oops! Something went wrong. Please contact support for help.");
+    }
+
+    await postBugReportActivityLog(e, props, authUser.id, "ProfileList.js", "BugModal.js");
+    setBugReportModalOpen(false);
+    setIsProfileDropdown(false);
   };
 
 
