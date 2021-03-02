@@ -20,16 +20,22 @@ export const Auth0Provider = ({
   const [loading, setLoading] = useState(true);
   const [popupOpen, setPopupOpen] = useState(false);
   const [transactions, setTransactions] = useState([]);
+  const [storage, setStorage] = useState([]);
   const [appInitOptions, setAppInitOptions] = useState([]);
 
   useEffect(() => {
     const initAuth0 = async () => {
       const auth0FromHook = await createAuth0Client(initOptions);
       const transactionsManager = auth0FromHook.transactionManager;
-      console.log({transactionsManager})
-      setTransactions(transactionsManager)
-      setAuth0(auth0FromHook);
+      console.log("initOptions", initOptions)
+      console.log("auth0FromHook", auth0FromHook)
+      console.log("transactionsManager", transactionsManager)
+      console.log("Transaction", transactionsManager.transaction)
+      console.log("Storage", transactionsManager.storage)
 
+      setTransactions(transactionsManager.transaction)
+      setStorage(transactionsManager.storage)
+      setAuth0(auth0FromHook);
 
       if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
         const { appState } = await auth0FromHook.handleRedirectCallback();
