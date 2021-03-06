@@ -64,7 +64,7 @@
   padding-right: 1rem;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  width: 40%;
+  width: 45%;
   background-color: #032249;
   color: #fff;
   font-variant: small-caps;
@@ -179,8 +179,8 @@
 }
 
 .auth_input {
-  width: 60%;
-  height: 30px;
+  width: 65%;
+  height: 32px;
   background: transparent;
   box-shadow: none;
   padding-top: 7px;

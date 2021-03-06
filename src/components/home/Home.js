@@ -242,14 +242,7 @@ const Home = (props) => {
               >
                 <i className="fas fa-user-lock"></i>Confirm Email
               </button>
-              <Authenticate
-                browserData={props.browserData}
-                userAgentData={props.userAgentData}
-                platformOS={props.platformOS}
-                appCodeNameData={props.appCodeNameData}
-                initOptions={props.initOptions}
-                {...props}
-              />
+              <Authenticate {...props} />
             </>
           ) : null}
         </div>

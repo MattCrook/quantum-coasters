@@ -11,6 +11,7 @@ export const AuthUserProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState([]);
   const [userCredits, setUserCredits] = useState([]);
   const [authToken, setAuthToken] = useState([]);
+  const [authUserData, setAuthUserData] = useState([]);
 
 
   useEffect(() => {
@@ -37,7 +38,6 @@ export const AuthUserProvider = ({ children }) => {
           setAuthToken(djangoAuthToken);
         } else {
           console.log("Please Complete your Profile. :) ");
-          // setUserProfile([]);
         }
       };
       initUserProfile(userEmail);
@@ -56,6 +56,8 @@ export const AuthUserProvider = ({ children }) => {
         setAuthUser,
         setAuthToken,
         setUserCredits,
+        setAuthUserData,
+        authUserData,
       }}
     >
       {children}

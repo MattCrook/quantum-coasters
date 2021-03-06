@@ -191,8 +191,16 @@
   /* font: 500 1em helvetica neue, open sans, sans-serif; */
   background-color: #020202;
   color: #fff;
+  transition: 0.3s all ease;
 }
 
-.news_apply_user_article_btn:hover {
-  box-shadow: 3px 3px 3px 3px rgb(212, 212, 212);
+.news_apply_user_article_btn:hover,
+.news_apply_user_article_btn:focus {
+  box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+  -webkit-transform: translateY(-0.25em);
+  transform: translateY(-0.25em);
+}
+
+.news_apply_user_article_btn {
+  --hover: #333333;
 }

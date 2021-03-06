@@ -8,22 +8,20 @@ import { sendAppLoginData } from "../../modules/services/services";
 import "./Authenticate.css";
 
 const Authenticate = (props) => {
-  const { user, getTokenSilently } = useAuth0();
+  const { user, getTokenSilently, appInitOptions } = useAuth0();
   const { postNewErrorLog } = useErrorLog();
   const [email, setEmail] = useState(user.email);
   const [loginAttempts, setLoginAttempts] = useState(0);
-  const { setAuthUser, setAuthToken } = useAuthUser();
+  const { setAuthUser, setAuthToken, setAuthUserData } = useAuthUser();
   const { sendLoginInfo, postAppLoginDataActivityLog } = useActivityLog();
-  const salt = user.sub.split("|")[1];
   const [isLoading, setIsLoading] = useState(false);
   const [isActive, setIsActive] = useState("");
-  const [authUserLoginData, setAuthUserLoginData] = useState([]);
-  const [initOptions, setInitOptions] = useState([]);
-  const [isLoginError, setIsLoginError] = useState(false);
+  const [appLoginData, setAppLoginData] = useState([]);
+  const [isLoginError, setIsLoginError] = useState(false); // Error State
   const [isValidatingEmail, setIsValidatingEmail] = useState(false); // spinner
   const [emailValidationCheck, setEmailValidationCheck] = useState(false);  // check icon
   const [errorMessage, setErrorMessage] = useState('');   // Error message
-  var appInitOptionsCredentials = props.initOptions;
+  var appInitOptionsCredentials = props.initCredentials;
 
   const showError = (message) => {
     setIsValidatingEmail(false);
@@ -36,13 +34,13 @@ const Authenticate = (props) => {
   }, [loginAttempts]);
 
   const loginSubmit = async (e) => {
+    setIsLoginError(false);
     setIsValidatingEmail(true);
     e.preventDefault();
     var csrfCookie = getCookie("csrftoken");
 
     var userCredentials = {
       email: email,
-      password: salt,
       id_token: sessionStorage.getItem("IdToken"),
       uid: user.sub,
       csrf_token: csrfCookie,
@@ -57,6 +55,7 @@ const Authenticate = (props) => {
     }
     if (login.valid === true) {
       setIsValidatingEmail(false);
+      setIsLoginError(false);
       setEmailValidationCheck(true);
       var loginData = {
         user_id: login.id,
@@ -75,7 +74,7 @@ const Authenticate = (props) => {
       };
 
       try {
-        await sendLoginInfo(loginData);
+        var loginInfo = await sendLoginInfo(loginData);
       } catch (error) {
         setIsLoading(false);
         showError("Login Info Error. Please contact support.");
@@ -83,9 +82,10 @@ const Authenticate = (props) => {
       }
 
       try {
+        setIsLoginError(false);
         setEmailValidationCheck(false);
         setIsLoading(true);
-        var appLoginData = await sendAppLoginData(appLoginPayload);
+        var appLoginResult = await sendAppLoginData(appLoginPayload);
       } catch (error) {
         setIsLoading(false);
         showError("Oops! Something went wrong. Please try again.");
@@ -96,7 +96,7 @@ const Authenticate = (props) => {
         .setUserAsActive({ is_currently_active: "True" }, login.id, getTokenSilently)
         .then((resp) => {
           setIsActive(resp);
-          setAuthUserLoginData(appLoginData);
+          setAppLoginData(appLoginResult);
           setAuthUser(login);
           setAuthToken(login.QuantumToken);
         })
@@ -113,20 +113,39 @@ const Authenticate = (props) => {
       appInitOptionsCredentials["session_id"] = login.session;
 
       try {
-        var authInitCredentialsResult = await userManager.postInitAppOptions(appInitOptionsCredentials);
+        var authCredentialsResult = await userManager.postInitAppOptions(appInitOptionsCredentials);
       } catch (error) {
         setIsLoading(false);
         showError("Oops! Something went wrong. Please try again.");
         postNewErrorLog(error, "Authenticate.js", "userManager.setUserAsActive");
       }
 
-      setInitOptions(authInitCredentialsResult);
-      await postAppLoginDataActivityLog({ "Confirm Button": "modal__btn-primary" }, props, login.id, "Authenticate.js", "sendAppLoginData");
+      try {
+        var loginActivityLog = await postAppLoginDataActivityLog({ "Confirm Button": "modal__btn-primary" }, props, login.id, "Authenticate.js", "sendAppLoginData");
+      } catch (error) {
+        postNewErrorLog(error, "Authenticate.js", "loginSubmit/postAppLoginDataActivityLog");
+      }
+
+      const userContextData = {
+        isActive: isActive,
+        appLoginData: appLoginData,
+        initOptions: appInitOptions,
+        loginActivityLog: true,
+        loginActivityLogData: loginActivityLog,
+        credentials: authCredentialsResult,
+        userLoginData: loginInfo
+      }
+      setAuthUserData(userContextData);
       setIsLoading(false);
       props.history.push("/home");
     } else {
       setIsLoading(false);
       showError("Could not match email. Please try again.");
+      const error = {
+        message: "Final Validation Error. Login was not valid.",
+        stack: "loginSubmit/userManager.login>TEST"
+      }
+      postNewErrorLog(error, "Authenticate.js", "loginSubmit/ userManager.login - valid returned false - Error validating data");
     }
   };
 

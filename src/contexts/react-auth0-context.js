@@ -13,7 +13,6 @@ export const Auth0Provider = ({
   children,
   onRedirectCallback = DEFAULT_REDIRECT_CALLBACK,
   ...initOptions
-  // domain/clientId/redirect_Uri
 }) => {
   const [isAuthenticated, setIsAuthenticated] = useState();
   const [user, setUser] = useState();
@@ -21,16 +20,22 @@ export const Auth0Provider = ({
   const [loading, setLoading] = useState(true);
   const [popupOpen, setPopupOpen] = useState(false);
   const [transactions, setTransactions] = useState([]);
+  const [storage, setStorage] = useState([]);
   const [appInitOptions, setAppInitOptions] = useState([]);
 
   useEffect(() => {
     const initAuth0 = async () => {
       const auth0FromHook = await createAuth0Client(initOptions);
       const transactionsManager = auth0FromHook.transactionManager;
-      console.log({transactionsManager})
-      setTransactions(transactionsManager)
-      setAuth0(auth0FromHook);
+      console.log("initOptions", initOptions)
+      console.log("auth0FromHook", auth0FromHook)
+      console.log("transactionsManager", transactionsManager)
+      console.log("Transaction", transactionsManager.transaction)
+      console.log("Storage", transactionsManager.storage)
 
+      setTransactions(transactionsManager.transaction)
+      setStorage(transactionsManager.storage)
+      setAuth0(auth0FromHook);
 
       if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
         const { appState } = await auth0FromHook.handleRedirectCallback();
@@ -47,7 +52,7 @@ export const Auth0Provider = ({
         setUser(user);
 
         if (tokenId && user) {
-          const initObject = {
+          const initCredentials = {
             user_sub: user.sub.replace("|", "."),
             // domain: initOptions.domain,
             // client_id: initOptions.client_id,
@@ -61,19 +66,20 @@ export const Auth0Provider = ({
             session_id: sessionStorage.getItem("sessionId"),
             updated_at: tokenId.updated_at,
           };
-          setAppInitOptions([initObject]);
+          setAppInitOptions([initCredentials]);
         }
       }
       setLoading(false);
     };
     initAuth0();
-    // eslint-disable-next-line
   }, []);
 
   const loginWithPopup = async (params = {}) => {
     setPopupOpen(true);
     try {
-      await auth0Client.loginWithPopup(params);
+      console.log({params})
+      const auth = await auth0Client.loginWithPopup(params);
+      console.log({auth})
     } catch (error) {
       console.error(error);
     } finally {

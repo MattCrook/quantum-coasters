@@ -20,12 +20,11 @@ import NewEventForm from "./plan/calendarComponents/NewEventForm";
 import Forum from "./messages/Forum";
 import ParkListForBulkSubmit from "./addNewForm/ParkListForBulkSubmit";
 import BulkUploadForm from "./addNewForm/BulkUploadForm";
-
 // import AuthRoute from "./AuthRoute";
 
 const ApplicationViews = (props) => {
   const { isAuthenticated, user, loading } = useAuth0();
-  const { browserData, userAgentData, platformOS, appCodeNameData, initOptions } = props;
+  const { browserData, userAgentData, platformOS, appCodeNameData, initCredentials } = props;
   const {
     authUser,
     setAuthUser,
@@ -34,7 +33,7 @@ const ApplicationViews = (props) => {
     authToken,
     setAuthToken,
     userCredits,
-    setUserCredits,
+    setUserCredits
   } = useAuthUser();
 
   const hasLoggedIn = () => sessionStorage.getItem("QuantumToken") !== null;
@@ -44,7 +43,6 @@ const ApplicationViews = (props) => {
     sessionStorage.setItem("QuantumToken", resp.QuantumToken);
     setIsLoggedIn(hasLoggedIn());
   };
-
 
 
   return (
@@ -69,7 +67,7 @@ const ApplicationViews = (props) => {
                 userAgentData={userAgentData}
                 platformOS={platformOS}
                 appCodeNameData={appCodeNameData}
-                initOptions={initOptions}
+                initCredentials={initCredentials}
                 {...props}
               />
             );
@@ -97,7 +95,7 @@ const ApplicationViews = (props) => {
                 userAgentData={userAgentData}
                 platformOS={platformOS}
                 appCodeNameData={appCodeNameData}
-                initOptions={initOptions}
+                initCredentials={initCredentials}
                 {...props}
               />
             );
@@ -126,7 +124,7 @@ const ApplicationViews = (props) => {
                 userAgentData={userAgentData}
                 platformOS={platformOS}
                 appCodeNameData={appCodeNameData}
-                initOptions={initOptions}
+                initCredentials={initCredentials}
                 {...props}
               />
             );

@@ -110,16 +110,20 @@ export async function getUserErrorLog(userId) {
 }
 
 export async function postFeedback(payload) {
-  const resp = await fetch(`${remoteURL}/api/user_feedback`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
-    },
-    Accept: "application/json",
-    body: JSON.stringify(payload),
-  });
-  return await resp.json();
+  try {
+    const resp = await fetch(`${remoteURL}/api/user_feedback`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+      },
+      Accept: "application/json",
+      body: JSON.stringify(payload),
+    });
+    return await resp.json();
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 export async function postBugReport(payload) {

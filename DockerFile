@@ -1,59 +1,10 @@
-# FROM node:14.4.0-alpine3.10
-
-# # USER root
-
-# WORKDIR /frontend
-
-# ARG API_URL
-# ENV CLIENT_ORIGIN_URL $REACT_APP_REMOTE_API_URL
-
-# RUN npm install
-
-# COPY . /frontend
-
-# EXPOSE 3000
-# ENTRYPOINT [ "npm" ]
-# CMD [ "run", "dev"]
-
 FROM node:10
 
+# The WORKDIR command is used to define the working directory of a Docker container at any given time.
+WORKDIR /quantum-application
 
-# USER root
-
-# RUN mkdir /frontend
-WORKDIR /frontend
-
-ARG API_URL
-ARG REACT_APP_BASE_URL
-ARG REACT_APP_AUTH0_DOMAIN
-ARG REACT_APP_AUTH0_CLIENT_ID
-ARG REACT_APP_AUTH0_AUDIENCE
-ARG REACT_APP_AUTH0_SECRET
-ARG SERVER_PORT
-ARG CLIENT_ORIGIN_URL
-ARG AUTH0_AUDIENCE
-ARG AUTH0_DOMAIN
-
-ENV REACT_APP_REMOTE_API_URL $API_URL
-ENV REACT_APP_BASE_URL $REACT_APP_BASE_URL
-ENV REACT_APP_AUTH0_DOMAIN $REACT_APP_AUTH0_DOMAIN
-ENV REACT_APP_AUTH0_CLIENT_ID $REACT_APP_AUTH0_CLIENT_ID
-ENV REACT_APP_AUTH0_AUDIENCE $REACT_APP_AUTH0_AUDIENCE
-ENV REACT_APP_AUTH0_SECRET $REACT_APP_AUTH0_SECRET
-ENV SERVER_PORT $SERVER_PORT
-ENV CLIENT_ORIGIN_URL $CLIENT_ORIGIN_URL
-ENV AUTH0_AUDIENCE $AUTH0_AUDIENCE
-ENV AUTH0_DOMAIN $AUTH0_DOMAIN
-
-
-COPY package.json /frontend/
+COPY package.json /quantum-application/
 
 RUN npm install
 
-COPY . /frontend/
-
-# Expose 3000 so in docker run you map 3000 to 3000 which is 3000 which is exposed inside the container to port 3000 to the outside world
-EXPOSE 3000
-
-ENTRYPOINT [ "npm" ]
-CMD [ "run", "dev"]
+COPY . /quantum-application/
