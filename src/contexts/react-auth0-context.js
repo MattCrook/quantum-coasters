@@ -30,10 +30,10 @@ export const Auth0Provider = ({
       console.log("initOptions", initOptions)
       console.log("auth0FromHook", auth0FromHook)
       console.log("transactionsManager", transactionsManager)
-      console.log("Transaction", transactionsManager.transaction)
+      console.log("Transaction", transactionsManager.transactions)
       console.log("Storage", transactionsManager.storage)
 
-      setTransactions(transactionsManager.transaction)
+      setTransactions(transactionsManager.transactions)
       setStorage(transactionsManager.storage)
       setAuth0(auth0FromHook);
 

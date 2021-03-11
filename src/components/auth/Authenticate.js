@@ -117,7 +117,7 @@ const Authenticate = (props) => {
       } catch (error) {
         setIsLoading(false);
         showError("Oops! Something went wrong. Please try again.");
-        postNewErrorLog(error, "Authenticate.js", "userManager.setUserAsActive");
+        postNewErrorLog(error, "Authenticate.js", "authCredentialsResult - userManager.postInitAppOptions");
       }
 
       try {
