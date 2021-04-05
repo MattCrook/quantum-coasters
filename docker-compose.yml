@@ -1,11 +1,11 @@
 version: '3.7'
 
 services:
-  quantum-application:
-    build:
-      context: .
+  quantumcoasters:
+    build: .
+      # context: .
     volumes:
-      - .:/quantum-application
+      - .:/quantumcoasters
     container_name: quantum-coasters
     environment:
       REACT_APP_BASE_URL: http://localhost:3000
@@ -24,4 +24,4 @@ services:
     command: "npm run dev"
 
 volumes:
-  quantum-application:
+  quantumcoasters:
