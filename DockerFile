@@ -1,10 +1,13 @@
-FROM node:10
+FROM node:12
 
 # The WORKDIR command is used to define the working directory of a Docker container at any given time.
-WORKDIR /quantum-application
+WORKDIR /quantumcoasters
 
-COPY package.json /quantum-application/
+COPY package.json /quantumcoasters/
 
-RUN npm install
+# Better to use npm ci to intall all deps from fresh instead of using cached
+# RUN npm install
+RUN npm ci
 
-COPY . /quantum-application/
+
+COPY . /quantumcoasters/

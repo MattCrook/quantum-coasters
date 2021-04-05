@@ -33,6 +33,7 @@ yarn-error.log*
 
 #auth_config
 .auth_config
+auth_config.json/
 
 .now
 
