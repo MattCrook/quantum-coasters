@@ -39,3 +39,6 @@ auth_config.json/
 
 # retiredCode
 /retiredCode
+notes.txt
+Dockefile-example.no-compose
+.env.production.example
