@@ -1,7 +1,0 @@
-# Connection (for Username-Password-Authentication -- Not using client credentials but using password in auth0 setting. (Not recommended))
-# Here: https://tarunnsingh.medium.com/auth0-embedded-login-reactjs-2b52ad4ba66c
-REACT_APP_CONNECTION = Username-Password-Authentication
-
-
-# with docker-compose
-# docker-compose up --build
