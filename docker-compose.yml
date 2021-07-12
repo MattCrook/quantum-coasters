@@ -10,17 +10,28 @@ services:
       - .:/usr/src/app/
     # container_name: quantum-coasters
     environment:
-      REACT_APP_BASE_URL: http://localhost:3000
-      REACT_APP_REMOTE_API_URL: http://localhost:8000
-      REACT_APP_SERVER_URL: http://localhost:8000
-      REACT_APP_AUTH0_DOMAIN: dev-405n1e6w.auth0.com
-      REACT_APP_AUTH0_CLIENT_ID: 'ouQeFaroORjm08Dp6slPLQaNYri0sNY5'
-      REACT_APP_AUTH0_AUDIENCE: https://api.quantumcoasters.com
-      REACT_APP_AUTH0_SECRET: 'moWYcL19X4PtwLFqtRx2QiB5l7KfzUqIM1LZ31rzXjuWNeJx_w1OJqoueYKP_4kx'
+      # REACT_APP_BASE_URL: http://localhost:3000
+      # REACT_APP_REMOTE_API_URL: http://localhost:8000
+      # REACT_APP_SERVER_URL: http://localhost:8000
+      # REACT_APP_AUTH0_DOMAIN: dev-405n1e6w.auth0.com
+      # REACT_APP_AUTH0_CLIENT_ID: 'ouQeFaroORjm08Dp6slPLQaNYri0sNY5'
+      # REACT_APP_AUTH0_AUDIENCE: https://api.quantumcoasters.com
+      # REACT_APP_AUTH0_SECRET: 'moWYcL19X4PtwLFqtRx2QiB5l7KfzUqIM1LZ31rzXjuWNeJx_w1OJqoueYKP_4kx'
+      # SERVER_PORT: 8000
+      # CLIENT_ORIGIN_URL: http://localhost:3000
+      # AUTH0_AUDIENCE: https://api.quantumcoasters.com
+      # AUTH0_DOMAIN: https://dev-405n1e6w.auth0.com
+      REACT_APP_BASE_URL: ${REACT_APP_BASE_URL}
+      REACT_APP_REMOTE_API_URL: ${REACT_APP_REMOTE_API_URL}
+      REACT_APP_SERVER_URL: ${REACT_APP_SERVER_URL}
+      REACT_APP_AUTH0_DOMAIN: ${REACT_APP_AUTH0_DOMAIN}
+      REACT_APP_AUTH0_CLIENT_ID: ${REACT_APP_AUTH0_CLIENT_ID}
+      REACT_APP_AUTH0_AUDIENCE: ${REACT_APP_AUTH0_AUDIENCE}
+      REACT_APP_AUTH0_SECRET: ${REACT_APP_AUTH0_SECRET}
       SERVER_PORT: 8000
-      CLIENT_ORIGIN_URL: http://localhost:3000
-      AUTH0_AUDIENCE: https://api.quantumcoasters.com
-      AUTH0_DOMAIN: https://dev-405n1e6w.auth0.com
+      CLIENT_ORIGIN_URL: ${CLIENT_ORIGIN_URL}
+      AUTH0_AUDIENCE: ${AUTH0_AUDIENCE}
+      AUTH0_DOMAIN: ${AUTH0_DOMAIN}
     ports:
       - 3000:3000
     command: "npm run dev"
