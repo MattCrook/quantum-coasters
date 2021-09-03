@@ -1,19 +1,22 @@
+# Local .terraform directories
+**/.terraform/*
 .terraform
-default-compute-credentials.json
 
-**/.terraform
-**/providers.tf
-**/terraform.tfvars
-**/terraform.tfstate
-**/account.json
-**/*_account.json
-**/*id_rsa
-**/aws_auth
-**/state.tf
-**/terraform.tfstate.backup
-**/crash.log
-*.tgz
-*.swp
-**/s3state
-**/auth.json
-bin/*
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+.DS_Store
+.vscode/
+*.pem
+node_modules/
+notes.txt*
+
+logs
+*.log
+
+
+default-compute-credentials.json
+docker.*
+*.cert
+*.key
