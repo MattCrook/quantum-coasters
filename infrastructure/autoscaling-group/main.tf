@@ -68,9 +68,10 @@ module "managed_instance_autoscaling_group" {
   instance_type                = "e2-medium"
   name                         = "quantum-coasters"
   service_account              = "${google_service_account.quantum_coasters_sa.email}"
-  compute_address_name         = "private-services-access"
+  # compute_address_name         = "private-services-access"
+  compute_address_name         = "compute-address"
   zone                         = "us-central1-c"
-  max_replicas                 = 10
+  max_replicas                 = 5
   min_replicas                 = 2
   // server_port                  = 3000
   project                      = "${var.project}"
@@ -81,53 +82,54 @@ module "managed_instance_autoscaling_group" {
   docker_password              = "${file("${path.module}/docker.password")}"
   private_key                  = "${file("${path.module}/tls.key")}"
   certificate                  = "${file("${path.module}/tls.cert")}"
+  autoscaler_name              = "quantum-coasters-autoscaler"
 }
 
+// resource "google_compute_firewall" "allow_all" {
+//   project     = "${var.project}"
+//   name        = "ingress-allow-all"
+//   network     = "${data.google_compute_network.default_network.name}"
+//   direction   = "INGRESS"
+//   description = "Firewall rule allows all traffic with protocols tcp, udp, and icmp from all IPs into port 80 and port 443."
 
-resource "google_compute_firewall" "allow_all" {
-  project     = "${var.project}"
-  name        = "ingress-allow-all"
-  network     = "${data.google_compute_network.default_network.name}"
-  direction   = "INGRESS"
-  description = "Firewall rule allows all traffic with protocols tcp, udp, and icmp from all IPs into port 80 and port 443."
+//   source_ranges = "${local.all_ips}"
 
-  source_ranges = "${local.all_ips}"
+//   allow {
+//     protocol = "${local.tcp_protocol}"
+//     ports    = ["80", "443"]
+//   }
 
-  allow {
-    protocol = "${local.tcp_protocol}"
-    ports    = ["80", "443"]
-  }
+//   allow {
+//     protocol = "icmp"
+//   }
 
-  allow {
-    protocol = "icmp"
-  }
+//   allow {
+//     protocol = "udp"
+//   }
 
-  allow {
-    protocol = "udp"
-  }
+//   log_config {
+//     metadata = "EXCLUDE_ALL_METADATA"
+//   }
+// }
 
-  log_config {
-    metadata = "EXCLUDE_ALL_METADATA"
-  }
-}
-
-resource "google_compute_firewall" "egress_allow_all" {
-  project     = "${var.project}"
-  name        = "egress-allow-all"
-  network     = "${data.google_compute_network.default_network.name}"
-  direction   = "EGRESS"
-  priority    = 65535
-  description = "Firewall rule allows all Egress traffic from all IPs and all ports."
+// resource "google_compute_firewall" "egress_allow_all" {
+//   project     = "${var.project}"
+//   name        = "egress-allow-all"
+//   network     = "${data.google_compute_network.default_network.name}"
+//   direction   = "EGRESS"
+//   # priority    = 65535
+//   priority    = 1000
+//   description = "Firewall rule allows all Egress traffic from all IPs and all ports."
 
 
-  allow {
-    protocol = "all"
-  }
+//   allow {
+//     protocol = "all"
+//   }
 
-  log_config {
-    metadata = "EXCLUDE_ALL_METADATA"
-  }
-}
+//   log_config {
+//     metadata = "EXCLUDE_ALL_METADATA"
+//   }
+// }
 
 
 // resource "google_compute_firewall" "allow_http" {
