@@ -1,0 +1,22 @@
+# Local .terraform directories
+**/.terraform/*
+.terraform
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+
+.DS_Store
+.vscode/
+*.pem
+node_modules/
+notes.txt*
+
+logs
+*.log
+
+
+default-compute-credentials.json
+docker.*
+*.cert
+*.key

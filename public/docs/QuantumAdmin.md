@@ -5,8 +5,20 @@ The Quantum Coasters Admin/ Management application provides key insights and das
 ![QuantumAdminHome](../ReadMePhotos/QuantumAdminHome.png)
 
 #### Admin Users
+
 A system administrator must first set up an admin user's account to be able to log into Quantum Admin. They will be given a temporary password, which can be used once to log in, then change their password.
+
 * Once logged in and registered in the system, the user not only has rights to Quantum Admin, but Quantum Admin also provides access to the Django Admin view, and the Django Rest Admin view as well.
+
+##### Login
+
+![QuantumAdminLogin](../ReadMePhotos/QAdminLogin.png)
+
+##### Register
+![QuantumAdminRegister](../ReadMePhotos/QAdminRegister.png)
+
+##### Help Modal for Further Instructions
+![QuantumAdminHelpModal](../ReadMePhotos/QadminHelpModal.png)
 
 ## Admin Views
 
@@ -34,3 +46,12 @@ Quantum Admin provides access to:
   * Logins, login attempts, and failed logins
 
 ***Admin Application is still under development. Full app coming soon.***
+
+## Home Dashboard
+
+![QuantumAdminDash](../ReadMePhotos/QAdminDash.png)
+![QuantumAdminDash2](../ReadMePhotos/QAdminDash2.png)
+
+## API Dashboard
+
+![QuantumAdminAPIDashboard](../ReadMePhotos/QAdminApiDash.png)
