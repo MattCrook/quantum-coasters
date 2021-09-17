@@ -10,6 +10,7 @@ const Auth0ProviderWithHistory = ({ children }) => {
   const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
   const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
+
   // A function that routes the user to the right place after login.
   const onRedirectCallback = (appState) => {
     history.push(appState && appState.targetUrl ? appState.targetUrl : window.location.pathname);
