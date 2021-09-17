@@ -43,3 +43,25 @@ yarn-error.log*
 notes.txt
 Dockefile-example.no-compose
 .env.production.example
+
+
+# Local .terraform directories
+**/.terraform/*
+.terraform
+*.terraform
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+default-compute-credentials.json
+docker.*
+*.cert
+*.key
+
+.vscode/
+*.pem
+node_modules/
+
+
+logs
+*.log
