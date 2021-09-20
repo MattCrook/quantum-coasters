@@ -1,14 +1,14 @@
 FROM node:16 AS builder
 
-COPY .env .
+# COPY .env .
 
 COPY package*.json .
 
 RUN npm update
 
 # Better to use npm ci to intall all deps from fresh instead of using cached
-RUN npm install
-# RUN npm ci
+# RUN npm install
+RUN npm ci
 
 ##############################################
 # App stage #
@@ -17,9 +17,7 @@ FROM node:16-alpine
 # The WORKDIR command is used to define the working directory of a Docker container at any given time.
 WORKDIR /usr/src/app
 
-COPY --from=builder .env .env
-
-ENV SERVER_PORT=8000
+# COPY --from=builder .env .env
 
 COPY . .
 

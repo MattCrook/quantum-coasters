@@ -1,5 +1,5 @@
 SHELL:=/bin/bash
-REPO := quantumapp
+REPO := quantum-coasters
 
 prep:
 	npm install
@@ -14,7 +14,7 @@ docker_build:
 	docker build -t quantumcoasters:latest .
 
 docker_run:
-	docker run -it -d --env-file .env -p 8000:8000 quantumcoasters
+	docker run --env-file .env -it -d -p 3000:3000 quantumcoasters
 
 docker_compose:
 	docker-compose up --build
