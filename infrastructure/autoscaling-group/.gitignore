@@ -1,0 +1,12 @@
+# Local .terraform directories
+**/.terraform/*
+.terraform
+*.terraform
+
+# .tfstate files
+*.tfstate
+*.tfstate.*
+default-compute-credentials.json
+docker.*
+*.cert
+*.key
