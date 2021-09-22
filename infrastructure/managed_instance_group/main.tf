@@ -39,15 +39,17 @@ module "managed_instance_autoscaling_group" {
 
   private_subnetwork_name                    = "quantum-private-subnetwork"
   private_subnetwork_description             = "Private subnetwork for Quantum Coasters VPC."
-  private_subnetwork_network                 = "10.2.0.0/16"
-  private_subnetwork_range                   = "quantum-coasters-network"
+  private_subnetwork_network                 = "quantum-coasters-network"
+  private_subnetwork_range                   = "10.2.0.0/16"
   private_subnetwork_secondary_ip_range_name = "quantum-private-secondary-subnet-range"
-  private_subnetwork_secondary_ip_range      = "192.168.0.0/16"
+  private_subnetwork_secondary_ip_range      = "192.168.10.0/24"
 
   public_subnetwork_name                    = "quantum-public-subnetwork"
   public_subnetwork_description             = "Public subnetwork for Quantum Coasters VPC."
   public_subnetwork_network                 = "quantum-coasters-network"
   public_subnetwork_range                   = "10.0.1.0/24"
   public_subnetwork_secondary_ip_range_name = "quantum-public-secondary-subnet-range"
-  public_subnetwork_secondary_ip_range      = "192.168.10.0/24"
+  public_subnetwork_secondary_ip_range      = "10.0.0.0/24"
+
+  managed_ssl_certificate_domains = ["*"]
 }

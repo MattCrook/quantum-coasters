@@ -34,6 +34,10 @@ output "health_check_self_links" {
   value       = module.managed_instance_autoscaling_group.health_check_self_links
 }
 
+output "vm_nat_ip" {
+  value = module.managed_instance_autoscaling_group.vm_nat_ip
+}
+
 ###########################
 # Backend Services
 ############################
@@ -43,10 +47,10 @@ output "backend_services" {
   value       = "${module.managed_instance_autoscaling_group.backend_services}"
 }
 
-output "backend_https_services" {
-  description = "The backend service resources."
-  value       = "${module.managed_instance_autoscaling_group.backend_https_services}"
-}
+// output "backend_https_services" {
+//   description = "The backend service resources."
+//   value       = "${module.managed_instance_autoscaling_group.backend_https_services}"
+// }
 
 
 ###########################
