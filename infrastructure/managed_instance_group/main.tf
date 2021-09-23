@@ -50,6 +50,4 @@ module "managed_instance_autoscaling_group" {
   public_subnetwork_range                   = "10.0.1.0/24"
   public_subnetwork_secondary_ip_range_name = "quantum-public-secondary-subnet-range"
   public_subnetwork_secondary_ip_range      = "10.0.0.0/24"
-
-  managed_ssl_certificate_domains = ["*"]
 }
