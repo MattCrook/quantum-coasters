@@ -3,26 +3,29 @@
 
 ## Setup
 
-* `git clone git@github.com:MattCrook/quantum-front-end-capstone.git`
-#### Run with JSON Server
-* `cd` into the directory it creates
-   1. * Note: *the JSON Server functionality is depreciated*.
-         1. To run locally using `json-server` do the following steps:
-         2. `mkdir api`
-         3. Cd in api directory and `touch db.json`
-         4. Populate the mock database with dummy data found [here](https://gist.github.com/MattCrook/57da766ddee58d9535ebb9beb910e0c8)
-         5. Install [json-server](https://www.npmjs.com/package/json-server): `npm install -g json-server`
-         6. `npm install` to build dependencies
-         7. `json-server -p 8200 -w api/database.json`...or I've set up a development server, so you can run `npm run dev-server` to run json-server.
-         8.  Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
 #### Run Locally with the backend QuantumApp
-* Or, ***preferably***, run with the **QuantumAPI/ QuantumApp**.
-    1. `git clone git@github.com:MattCrook/quantum-front-end-capstone.git`
-    2. `cd` into the directory it creates
-    3.  Run `npm install`.
-    4.  Run `npm run dev`.
-    5.  To see instructions on cloning and running the Backend, click **[here](https://github.com/MattCrook/quantumapp-api)**.
+* For full functionality of API and backend, run with the **QuantumAPI/ QuantumApp**.
+  * Clone this repositiry: `git clone git@github.com:MattCrook/quantum-front-end-capstone.git`
+  * `cd` into the directory it creates.
+  * Run `npm install`.
+  * Run `npm run dev`.
+  * To see instructions on cloning and running the Backend, click **[here](https://github.com/MattCrook/quantumapp-api)**.
+
+
+#### Run with JSON Server ***(Depreciated)***
+
+*This will theoretically still work, you'll just need json server installed, and you'll need to create a "mock" API for the server to run. To do that, simply create a directory in the root of this project called `api`, then inside that directory, create a json file, like `api.json` for example. The json server will use that file as a mock API/Database to store data and make API calls to. This functionaloty allows the front-end to run by itself, without the backend.*
+
+* ***Note***: *the JSON Server functionality is depreciated*.
+  * To run locally using `json-server` do the following steps:
+  * `mkdir api`
+  * Cd in api directory and `touch db.json`
+  * Populate the mock database with dummy data found [here](https://gist.github.com/MattCrook/57da766ddee58d9535ebb9beb910e0c8)
+  * Install [json-server](https://www.npmjs.com/package/json-server): `npm install -g json-server`
+  * `npm install` to build dependencies
+  * `json-server -p 8200 -w api/database.json`...or I've set up a development server, so you can run `npm run dev-server` to run json-server.
+  * Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
 
 ## Overview
 
