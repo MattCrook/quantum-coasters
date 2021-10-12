@@ -6,52 +6,6 @@ output "external_global_address" {
   value = "${module.managed_instance_autoscaling_group.public_ip}"
 }
 
-######################
-# Autoscaler and MIG
-######################
-
-output "autoscaler_self_link" {
-  description = "The URI of the created resource"
-  value       = "${module.managed_instance_autoscaling_group.autoscaler_self_link}"
-}
-
-output "instance_group_manager_self_link" {
-  value = "${module.managed_instance_autoscaling_group.instance_group_manager_self_link}"
-}
-
-output "instance_group" {
-  description = "The full URL of the instance group created by the manager"
-  value       = "${module.managed_instance_autoscaling_group.instance_group}"
-}
-
-output "status" {
-  description = "The status of this managed instance group"
-  value       = "${module.managed_instance_autoscaling_group.status}"
-}
-
-output "health_check_self_links" {
-  description = "All self_links of healthchecks created for the instance group."
-  value       = module.managed_instance_autoscaling_group.health_check_self_links
-}
-
-output "vm_nat_ip" {
-  value = module.managed_instance_autoscaling_group.vm_nat_ip
-}
-
-###########################
-# Backend Services
-############################
-
-output "backend_services" {
-  description = "The backend service resources."
-  value       = "${module.managed_instance_autoscaling_group.backend_services}"
-}
-
-// output "backend_https_services" {
-//   description = "The backend service resources."
-//   value       = "${module.managed_instance_autoscaling_group.backend_https_services}"
-// }
-
 
 ###########################
 # Network and Subnetwork
@@ -78,14 +32,17 @@ output "backend_services" {
 
 output "google_compute_network_id" {
   description = "Id of VPC network created for Quantum Coasters"
-  value = "${module.managed_instance_autoscaling_group.google_compute_network_id}"
+  value = "${module.managed_instance_autoscaling_group.network_id}"
 }
 
 output "google_compute_network_gateway_ipv4" {
   description = "The gateway address for default routing out of the network. This value is selected by GCP"
-  value = "${module.managed_instance_autoscaling_group.google_compute_network_gateway_ipv4}"
+  value = "${module.managed_instance_autoscaling_group.network_gateway_ipv4}"
 }
 
+################
+# Public Subnet
+###############
 output "public_subnet_ip_cidr_range" {
   description = "The public IP address range that machines in this network are assigned to, represented as a CIDR block."
   value = "${module.managed_instance_autoscaling_group.public_subnet_ip_cidr_range}"
@@ -101,6 +58,9 @@ output "public_subnet_gateway_address" {
   value = "${module.managed_instance_autoscaling_group.public_subnet_gateway_address}"
 }
 
+################
+# Private Subnet
+###############
 output "private_subnet_gateway_address" {
   description = "The private IP address of the gateway"
   value = "${module.managed_instance_autoscaling_group.private_subnet_gateway_address}"
