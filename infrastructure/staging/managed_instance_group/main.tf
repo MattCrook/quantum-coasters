@@ -18,9 +18,6 @@ module "managed_instance_autoscaling_group" {
   docker_password_destination  = "/tmp/docker.password"
   startup_script_file_source   = "${file("${path.module}/scripts/docker_login_startapp.sh")}"
   startup_script_destination   = "/tmp/docker_login_startapp.sh"
-
-  // private_key                  = "${file("${path.module}/secrets/ssl.key")}"
-  // certificate                  = "${file("${path.module}/secrets/ssl.cert")}"
   autoscaler_name              = "quantum-coasters-autoscaler"
   https_proxy_name             = "target-https-proxy"
   instance_template_tags       = ["quantum-coasters-production"]
