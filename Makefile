@@ -10,6 +10,9 @@ start_dev:
 test:
 	npm run test
 
+build:
+	chmod +x ./scripts/build.sh && ./scripts/build.sh
+
 docker_build:
 	docker build -t quantumcoasters:latest .
 
@@ -24,3 +27,6 @@ dockerhub_tag:
 
 dockerhub_push:
 	docker push $(DOCKERHUB_REPO):$(tag)
+
+app_engine_deploy:
+	gcloud app deploy deploy.yaml
