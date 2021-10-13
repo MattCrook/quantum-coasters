@@ -19,9 +19,3 @@ variable "zone" {
   type        = string
   default     = "us-central1-c"
 }
-
-variable "server_port" {
-  description = "The port the server will use for HTTP requests"
-  type        = number
-  default     = 8080
-}
