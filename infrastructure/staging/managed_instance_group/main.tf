@@ -14,6 +14,11 @@ module "managed_instance_autoscaling_group" {
   can_ip_forward               = false
   docker_username              = "${file("${path.module}/secrets/docker.username")}"
   docker_password              = "${file("${path.module}/secrets/docker.password")}"
+  docker_username_destination  = "/tmp/docker.username"
+  docker_password_destination  = "/tmp/docker.password"
+  startup_script_file_source   = "${file("${path.module}/scripts/docker_login_startapp.sh")}"
+  startup_script_destination   = "/tmp/docker_login_startapp.sh"
+
   // private_key                  = "${file("${path.module}/secrets/ssl.key")}"
   // certificate                  = "${file("${path.module}/secrets/ssl.cert")}"
   autoscaler_name              = "quantum-coasters-autoscaler"
