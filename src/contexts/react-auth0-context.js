@@ -128,7 +128,7 @@ export const Auth0Provider = ({
       }
       throw new Error("Request Failed");
     } catch (err) {
-      console.log(err);
+      console.error(err);
       if (window.confirm("Oops! There was an error logging out! We are sorry about that. If you wish to force log out, please confirm by clicking 'yes'.")) {
         clearStorage();
         window.location = window.location.origin;
