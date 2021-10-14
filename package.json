@@ -38,7 +38,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "dev-server": "json-server -p 8200 api/database.json"
+    "dev-server": "json-server -p 8200 api/database.json",
+    "start": "react-scripts start"
   },
   "eslintConfig": {
     "extends": "react-app"
