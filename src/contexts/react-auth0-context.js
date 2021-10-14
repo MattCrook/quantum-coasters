@@ -115,7 +115,7 @@ export const Auth0Provider = ({
       await postErrorLog(error, "Auth0 Context", "djangoRestAuthLogout");
     }
     try {
-      const response = await fetch(`http://${process.env.REACT_APP_SERVER_URL}/rest-auth/logout/`, {
+      const response = await fetch(`${process.env.REACT_APP_REMOTE_API_URL}/rest-auth/logout/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -129,6 +129,10 @@ export const Auth0Provider = ({
       throw new Error("Request Failed");
     } catch (err) {
       console.log(err);
+      if (window.confirm("Oops! There was an error logging out! We are sorry about that. If you wish to force log out, please confirm by clicking 'yes'.")) {
+        clearStorage();
+        window.location = window.location.origin;
+      }
     }
   };
 
