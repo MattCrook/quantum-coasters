@@ -115,7 +115,7 @@ export const Auth0Provider = ({
       await postErrorLog(error, "Auth0 Context", "djangoRestAuthLogout");
     }
     try {
-      const response = await fetch("http://localhost:8000/rest-auth/logout/", {
+      const response = await fetch(`http://${process.env.REACT_APP_SERVER_URL}/rest-auth/logout/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
