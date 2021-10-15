@@ -99,16 +99,17 @@ export const Auth0Provider = ({
     setUser(user);
   };
 
-  const clearStorage = () => {
+  const clearStorage = async () => {
     sessionStorage.removeItem("accessToken");
     sessionStorage.removeItem("IdToken");
     sessionStorage.removeItem("QuantumToken");
     sessionStorage.removeItem("credentials");
     sessionStorage.removeItem("sessionId");
-    auth0Client.logout();
+    const userLogout = auth0Client.logout();
+    return await userLogout;
   };
 
-  const djangoRestAuthLogout = async (logout, clearStorage, userToLogout) => {
+  const djangoRestAuthLogout = async (clearStorage, userToLogout) => {
     try {
       await userManager.setUserAsInActive({ 'is_currently_active': "False" }, userToLogout.id);
     } catch (error) {
@@ -123,15 +124,23 @@ export const Auth0Provider = ({
         body: JSON.stringify(userToLogout),
       });
       if (response.ok) {
-        clearStorage(logout);
-        return await response.json();
+        const resp = await response.json();
+        const userLogout = await clearStorage();
+        const logoutData = {
+          response: resp,
+          logout: userLogout
+        }
+        console.log("AUTH0CONTEXT - LogoutData:", logoutData);
+        // ToDo: Send API Request to logging or something for data collection
+
+        window.location = window.location.origin;
       }
       throw new Error("Request Failed");
     } catch (err) {
       console.error(err);
       if (window.confirm("Oops! There was an error logging out! We are sorry about that. If you wish to force log out, please confirm by clicking 'yes'.")) {
         clearStorage();
-        auth0Client.logout({ localOnly: true })
+        auth0Client.logout()
         window.location = window.location.origin;
       }
     }
