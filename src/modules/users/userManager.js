@@ -63,23 +63,37 @@ const userManager = {
     return await resp.json();
   },
 
+  // async getAuthUser(email) {
+  //   try {
+  //     const resp = await fetch(`${remoteURL}/api/userprofiles?email=${email}`, {
+  //       method: "GET",
+  //       headers: {
+  //         //"Access-Control-Allow-Origin": "https://quantum-coasters.uc.r.appspot.com",
+  //         //"Access-Control-Allow-Headers": ["Access-Control-Allow-Origin"],
+  //         //"Access-Control-Allow-Headers": ["Accept", "Accept-Encoding", "Authorization", "Content-Type", "DNT", "Origin", "User-Agent", "X-CSRFTOKEN", "X-Requested-With"],
+  //         //"Access-Control-Allow-Methods": ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"],
+  //         "Content-Type": "application/json",
+  //         //"Origin": "Vary",
+  //         Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
+  //       },
+  //       //Accept: "application/json",
+  //       //mode: "cors"
+  //     });
+  //     console.log(resp)
+  //     if (resp.ok && resp.status === 204) {
+  //       return resp;
+  //     } else {
+  //       return await resp.json();
+  //     }
+  //   } catch (err) {
+  //     console.log("Error:", err);
+  //   }
+  // },
+
   async getAuthUser(email) {
-    try {
-      const resp = await fetch(`${remoteURL}/api/userprofiles?email=${email}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + sessionStorage.getItem("accessToken"),
-        },
-      });
-      if (resp.ok && resp.status === 204) {
-        return resp;
-      } else {
-        return await resp.json();
-      }
-    } catch (err) {
-      console.log({err});
-    }
+    const allUserProfiles = await this.getAllUsers();
+    const userProfile = allUserProfiles.filter(user => user.email === email);
+    return userProfile;
   },
 
   async deleteUserProfile(id) {
