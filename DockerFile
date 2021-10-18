@@ -1,7 +1,5 @@
 FROM node:16 AS builder
 
-# COPY .env .
-
 COPY package*.json .
 
 RUN npm update
@@ -16,8 +14,6 @@ FROM node:16-alpine
 
 # The WORKDIR command is used to define the working directory of a Docker container at any given time.
 WORKDIR /usr/src/app
-
-# COPY --from=builder .env .env
 
 COPY . .
 

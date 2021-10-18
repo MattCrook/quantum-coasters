@@ -29,4 +29,5 @@ dockerhub_push:
 	docker push $(DOCKERHUB_REPO):$(tag)
 
 app_engine_deploy:
+	npm run build
 	gcloud app deploy deploy.yaml
