@@ -2,26 +2,3 @@ runtime: nodejs16
 service: default
 
 env_variables:
-  REACT_APP_REMOTE_API_URL: ${REACT_APP_REMOTE_API_URL}
-  REACT_APP_SERVER_URL: ${REACT_APP_SERVER_URL}
-  REACT_APP_AUTH0_DOMAIN: ${REACT_APP_AUTH0_DOMAIN}
-  REACT_APP_AUTH0_CLIENT_ID: ${REACT_APP_AUTH0_CLIENT_ID}
-  REACT_APP_AUTH0_AUDIENCE: ${REACT_APP_AUTH0_AUDIENCE}
-  REACT_APP_AUTH0_SECRET: ${REACT_APP_AUTH0_SECRET}
-  AUTH0_AUDIENCE: ${AUTH0_AUDIENCE}
-  AUTH0_DOMAIN: ${AUTH0_DOMAIN}
-
-handlers:
-  # Serve all static files with urls ending with a file extension
-  - url: /(.*\..+)$
-    static_files: build/\1
-    upload: build/(.*\..+)$
-    # catch all handler to index.html
-  - url: /.*
-    static_files: build/index.html
-    upload: build/index.html
-
-  # - url: /.*
-  #   secure: always
-  #   redirect_http_response_code: 301
-  #   script: auto

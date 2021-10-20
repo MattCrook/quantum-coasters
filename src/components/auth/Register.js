@@ -33,7 +33,6 @@ const Register = (props) => {
   const [isValidating, setIsValidating] = useState(false); // spinner
   const [errorMessage, setErrorMessage] = useState('');   // Error message
   const [validationCheck, setValidationCheck] = useState(false);  // check icon
-  var appInitOptionsCredentials = props.initCredentials;
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -186,7 +185,7 @@ const Register = (props) => {
                     isActive: isActive,
                     appLoginData: authUserAppLoginData,
                     initOptions: appInitOptions,
-                    registerActivityLog: true,
+                    //registerActivityLog: true,
                     registerActivityLog: registerActivityLog,
                     credentials: authCredentialsResult,
                     userLoginData: loginInfo
@@ -232,6 +231,7 @@ const Register = (props) => {
   //     </div>
   //   );
   // }
+
 
   function getCookie(cookieName) {
     let name = cookieName + "=";
@@ -349,6 +349,23 @@ const Register = (props) => {
               Address
             </label>
             <input className="input_register" onChange={handleAuthUserInputChange} type="text" id="address" required />
+
+            {isValidating ? (
+                <div className="validating_email_container">
+                  <div id="auth_spinner"></div>
+                </div>
+              ) : null}
+              {isLoginError ? (
+                <div className="error_message_container">
+                  <i id="fa_triangle" className="fas fa-exclamation-triangle"></i>
+                  <div className="error_message">{errorMessage}</div>
+                </div>
+              ) : null}
+              {validationCheck ? (
+                <div className="success_check_wrapper">
+                  <i id="auth_check" className="fas fa-check-circle"></i>
+                </div>
+            ) : null}
 
             <button className="register-create-btn" type="submit" disabled={isLoading} onClick={attempts}>
               Register
