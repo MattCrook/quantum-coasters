@@ -18,3 +18,5 @@ node_modules/
 infrastructure
 .env.prod.example
 .env.dev.example
+.env.deploy.example
+.dockerignore.example

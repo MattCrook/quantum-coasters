@@ -171,3 +171,48 @@
     opacity: 1;
   }
 } */
+
+.validating_email_container_register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5%;
+}
+
+#auth_spinner_register {
+  width: 32px;
+  height: 32px;
+  border-radius: 32px;
+  box-sizing: border-box;
+  border: 2px groove white;
+  margin: -16px 0px 0px -16px;
+  border-top-color: rgb(233, 233, 233);
+  border-left-color: rgba(197, 197, 197, 0.9);
+  border-bottom-color: rgba(211, 211, 211, 0.8);
+  border-right-color: rgba(206, 206, 206, 0.7);
+  animation: rotate 1000ms infinite linear;
+  transform: translateZ(0px);
+}
+
+.error_message_container_register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 8%;
+}
+
+.error_message_register {
+  color: rgb(255, 110, 110);
+}
+
+.success_check_wrapper_register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10%;
+}
+
+#auth_check_register {
+  color: rgb(26, 168, 50);
+  font-size: 16px;
+}

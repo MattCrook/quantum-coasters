@@ -16,7 +16,8 @@ const LandingPage = (props) => {
   const reAuthenticateRedirect = async () => {
     // clearStorage();
     const loginPopUp = await loginWithPopup();
-    console.log({loginPopUp})
+    console.log({ loginPopUp })
+    props.history.push("/home");
   }
 
   return (

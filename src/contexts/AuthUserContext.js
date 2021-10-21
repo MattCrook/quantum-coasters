@@ -13,7 +13,6 @@ export const AuthUserProvider = ({ children }) => {
   const [authToken, setAuthToken] = useState([]);
   const [authUserData, setAuthUserData] = useState([]);
 
-
   useEffect(() => {
     if (user && isAuthenticated) {
       const userEmail = user.email;
@@ -26,24 +25,26 @@ export const AuthUserProvider = ({ children }) => {
           sessionStorage.setItem("IdToken", JSON.stringify(tokenId));
           sessionStorage.setItem("accessToken", accessToken);
         }
-        const userData = await userManager.getAuthUser(userEmail);
-
-        if (userData && userData.id && userData.user) {
-          const creditsArray = userData.credits;
-          setUserProfile(userData);
-          setAuthUser(userData.user);
-          setUserCredits(creditsArray);
-
-          const djangoAuthToken = sessionStorage.getItem("QuantumToken");
-          setAuthToken(djangoAuthToken);
-        } else {
-          console.log("Please Complete your Profile. :) ");
+        try {
+          var userProfileData = await userManager.getAuthUser(userEmail);
+        } catch (err) {
+          console.log(err);
+        } finally {
+          if (userProfileData && userProfileData[0].id && userProfileData[0].user) {
+            const creditsArray = userProfileData.credits;
+            setUserProfile(userProfileData[0]);
+            setAuthUser(userProfileData[0].user);
+            setUserCredits(creditsArray);
+            const djangoAuthToken = sessionStorage.getItem("QuantumToken");
+            setAuthToken(djangoAuthToken);
+          } else {
+            console.log("Please Complete your Profile. :) ");
+          }
         }
       };
       initUserProfile(userEmail);
     }
   }, [user, getIdTokenClaims, getTokenSilently, isAuthenticated]);
-
 
   return (
     <AuthUserContext.Provider

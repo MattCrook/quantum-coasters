@@ -20,7 +20,6 @@ export const Auth0Provider = ({
   const [loading, setLoading] = useState(true);
   const [popupOpen, setPopupOpen] = useState(false);
   const [transactions, setTransactions] = useState([]);
-  const [storage, setStorage] = useState([]);
   const [appInitOptions, setAppInitOptions] = useState([]);
 
   useEffect(() => {
@@ -34,7 +33,6 @@ export const Auth0Provider = ({
       console.log("Storage", transactionsManager.storage)
 
       setTransactions(transactionsManager.transactions)
-      setStorage(transactionsManager.storage)
       setAuth0(auth0FromHook);
 
       if (window.location.search.includes("code=") && window.location.search.includes("state=")) {
@@ -77,9 +75,7 @@ export const Auth0Provider = ({
   const loginWithPopup = async (params = {}) => {
     setPopupOpen(true);
     try {
-      console.log({params})
-      const auth = await auth0Client.loginWithPopup(params);
-      console.log({auth})
+      await auth0Client.loginWithPopup(params);
     } catch (error) {
       console.error(error);
     } finally {
@@ -105,9 +101,10 @@ export const Auth0Provider = ({
     sessionStorage.removeItem("QuantumToken");
     sessionStorage.removeItem("credentials");
     sessionStorage.removeItem("sessionId");
+    sessionStorage.removeItem("isActive");
   };
 
-  const djangoRestAuthLogout = async (clearStorage, userToLogout) => {
+  const djangoRestAuthLogout = async (logout, clearStorage, userToLogout) => {
     try {
       await userManager.setUserAsInActive({ 'is_currently_active': "False" }, userToLogout.id);
     } catch (error) {
@@ -122,17 +119,10 @@ export const Auth0Provider = ({
         },
         body: JSON.stringify(userToLogout),
       });
-      if (response.ok) {
-        //const resp = await response.json();
-        clearStorage();
-        //auth0Client.logout()
-        // const logoutData = {
-        //   response: resp,
-        //   logout: userLogout
-        // }
-        // console.log("AUTH0CONTEXT - LogoutData:", logoutData);
-        // ToDo: Send API Request to logging or something for data collection
 
+      if (response.ok) {
+        clearStorage();
+        logout();
         window.location.href = window.location.origin;
       }
       //throw new Error("Request Failed");
@@ -140,8 +130,8 @@ export const Auth0Provider = ({
       console.error(err);
       if (window.confirm("Oops! There was an error logging out! We are sorry about that. If you wish to force log out, please confirm by clicking 'yes'.")) {
         clearStorage();
-        // auth0Client.logout()
-        window.location = window.location.origin;
+        logout()
+        // window.location = window.location.origin;
       }
     }
   };

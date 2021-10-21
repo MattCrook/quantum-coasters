@@ -165,11 +165,11 @@ const userManager = {
       console.info(err);
     }
   },
-  async setUserAsActive(payload, authUserId, getTokenSilently) {
+  async setUserAsActive(payload, userId, getTokenSilently) {
     try {
       const token = await getTokenSilently();
-      const userProfile = await this.getUserProfileEmbeddedAuthUser(authUserId);
-      const uid = userProfile.id;
+      const userProfile = await this.getUserProfileEmbeddedAuthUser(userId);
+      const uid = userProfile[0].id;
       const response = await fetch(`${remoteURL}/api/userprofiles/${uid}`, {
         method: "PUT",
         headers: {
@@ -178,13 +178,13 @@ const userManager = {
         },
         body: JSON.stringify(payload),
       });
-      if (response.ok) {
-        const resp = response;
-        console.log({resp})
+      if (response.status === 204) {
+        sessionStorage.setItem("isActive", true);
+        // ToDo: more global hook to set isActive - maybe in context.
       }
-      throw new Error("Verify Email Request Failed");
     } catch (err) {
-      console.info(err);
+      console.warn("setUserAsActive request failed")
+      console.error(err);
     }
   },
   async setUserAsInActive(payload, authUserId) {

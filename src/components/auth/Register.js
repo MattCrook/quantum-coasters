@@ -21,7 +21,7 @@ const Register = (props) => {
     getTokenSilently,
     appInitOptions,
   } = useAuth0();
-  var appInitOptionsCredentials = props.initOptions
+  // const initOptionsFromAuth0 = props.initCredentials
   const { setAuthToken, setAuthUser, authUser, userProfile, setAuthUserData } = useAuthUser();
   const { postActivityLogRegistration, sendLoginInfo } = useActivityLog();
   const { postNewErrorLog } = useErrorLog();
@@ -161,11 +161,14 @@ const Register = (props) => {
                   // Calling function that sets the token in session storage, and sets isLogged in to true.
                   props.setDjangoToken(registeredUser.DjangoUser);
                   sessionStorage.setItem("sessionId", registeredUser.DjangoUser.session);
-                  appInitOptionsCredentials['django_token'] = registeredUser.DjangoUser.QuantumToken;
-                  appInitOptionsCredentials['session_id'] = registeredUser.DjangoUser.session;
+
+                  var appCredentials = appInitOptions[0]
+                  appCredentials['django_token'] = registeredUser.DjangoUser.QuantumToken;
+                  appCredentials['session_id'] = registeredUser.DjangoUser.session;
 
                   try {
-                    var authCredentialsResult = await userManager.postInitAppOptions(appInitOptionsCredentials);
+                    var authCredentialsResult = await userManager.postInitAppOptions(appCredentials);
+                    console.log("authCredentialsResult",authCredentialsResult)
                   } catch (error) {
                     setIsLoading(false);
                     showError("Oops! Something went wrong. Please try again.");
@@ -185,8 +188,8 @@ const Register = (props) => {
                     isActive: isActive,
                     appLoginData: authUserAppLoginData,
                     initOptions: appInitOptions,
-                    //registerActivityLog: true,
-                    registerActivityLog: registerActivityLog,
+                    registerActivityLog: true,
+                    registerActivityLogData: registerActivityLog,
                     credentials: authCredentialsResult,
                     userLoginData: loginInfo
                   };
@@ -208,6 +211,7 @@ const Register = (props) => {
                 showError("There was a problem registering. Please contact Support.")
                 console.log(err)
                 postNewErrorLog(err, "Register.js", "handleFormSubmit - registerUser");
+                props.history.push("/home")
               }
             },
           },
@@ -351,19 +355,19 @@ const Register = (props) => {
             <input className="input_register" onChange={handleAuthUserInputChange} type="text" id="address" required />
 
             {isValidating ? (
-                <div className="validating_email_container">
-                  <div id="auth_spinner"></div>
+                <div className="validating_email_container_register">
+                  <div id="auth_spinner_register"></div>
                 </div>
               ) : null}
               {isLoginError ? (
-                <div className="error_message_container">
+                <div className="error_message_container_register">
                   <i id="fa_triangle" className="fas fa-exclamation-triangle"></i>
-                  <div className="error_message">{errorMessage}</div>
+                  <div className="error_message_register">{errorMessage}</div>
                 </div>
               ) : null}
               {validationCheck ? (
-                <div className="success_check_wrapper">
-                  <i id="auth_check" className="fas fa-check-circle"></i>
+                <div className="success_check_wrapper_register">
+                  <i id="auth_check_register" className="fas fa-check-circle"></i>
                 </div>
             ) : null}
 

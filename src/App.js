@@ -19,14 +19,14 @@ const App = (props) => {
   const [platformOS, setPlatformOS] = useState();
   const [appCodeNameData, setAppCodeNameData] = useState();
   const { userAgent } = navigator;
-  const appCodeName = navigator.appCodeName;
-  const platformOperatingSystem = navigator.platform;
+  const appCodeName = "ToDo";
+  const platformOperatingSystem = navigator.vendor;
   const hasQuantumToken = sessionStorage.getItem("QuantumToken") !== null;
 
 
   useEffect(() => {
     if (user && isAuthenticated && appInitOptions && appInitOptions.length > 0) {
-      const init = async () => {
+      const init = () => {
         const sessionId = sessionStorage.getItem("sessionId");
         const csrf_token = getCookie("csrftoken");
         const allCookies = getallCookies();

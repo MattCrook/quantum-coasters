@@ -249,12 +249,12 @@
   transform: translateZ(0px);
 }
 
-.email_validation_error_wrapper {
+/* .email_validation_error_wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 5%;
-}
+} */
 
 .success_check_wrapper {
   display: flex;
