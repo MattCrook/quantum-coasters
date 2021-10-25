@@ -2,6 +2,16 @@
 
 The Quantum Coasters Admin/ Management application provides key insights and dashboards for admin users to utilize for monitoring, logging, traffic, scaling, performance, and security across all of Quantum Coasters.
 
+###### The Admin application is not directly accessable from the main app, to access it, you need to navigate to ${ORIGIN}/quantumadmin.
+
+###### For example, http://localhost:8000/quantumadmin
+
+###### Or, for the deployed application (which is currently offline): https://api-dot-quantum-coasters.uc.r.appspot.com/quantumadmin/
+
+
+
+## Overview
+
 ![QuantumAdminHome](../ReadMePhotos/QuantumAdminHome.png)
 
 #### Admin Users

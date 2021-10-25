@@ -7,8 +7,13 @@
 * For full functionality of API and backend, run with the **QuantumAPI/ QuantumApp**.
   * Clone this repositiry: `git clone git@github.com:MattCrook/quantum-front-end-capstone.git`
   * `cd` into the directory it creates.
-  * Run `npm install`.
-  * Run `npm run dev`.
+  * To install dependencies, run:
+    *  `make prep`
+  * To run locally using `localhost:3000`, run:
+    * `make start_dev`.
+  * Or, run with Docker:
+    * `make docker_build`
+    * `make docker_run`
   * To see instructions on cloning and running the Backend, click **[here](https://github.com/MattCrook/quantumapp-api)**.
 
 
@@ -25,6 +30,28 @@
   * `npm install` to build dependencies
   * `json-server -p 8200 -w api/database.json`...or I've set up a development server, so you can run `npm run dev-server` to run json-server.
   * Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+
+
+## Environments
+
+#### Production Environment
+
+###### The production environment is currently deployed using App Engine hosted on GCP, and can be found at the below link. Login is currently dissabled as it is being re-worked. You can still see the landing page, and login through Auth0, however you will not be able to do anything in the application, as the Database is currently dissconnected and offline.
+
+* https://quantum-coasters.uc.r.appspot.com/
+
+
+#### Development Environment
+
+###### To clone this repo and run locally, (as of right now, this has plans to change in the future) you will need to have an Auth0 account and create an application in your Auth0 account.
+
+###### You will then need to configure that application with the applicable Login URL, allowed callback URI's, allowed Logout URL, Allowed Web Origins, and Allowed CORS Origins. These should also be saved as env variables in your .env file locally in the root of this project. An example is provided for what variables are needed.
+
+###### This app is also deployed using Vercel, which is a great tool/ platform to easily deploy single page or static applications. Link below.
+
+* https://quantum-application.vercel.app/
+
+###### Follow instructions above to either run locally using localhost:3000, or Docker.
 
 
 ## Overview
@@ -67,7 +94,11 @@ To see a more detailed breakdown of each Micro Service, as well as it's function
 
 ## Technologies Used
 This project utilizes the following:
+
+#### Application
+
 * React
+* Javascript
 * React Context API
 * React Router DOM
 * React Router
@@ -77,38 +108,53 @@ This project utilizes the following:
 * PostgreSQL
 * React Testing Library
 * Jest
-* Deployed with Zeit/Now/Vercel
+* Vercel
 * Github Actions
 * Material UI
 * Semantic UI
 * Webpack
 * DbDiagram
 * date-fns
-* Vercel
 * Python
 * Django
+* GCP
+* App Engine
+* CloudSQL
+
+#### Infrastructure
+
+* Terraform
+  * For automated provisioning using the popular concept of "Infrastructure as Code"
+* App Engine
+* Cloud Build
+* Secrets Manager
+  * For env vars and app secrets.
+* Cloud Storage
+  * For Google Storage Bucket to store TF state as backend, as well as static files from the application.
+* CloudSql
+  * For Postgres Database Instance, and user.
 
 
-## Skills Utilized
+<!-- ## Skills Utilized
 The skills and concepts utilized to complete this project included the following:
 
 1. React: hooks, state, props, routes
 2. API calls with: POST, PUT, PATCH, DELETE, and GET (with expand, embed)
 3. Javascript: functions, objects, arrays, mapping
-5. Github Scrum workflow
-6. CSS styling
-7. Modular code
-8. Semantic HTML
-9. Testing with Jest/ React Testing Library
-10. Using and integrating with 3rd party service for Authentication
-11. Pure functional components
-12. Flow and state management through the React Context API
-13. Building A CI/ CD pipeline
-14. Github actions for auto deploys to Vercel, running  tests, linting, prettier
-15. Using conventional commit logs
+4. Github Scrum workflow
+5. CSS styling
+6. Modular code
+7. Semantic HTML
+8. Testing with Jest/ React Testing Library
+9.  Using and integrating with 3rd party service for Authentication
+10. Pure functional components
+11. Flow and state management through the React Context API
+12. Building A CI/ CD pipeline
+13. Github actions for auto deploys to Vercel, running  tests, linting, prettier
+14. Using conventional commit logs -->
 
 <!-- ## Database Diagram
 ![quantum database](./QuantumCoastersERD.png) -->
 
-## Deployed Application Link
-[Quantum Coasters](https://quantum-application-71iyalov8.now.sh/)
+<!-- ## Deployed Application Link
+[Quantum Coasters](https://quantum-application-71iyalov8.now.sh/) -->
