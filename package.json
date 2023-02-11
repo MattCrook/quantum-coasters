@@ -20,7 +20,7 @@
     "cloudinary": "^1.20.0",
     "date-fns": "^2.16.1",
     "dotenv": "^8.2.0",
-    "json-server": "^0.16.1",
+    "json-server": "^0.17.1",
     "micromodal": "^0.4.6",
     "react": "^16.13.0",
     "react-confirm-alert": "^2.6.1",
