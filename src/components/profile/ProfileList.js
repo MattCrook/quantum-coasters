@@ -20,7 +20,7 @@ import "react-confirm-alert/src/react-confirm-alert.css";
 
 
 const ProfileList = (props) => {
-  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
+  const defaultProfilePicture = "https://cdn.vectorstock.com/i/preview-1x/70/84/default-avatar-profile-icon-symbol-for-website-vector-46547084.jpg";
   const { clearStorage, logout, djangoRestAuthLogout } = useAuth0();
   const { authUser, userProfile, userCredits } = useAuthUser();
   const { postNewErrorLog } = useErrorLog();
@@ -41,6 +41,7 @@ const ProfileList = (props) => {
   const bugDescription = useRef();
   const allCreditsRef = useRef();
   const userId = authUser.id;
+
 
   const toggleProfileDropdown = () => setIsProfileDropdown(!isProfileDropdown);
   const isActive = (ref) => ref.current.classList.add("active");
@@ -365,7 +366,7 @@ const ProfileList = (props) => {
       </div>
       <div className="credits-title">Quantum Credits</div>
       <div className="total_credits_header_profile_list">
-        <div className="total_credits_profile_list">Total Credits: {props.userCredits.length}</div>
+        <div className="total_credits_profile_list">Total Credits: {props.userProfile.credits.length}</div>
         <div className="total_credits_profile_list">Total Parks Visited: {visitedParks.length}</div>
       </div>
 

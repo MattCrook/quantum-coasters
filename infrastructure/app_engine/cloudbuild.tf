@@ -16,7 +16,7 @@ resource "random_id" "instance_id" {
 
 resource "google_service_account" "cloudbuild_service_account" {
   project      = var.project_id
-  account_id   = "cloudbuild-service-account-${${random_id.instance_id.hex}"
+  account_id   = "cloudbuild-service-account-${random_id.instance_id.hex}"
   display_name = "quantumcoasters-cloudbuild-serviceaccount"
   description  = "Service account for Quantum Coasters CloudBuild services."
 }

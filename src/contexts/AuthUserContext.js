@@ -30,7 +30,7 @@ export const AuthUserProvider = ({ children }) => {
         } catch (err) {
           console.log(err);
         } finally {
-          if (userProfileData && userProfileData[0].id && userProfileData[0].user) {
+          if (userProfileData && userProfileData.length > 0 && userProfileData[0].id && userProfileData[0].user) {
             const creditsArray = userProfileData.credits;
             setUserProfile(userProfileData[0]);
             setAuthUser(userProfileData[0].user);

@@ -17,7 +17,7 @@ import "./styles/Forum.css";
 
 const Forum = (props) => {
   const URL = process.env.REACT_APP_SERVER_URL;
-  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
+  const defaultProfilePicture = "https://cdn.vectorstock.com/i/preview-1x/70/84/default-avatar-profile-icon-symbol-for-website-vector-46547084.jpg";
   const { authUser, userProfile } = useAuthUser();
   const { user, loading, logout, clearStorage, djangoRestAuthLogout } = useAuth0();
   const { postNewErrorLog } = useErrorLog();

@@ -8,7 +8,7 @@ import BugReportModal from "../modals/BugModal";
 import { postBugReport, postFeedback } from "../../modules/services/services";
 
 const NavHeader = (props) => {
-  const defaultProfilePicture = "https://aesusdesign.com/wp-content/uploads/2019/06/mans-blank-profile-768x768.png";
+  const defaultProfilePicture = "https://cdn.vectorstock.com/i/preview-1x/70/84/default-avatar-profile-icon-symbol-for-website-vector-46547084.jpg";
   const { loading, user, isAuthenticated, clearStorage, djangoRestAuthLogout, logout } = useAuth0();
   const { authUser, userProfile } = useAuthUser();
   const { postNewErrorLog } = useErrorLog();
